@@ -1,0 +1,8 @@
+{
+  // Cloudflare Workers: serve index.html as a static site (no build step)
+  "name": "yummyclassic",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./"
+  }
+}
