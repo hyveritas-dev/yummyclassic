@@ -604,6 +604,34 @@
       .cmp-top { margin-top: 1.25rem; padding: 1.25rem .9rem; }
       .hero-band { padding-top: 5.75rem; padding-bottom: 2rem; }
     }
+    /* ===== Phones (portrait): Q1 cards stacked top/bottom with the whole painting visible, Q2 uses the screen height ===== */
+    @media (max-width: 639px) {
+      #pair { grid-template-columns: 1fr !important; gap: .6rem !important; }
+      #pair .card { height: clamp(210px, 38svh, 350px) !important; min-height: 0 !important; max-height: none !important; }
+      #pair .card .media { inset: 0 0 4.1rem 0; background: #2A070E; overflow: hidden; }
+      #pair .card .media::before { content: ""; position: absolute; inset: -12%; background: var(--bg) center / cover no-repeat; filter: blur(18px) brightness(.55) saturate(1.1); }
+      #pair .card .photo { object-fit: contain !important; z-index: 1; transform: none; filter: none; padding: 3px; }
+      #pair .card:hover .photo, #pair .card:focus-visible .photo { transform: none; filter: none; }
+      #pair .card .veil, #pair .card .spot { display: none; }
+      #pair .card .absolute.bottom-0 { background: #2A070E; padding: .5rem .85rem .6rem !important; min-height: 4.1rem; display: flex; flex-direction: column; justify-content: center; }
+      #pair .card h2 { font-size: 1.05rem; line-height: 1.2; }
+      #pair .card .absolute.bottom-0 p { margin-top: .15rem; font-size: 11px; }
+      #pair .card .ab-badge { z-index: 2; }
+
+      #round2 { margin-top: 1.25rem !important; padding-top: 1.1rem; }
+      #round2 h2 { font-size: 1.3rem; }
+      #round2 .max-w-2xl p { margin-top: .3rem; font-size: .8rem; }
+      #r-round { margin-top: .6rem !important; min-height: 0; gap: .1rem; }
+      #r-round .rr-s { font-size: 1rem; }
+      #r2-grid { gap: .5rem !important; margin-top: .55rem !important; }
+      .tile .frame { aspect-ratio: auto !important; height: clamp(120px, 22svh, 240px); }
+      .tile .frame img { padding: 2px; }
+      .tile > span.block { padding: .35rem .5rem .45rem !important; }
+      .tile > span.block > span:first-child { font-size: 12.5px; line-height: 1.25; }
+      .tile > span.block > span:last-child { font-size: 10px; }
+      #round2 .mt-5 { margin-top: .6rem !important; }
+      #round2 .mt-5 > .flex-col, #round2 .flex-col.items-center { gap: .55rem; }
+    }
   </style>
 </head>
 
@@ -4717,6 +4745,7 @@
         img.addEventListener('imgfail', () => { img.style.visibility = 'hidden'; });
         img.fetchPriority = 'high';
         setImgSrc(img, d.f, Q1W());
+        card.querySelector('.media').style.setProperty('--bg', 'url("' + THUMB(d.f, Q1W()) + '")');   // blurred copy fills the gaps around the whole painting (phones)
         pair.appendChild(card); cards.push(card);
       });
       pairDirty = false;
