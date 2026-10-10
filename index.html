@@ -300,8 +300,11 @@
     @media (max-width: 639px) { .pl-player, .pl-tools { margin-left: 0; } .pl-player { max-width: none; } }
     .pl-tool { border: 1px solid var(--line-strong); border-radius: var(--r); padding: .3rem .75rem; font-size: .75rem; color: var(--ink); background: var(--paper); transition: all .25s ease; }
     .pl-tool:hover { border-color: var(--wine); color: var(--wine); }
-    .pl-player.big { position: fixed; z-index: 80; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: min(94vw, calc(84vh * 16 / 9), 1200px); max-width: none; margin: 0; box-shadow: 0 40px 120px -20px rgba(0,0,0,.9); }
+    .pl-player.big { position: fixed; z-index: 80; inset: 0; margin: auto;
+      width: min(94vw, calc(84vh * 16 / 9), 1200px); height: calc(min(94vw, calc(84vh * 16 / 9), 1200px) * 9 / 16);
+      max-width: none; box-shadow: 0 40px 120px -20px rgba(0,0,0,.9); }
+    .pl-player:fullscreen { width: 100vw; height: 100vh; max-width: none; margin: 0; border-radius: 0; aspect-ratio: auto; }
+    .pl-player:-webkit-full-screen { width: 100vw; height: 100vh; max-width: none; margin: 0; border-radius: 0; }
     #pl-backdrop { position: fixed; inset: 0; z-index: 75; background: rgba(42,8,16,.88); backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: opacity .3s ease; }
     #pl-backdrop.on { opacity: 1; pointer-events: auto; }
     .pl-tools.big { position: fixed; z-index: 85; top: 76px; right: 16px; margin: 0; }
@@ -2035,7 +2038,27 @@
       const b = li.querySelector('.pl-btn');
       if (b) { b.textContent = open ? '■ ' + I18N[lang].plClose : '▶ ' + I18N[lang].plPlay; b.setAttribute('aria-pressed', String(open)); }
     }
+    // Enlarge: use the browser's real fullscreen where it exists (sharp, and YouTube switches to a higher
+    // quality for the bigger size); phones without element fullscreen (iPhone) get the in-page overlay.
+    const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement || null;
     function setZoom(on) {
+      if (!activeLi) on = false;
+      const box = activeLi && activeLi.querySelector('.pl-player');
+      const tools = activeLi && activeLi.querySelector('.pl-tools');
+      if (!on && fsEl()) { (document.exitFullscreen || document.webkitExitFullscreen).call(document); }
+      if (on && box && !box.classList.contains('pl-fail')) {
+        const req = box.requestFullscreen || box.webkitRequestFullscreen;
+        if (req) {
+          const p = req.call(box);
+          if (p && p.catch) p.catch(() => setZoomOverlay(true));
+          return;
+        }
+      }
+      setZoomOverlay(on);
+    }
+    document.addEventListener('fullscreenchange', () => { if (!fsEl()) setZoomOverlay(false); });
+    document.addEventListener('webkitfullscreenchange', () => { if (!fsEl()) setZoomOverlay(false); });
+    function setZoomOverlay(on) {
       if (!activeLi) on = false;
       const box = activeLi && activeLi.querySelector('.pl-player');
       const tools = activeLi && activeLi.querySelector('.pl-tools');
@@ -2065,7 +2088,7 @@
       while (n && !n.dataset.yt) n = n.nextElementSibling;
       if (n) { const b = n.querySelector('.pl-btn'); if (b) b.click(); } else stopPlayer();
     }
-    function unavailable(li, r) {
+    function unavailable(li, r, code) {
       const box = li.querySelector('.pl-player');
       if (!box) return;
       if (activePlayer) { try { activePlayer.destroy(); } catch (e) { /* ignore */ } activePlayer = null; }
@@ -2074,7 +2097,8 @@
       box.className = 'pl-player pl-fail';
       box.innerHTML = '';
       const a = document.createElement('a');
-      a.href = searchUrl(r); a.target = '_blank'; a.rel = 'noopener noreferrer';
+      // 101/150 = the owner does not allow playback on other sites: the video itself is fine on YouTube
+      a.href = (code === 101 || code === 150) ? 'https://www.youtube.com/watch?v=' + r.yt : searchUrl(r); a.target = '_blank'; a.rel = 'noopener noreferrer';
       a.textContent = I18N[lang].plFail + ' ↗';
       box.appendChild(a);
     }
@@ -2122,7 +2146,7 @@
           host: 'https://www.youtube.com',
           playerVars: { autoplay: 1, rel: 0, playsinline: 1, modestbranding: 1, origin: location.origin, enablejsapi: 1 },
           events: {
-            onError: () => unavailable(li, r),
+            onError: e => unavailable(li, r, e && e.data),
             onStateChange: e => { if (e.data === 0) playNext(li); },
           },
         });
