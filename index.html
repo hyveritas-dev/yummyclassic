@@ -849,7 +849,14 @@
 
   <script>
     // Phones get a shorter test: Q1 = 2 questions, Q2 = 3 rounds (decided once, on load)
-    const MOBILE = Math.min(screen.width || innerWidth, innerWidth) < 700;
+    // A phone counts as a phone even when held sideways (Android reports the wide side as screen.width)
+    // or when the browser asks for the desktop site: the screen's short side decides, not the window width.
+    const MOBILE = (() => {
+      const sw = screen.width || innerWidth, sh = screen.height || innerHeight;
+      const shortSide = Math.min(sw, sh, innerWidth);
+      const touchPhone = /Android|iPhone|iPod|Mobile/i.test(navigator.userAgent) && Math.min(sw, sh) < 700;
+      return shortSide < 700 || touchPhone;
+    })();
     // ---------- 1) Translations (English is the default) ----------
     const I18N = {
       en: {
