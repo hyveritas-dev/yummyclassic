@@ -1,6 +1,6 @@
 {
   // Cloudflare Workers: serve index.html as a static site (no build step)
-  "name": "yummyclassic",
+  "name": "misty-credit-9cc0",
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": "./"
