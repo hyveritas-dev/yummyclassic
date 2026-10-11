@@ -205,6 +205,8 @@
     .ev-area:hover { border-color: var(--wine); color: var(--wine); }
     .ev-area[aria-pressed="true"] { background: var(--wine); border-color: var(--wine); color: var(--vanilla); }
     .ev-area small { margin-left: .25rem; font-size: .72rem; opacity: .65; }
+    .ev-sorts { margin-top: .6rem; }
+    .ev-soon { display: inline-block; margin-left: .4rem; font-size: .68rem; font-weight: 700; color: var(--apricot-deep); background: rgba(232,117,61,.14); border-radius: var(--r-sm); padding: .1rem .4rem; vertical-align: middle; }
     .events .ev-cols { margin-top: 1.75rem; }
     .events .ev-cols .ev-list { margin-top: .4rem; }
     .ev-credit { margin-top: 1.5rem; font-size: .72rem; color: var(--muted); }
@@ -760,6 +762,10 @@
                 <p id="ev-sub" class="mt-3 text-white/70"></p>
                 <p id="ev-note" class="ev-note" hidden></p>
                 <div id="ev-areas" class="ev-areas" role="group" aria-label="Region"></div>
+                <div id="ev-sorts" class="ev-areas ev-sorts" role="group" aria-label="Sort">
+                  <button type="button" class="ev-area" data-sort="pop" aria-pressed="true" data-i18n="evSortPop">인기순</button>
+                  <button type="button" class="ev-area" data-sort="date" aria-pressed="false" data-i18n="evSortDate">가까운 날짜순</button>
+                </div>
                 <div class="more-body ev-cols">
                   <div class="more-col">
                     <h4 class="more-h" data-i18n="evColConcert">Classical concerts</h4>
@@ -1223,6 +1229,9 @@
       evSample: '現在はサンプルです · 公共APIをつなぐと実際の公演・展示に変わります', evLink: 'チケット・詳細 ↗',
       evConcert: '公演', evExhibit: '展示', evEmpty: '今お見せできる公演・展示はありません。', evAll: 'すべて', evColConcert: 'クラシック公演', evColExhibit: '展示 · 美術館・特別展', evNoConcert: 'この地域では今クラシック公演がありません。', evNoExhibit: 'この地域では今展示がありません。', evSpecial: '特別展', evMuseum: '美術館', evLoading: '今日の公演・展示を読み込んでいます…',
       evSub1: '{g}を抱く今日のあなたに合う、いま開催中の公演と展示です。', evSub0: '今日選んだ絵に合う、いま開催中の公演と展示です。' });
+    Object.assign(I18N.en, { evSortPop: 'Popular', evSortDate: 'Nearest date', evSoon: 'Closing soon' });
+    Object.assign(I18N.ko, { evSortPop: '인기순', evSortDate: '가까운 날짜순', evSoon: '곧 마감' });
+    Object.assign(I18N.ja, { evSortPop: '人気順', evSortDate: '日程順', evSoon: 'まもなく終了' });
     // ---- More for today (pilot) ----
     Object.assign(I18N.en, { moreEyebrow: 'More for today', morePilot: 'Pilot', moreTitle: 'See more',
       moreSub: 'Painters and classic novels picked with the same keywords as the paintings you chose today.',
@@ -2791,6 +2800,8 @@
       ['경남', 'Gyeongnam', '慶南', /경남|경상남/], ['제주', 'Jeju', '済州', /제주/],
     ];
     let evRegion = (() => { try { return localStorage.getItem('yc-region') || ''; } catch (e) { return ''; } })();
+    // sort: 'pop' = 인기순 (default), 'date' = 가까운 날짜순; the choice is remembered on this device
+    let evSort = (() => { try { return localStorage.getItem('yc-ev-sort') === 'date' ? 'date' : 'pop'; } catch (e) { return 'pop'; } })();
     const evAreaText = e => (Array.isArray(e.area) ? e.area[1] : (e.area || '')) + ' ' + (Array.isArray(e.place) ? e.place[1] : (e.place || ''));
     const evRegionOf = e => { const a = evAreaText(e).trim(); const r = EV_REGIONS.find(x => x[3].test(a)); return r ? r[0] : ''; };
     const isoDay = off => new Date(Date.now() + off * 864e5 + 9 * 36e5).toISOString().slice(0, 10);   // Korea time
@@ -2918,7 +2929,12 @@
       let hiddenCount = 0;
       cols.forEach(([kind, ul, emptyMsg], ci) => {
         ul.innerHTML = '';
-        const ranked = rankEvents(inRegion.filter(e => e.kind === kind), prof, 20);
+        let ranked = rankEvents(inRegion.filter(e => e.kind === kind), prof, 20);
+        // 가까운 날짜순: days until the run starts (0 if already on), then popularity
+        if (evSort === 'date') {
+          const gap = e => e.start > today0 ? (Date.parse(e.start) - Date.parse(today0)) / 864e5 : 0;
+          ranked = ranked.slice().sort((a, b) => (gap(a.e) - gap(b.e)) || (b.s - a.s));
+        }
         if (!ranked.length) { const li = document.createElement('li'); li.className = 'ev-empty'; li.textContent = emptyMsg; ul.appendChild(li); return; }
         hiddenCount += Math.max(0, ranked.length - 4);
         ranked.slice(0, SHOW).forEach((r, i) => {
@@ -2942,6 +2958,10 @@
             if (sk) { const b2 = document.createElement('span'); b2.className = 'ev-sub-kind'; b2.textContent = sk; nm.appendChild(b2); }
           }
           nm.appendChild(document.createTextNode(title));
+          // '곧 마감' badge: the run ends within 3 days (shown as a badge, not as a sort)
+          if (e.end && Date.parse(e.end) - Date.parse(today0) <= 3 * 864e5 && e.end >= today0) {
+            const soon = document.createElement('span'); soon.className = 'ev-soon'; soon.textContent = t.evSoon; nm.appendChild(soon);
+          }
           const md = d => d ? d.slice(5).replace('-', '.') : '';
           const sb = document.createElement('span'); sb.className = 'sub';
           sb.textContent = [e.start === e.end ? md(e.start) : md(e.start) + ' – ' + md(e.end), Array.isArray(e.place) ? e.place[li3] : e.place, Array.isArray(e.area) ? e.area[li3] : e.area].filter(Boolean).join(' · ');
@@ -2961,12 +2981,17 @@
           li.append(lead, body); ul.appendChild(li);
         });
       });
+      document.querySelectorAll('#ev-sorts [data-sort]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.sort === evSort)));
       const tg = document.getElementById('ev-toggle');
       tg.hidden = hiddenCount === 0;
       tg.textContent = evOpen ? t.evLess : t.evMore.replace('{n}', hiddenCount);
       tg.setAttribute('aria-expanded', String(evOpen));
     }
     document.getElementById('ev-toggle').addEventListener('click', () => { evOpen = !evOpen; renderEvents(); });
+    document.querySelectorAll('#ev-sorts [data-sort]').forEach(b => b.addEventListener('click', () => {
+      evSort = b.dataset.sort; try { localStorage.setItem('yc-ev-sort', evSort); } catch (e) {}
+      renderEvents();
+    }));
     // The day's keyword profile: the chosen paintings' tag vectors, summed
     function todayProfile() {
       const E = engPrep(currentEra), v = {};
