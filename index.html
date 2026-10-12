@@ -2344,9 +2344,13 @@
           host: 'https://www.youtube.com',
           playerVars: { autoplay: 1, mute: 0, rel: 0, playsinline: 1, modestbranding: 1, origin: location.origin, enablejsapi: 1 },
           events: {
-            onReady: e => { try { e.target.playVideo(); } catch (err) { /* ignore */ } },
+            // In-app browsers (Instagram etc.) let YouTube fall back to muted autoplay: force the sound on
+            onReady: e => { try { e.target.unMute(); e.target.setVolume(100); e.target.playVideo(); } catch (err) { /* ignore */ } },
             onError: e => unavailable(li, r, e && e.data),
-            onStateChange: e => { if (e.data === 0) playNext(li); },
+            onStateChange: e => {
+              if (e.data === 1) { try { if (e.target.isMuted()) { e.target.unMute(); e.target.setVolume(100); } } catch (err) { /* ignore */ } }
+              if (e.data === 0) playNext(li);
+            },
           },
         });
       };
