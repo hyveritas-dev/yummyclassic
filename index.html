@@ -213,9 +213,27 @@
     .ev-credit a { text-decoration: underline; text-underline-offset: 2px; }
     .ev-empty { padding: 1rem 0; font-size: .9rem; color: var(--muted); }
     /* Int'l Concert Info (Ticketmaster) */
-    .intl-btn { display: inline-flex; align-items: center; gap: .45rem; }
-    .intl-btn .ar { transition: transform .25s ease; }
+    .intl-btn { position: relative; display: flex; align-items: center; gap: 1rem; width: 100%; max-width: 34rem; margin: 0 auto; padding: 1.05rem 1.25rem; text-align: left; overflow: hidden;
+      border: 0; border-radius: var(--r-lg); color: var(--vanilla); cursor: pointer;
+      background: radial-gradient(120% 140% at 100% 0%, rgba(232,117,61,.38), transparent 55%), linear-gradient(135deg, var(--wine) 0%, var(--wine-deep) 100%);
+      box-shadow: 0 18px 34px -20px rgba(77,10,26,.75); transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
+    .intl-btn::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .18;
+      background-image: radial-gradient(circle, rgba(244,233,208,.9) 1px, transparent 1.4px); background-size: 12px 12px;
+      -webkit-mask-image: linear-gradient(90deg, transparent 35%, #000); mask-image: linear-gradient(90deg, transparent 35%, #000); }
+    .intl-btn:hover { transform: translateY(-2px); box-shadow: 0 24px 40px -20px rgba(77,10,26,.85); }
+    .intl-btn:focus-visible { outline: 2px solid var(--apricot); outline-offset: 3px; }
+    .intl-btn .ib-ic { flex: 0 0 auto; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--apricot); color: var(--wine-deep); }
+    .intl-btn .ib-ic svg { width: 26px; height: 26px; animation: ibspin 14s linear infinite; }
+    @keyframes ibspin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { .intl-btn .ib-ic svg { animation: none; } }
+    .intl-btn .ib-tx { position: relative; z-index: 1; min-width: 0; flex: 1; display: flex; flex-direction: column; gap: .2rem; }
+    .intl-btn .ib-t { font-family: var(--serif-cjk), var(--serif-latin), serif; font-size: 1.12rem; font-weight: 700; line-height: 1.25; }
+    .intl-btn .ib-s { font-size: .76rem; letter-spacing: .02em; color: rgba(244,233,208,.72); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .intl-btn .ib-new { display: inline-block; margin-left: .45rem; padding: .05rem .4rem; border-radius: var(--r-sm); background: var(--apricot); color: var(--wine-deep); font-family: 'Inter', sans-serif; font-size: .62rem; font-weight: 800; letter-spacing: .08em; vertical-align: 3px; }
+    .intl-btn .ar { position: relative; z-index: 1; flex: 0 0 auto; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(244,233,208,.35); transition: transform .3s var(--ease), background-color .3s ease; }
+    .intl-btn:hover .ar { background: rgba(244,233,208,.12); }
     .intl-btn[aria-expanded="true"] .ar { transform: rotate(180deg); }
+    @media (max-width: 520px) { .intl-btn { gap: .75rem; padding: .9rem 1rem; } .intl-btn .ib-ic { width: 40px; height: 40px; } .intl-btn .ib-t { font-size: 1rem; } .intl-btn .ib-s { white-space: normal; line-height: 1.45; } }
     .intl { margin-top: 1.25rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
     .intl .ev-list { max-width: 40rem; margin-left: auto; margin-right: auto; }
     .intl .ev-list .more-item .pic { width: 120px; height: 90px; }
@@ -492,6 +510,7 @@
 
     /* flags */
     .lang-btn { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+    .lang-btn .flag.globe { width: 14px; height: 14px; border-radius: 50%; box-shadow: none; }
     .lang-btn .flag { width: 18px; height: 12px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(42,26,30,.18); flex: 0 0 auto; }
     .ln-short { display: none; }
     @media (max-width: 520px) { .ln-long { display: none; } .ln-short { display: inline; } .lang-btn { padding-left: .45rem !important; padding-right: .45rem !important; } }
@@ -666,7 +685,7 @@
 
         <!-- Language switch (top right) -->
         <div id="lang" class="inline-flex border border-line bg-panel p-0.5 text-xs font-medium" role="group" aria-label="Language">
-          <button type="button" class="lang-btn px-2.5 py-1.5" data-lang="en" aria-pressed="true" aria-label="English"><svg class="flag" viewBox="0 0 19 10" aria-hidden="true"><rect width="19" height="10" fill="#B22234"/><g fill="#fff"><rect y="0.77" width="19" height="0.77"/><rect y="2.31" width="19" height="0.77"/><rect y="3.85" width="19" height="0.77"/><rect y="5.38" width="19" height="0.77"/><rect y="6.92" width="19" height="0.77"/><rect y="8.46" width="19" height="0.77"/></g><rect width="7.6" height="5.38" fill="#3C3B6E"/></svg><span>EN</span></button>
+          <button type="button" class="lang-btn px-2.5 py-1.5" data-lang="en" aria-pressed="true" aria-label="English"><svg class="flag globe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><ellipse cx="12" cy="12" rx="4.2" ry="9.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.8 9h18.4M2.8 15h18.4" stroke="currentColor" stroke-width="1.6" fill="none"/></svg><span>EN</span></button>
           <button type="button" class="lang-btn px-2.5 py-1.5" data-lang="ja" aria-pressed="false" aria-label="日本語"><svg class="flag" viewBox="0 0 15 10" aria-hidden="true"><rect width="15" height="10" fill="#fff"/><circle cx="7.5" cy="5" r="3" fill="#BC002D"/></svg><span class="ln-long">日本語</span><span class="ln-short">JP</span></button>
           <button type="button" class="lang-btn px-2.5 py-1.5" data-lang="ko" aria-pressed="false" aria-label="한국어"><svg class="flag" viewBox="0 0 15 10" aria-hidden="true"><rect width="15" height="10" fill="#fff"/><path d="M5.6 5a1.9 1.9 0 0 1 3.8 0z" fill="#CD2E3A"/><path d="M5.6 5a1.9 1.9 0 0 0 3.8 0z" fill="#0047A0"/><circle cx="6.55" cy="5" r=".95" fill="#CD2E3A"/><circle cx="8.45" cy="5" r=".95" fill="#0047A0"/><g stroke="#000" stroke-width=".5"><path d="M2.2 2.2l1.3-1M2.6 2.6l1.3-1M3 3l1.3-1M10.7 7.1l1.3 1.2M11.1 6.7l1.3 1.2M11.5 6.3l1.3 1.2M2.2 7.8l1.3 1M2.6 7.4l1.3 1M3 7l1.3 1M10.7 2.9l1.3-1.2M11.1 3.3l1.3-1.2M11.5 3.7l1.3-1.2"/></g></svg><span class="ln-long">한국어</span><span class="ln-short">KO</span></button>
         </div>
@@ -792,8 +811,8 @@
                   </div>
                 </div>
                 <button type="button" id="ev-toggle" class="btn btn-ghost mt-6" aria-expanded="false" hidden></button>
-                <div class="mt-8">
-                  <button type="button" id="intl-toggle" class="btn btn-ghost intl-btn" aria-expanded="false" aria-controls="intl"><span aria-hidden="true">🌐</span><span id="intl-label">Int'l Concert Info</span><span class="ar" aria-hidden="true">▾</span></button>
+                <div class="mt-10">
+                  <button type="button" id="intl-toggle" class="intl-btn" aria-expanded="false" aria-controls="intl"><span class="ib-ic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.7"/><ellipse cx="12" cy="12" rx="4.2" ry="9.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.8 9h18.4M2.8 15h18.4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></span><span class="ib-tx"><span class="ib-t"><span id="intl-label" data-i18n="intlBtn">Classical Concerts Worldwide</span><span class="ib-new">NEW</span></span><span class="ib-s" data-i18n="intlBtnSub">New York · London · Berlin · Paris · Toronto · Sydney</span></span><span class="ar" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
                 </div>
                 <div id="intl" class="intl" hidden>
                   <p id="intl-sub" class="text-white/70 text-sm"></p>
@@ -1258,9 +1277,9 @@
       evSample: '現在はサンプルです · 公共APIをつなぐと実際の公演・展示に変わります', evLink: 'チケット・詳細 ↗',
       evConcert: '公演', evExhibit: '展示', evEmpty: '今お見せできる公演・展示はありません。', evAll: 'すべて', evColConcert: 'クラシック公演', evColExhibit: '展示 · 美術館・特別展', evNoConcert: 'この地域では今クラシック公演がありません。', evNoExhibit: 'この地域では今展示がありません。', evSpecial: '特別展', evMuseum: '美術館', evLoading: '今日の公演・展示を読み込んでいます…',
       evSub1: '{g}を抱く今日のあなたに合う、いま開催中の公演と展示です。', evSub0: '今日選んだ絵に合う、いま開催中の公演と展示です。' });
-    Object.assign(I18N.en, { intlSub: 'Classical concerts in cities around the world. Dates and times are local.', intlLoading: 'Loading concerts…', intlEmpty: 'No classical concerts listed in this country right now.', intlOff: 'International listings are being prepared. Coming soon.', intlErr: 'Couldn’t load the listings. Please try again in a moment.', intlDates: '+{n} more dates', intlLocal: 'local time', intlCross: 'Crossover' });
-    Object.assign(I18N.ko, { intlSub: '세계 여러 도시의 클래식 공연 일정이에요. 날짜와 시간은 현지 기준입니다.', intlLoading: '공연 정보를 불러오는 중이에요…', intlEmpty: '이 나라엔 지금 등록된 클래식 공연이 없어요.', intlOff: '인터내셔널 공연 정보를 준비하고 있어요. 곧 열립니다.', intlErr: '공연 정보를 불러오지 못했어요. 잠시 뒤 다시 시도해 주세요.', intlDates: '외 {n}회', intlLocal: '현지', intlCross: '크로스오버' });
-    Object.assign(I18N.ja, { intlSub: '世界各地の都市で開かれるクラシック公演の日程です。日時は現地時間です。', intlLoading: '公演情報を読み込んでいます…', intlEmpty: 'この国では今、登録されたクラシック公演がありません。', intlOff: '海外公演情報を準備中です。まもなく公開します。', intlErr: '公演情報を読み込めませんでした。少し経ってから再度お試しください。', intlDates: 'ほか{n}回', intlLocal: '現地', intlCross: 'クロスオーバー' });
+    Object.assign(I18N.en, { intlSub: 'Classical concerts in cities around the world. Dates and times are local.', intlLoading: 'Loading concerts…', intlEmpty: 'No classical concerts listed in this country right now.', intlOff: 'International listings are being prepared. Coming soon.', intlErr: 'Couldn’t load the listings. Please try again in a moment.', intlDates: '+{n} more dates', intlLocal: 'local time', intlCross: 'Crossover', intlBtn: 'Classical Concerts Worldwide', intlBtnSub: 'New York · London · Berlin · Paris · Toronto · Sydney' });
+    Object.assign(I18N.ko, { intlSub: '세계 여러 도시의 클래식 공연 일정이에요. 날짜와 시간은 현지 기준입니다.', intlLoading: '공연 정보를 불러오는 중이에요…', intlEmpty: '이 나라엔 지금 등록된 클래식 공연이 없어요.', intlOff: '인터내셔널 공연 정보를 준비하고 있어요. 곧 열립니다.', intlErr: '공연 정보를 불러오지 못했어요. 잠시 뒤 다시 시도해 주세요.', intlDates: '외 {n}회', intlLocal: '현지', intlCross: '크로스오버', intlBtn: '세계의 클래식 공연', intlBtnSub: '뉴욕 · 런던 · 베를린 · 파리 · 토론토 · 시드니' });
+    Object.assign(I18N.ja, { intlSub: '世界各地の都市で開かれるクラシック公演の日程です。日時は現地時間です。', intlLoading: '公演情報を読み込んでいます…', intlEmpty: 'この国では今、登録されたクラシック公演がありません。', intlOff: '海外公演情報を準備中です。まもなく公開します。', intlErr: '公演情報を読み込めませんでした。少し経ってから再度お試しください。', intlDates: 'ほか{n}回', intlLocal: '現地', intlCross: 'クロスオーバー', intlBtn: '世界のクラシック公演', intlBtnSub: 'ニューヨーク · ロンドン · ベルリン · パリ · トロント · シドニー' });
     Object.assign(I18N.en, { evSortPop: 'Popular', evSortDate: 'Nearest date', evSoon: 'Closing soon' });
     Object.assign(I18N.ko, { evSortPop: '인기순', evSortDate: '가까운 날짜순', evSoon: '곧 마감' });
     Object.assign(I18N.ja, { evSortPop: '人気順', evSortDate: '日程順', evSoon: 'まもなく終了' });
