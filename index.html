@@ -790,6 +790,10 @@
                 <div id="intl" class="intl" hidden>
                   <p id="intl-sub" class="text-white/70 text-sm"></p>
                   <div id="intl-countries" class="ev-areas" role="group" aria-label="Country"></div>
+                  <div id="intl-sorts" class="ev-areas ev-sorts" role="group" aria-label="Sort">
+                    <button type="button" class="ev-area" data-sort="pop" aria-pressed="true" data-i18n="evSortPop">인기순</button>
+                    <button type="button" class="ev-area" data-sort="date" aria-pressed="false" data-i18n="evSortDate">가까운 날짜순</button>
+                  </div>
                   <ul id="intl-list" class="more-list ev-list"></ul>
                   <button type="button" id="intl-more" class="btn btn-ghost btn-sm mt-4" hidden></button>
                   <p class="ev-credit">International concert data: <a href="https://www.ticketmaster.com" target="_blank" rel="noopener noreferrer">Ticketmaster</a></p>
@@ -1246,9 +1250,9 @@
       evSample: '現在はサンプルです · 公共APIをつなぐと実際の公演・展示に変わります', evLink: 'チケット・詳細 ↗',
       evConcert: '公演', evExhibit: '展示', evEmpty: '今お見せできる公演・展示はありません。', evAll: 'すべて', evColConcert: 'クラシック公演', evColExhibit: '展示 · 美術館・特別展', evNoConcert: 'この地域では今クラシック公演がありません。', evNoExhibit: 'この地域では今展示がありません。', evSpecial: '特別展', evMuseum: '美術館', evLoading: '今日の公演・展示を読み込んでいます…',
       evSub1: '{g}を抱く今日のあなたに合う、いま開催中の公演と展示です。', evSub0: '今日選んだ絵に合う、いま開催中の公演と展示です。' });
-    Object.assign(I18N.en, { intlSub: 'Classical concerts in cities around the world. Dates and times are local.', intlLoading: 'Loading concerts…', intlEmpty: 'No classical concerts listed in this country right now.', intlOff: 'International listings are being prepared. Coming soon.', intlErr: 'Couldn’t load the listings. Please try again in a moment.', intlDates: '+{n} more dates', intlLocal: 'local time' });
-    Object.assign(I18N.ko, { intlSub: '세계 여러 도시의 클래식 공연 일정이에요. 날짜와 시간은 현지 기준입니다.', intlLoading: '공연 정보를 불러오는 중이에요…', intlEmpty: '이 나라엔 지금 등록된 클래식 공연이 없어요.', intlOff: '인터내셔널 공연 정보를 준비하고 있어요. 곧 열립니다.', intlErr: '공연 정보를 불러오지 못했어요. 잠시 뒤 다시 시도해 주세요.', intlDates: '외 {n}회', intlLocal: '현지' });
-    Object.assign(I18N.ja, { intlSub: '世界各地の都市で開かれるクラシック公演の日程です。日時は現地時間です。', intlLoading: '公演情報を読み込んでいます…', intlEmpty: 'この国では今、登録されたクラシック公演がありません。', intlOff: '海外公演情報を準備中です。まもなく公開します。', intlErr: '公演情報を読み込めませんでした。少し経ってから再度お試しください。', intlDates: 'ほか{n}回', intlLocal: '現地' });
+    Object.assign(I18N.en, { intlSub: 'Classical concerts in cities around the world. Dates and times are local.', intlLoading: 'Loading concerts…', intlEmpty: 'No classical concerts listed in this country right now.', intlOff: 'International listings are being prepared. Coming soon.', intlErr: 'Couldn’t load the listings. Please try again in a moment.', intlDates: '+{n} more dates', intlLocal: 'local time', intlCross: 'Crossover' });
+    Object.assign(I18N.ko, { intlSub: '세계 여러 도시의 클래식 공연 일정이에요. 날짜와 시간은 현지 기준입니다.', intlLoading: '공연 정보를 불러오는 중이에요…', intlEmpty: '이 나라엔 지금 등록된 클래식 공연이 없어요.', intlOff: '인터내셔널 공연 정보를 준비하고 있어요. 곧 열립니다.', intlErr: '공연 정보를 불러오지 못했어요. 잠시 뒤 다시 시도해 주세요.', intlDates: '외 {n}회', intlLocal: '현지', intlCross: '크로스오버' });
+    Object.assign(I18N.ja, { intlSub: '世界各地の都市で開かれるクラシック公演の日程です。日時は現地時間です。', intlLoading: '公演情報を読み込んでいます…', intlEmpty: 'この国では今、登録されたクラシック公演がありません。', intlOff: '海外公演情報を準備中です。まもなく公開します。', intlErr: '公演情報を読み込めませんでした。少し経ってから再度お試しください。', intlDates: 'ほか{n}回', intlLocal: '現地', intlCross: 'クロスオーバー' });
     Object.assign(I18N.en, { evSortPop: 'Popular', evSortDate: 'Nearest date', evSoon: 'Closing soon' });
     Object.assign(I18N.ko, { evSortPop: '인기순', evSortDate: '가까운 날짜순', evSoon: '곧 마감' });
     Object.assign(I18N.ja, { evSortPop: '人気順', evSortDate: '日程順', evSoon: 'まもなく終了' });
@@ -3027,6 +3031,8 @@
       ['FR', 'France', '프랑스', 'フランス'], ['CA', 'Canada', '캐나다', 'カナダ'], ['AU', 'Australia', '호주', 'オーストラリア']];
     let intlCountry = (() => { try { const c = localStorage.getItem('yc-intl-country'); return INTL_COUNTRIES.some(x => x[0] === c) ? c : 'US'; } catch (e) { return 'US'; } })();
     let intlOpen = false, intlAll = false;
+    // 'pop' = 인기순 (default), 'date' = 가까운 날짜순; remembered on this device
+    let intlSort = (() => { try { return localStorage.getItem('yc-intl-sort') === 'date' ? 'date' : 'pop'; } catch (e) { return 'pop'; } })();
     const intlCache = {};   // country -> {state:'ok'|'off'|'err'|'loading', items}
     function loadIntl(c) {
       if (intlCache[c] && intlCache[c].state !== 'err') return;
@@ -3059,8 +3065,15 @@
       if (st.state === 'off') return msg(t.intlOff);
       if (st.state === 'err') return msg(t.intlErr);
       if (!st.items.length) return msg(t.intlEmpty);
-      const SHOW = intlAll ? 40 : 6;
-      st.items.slice(0, SHOW).forEach(e => {
+      document.querySelectorAll('#intl-sorts [data-sort]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.sort === intlSort)));
+      // 인기순: classical first, then score (more dates, marquee names), then date. 가까운 날짜순: date, classical first on the same day
+      const isCl = e => e.cat !== 'crossover' ? 1 : 0;
+      const byDate = (a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || ''));
+      const list = st.items.slice().sort(intlSort === 'date'
+        ? (a, b) => (a.date || '').localeCompare(b.date || '') || (isCl(b) - isCl(a)) || byDate(a, b)
+        : (a, b) => (isCl(b) - isCl(a)) || ((b.pop || 0) - (a.pop || 0)) || byDate(a, b));
+      const SHOW = intlAll ? 60 : 6;
+      list.slice(0, SHOW).forEach(e => {
         const li = document.createElement('li'); li.className = 'more-item';
         const mono = document.createElement('span'); mono.className = 'mono'; mono.textContent = '♪';
         let lead = mono;
@@ -3071,7 +3084,9 @@
           pic.appendChild(im); lead = pic;
         }
         const body = document.createElement('div'); body.className = 'min-w-0 flex-1';
-        const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = e.title;
+        const nm = document.createElement('span'); nm.className = 'nm';
+        if (e.cat === 'crossover') { const cb = document.createElement('span'); cb.className = 'ev-sub-kind'; cb.textContent = t.intlCross; nm.appendChild(cb); }
+        nm.appendChild(document.createTextNode(e.title));
         if (e.moreDates) { const m = document.createElement('span'); m.className = 'intl-more'; m.textContent = t.intlDates.replace('{n}', e.moreDates); nm.appendChild(m); }
         const sb = document.createElement('span'); sb.className = 'sub';
         const when = (e.date ? e.date.replace(/-/g, '.') : '') + (e.time ? ' ' + e.time + ' (' + t.intlLocal + ')' : '');
@@ -3084,6 +3099,10 @@
     }
     document.getElementById('intl-toggle').addEventListener('click', () => { intlOpen = !intlOpen; renderIntl(); });
     document.getElementById('intl-more').addEventListener('click', () => { intlAll = !intlAll; renderIntl(); });
+    document.querySelectorAll('#intl-sorts [data-sort]').forEach(b => b.addEventListener('click', () => {
+      intlSort = b.dataset.sort; intlAll = false; try { localStorage.setItem('yc-intl-sort', intlSort); } catch (e) {}
+      renderIntl();
+    }));
     document.querySelectorAll('#ev-sorts [data-sort]').forEach(b => b.addEventListener('click', () => {
       evSort = b.dataset.sort; try { localStorage.setItem('yc-ev-sort', evSort); } catch (e) {}
       renderEvents();

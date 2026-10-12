@@ -9,22 +9,34 @@
 const TM_ENDPOINT = 'https://app.ticketmaster.com/discovery/v2/events.json';
 const COUNTRIES = ['US', 'GB', 'DE', 'FR', 'CA', 'AU'];
 const TTL = 6 * 60 * 60; // seconds
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 
-// Ticketmaster's "Classical" genre also carries film-score shows, pop acts and tribute nights.
-// Keep an event only if its title has a clearly classical word and none of the giveaway words below.
-const CLASSICAL = new RegExp([
-  'symphon', 'orchest', 'philharmon', 'chamber', 'quartet', 'quintet', 'trio\\b', 'recital', 'sonata', 'concerto',
-  'opera', 'requiem', 'oratorio', 'cantata', 'masterworks', 'choral', 'choir', 'chorale', 'baroque', 'string',
-  'piano', 'cello', 'violin', 'organ', 'ballet', 'nutcracker', 'messiah',
-  'sinfoni', 'kammer', 'konzert', 'orchestre', 'symphonique', 'quatuor', 'opéra', 'récital',
+// Ticketmaster's "Classical" genre mixes real classical concerts with film-score shows, pop acts and tributes.
+// Each title is sorted into: 'classical' (the main list), 'crossover' (shown after, with a label) or dropped.
+const ENSEMBLE = /symphon|orchest|philharmon|sinfoni|orchestre/i;
+const REPERTOIRE = new RegExp([
+  'chamber', 'quartet', 'quintet', 'trio\\b', 'recital', 'sonata', 'concerto', 'opera', 'requiem', 'oratorio',
+  'cantata', 'masterworks', 'choral', 'choir', 'chorale', 'baroque', 'string', 'piano', 'cello', 'violin', 'organ\\b',
+  'ballet', 'nutcracker', 'messiah', 'swan lake', 'scheherazade', 'kammer', 'konzert', 'quatuor', 'opéra', 'récital',
   'bach', 'mozart', 'beethoven', 'brahms', 'tchaikovsky', 'chopin', 'debussy', 'ravel', 'mahler', 'schubert',
   'schumann', 'handel', 'händel', 'haydn', 'vivaldi', 'rachmanin', 'dvor', 'dvoř', 'sibelius', 'grieg', 'liszt',
   'mendelssohn', 'verdi', 'puccini', 'wagner', 'strauss', 'stravinsky', 'prokofiev', 'shostakovich', 'bruckner',
-  'elgar', 'holst', 'copland', 'gershwin', 'satie', 'faur', 'saint-sa', 'bizet', 'rossini', 'messiaen', 'einaudi', 'pärt',
+  'elgar', 'holst', 'copland', 'gershwin', 'bernstein', 'satie', 'faur', 'saint-sa', 'bizet', 'rossini', 'respighi',
+  'berlioz', 'messiaen', 'einaudi', 'pärt',
 ].join('|'), 'i');
-const NOT_CLASSICAL = /\bin concert\b|live to film|tribute|the music of|anime|video game|\brock\b|\bjazz\b|\bdj\b/i;
-const isClassical = title => CLASSICAL.test(title) && !NOT_CLASSICAL.test(title);
+// giveaways of a crossover show (film/game scores, pops, tributes, singers "in concert")
+const CROSSOVER = /\bin concert\b|live to film|tribute|the music of|music of the|\bpops\b|candlelight|film|movie|anime|video game|\bblues\b|\bjazz\b|\brock\b|broadway/i;
+// big names: a small nudge for 인기순 (Ticketmaster gives no popularity figure)
+const MARQUEE = /carnegie|lincoln center|new york philharmonic|boston symphony|chicago symphony|los angeles phil|la phil|philadelphia orchestra|cleveland orchestra|san francisco symphony|metropolitan opera|royal albert|barbican|wigmore|royal opera|london symphony|london philharmonic|berliner philharmoniker|berlin phil|elbphilharmonie|gewandhaus|philharmonie de paris|opéra de paris|opera de paris|sydney opera house|sydney symphony|toronto symphony|montreal symphony|orchestre symphonique de montréal/i;
+
+function category(title) {
+  const rep = REPERTOIRE.test(title), ens = ENSEMBLE.test(title), cross = CROSSOVER.test(title);
+  if (cross) return (rep || ens) || /\bin concert\b|live to film|candlelight|\bpops\b/i.test(title) ? 'crossover' : '';
+  if (rep) return 'classical';
+  // "<pop act> with the X Symphony": an orchestra but no classical repertoire named
+  if (ens) return /\bwith\b|\bw\/|\bfeat/i.test(title) ? 'crossover' : 'classical';
+  return '';
+}
 
 const json = (body, status = 200, maxAge = 0) => new Response(JSON.stringify(body), {
   status,
@@ -90,12 +102,20 @@ async function intlConcerts(request, env, ctx, url) {
   const seen = new Map();
   for (const ev of (data._embedded && data._embedded.events) || []) {
     const it = toItem(ev);
-    if (!it.title || !it.url || !isClassical(it.title)) continue;
+    const cat = it.title && it.url ? category(it.title) : '';
+    if (!cat) continue;
     const k = (it.title + '|' + it.venue).toLowerCase();
     if (seen.has(k)) seen.get(k).moreDates++;
-    else seen.set(k, Object.assign(it, { moreDates: 0 }));
+    else seen.set(k, Object.assign(it, { cat, moreDates: 0 }));
   }
-  const items = [...seen.values()].slice(0, 40);
+  // classical is the main list; crossover fills in after it (at most 12)
+  const all = [...seen.values()];
+  const items = all.filter(e => e.cat === 'classical').slice(0, 40)
+    .concat(all.filter(e => e.cat === 'crossover').slice(0, 12));
+  // 인기순 score: more performance dates (demand) + marquee orchestra/hall; crossover always ranks below classical
+  items.forEach(e => {
+    e.pop = Math.min(e.moreDates, 6) * 10 + (MARQUEE.test(e.title + ' ' + e.venue) ? 25 : 0) + (e.cat === 'classical' ? 100 : 0);
+  });
 
   const res = json({ country, updated: new Date().toISOString(), source: 'Ticketmaster', items }, 200, TTL);
   ctx.waitUntil(cache.put(cacheKey, res.clone()));
