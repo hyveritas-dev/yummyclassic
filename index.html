@@ -1604,7 +1604,7 @@
         ["Ave Maria, D. 839", "아베 마리아 D. 839"],
         ["Symphony No. 8 “Unfinished”, D. 759 — I. Allegro moderato", "교향곡 8번 “미완성” D. 759 — 1악장 알레그로 모데라토"],
         ["Piano Quintet “Trout”, D. 667 — IV. Andantino", "피아노 오중주 “송어” D. 667 — 4악장 안단티노"],
-        ["Impromptu in G-flat major, Op. 90 No. 3, D. 899", "즉흥곡 내림G장조 Op. 90 No. 3 D. 899"],
+        ["Impromptu in G-flat major, Op. 90 No. 3, D. 899", "즉흥곡 내림G장조 Op. 90 No. 3 D. 899", "LUp2u9wI1fY", "Khatia Buniatishvili, piano"],
         ["Ständchen (Serenade), D. 957 No. 4", "세레나데 D. 957 No. 4"],
         ["String Quartet No. 14 “Death and the Maiden”, D. 810 — II. Andante con moto", "현악 사중주 14번 “죽음과 소녀” D. 810 — 2악장 안단테 콘 모토"],
         ["Piano Trio No. 2, D. 929 — II. Andante con moto", "피아노 삼중주 2번 D. 929 — 2악장 안단테 콘 모토"],
@@ -2016,12 +2016,24 @@
         const tt = document.createElement('span');
         tt.className = 'min-w-0 flex-1 font-serif text-lg sm:text-xl leading-snug text-white/90';
         tt.textContent = w[idx];
-        const a = document.createElement('a');
-        a.className = 'shrink-0 border border-line px-3 py-1.5 text-xs text-white/70 transition hover:border-white/40 hover:text-white';
-        a.style.borderRadius = 'var(--r)';
-        a.href = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(full + ' ' + w[0]);
-        a.target = '_blank'; a.rel = 'noopener noreferrer';
-        a.textContent = t.plListen + ' ↗';
+        let a;
+        if (w[2]) {
+          // Verified recording: plays inside the page, same as the pieces above
+          li.classList.add('flex-wrap');
+          li.dataset.yt = w[2];
+          a = document.createElement('button');
+          a.type = 'button';
+          a.className = 'pl-btn shrink-0 rounded-full border border-line px-3 py-1.5 text-xs text-white/80 transition hover:border-white/40 hover:text-white';
+          a.textContent = '▶ ' + t.plPlay;
+          a.addEventListener('click', () => openPlayer(li, { yt: w[2], en: w[0], ko: w[1], cid: id }));
+        } else {
+          a = document.createElement('a');
+          a.className = 'shrink-0 border border-line px-3 py-1.5 text-xs text-white/70 transition hover:border-white/40 hover:text-white';
+          a.style.borderRadius = 'var(--r)';
+          a.href = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(full + ' ' + w[0]);
+          a.target = '_blank'; a.rel = 'noopener noreferrer';
+          a.textContent = t.plListen + ' ↗';
+        }
         li.append(n, tt, a);
         list.appendChild(li);
       });
