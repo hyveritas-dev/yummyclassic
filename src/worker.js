@@ -9,7 +9,22 @@
 const TM_ENDPOINT = 'https://app.ticketmaster.com/discovery/v2/events.json';
 const COUNTRIES = ['US', 'GB', 'DE', 'FR', 'CA', 'AU'];
 const TTL = 6 * 60 * 60; // seconds
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
+
+// Ticketmaster's "Classical" genre also carries film-score shows, pop acts and tribute nights.
+// Keep an event only if its title has a clearly classical word and none of the giveaway words below.
+const CLASSICAL = new RegExp([
+  'symphon', 'orchest', 'philharmon', 'chamber', 'quartet', 'quintet', 'trio\\b', 'recital', 'sonata', 'concerto',
+  'opera', 'requiem', 'oratorio', 'cantata', 'masterworks', 'choral', 'choir', 'chorale', 'baroque', 'string',
+  'piano', 'cello', 'violin', 'organ', 'ballet', 'nutcracker', 'messiah',
+  'sinfoni', 'kammer', 'konzert', 'orchestre', 'symphonique', 'quatuor', 'opéra', 'récital',
+  'bach', 'mozart', 'beethoven', 'brahms', 'tchaikovsky', 'chopin', 'debussy', 'ravel', 'mahler', 'schubert',
+  'schumann', 'handel', 'händel', 'haydn', 'vivaldi', 'rachmanin', 'dvor', 'dvoř', 'sibelius', 'grieg', 'liszt',
+  'mendelssohn', 'verdi', 'puccini', 'wagner', 'strauss', 'stravinsky', 'prokofiev', 'shostakovich', 'bruckner',
+  'elgar', 'holst', 'copland', 'gershwin', 'satie', 'faur', 'saint-sa', 'bizet', 'rossini', 'messiaen', 'einaudi', 'pärt',
+].join('|'), 'i');
+const NOT_CLASSICAL = /\bin concert\b|live to film|tribute|the music of|anime|video game|\brock\b|\bjazz\b|\bdj\b/i;
+const isClassical = title => CLASSICAL.test(title) && !NOT_CLASSICAL.test(title);
 
 const json = (body, status = 200, maxAge = 0) => new Response(JSON.stringify(body), {
   status,
@@ -59,7 +74,7 @@ async function intlConcerts(request, env, ctx, url) {
   q.searchParams.set('classificationName', 'classical');
   q.searchParams.set('countryCode', country);
   q.searchParams.set('sort', 'date,asc');
-  q.searchParams.set('size', '60');
+  q.searchParams.set('size', '150');
   q.searchParams.set('startDateTime', new Date().toISOString().slice(0, 19) + 'Z');
 
   let data;
@@ -75,7 +90,7 @@ async function intlConcerts(request, env, ctx, url) {
   const seen = new Map();
   for (const ev of (data._embedded && data._embedded.events) || []) {
     const it = toItem(ev);
-    if (!it.title || !it.url) continue;
+    if (!it.title || !it.url || !isClassical(it.title)) continue;
     const k = (it.title + '|' + it.venue).toLowerCase();
     if (seen.has(k)) seen.get(k).moreDates++;
     else seen.set(k, Object.assign(it, { moreDates: 0 }));
