@@ -669,6 +669,13 @@
       #round2 .mt-5 > .flex-col, #round2 .flex-col.items-center { gap: .55rem; }
     }
   </style>
+  <!-- 내부 방문 제외: ?noga=1로 한 번 열면 이 브라우저는 집계에서 빠짐 -->
+  <script>
+    try {
+      if (new URLSearchParams(location.search).has('noga')) localStorage.setItem('noga', '1');
+      if (localStorage.getItem('noga') === '1') window['ga-disable-G-MFFJHXYMYQ'] = true;
+    } catch (e) {}
+  </script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-MFFJHXYMYQ"></script>
   <script>
