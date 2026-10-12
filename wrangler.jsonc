@@ -3,6 +3,7 @@
   "name": "misty-credit-9cc0",
   "compatibility_date": "2026-10-01",
   "main": "src/worker.js",
+  "ai": { "binding": "AI" },
   "assets": {
     "directory": "./",
     "binding": "ASSETS",

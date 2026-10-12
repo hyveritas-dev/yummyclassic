@@ -218,6 +218,13 @@
     .intl-btn[aria-expanded="true"] .ar { transform: rotate(180deg); }
     .intl { margin-top: 1.25rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
     .intl .ev-list { max-width: 40rem; margin-left: auto; margin-right: auto; }
+    .intl .ev-list .more-item .pic { width: 120px; height: 90px; }
+    @media (min-width: 640px) { .intl .ev-list .more-item .pic { width: 144px; height: 108px; } }
+    @media (min-width: 900px) {
+      .intl .ev-list { max-width: none; display: grid; grid-template-columns: 1fr 1fr; column-gap: 2.5rem; }
+      .intl .ev-list .more-item:nth-child(2) { padding-top: 0; }
+      .intl .ev-list .ev-empty { grid-column: 1 / -1; text-align: center; }
+    }
     .intl-more { font-size: .7rem; font-weight: 600; color: var(--muted); margin-left: .35rem; }
     .ev-sub-kind { display: inline-block; margin-right: .35rem; padding: .02rem .4rem; border-radius: var(--r-sm); border: 1px solid var(--apricot-deep); color: var(--apricot-deep); font-size: .68rem; font-weight: 700; vertical-align: 2px; }
     /* Q2 rounds */
@@ -607,6 +614,7 @@
       .ev-areas { margin-top: .9rem; }
       .more-item { gap: .7rem; padding: .8rem 0; }
       .ev-list .more-item .pic { width: 72px; height: 96px; }
+      .intl .ev-list .more-item .pic { width: 96px; height: 72px; }
       .more-item .pic { width: 72px; height: 92px; }
       .taste-body { padding: 1.25rem 1rem 1.25rem; }
       .read-card .txt { padding: .9rem 1rem 1rem; }
@@ -2856,6 +2864,24 @@
       return evLoading.then(d => { evData = d; return d; });
     }
     const EV_STORE = 'yc-events-v1';
+    // Translations of Korean event titles for the EN/JA pages (site worker /api/translate), kept on this device
+    const TR = { en: null, ja: null }, trAsked = { en: new Set(), ja: new Set() };
+    const trLoad = l => { if (!TR[l]) { try { TR[l] = JSON.parse(localStorage.getItem('yc-tr-' + l) || '{}') || {}; } catch (e) { TR[l] = {}; } } return TR[l]; };
+    const trGet = text => (lang === 'en' || lang === 'ja') ? trLoad(lang)[text] || '' : '';
+    function trFetch(texts) {
+      const l = lang; if (l !== 'en' && l !== 'ja') return;
+      const need = texts.filter(t => !trAsked[l].has(t)).slice(0, 30);
+      if (!need.length) return;
+      need.forEach(t => trAsked[l].add(t));
+      fetch('/api/translate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ to: l, texts: need }) })
+        .then(r => r.ok ? r.json() : Promise.reject(r.status))
+        .then(j => {
+          const m = j && j.map || {}; if (!Object.keys(m).length) return;
+          const store = trLoad(l); Object.assign(store, m);
+          try { localStorage.setItem('yc-tr-' + l, JSON.stringify(store)); } catch (e) {}
+          if (lang === l && currentEra) renderEvents();
+        }).catch(() => {});
+    }
     function readEvent(e) {
       const tags = {}; let era = null, hook = null;
       EV_KW.forEach(([re, er, tg, lb]) => {
@@ -2961,6 +2987,7 @@
         ['exhibition', document.getElementById('ev-exhibits'), t.evNoExhibit],
       ];
       let hiddenCount = 0;
+      const trWant = new Set();
       cols.forEach(([kind, ul, emptyMsg], ci) => {
         ul.innerHTML = '';
         let ranked = rankEvents(inRegion.filter(e => e.kind === kind), prof, 20);
@@ -2974,7 +3001,9 @@
         ranked.slice(0, SHOW).forEach((r, i) => {
           const e = r.e, li = document.createElement('li');
           li.className = 'more-item';
-          const title = ja && e.titleJa ? e.titleJa : (!ko && !ja && e.titleEn) ? e.titleEn : e.title;
+          const tr = ko ? '' : (ja ? e.titleJa : e.titleEn) || trGet(e.title);
+          const title = tr ? e.title + ' (' + tr + ')' : e.title;
+          if (!ko && !tr) trWant.add(e.title);
           const mono = document.createElement('span'); mono.className = 'mono'; mono.textContent = e.kind === 'exhibition' ? (ko ? '전' : ja ? '展' : 'E') : (ko ? '공' : ja ? '公' : 'C');
           let lead = mono;
           if (e.file || e.image) {
@@ -3016,6 +3045,7 @@
         });
       });
       document.querySelectorAll('#ev-sorts [data-sort]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.sort === evSort)));
+      if (trWant.size) trFetch([...trWant]);
       const tg = document.getElementById('ev-toggle');
       tg.hidden = hiddenCount === 0;
       tg.textContent = evOpen ? t.evLess : t.evMore.replace('{n}', hiddenCount);

@@ -1,6 +1,8 @@
 // Yummy Classic site worker.
 // Static files are served from the assets directory; only /api/* runs this code (see wrangler.jsonc).
 //
+// POST /api/translate — Korean event titles translated for the EN/JA pages (see below)
+//
 // GET /api/intl-concerts?country=US
 //   International classical concerts from the Ticketmaster Discovery API.
 //   The API key lives in the Cloudflare secret TICKETMASTER_KEY (never in index.html).
@@ -122,10 +124,56 @@ async function intlConcerts(request, env, ctx, url) {
   return res;
 }
 
+// POST /api/translate  {to:'en'|'ja', texts:[...]}  ->  {to, map:{text: translation}}
+//   Korean concert/exhibition titles shown as "한국어 제목 (translation)" on the EN/JA pages.
+//   Uses the Workers AI binding (no extra key); each title is cached for 30 days.
+const TR_MODEL = '@cf/meta/m2m100-1.2b';
+const TR_TTL = 30 * 24 * 60 * 60;
+const TR_LANGS = { en: 'english', ja: 'japanese' };
+
+async function sha(text) {
+  const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return [...new Uint8Array(d)].map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 32);
+}
+
+async function translateOne(env, text, to) {
+  // the model accepts language names; fall back to codes if a name is refused
+  for (const [src, dst] of [['korean', TR_LANGS[to]], ['ko', to]]) {
+    try {
+      const r = await env.AI.run(TR_MODEL, { text, source_lang: src, target_lang: dst });
+      const out = r && (r.translated_text || (r.result && r.result.translated_text));
+      if (out && out.trim() && out.trim() !== text.trim()) return out.trim();
+    } catch (e) { /* try the next form */ }
+  }
+  return '';
+}
+
+async function translate(request, env, ctx, url) {
+  if (request.method !== 'POST') return json({ error: 'method' }, 405);
+  if (!env.AI) return json({ error: 'no-ai' }, 503);
+  let body;
+  try { body = await request.json(); } catch (e) { return json({ error: 'body' }, 400); }
+  const to = body && TR_LANGS[body.to] ? body.to : '';
+  if (!to) return json({ error: 'lang' }, 400);
+  const texts = [...new Set((Array.isArray(body.texts) ? body.texts : []).map(t => String(t || '').trim()).filter(t => t && t.length <= 200))].slice(0, 30);
+  const cache = caches.default, map = {};
+  await Promise.all(texts.map(async text => {
+    const key = new Request(`${url.origin}/api/translate-cache/${to}/${await sha(text)}`);
+    const hit = await cache.match(key);
+    if (hit) { map[text] = await hit.text(); return; }
+    const out = await translateOne(env, text, to);
+    if (!out) return;
+    map[text] = out;
+    ctx.waitUntil(cache.put(key, new Response(out, { headers: { 'cache-control': `public, max-age=${TR_TTL}` } })));
+  }));
+  return json({ to, map });
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname === '/api/intl-concerts') return intlConcerts(request, env, ctx, url);
+    if (url.pathname === '/api/translate') return translate(request, env, ctx, url);
     return env.ASSETS.fetch(request);
   },
 };
