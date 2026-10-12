@@ -212,6 +212,13 @@
     .ev-credit { margin-top: 1.5rem; font-size: .72rem; color: var(--muted); }
     .ev-credit a { text-decoration: underline; text-underline-offset: 2px; }
     .ev-empty { padding: 1rem 0; font-size: .9rem; color: var(--muted); }
+    /* Int'l Concert Info (Ticketmaster) */
+    .intl-btn { display: inline-flex; align-items: center; gap: .45rem; }
+    .intl-btn .ar { transition: transform .25s ease; }
+    .intl-btn[aria-expanded="true"] .ar { transform: rotate(180deg); }
+    .intl { margin-top: 1.25rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+    .intl .ev-list { max-width: 40rem; margin-left: auto; margin-right: auto; }
+    .intl-more { font-size: .7rem; font-weight: 600; color: var(--muted); margin-left: .35rem; }
     .ev-sub-kind { display: inline-block; margin-right: .35rem; padding: .02rem .4rem; border-radius: var(--r-sm); border: 1px solid var(--apricot-deep); color: var(--apricot-deep); font-size: .68rem; font-weight: 700; vertical-align: 2px; }
     /* Q2 rounds */
     .r-round { display: flex; flex-direction: column; align-items: center; gap: .3rem; text-align: center; min-height: 3.2rem; }
@@ -777,6 +784,16 @@
                   </div>
                 </div>
                 <button type="button" id="ev-toggle" class="btn btn-ghost mt-6" aria-expanded="false" hidden></button>
+                <div class="mt-8">
+                  <button type="button" id="intl-toggle" class="btn btn-ghost intl-btn" aria-expanded="false" aria-controls="intl"><span aria-hidden="true">🌐</span><span id="intl-label">Int'l Concert Info</span><span class="ar" aria-hidden="true">▾</span></button>
+                </div>
+                <div id="intl" class="intl" hidden>
+                  <p id="intl-sub" class="text-white/70 text-sm"></p>
+                  <div id="intl-countries" class="ev-areas" role="group" aria-label="Country"></div>
+                  <ul id="intl-list" class="more-list ev-list"></ul>
+                  <button type="button" id="intl-more" class="btn btn-ghost btn-sm mt-4" hidden></button>
+                  <p class="ev-credit">International concert data: <a href="https://www.ticketmaster.com" target="_blank" rel="noopener noreferrer">Ticketmaster</a></p>
+                </div>
                 <p class="ev-credit">공연 정보: (재)예술경영지원센터 공연예술통합전산망(<a href="https://www.kopis.or.kr" target="_blank" rel="noopener noreferrer">www.kopis.or.kr</a>) · 전시 정보: 한국문화정보원 문화포털</p>
               </div>
 
@@ -1229,6 +1246,9 @@
       evSample: '現在はサンプルです · 公共APIをつなぐと実際の公演・展示に変わります', evLink: 'チケット・詳細 ↗',
       evConcert: '公演', evExhibit: '展示', evEmpty: '今お見せできる公演・展示はありません。', evAll: 'すべて', evColConcert: 'クラシック公演', evColExhibit: '展示 · 美術館・特別展', evNoConcert: 'この地域では今クラシック公演がありません。', evNoExhibit: 'この地域では今展示がありません。', evSpecial: '特別展', evMuseum: '美術館', evLoading: '今日の公演・展示を読み込んでいます…',
       evSub1: '{g}を抱く今日のあなたに合う、いま開催中の公演と展示です。', evSub0: '今日選んだ絵に合う、いま開催中の公演と展示です。' });
+    Object.assign(I18N.en, { intlSub: 'Classical concerts in cities around the world. Dates and times are local.', intlLoading: 'Loading concerts…', intlEmpty: 'No classical concerts listed in this country right now.', intlOff: 'International listings are being prepared. Coming soon.', intlErr: 'Couldn’t load the listings. Please try again in a moment.', intlDates: '+{n} more dates', intlLocal: 'local time' });
+    Object.assign(I18N.ko, { intlSub: '세계 여러 도시의 클래식 공연 일정이에요. 날짜와 시간은 현지 기준입니다.', intlLoading: '공연 정보를 불러오는 중이에요…', intlEmpty: '이 나라엔 지금 등록된 클래식 공연이 없어요.', intlOff: '인터내셔널 공연 정보를 준비하고 있어요. 곧 열립니다.', intlErr: '공연 정보를 불러오지 못했어요. 잠시 뒤 다시 시도해 주세요.', intlDates: '외 {n}회', intlLocal: '현지' });
+    Object.assign(I18N.ja, { intlSub: '世界各地の都市で開かれるクラシック公演の日程です。日時は現地時間です。', intlLoading: '公演情報を読み込んでいます…', intlEmpty: 'この国では今、登録されたクラシック公演がありません。', intlOff: '海外公演情報を準備中です。まもなく公開します。', intlErr: '公演情報を読み込めませんでした。少し経ってから再度お試しください。', intlDates: 'ほか{n}回', intlLocal: '現地' });
     Object.assign(I18N.en, { evSortPop: 'Popular', evSortDate: 'Nearest date', evSoon: 'Closing soon' });
     Object.assign(I18N.ko, { evSortPop: '인기순', evSortDate: '가까운 날짜순', evSoon: '곧 마감' });
     Object.assign(I18N.ja, { evSortPop: '人気順', evSortDate: '日程順', evSoon: 'まもなく終了' });
@@ -2998,6 +3018,72 @@
       tg.setAttribute('aria-expanded', String(evOpen));
     }
     document.getElementById('ev-toggle').addEventListener('click', () => { evOpen = !evOpen; renderEvents(); });
+
+    // ---------- Int'l Concert Info (Ticketmaster Discovery API via /api/intl-concerts) ----------
+    // The same option on every language page; the site worker holds the key and caches each country for 6 hours.
+    const INTL_ENDPOINT = '/api/intl-concerts';
+    // [code, en, ko, ja]
+    const INTL_COUNTRIES = [['US', 'USA', '미국', 'アメリカ'], ['GB', 'UK', '영국', 'イギリス'], ['DE', 'Germany', '독일', 'ドイツ'],
+      ['FR', 'France', '프랑스', 'フランス'], ['CA', 'Canada', '캐나다', 'カナダ'], ['AU', 'Australia', '호주', 'オーストラリア']];
+    let intlCountry = (() => { try { const c = localStorage.getItem('yc-intl-country'); return INTL_COUNTRIES.some(x => x[0] === c) ? c : 'US'; } catch (e) { return 'US'; } })();
+    let intlOpen = false, intlAll = false;
+    const intlCache = {};   // country -> {state:'ok'|'off'|'err'|'loading', items}
+    function loadIntl(c) {
+      if (intlCache[c] && intlCache[c].state !== 'err') return;
+      intlCache[c] = { state: 'loading', items: [] };
+      const timed = (pr, ms) => Promise.race([pr, new Promise((_, no) => setTimeout(() => no('timeout'), ms))]);
+      timed(fetch(INTL_ENDPOINT + '?country=' + c), 12000)
+        .then(r => r.status === 503 ? { off: true } : r.ok ? r.json() : Promise.reject(r.status))
+        .then(j => { intlCache[c] = j.off ? { state: 'off', items: [] } : { state: 'ok', items: (j.items || []).filter(e => e && e.title && e.url) }; })
+        .catch(() => { intlCache[c] = { state: 'err', items: [] }; })
+        .then(() => { if (intlOpen && intlCountry === c) renderIntl(); });
+    }
+    function renderIntl() {
+      const t = I18N[lang], li3 = lang === 'ja' ? 3 : lang === 'ko' ? 2 : 1;
+      const btn = document.getElementById('intl-toggle'), panel = document.getElementById('intl');
+      btn.setAttribute('aria-expanded', String(intlOpen)); panel.hidden = !intlOpen;
+      if (!intlOpen) return;
+      document.getElementById('intl-sub').textContent = t.intlSub;
+      const cs = document.getElementById('intl-countries'); cs.innerHTML = '';
+      INTL_COUNTRIES.forEach(x => {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'ev-area';
+        b.setAttribute('aria-pressed', String(intlCountry === x[0])); b.textContent = x[li3];
+        b.addEventListener('click', () => { intlCountry = x[0]; intlAll = false; try { localStorage.setItem('yc-intl-country', x[0]); } catch (e) {} renderIntl(); });
+        cs.appendChild(b);
+      });
+      loadIntl(intlCountry);
+      const st = intlCache[intlCountry], ul = document.getElementById('intl-list'), more = document.getElementById('intl-more');
+      ul.innerHTML = ''; more.hidden = true;
+      const msg = m => { const li = document.createElement('li'); li.className = 'ev-empty'; li.textContent = m; ul.appendChild(li); };
+      if (st.state === 'loading') return msg(t.intlLoading);
+      if (st.state === 'off') return msg(t.intlOff);
+      if (st.state === 'err') return msg(t.intlErr);
+      if (!st.items.length) return msg(t.intlEmpty);
+      const SHOW = intlAll ? 40 : 6;
+      st.items.slice(0, SHOW).forEach(e => {
+        const li = document.createElement('li'); li.className = 'more-item';
+        const mono = document.createElement('span'); mono.className = 'mono'; mono.textContent = '♪';
+        let lead = mono;
+        if (e.image) {
+          const pic = document.createElement('span'); pic.className = 'pic';
+          const im = document.createElement('img'); im.alt = e.title; im.loading = 'lazy'; im.decoding = 'async'; im.referrerPolicy = 'no-referrer';
+          im.onerror = () => pic.replaceWith(mono); im.src = String(e.image).replace(/^http:/, 'https:');
+          pic.appendChild(im); lead = pic;
+        }
+        const body = document.createElement('div'); body.className = 'min-w-0 flex-1';
+        const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = e.title;
+        if (e.moreDates) { const m = document.createElement('span'); m.className = 'intl-more'; m.textContent = t.intlDates.replace('{n}', e.moreDates); nm.appendChild(m); }
+        const sb = document.createElement('span'); sb.className = 'sub';
+        const when = (e.date ? e.date.replace(/-/g, '.') : '') + (e.time ? ' ' + e.time + ' (' + t.intlLocal + ')' : '');
+        sb.textContent = [when, e.venue, e.city].filter(Boolean).join(' · ');
+        const ch = document.createElement('span'); ch.className = 'chips';
+        const a = document.createElement('a'); a.className = 'lk'; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.href = e.url; a.textContent = t.evLink; ch.appendChild(a);
+        body.append(nm, sb, ch); li.append(lead, body); ul.appendChild(li);
+      });
+      if (st.items.length > 6) { more.hidden = false; more.textContent = intlAll ? t.evLess : t.evMore.replace('{n}', st.items.length - 6); }
+    }
+    document.getElementById('intl-toggle').addEventListener('click', () => { intlOpen = !intlOpen; renderIntl(); });
+    document.getElementById('intl-more').addEventListener('click', () => { intlAll = !intlAll; renderIntl(); });
     document.querySelectorAll('#ev-sorts [data-sort]').forEach(b => b.addEventListener('click', () => {
       evSort = b.dataset.sort; try { localStorage.setItem('yc-ev-sort', evSort); } catch (e) {}
       renderEvents();
@@ -3164,6 +3250,7 @@
 
       renderPlaylist();
       renderEvents();
+      renderIntl();
       renderMore();
       renderComposers();
       renderComposerDetail();

@@ -1,8 +1,11 @@
 {
-  // Cloudflare Workers: serve index.html as a static site (no build step)
+  // Cloudflare Workers: static site (no build step) + a small worker for /api/* only
   "name": "misty-credit-9cc0",
   "compatibility_date": "2026-10-01",
+  "main": "src/worker.js",
   "assets": {
-    "directory": "./"
+    "directory": "./",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
   }
 }
