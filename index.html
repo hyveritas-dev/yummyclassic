@@ -17,10 +17,12 @@
   <link rel="preconnect" href="https://upload.wikimedia.org" />
   <link rel="preconnect" href="https://yummy-events.hyveritas.workers.dev" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" media="print" onload="this.media='all'" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" /></noscript>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%22-10%20-10%20260%20260%22%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%22120%22%20r%3D%22115%22%20fill%3D%22%237A0F2A%22/%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%22120%22%20r%3D%22100%22%20fill%3D%22%232A1A1E%22/%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%22120%22%20r%3D%2240%22%20fill%3D%22%23F4E9D0%22/%3E%3Cg%20transform%3D%22translate%28120%20120%29%20rotate%28-135%29%20scale%280.62%29%20translate%28-48%2010%29%22%20fill%3D%22%23E8753D%22%3E%3Crect%20x%3D%2222%22%20y%3D%226%22%20width%3D%229%22%20height%3D%2262%22%20rx%3D%224.5%22/%3E%3Crect%20x%3D%2243.5%22%20y%3D%226%22%20width%3D%229%22%20height%3D%2262%22%20rx%3D%224.5%22/%3E%3Crect%20x%3D%2265%22%20y%3D%226%22%20width%3D%229%22%20height%3D%2262%22%20rx%3D%224.5%22/%3E%3Cpath%20d%3D%22M22%2060%20H74%20C%2074%2088%2C%2060%2098%2C%2053%20102%20V%20196%20H%2043%20V%20102%20C%2036%2098%2C%2022%2088%2C%2022%2060%20Z%22/%3E%3Cellipse%20cx%3D%2232%22%20cy%3D%22208%22%20rx%3D%2222%22%20ry%3D%2216%22%20transform%3D%22rotate%28-22%2032%20208%29%22/%3E%3C/g%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Noto+Serif+KR:wght@500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Noto+Serif+KR:wght@500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Noto+Serif+KR:wght@500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" /></noscript>
 
   <script>
     // Identity: deep burgundy + warm cream + a touch of antique gold
@@ -677,6 +679,33 @@
       #round2 .mt-5 { margin-top: .6rem !important; }
       #round2 .mt-5 > .flex-col, #round2 .flex-col.items-center { gap: .55rem; }
     }
+    /* viral loop: friend match, feedback, same-type % */
+    #vs-card[hidden], #vs-banner[hidden], #r-pct[hidden], #fb[hidden], #fb [hidden], #vs-top[hidden] { display: none !important; }
+    .vs-banner { max-width: 40rem; margin: .9rem auto 0; padding: .75rem 1rem; border-radius: var(--r); background: var(--apricot); color: var(--wine-deep);
+      font-size: .92rem; font-weight: 700; line-height: 1.45; text-align: center; }
+    .vs-card { max-width: 40rem; margin: 0 auto 1.75rem; padding: 1.6rem 1.25rem 1.4rem; border-radius: var(--r-lg); background: var(--wine); color: var(--vanilla); text-align: center; }
+    .vs-kick { font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #F3A77B; }
+    .vs-pct { margin-top: .3rem; font: 800 4.2rem/1 "Playfair Display", Georgia, serif; color: #F3A77B; }
+    .vs-label { margin-top: .5rem; font-size: 1.15rem; font-weight: 700; }
+    .vs-pair { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-top: 1rem; font-size: .88rem; font-weight: 600; line-height: 1.4; }
+    .vs-pair > div { padding: .65rem .5rem; border-radius: var(--r); background: rgba(244,233,208,.1); }
+    .vs-pair small { display: block; margin-bottom: .15rem; font-size: .72rem; font-weight: 500; opacity: .7; }
+    .vs-shared { margin-top: .7rem; font-size: .85rem; opacity: .85; }
+    .vs-card .btn { margin-top: 1.1rem; }
+    .r-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin-top: 1.25rem; }
+    .r-pct { margin-top: .9rem; font-size: .9rem; color: var(--muted); text-align: center; }
+    .fb-box { max-width: 32rem; margin: 1.25rem auto 0; padding: 1rem 1rem 1.1rem; border: 1px dashed var(--line-strong); border-radius: var(--r-lg); text-align: center; }
+    .fb-q { font-weight: 700; color: var(--ink); }
+    .fb-row { display: flex; justify-content: center; gap: .5rem; margin-top: .65rem; }
+    .fb-btn { padding: .5rem 1.05rem; border: 1px solid var(--line-strong); border-radius: var(--r); background: var(--paper); color: var(--ink); font-weight: 600; font-size: .9rem; }
+    .fb-btn[aria-pressed="true"] { background: var(--apricot); border-color: var(--apricot); color: var(--wine-deep); }
+    .fb-more { display: flex; gap: .5rem; margin-top: .7rem; align-items: stretch; }
+    .fb-more textarea { flex: 1; min-width: 0; padding: .5rem .65rem; border: 1px solid var(--line-strong); border-radius: var(--r); background: #fff; color: var(--ink); font-size: .9rem; resize: none; letter-spacing: normal; word-spacing: normal; font-family: inherit; }
+    .fb-thanks { margin-top: .5rem; font-size: .9rem; color: var(--wine); font-weight: 600; }
+    .vs-invite { margin: 0 auto 1.5rem; max-width: 40rem; padding: 1.1rem 1rem 1.2rem; border-radius: var(--r-lg); background: var(--paper); border: 1px solid var(--line); text-align: center; }
+    .vs-invite-t { font-weight: 800; font-size: 1.1rem; color: var(--wine); }
+    .vs-invite-s { margin: .35rem 0 .8rem; font-size: .88rem; color: var(--muted); }
+    .sh-story .ic { background: linear-gradient(180deg, #7A0F2A, #E8753D); color: #fff; }
   </style>
   <!-- 내부 방문 제외: ?noga=1로 한 번 열면 이 브라우저는 집계에서 빠짐 -->
   <script>
@@ -744,6 +773,7 @@
         <!-- Step label: sets expectations (steps + time) -->
         <p class="reveal d3 q-label mt-2 text-center text-2xl sm:text-4xl leading-tight tracking-tight" data-i18n-html="q1">Q1. Which painting draws you in?</p>
         <p id="q1-step" class="reveal d3 mt-2 text-center text-xs sm:text-sm text-white/55 tracking-wide"></p>
+        <p id="vs-banner" class="vs-banner" hidden></p>
 
         <!-- Choice cards -->
         <div id="pair" class="grid-pair reveal d3 mt-4 sm:mt-5 grid grid-cols-2 gap-3 sm:gap-5 lg:gap-7" aria-live="polite">
@@ -787,6 +817,7 @@
                   <span data-i18n="sharedBanner">A friend sent you their taste card.</span>
                   <button type="button" id="shared-try" class="btn btn-primary btn-sm" data-i18n="sharedCta">Try it myself →</button>
                 </div>
+                <div id="vs-card" class="vs-card" aria-live="polite" hidden></div>
                 <figure class="taste-card" id="taste-card">
                   <div class="taste-art"><img id="r-art" alt="" referrerpolicy="no-referrer" /><figcaption id="r-art-cap"></figcaption></div>
                   <div class="taste-body">
@@ -797,6 +828,23 @@
                     <ol id="r-story" class="story"></ol>
                   </div>
                 </figure>
+                <p id="r-pct" class="r-pct" hidden></p>
+                <div class="r-actions">
+                  <button type="button" id="vs-top" class="btn btn-primary" data-i18n="vsTop">💞 Check your painting match with a friend</button>
+                  <button type="button" id="story-top" class="btn btn-ghost" data-i18n="storyTop">📱 Post to your story</button>
+                </div>
+                <div id="fb" class="fb-box">
+                  <p class="fb-q" data-i18n="fbQ">Does this result feel like you?</p>
+                  <div class="fb-row">
+                    <button type="button" class="fb-btn" data-v="1" aria-pressed="false" data-i18n="fbYes">👍 That’s me</button>
+                    <button type="button" class="fb-btn" data-v="-1" aria-pressed="false" data-i18n="fbNo">👎 Not really</button>
+                  </div>
+                  <div class="fb-more" hidden>
+                    <textarea rows="2" maxlength="300" aria-label="Feedback"></textarea>
+                    <button type="button" id="fb-send" class="btn btn-primary btn-sm" data-i18n="fbSend">Send</button>
+                  </div>
+                  <p class="fb-thanks" data-i18n="fbThanks" hidden>Thank you!</p>
+                </div>
                 <div id="read-wrap">
                 <p class="mt-20 eyebrow" data-i18n="readEyebrow">Behind your picks</p>
                 <h3 class="mt-2 font-serif text-2xl sm:text-4xl font-semibold tracking-tight" data-i18n="readTitle">Your eye, decoded</h3>
@@ -891,6 +939,11 @@
                 <p class="eyebrow" data-i18n="shareEyebrow">Share your taste</p>
                 <h3 class="mt-2 font-serif text-3xl sm:text-5xl font-semibold tracking-tight" data-i18n="shareTitle">Send it to a friend</h3>
                 <p class="mt-3 text-white/70" data-i18n="shareSub"></p>
+                <div class="vs-invite mt-6">
+                  <p class="vs-invite-t" data-i18n="vsInviteT">Painting match with a friend</p>
+                  <p class="vs-invite-s" data-i18n="vsInviteS"></p>
+                  <button type="button" id="vs-send" class="btn btn-primary" data-i18n="vsSend">💞 Send the match test</button>
+                </div>
                 <div class="share-url mt-6">
                   <input id="share-url" type="text" readonly aria-label="Share link" />
                   <button type="button" id="sh-copy" class="btn btn-primary btn-sm" data-i18n="shareCopy">Copy link</button>
@@ -900,6 +953,7 @@
                   <button type="button" class="sh-btn sh-line" data-sh="line"><span class="ic">L</span>LINE</button>
                   <button type="button" class="sh-btn sh-fb" data-sh="facebook"><span class="ic">f</span>Facebook</button>
                   <button type="button" class="sh-btn sh-x" data-sh="x"><span class="ic">𝕏</span>X</button>
+                  <button type="button" class="sh-btn sh-story" data-sh="story"><span class="ic">▯</span><span data-i18n="shareStory">Story image (9:16)</span></button>
                   <button type="button" class="sh-btn sh-ig" data-sh="image"><span class="ic">◎</span><span data-i18n="shareImage">Save image</span></button>
                   <button type="button" class="sh-btn sh-native hidden" data-sh="native"><span class="ic">↗</span><span data-i18n="shareNative">Share</span></button>
                 </div>
@@ -3406,6 +3460,7 @@
       renderMore();
       renderComposers();
       renderComposerDetail();
+      if (typeof renderExtras === 'function') renderExtras();
     }
 
     // ---------- Landing: taste map + today's taste ----------
@@ -4562,7 +4617,7 @@
     function syncResult() {
       if (ready()) {
         if (!restored) currentEra = finalEra(); renderResult(); result.classList.add('open');
-        if (!syncResult.done) { syncResult.done = true; track(restored ? 'shared_result_open' : 'test_complete', { era: currentEra, picks: picks.size }); }
+        if (!syncResult.done) { syncResult.done = true; track(restored ? 'shared_result_open' : 'test_complete', { era: currentEra, picks: picks.size, type: dominantMood(selected()) }); onComplete(); }
       }
       else result.classList.remove('open');
       updateCount();
@@ -5087,10 +5142,13 @@
     // ---------- Share: taste URL + friends ----------
     const KAKAO_JS_KEY = '';   // ← paste your Kakao JavaScript key here to send rich KakaoTalk cards
     const baseUrl = () => location.href.split('#')[0].split('?')[0];
+    // shared links go through /s, where the site worker writes a link preview for the shared type
+    const shareBase = () => /^https?:$/.test(location.protocol) && !/^(localhost|127\.)/.test(location.hostname) ? location.origin + '/s' : baseUrl();
     function tasteUrl() {
       const q = new URLSearchParams();
       q.set('e', currentEra); q.set('p', [...picks].join(',')); q.set('a', q1Votes.map(e => e[0]).join('')); q.set('lang', lang);
-      return baseUrl() + '?' + q.toString();
+      { const sel = selected(); if (sel.length) q.set('t', dominantMood(sel)); }
+      return shareBase() + '?' + q.toString();
     }
     function tasteSummary() {
       const sel = selected(); if (!sel.length) return { era: '', type: '' };
@@ -5103,7 +5161,7 @@
       if (!ready()) { box.value = ''; return; }
       const url = tasteUrl();
       box.value = url;
-      try { history.replaceState(null, '', url.replace(baseUrl(), location.pathname)); } catch (e) {}
+      try { history.replaceState(null, '', location.pathname + url.slice(url.indexOf('?'))); } catch (e) {}
     }
     function toast(msg) {
       const el = document.getElementById('sh-toast');
@@ -5285,6 +5343,7 @@
     }
     async function doShare(kind) {
       if (!ready()) return;
+      if (kind === 'story') return shareStory();
       track('share', { method: kind });
       const url = tasteUrl(), text = shareText(), t = I18N[lang];
       const open = u => window.open(u, '_blank', 'noopener,width=620,height=640');
@@ -5352,7 +5411,7 @@
       catch (e) { if (!e || e.name !== 'AbortError') files.forEach((f, i) => setTimeout(() => saveFile(f), i * 600)); }
     });
     const shSec = document.getElementById('sh-toast').closest('section') || document.getElementById('sh-toast').parentElement;
-    if ('IntersectionObserver' in window) new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) prepareImages(); }, { rootMargin: '600px 0px' }).observe(shSec);
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { prepareImages(); try { prepareStory(); } catch (e) {} } }, { rootMargin: '600px 0px' }).observe(shSec);
     document.querySelectorAll('.sh-btn').forEach(b => b.addEventListener('click', () => doShare(b.dataset.sh)));
     document.getElementById('sh-copy').addEventListener('click', async () => { track('share', { method: 'copy_link' }); await copyLink(); toast(I18N[lang].shareCopied); });
     if (navigator.share) document.querySelector('.sh-native').classList.remove('hidden');
@@ -5380,6 +5439,278 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
+
+    // ---------- Viral loop: feedback, "same type %", friend match, story image ----------
+    Object.assign(I18N.ko, {
+      fbQ: '이 결과, 나랑 맞나요?', fbYes: '👍 맞아요', fbNo: '👎 아니에요',
+      fbPhYes: '어떤 점이 맞았는지 한 줄 남겨 주세요 (선택)', fbPhNo: '어떤 점이 달랐는지 한 줄 남겨 주세요 (선택)',
+      fbSend: '보내기', fbThanks: '고마워요! 남겨 주신 의견으로 더 잘 맞게 고칠게요.',
+      pctLine: '나와 같은 유형은 전체의 {p}% · 지금까지 {n}명이 해봤어요',
+      vsTop: '💞 친구랑 그림 궁합 보기', storyTop: '📱 스토리에 올리기',
+      vsInviteT: '친구랑 그림 궁합 보기', vsInviteS: '링크를 받은 친구가 그림을 고르면, 둘의 그림 궁합이 %로 나와요.',
+      vsSend: '💞 궁합 테스트 보내기', vsShareText: '나랑 그림 궁합 몇 %일까? 그림 몇 장만 골라 봐!',
+      vsBanner: '💞 ‘{t}’ 친구가 그림 궁합 테스트를 보냈어요. 아래 그림을 고르면 둘의 궁합이 나와요.',
+      vsKick: '친구와 나의 그림 궁합', vsFriend: '친구', vsMe: '나', vsShared: '둘 다 고른 그림 {n}점',
+      vsSendBack: '💞 이 궁합 결과 보내기', vsBackText: '우리 그림 궁합 {p}% — {l}. 너도 나랑 해볼래?',
+      vsLabels: ['같은 그림 앞에서 멈춰 서는 사이', '취향이 척척 통하는 사이', '서로의 플레이리스트가 궁금한 사이', '정반대라 더 재미있는 사이'],
+      vsCopied: '링크를 복사했어요. 카카오톡 대화방에 붙여 넣어 보내 보세요.',
+      shareStory: '스토리용 이미지 (9:16)', storyKick: '나의 오늘 그림 유형', storyListen: '오늘 들을 곡',
+      storyCta: '나랑 그림 궁합 몇 %일까?', storyTap: '이미지가 준비됐어요. 한 번 더 누르면 바로 공유돼요.',
+      storySaved: '이미지를 저장했어요. 인스타 스토리에 올려 보세요!',
+    });
+    Object.assign(I18N.en, {
+      fbQ: 'Does this result feel like you?', fbYes: '👍 That’s me', fbNo: '👎 Not really',
+      fbPhYes: 'What felt right? One line (optional)', fbPhNo: 'What felt off? One line (optional)',
+      fbSend: 'Send', fbThanks: 'Thank you! We’ll use this to make the result fit better.',
+      pctLine: '{p}% of people share your type · {n} people so far',
+      vsTop: '💞 Check your painting match with a friend', storyTop: '📱 Post to your story',
+      vsInviteT: 'Painting match with a friend', vsInviteS: 'When your friend picks their paintings, you both see your match as a %.',
+      vsSend: '💞 Send the match test', vsShareText: 'How well do our tastes match? Just pick a few paintings!',
+      vsBanner: '💞 Your friend (“{t}”) sent you a painting match test. Pick the paintings below to see your match.',
+      vsKick: 'Painting match with your friend', vsFriend: 'Friend', vsMe: 'Me', vsShared: '{n} painting(s) you both picked',
+      vsSendBack: '💞 Share this match', vsBackText: 'Our painting match: {p}% — {l}. Want to try with me?',
+      vsLabels: ['You stop at the same painting', 'Your tastes click', 'Curious about each other’s playlist', 'Opposites — and that’s the fun'],
+      vsCopied: 'Link copied. Paste it into a chat to send.',
+      shareStory: 'Story image (9:16)', storyKick: 'MY PAINTING TYPE TODAY', storyListen: 'Today’s listening',
+      storyCta: 'How well do we match?', storyTap: 'Your image is ready. Tap once more to share.',
+      storySaved: 'Image saved. Post it to your story!',
+    });
+    Object.assign(I18N.ja, {
+      fbQ: 'この結果、自分に合っていますか?', fbYes: '👍 合ってる', fbNo: '👎 ちがうかも',
+      fbPhYes: 'どこが合っていたか一言どうぞ(任意)', fbPhNo: 'どこがちがったか一言どうぞ(任意)',
+      fbSend: '送る', fbThanks: 'ありがとうございます!いただいた声で、もっと合うように直します。',
+      pctLine: '同じタイプは全体の{p}% · これまで{n}人が参加',
+      vsTop: '💞 友だちと絵の相性を見る', storyTop: '📱 ストーリーに載せる',
+      vsInviteT: '友だちと絵の相性を見る', vsInviteS: 'リンクを受け取った友だちが絵を選ぶと、ふたりの相性が%で出ます。',
+      vsSend: '💞 相性テストを送る', vsShareText: '私と絵の相性は何%?絵を数枚選ぶだけ!',
+      vsBanner: '💞「{t}」の友だちから絵の相性テストが届きました。下の絵を選ぶと、ふたりの相性がわかります。',
+      vsKick: '友だちと私の絵の相性', vsFriend: '友だち', vsMe: '私', vsShared: 'ふたりとも選んだ絵 {n}点',
+      vsSendBack: '💞 この相性を送る', vsBackText: '私たちの絵の相性は{p}% — {l}。私ともやってみる?',
+      vsLabels: ['同じ絵の前で立ち止まるふたり', '好みがぴったり合うふたり', 'お互いのプレイリストが気になるふたり', '正反対だからこそ面白いふたり'],
+      vsCopied: 'リンクをコピーしました。トークに貼り付けて送ってください。',
+      shareStory: 'ストーリー用画像 (9:16)', storyKick: '今日の私の絵のタイプ', storyListen: '今日聴く曲',
+      storyCta: '私との絵の相性は何%?', storyTap: '画像の準備ができました。もう一度押すと共有できます。',
+      storySaved: '画像を保存しました。ストーリーに載せてみて!',
+    });
+    const devOf = () => (window.matchMedia && matchMedia('(max-width: 639px)').matches) ? 'mobile' : 'pc';
+    const typeName = m => TYPES[m] ? (isLocal() ? TYPES[m][1] : TYPES[m][0]) : '';
+    const myMood = () => { const sel = selected(); return sel.length ? dominantMood(sel) : ''; };
+
+    // A friend's match link: ?vm=<type>&ve=<classic|romantic>&vp=<painting ids>
+    const VS = (() => {
+      try {
+        const q = new URLSearchParams(location.search), m = q.get('vm');
+        if (!m || !TYPES[m]) return null;
+        const ids = (q.get('vp') || '').split(',').filter(id => pById(id)).slice(0, 12);
+        return { m, e: q.get('ve') === 'romantic' ? 'romantic' : 'classic', ids };
+      } catch (e) { return null; }
+    })();
+    function vsUrl() {
+      const q = new URLSearchParams();
+      q.set('vm', myMood()); q.set('ve', currentEra || 'classic'); q.set('vp', [...picks].join(',')); q.set('lang', lang);
+      return shareBase() + '?' + q.toString();
+    }
+    function groupVec(ids) { const v = {}; ids.forEach(id => { const g = groupFor(id); if (g) v[g.en] = (v[g.en] || 0) + 1; }); return v; }
+    function tagVec(ids) {
+      const v = {}; let EG; try { EG = engPrep(currentEra); } catch (e) { return v; }
+      ids.forEach(id => { const P = EG && EG.pv && EG.pv[id]; if (P) Object.entries(P.v).forEach(([t, x]) => { v[t] = (v[t] || 0) + x; }); });
+      return v;
+    }
+    function cosine(a, b) {
+      let d = 0, na = 0, nb = 0;
+      Object.keys(a).forEach(k => { na += a[k] * a[k]; if (b[k]) d += a[k] * b[k]; });
+      Object.values(b).forEach(x => { nb += x * x; });
+      return na && nb ? d / Math.sqrt(na * nb) : 0;
+    }
+    function matchScore(fr) {
+      const mine = [...picks], shared = mine.filter(id => fr.ids.includes(id)).length;
+      let s = 40;
+      if (fr.e === currentEra) s += 16;
+      if (fr.m === myMood()) s += 14;
+      s += 22 * cosine(groupVec(mine), groupVec(fr.ids));
+      s += 12 * cosine(tagVec(mine), tagVec(fr.ids));
+      s += Math.min(shared, 3) * 4;
+      return { pct: Math.max(41, Math.min(99, Math.round(s))), shared };
+    }
+    function matchLabel(p) { const L = I18N[lang].vsLabels; return p >= 90 ? L[0] : p >= 75 ? L[1] : p >= 60 ? L[2] : L[3]; }
+
+    async function sendLink(url, text, method) {
+      track('share', { method });
+      if (navigator.share && isMobile()) { try { await navigator.share({ title: 'Yummy Classic', text, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+      try { await navigator.clipboard.writeText(text + ' ' + url); } catch (e) {}
+      toast(I18N[lang].vsCopied);
+    }
+    function sendVs() { if (ready() && !restored) sendLink(vsUrl(), I18N[lang].vsShareText, 'match_invite'); }
+
+    function renderVsBanner() {
+      const el = document.getElementById('vs-banner');
+      if (!el) return;
+      if (!VS || ready()) { el.hidden = true; return; }
+      el.textContent = I18N[lang].vsBanner.replace('{t}', typeName(VS.m));
+      el.hidden = false;
+    }
+    function renderVsCard() {
+      const box = document.getElementById('vs-card');
+      if (!box) return;
+      if (!VS || !ready() || restored) { box.hidden = true; return; }
+      const t = I18N[lang], r = matchScore(VS), label = matchLabel(r.pct);
+      box.innerHTML = '';
+      const k = document.createElement('p'); k.className = 'vs-kick'; k.textContent = t.vsKick;
+      const p = document.createElement('p'); p.className = 'vs-pct'; p.textContent = r.pct + '%';
+      const l = document.createElement('p'); l.className = 'vs-label'; l.textContent = label;
+      const pair = document.createElement('div'); pair.className = 'vs-pair';
+      [[t.vsFriend, typeName(VS.m)], [t.vsMe, typeName(myMood())]].forEach(([who, nm]) => {
+        const d = document.createElement('div'); const s = document.createElement('small'); s.textContent = who;
+        d.append(s, document.createTextNode(nm)); pair.appendChild(d);
+      });
+      box.append(k, p, l, pair);
+      if (r.shared) { const sh = document.createElement('p'); sh.className = 'vs-shared'; sh.textContent = t.vsShared.replace('{n}', r.shared); box.appendChild(sh); }
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-primary'; b.textContent = t.vsSendBack;
+      b.addEventListener('click', () => sendLink(vsUrl(), t.vsBackText.replace('{p}', r.pct).replace('{l}', label), 'match_result'));
+      box.appendChild(b);
+      box.hidden = false;
+      if (renderVsCard.sent !== r.pct) {
+        renderVsCard.sent = r.pct;
+        track('match_complete', { score: r.pct, friend_type: VS.m, my_type: myMood() });
+        postJSON('/api/stat', { m: myMood(), k: 'match' });
+      }
+    }
+
+    // "같은 유형 N%": counted once per finished test, shown once enough people have taken it
+    const STAT_MIN = 30;
+    let statData = null;
+    function postJSON(u, body) { try { return fetch(u, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), keepalive: true }).catch(() => null); } catch (e) { return Promise.resolve(null); } }
+    function loadStats() {
+      return fetch('/api/stat').then(r => r.ok ? r.json() : null).then(d => { if (d && typeof d.all === 'number') statData = d; renderPct(); }).catch(() => {});
+    }
+    function renderPct() {
+      const el = document.getElementById('r-pct');
+      if (!el) return;
+      const m = myMood(), d = statData;
+      if (!ready() || restored || !m || !d || d.all < STAT_MIN) { el.hidden = true; return; }
+      const p = Math.max(1, Math.round(((d.m && d.m[m]) || 1) / d.all * 100));
+      el.textContent = I18N[lang].pctLine.replace('{p}', p).replace('{n}', d.all.toLocaleString(lang === 'ko' ? 'ko-KR' : lang === 'ja' ? 'ja-JP' : 'en-US'));
+      el.hidden = false;
+    }
+    function onComplete() {
+      if (restored) return;
+      const m = myMood(), key = 'yc-done:' + currentEra + ':' + [...picks].sort().join(',');
+      let seen = false; try { seen = sessionStorage.getItem(key) === '1'; sessionStorage.setItem(key, '1'); } catch (e) {}
+      (seen ? Promise.resolve() : postJSON('/api/stat', { m, k: 'done' })).then(() => setTimeout(loadStats, 400));
+      fbReset();
+      setTimeout(() => { try { prepareStory(); } catch (e) {} }, 2500);
+    }
+
+    // One-tap feedback on the result
+    let fbVote = 0;
+    function fbReset() {
+      fbVote = 0;
+      const box = document.getElementById('fb'); if (!box) return;
+      box.querySelectorAll('.fb-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      box.querySelector('.fb-more').hidden = true; box.querySelector('.fb-thanks').hidden = true;
+      box.querySelector('.fb-row').hidden = false; box.querySelector('textarea').value = '';
+    }
+    function fbSubmit(withText) {
+      const box = document.getElementById('fb'), c = withText ? box.querySelector('textarea').value.trim() : '';
+      postJSON('/api/fb', { v: fbVote, c, m: myMood(), e: currentEra, lang, dev: devOf() });
+      track('result_feedback', { vote: fbVote > 0 ? 'fits' : 'not_me', has_comment: c ? 1 : 0, type: myMood() });
+    }
+    (function wireFb() {
+      const box = document.getElementById('fb'); if (!box) return;
+      box.querySelectorAll('.fb-btn').forEach(b => b.addEventListener('click', () => {
+        fbVote = Number(b.dataset.v);
+        box.querySelectorAll('.fb-btn').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+        const ta = box.querySelector('textarea');
+        ta.placeholder = I18N[lang][fbVote > 0 ? 'fbPhYes' : 'fbPhNo'];
+        box.querySelector('.fb-more').hidden = false;
+        ta.focus({ preventScroll: true });
+      }));
+      box.querySelector('#fb-send').addEventListener('click', () => {
+        if (!fbVote) return;
+        fbSubmit(true);
+        box.querySelector('.fb-more').hidden = true; box.querySelector('.fb-row').hidden = true;
+        box.querySelector('.fb-thanks').hidden = false;
+      });
+    })();
+
+    // 9:16 story image: type, the painting that defined it, three pieces, and the match hook
+    const storyCache = { key: '', file: null, p: null };
+    async function storyImage() {
+      try { await document.fonts.ready; } catch (e) {}
+      const S = tasteSummary(), sel = S.sel, t = I18N[lang], L = isLocal();
+      const E = ERAS[S.ek], mood = dominantMood(sel), T = TYPES[mood];
+      const hero = sel.find(x => x.m === mood) || sel[0];
+      const serif = (lang === 'ja' ? '"Noto Serif JP"' : lang === 'en' ? '"Noto Serif", "Noto Serif KR"' : '"Noto Serif KR"') + ', "Playfair Display", Georgia, serif';
+      const sans = (lang === 'ja' ? '"Noto Sans JP"' : '"Pretendard Variable", Pretendard') + ', Inter, sans-serif';
+      const W = 1080, H = 1920, P = 48, IN = 110;
+      const im = await loadPainting(hero.f);
+      const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
+      g.fillStyle = '#7A0F2A'; g.fillRect(0, 0, W, H);
+      g.fillStyle = '#F4E9D0'; rr(g, P, P, W - P * 2, H - P * 2, 22); g.fill();
+      g.fillStyle = E.c; g.fillRect(P + 22, P, W - P * 2 - 44, 12);
+      g.textBaseline = 'alphabetic'; g.textAlign = 'left';
+      g.fillStyle = '#7A0F2A'; g.font = '400 40px "DM Serif Display", "Playfair Display", Georgia, serif'; g.fillText('Yummy Classic', IN, 175);
+      g.fillStyle = '#C95C26'; g.font = '700 32px ' + sans; g.fillText(t.storyKick, IN, 262);
+      g.fillStyle = E.text; g.font = '800 92px "Playfair Display", serif'; g.fillText(E.en, IN - 4, 372);
+      g.fillStyle = '#4D0A1A'; g.font = '700 70px ' + serif;
+      const tl = wrapLines(g, L ? T[1] : T[0], W - IN * 2, 2);
+      tl.forEach((l, i) => g.fillText(l, IN, 472 + i * 86));
+      const top = 472 + tl.length * 86 - 20, ah = 680;
+      drawCover(g, im, IN, top, W - IN * 2, ah);
+      g.fillStyle = 'rgba(42,26,30,.7)'; g.font = '600 28px ' + sans;
+      g.fillText(wrapLines(g, (L ? hero.ko : hero.en) + ' · ' + (L ? hero.byKo : hero.byEn), W - IN * 2, 1)[0] || '', IN, top + ah + 48);
+      let y = top + ah + 120;
+      g.fillStyle = '#C95C26'; g.font = '700 28px ' + sans; g.fillText(t.storyListen, IN, y); y += 58;
+      buildRecommendation().slice(0, 3).forEach((r, i) => {
+        if (y > H - 330) return;
+        g.fillStyle = '#C95C26'; g.font = 'italic 700 40px "Playfair Display", serif'; g.fillText(String(i + 1), IN, y);
+        g.fillStyle = '#2A1A1E'; g.font = '700 34px ' + serif;
+        g.fillText(wrapLines(g, L ? r.ko : r.en, W - IN * 2 - 64, 1)[0] || '', IN + 60, y);
+        g.fillStyle = 'rgba(42,26,30,.6)'; g.font = '500 26px ' + sans;
+        g.fillText((SHORT[r.cid] || ['', ''])[L ? 1 : 0], IN + 60, y + 38); y += 96;
+      });
+      const by = H - P - 230; g.fillStyle = '#7A0F2A'; rr(g, IN - 30, by, W - (IN - 30) * 2, 170, 18); g.fill();
+      g.fillStyle = '#F4E9D0'; g.font = '700 42px ' + serif; g.fillText(wrapLines(g, t.storyCta, W - IN * 2, 1)[0], IN, by + 70);
+      g.fillStyle = '#F3A77B'; g.font = '800 54px Inter, sans-serif'; g.fillText(SITE, IN, by + 138);
+      return new Promise(res => { try { c.toBlob(b => res(b), 'image/png'); } catch (e) { res(null); } });
+    }
+    function prepareStory() {
+      const k = shareKey(); if (!k || !ready()) return Promise.resolve(null);
+      if (storyCache.key === k && storyCache.p) return storyCache.p;
+      storyCache.key = k; storyCache.file = null;
+      storyCache.p = storyImage().then(b => {
+        const f = b ? new File([b], 'yummy-classic-story.png', { type: 'image/png' }) : null;
+        if (storyCache.key === k) storyCache.file = f;
+        if (!f && storyCache.key === k) storyCache.p = null;
+        return f;
+      }).catch(() => { if (storyCache.key === k) storyCache.p = null; return null; });
+      return storyCache.p;
+    }
+    async function shareStory() {
+      if (!ready()) return;
+      track('share', { method: 'story' });
+      const t = I18N[lang], have = storyCache.key === shareKey() && storyCache.file;
+      const f = have ? storyCache.file : (toast(t.imgMade), await prepareStory());
+      if (!f) { toast(t.imgFail); return; }
+      if (isMobile() && navigator.canShare && navigator.canShare({ files: [f] })) {
+        if (have) { try { await navigator.share({ files: [f] }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+        else { toast(t.storyTap); return; }
+      }
+      showPreview([f]); saveFile(f); toast(t.storySaved);
+    }
+
+    function renderExtras() {
+      renderVsBanner(); renderVsCard(); renderPct();
+      const ta = document.querySelector('#fb textarea');
+      if (ta) ta.placeholder = I18N[lang][fbVote < 0 ? 'fbPhNo' : 'fbPhYes'];
+      const vt = document.getElementById('vs-top'); if (vt) vt.hidden = !!(restored || !ready());
+      const fb = document.getElementById('fb'); if (fb) fb.hidden = !!restored;
+    }
+    document.getElementById('vs-top').addEventListener('click', sendVs);
+    document.getElementById('vs-send').addEventListener('click', sendVs);
+    document.getElementById('story-top').addEventListener('click', shareStory);
+    if (VS) track('match_link_open', { friend_type: VS.m });
+
     // ---------- 6) Init ----------
     balanceAll(); dealQ1();
     // start fetching today's concerts & exhibitions now, so they are ready by the time the result opens
@@ -5387,6 +5718,7 @@
     applyLang(readSavedLang());
     renderLanding();
     restoreFromUrl();
+    renderVsBanner();
   </script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록

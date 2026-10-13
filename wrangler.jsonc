@@ -1,5 +1,5 @@
 {
-  // Cloudflare Workers: static site (no build step) + a small worker for /api/* only
+  // Cloudflare Workers: static site (no build step) + a small worker for /api/* and shared-link previews on /s
   "name": "misty-credit-9cc0",
   "compatibility_date": "2026-10-01",
   "main": "src/worker.js",
@@ -7,6 +7,9 @@
   "assets": {
     "directory": "./",
     "binding": "ASSETS",
-    "run_worker_first": ["/api/*"]
-  }
+    "run_worker_first": ["/api/*", "/s"]
+  },
+  // feedback + result-type counts (SQLite-backed Durable Object, free plan)
+  "durable_objects": { "bindings": [{ "name": "STORE", "class_name": "Store" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Store"] }]
 }

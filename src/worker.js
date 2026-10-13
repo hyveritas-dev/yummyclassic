@@ -1,7 +1,15 @@
+import { DurableObject } from 'cloudflare:workers';
+
 // Yummy Classic site worker.
-// Static files are served from the assets directory; only /api/* runs this code (see wrangler.jsonc).
+// Static files are served from the assets directory; only /api/* and shared links (/s) run this code (see wrangler.jsonc).
 //
 // POST /api/translate — Korean event titles translated for the EN/JA pages (see below)
+//
+// GET  /api/stat           how many people got each result type (for "같은 유형 12%")
+// POST /api/stat {m, k}    count one finished test (k 'done') or finished friend match (k 'match')
+// POST /api/fb {v, c, m}   one-tap result feedback (v 1 = fits me, -1 = not me) + optional one-line comment
+// GET  /api/fb?key=&days=1 read feedback (key checked against ADMIN_HASH)
+// GET  /s?...&t=<type> or /s?vm=...  the page, with its link preview set to the shared result type
 //
 // GET /api/intl-concerts?country=US
 //   International classical concerts from the Ticketmaster Discovery API.
@@ -169,11 +177,131 @@ async function translate(request, env, ctx, url) {
   return json({ to, map });
 }
 
+
+// ---------- Result types, feedback and link previews ----------
+const TYPES = {"radiant": {"en": "The Quiet Light-Catcher", "ko": "고요한 빛을 모으는 사람", "ja": "静かな光を集める人"}, "grand": {"en": "The Grand Conductor", "ko": "무대 한가운데의 지휘자", "ja": "舞台の真ん中の指揮者"}, "mercy": {"en": "The Gentle Consoler", "ko": "따뜻한 위로를 건네는 사람", "ja": "温かな慰めを差し出す人"}, "dramatic": {"en": "The Chiaroscuro Director", "ko": "명암을 즐기는 연출가", "ja": "明暗を楽しむ演出家"}, "joy": {"en": "The Sparkler", "ko": "반짝이는 에너지의 소유자", "ja": "きらめくエネルギーの持ち主"}, "heroic": {"en": "The Decisive Leader", "ko": "결단의 리더", "ja": "決断のリーダー"}, "solemn": {"en": "The Quiet Philosopher", "ko": "깊이 사색하는 철학자", "ja": "深く思索する哲学者"}, "elegant": {"en": "The Connoisseur of Grace", "ko": "우아함을 아는 감식가", "ja": "優雅を知る目利き"}, "calm": {"en": "The Keeper of Calm", "ko": "평온을 지키는 사람", "ja": "平穏を守る人"}, "galant": {"en": "The Charming Socialite", "ko": "산뜻하게 반짝이는 사교가", "ja": "軽やかにきらめく社交家"}, "tender": {"en": "The Tender Dreamer", "ko": "다정한 몽상가", "ja": "やさしい夢想家"}, "love": {"en": "The Wholehearted Romantic", "ko": "사랑에 진심인 로맨티스트", "ja": "恋に本気のロマンチスト"}, "tragic": {"en": "The One Who Faces the Dark", "ko": "어둠을 정면으로 보는 사람", "ja": "闇をまっすぐ見つめる人"}, "opulent": {"en": "The Storm Chaser", "ko": "폭풍을 즐기는 탐험가", "ja": "嵐を楽しむ探検家"}, "dread": {"en": "The Night Storyteller", "ko": "밤의 이야기꾼", "ja": "夜の語り部"}, "dash": {"en": "The Unstoppable Runner", "ko": "멈추지 않는 질주자", "ja": "止まらない疾走者"}, "fantasy": {"en": "The Dream Traveller", "ko": "꿈과 신화의 여행자", "ja": "夢と神話の旅人"}, "intimate": {"en": "The Host of a Cosy Room", "ko": "따뜻한 거실의 주인", "ja": "温かな居間のあるじ"}};
+// sha-256 of the admin key used to read feedback; the key itself is never stored in this repo
+const ADMIN_HASH = 'b549ab8e45bf613ffd6031b9aa8f32a0e0d85145dcb20eb4296c6c1ea8516cb2';
+const SITE_LANGS = ['ko', 'en', 'ja'];
+const OG_TXT = {
+  ko: { type: '나의 오늘 그림 유형은 ‘{t}’', typeDesc: '그림 몇 장만 고르면 오늘의 클래식이 나와요. 너는 어떤 그림에 끌려?',
+        match: '친구가 그림 궁합 테스트를 보냈어요', matchDesc: '그림 몇 장만 고르면 우리 둘의 그림 궁합이 나와요.' },
+  en: { type: 'My painting type today: “{t}”', typeDesc: 'Pick a few paintings and today’s classical finds you. Which one draws you?',
+        match: 'A friend sent you a painting match test', matchDesc: 'Pick a few paintings and see how well your tastes match.' },
+  ja: { type: '今日の私の絵のタイプは「{t}」', typeDesc: '絵を数枚選ぶだけで、今日のクラシックが見つかります。',
+        match: '友だちから絵の相性テストが届きました', matchDesc: '絵を数枚選ぶだけで、ふたりの相性がわかります。' },
+};
+
+export class Store extends DurableObject {
+  constructor(ctx, env) {
+    super(ctx, env);
+    this.sql = ctx.storage.sql;
+    this.sql.exec('CREATE TABLE IF NOT EXISTS cnt (k TEXT PRIMARY KEY, n INTEGER NOT NULL DEFAULT 0)');
+    this.sql.exec('CREATE TABLE IF NOT EXISTS fb (id INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER NOT NULL, v INTEGER NOT NULL, c TEXT, m TEXT, e TEXT, lang TEXT, dev TEXT)');
+  }
+  hit(keys) {
+    for (const k of keys) this.sql.exec('INSERT INTO cnt (k, n) VALUES (?, 1) ON CONFLICT(k) DO UPDATE SET n = n + 1', k);
+    return true;
+  }
+  counts() {
+    const out = {};
+    for (const r of this.sql.exec('SELECT k, n FROM cnt').toArray()) out[r.k] = r.n;
+    return out;
+  }
+  addFb(r) {
+    this.sql.exec('INSERT INTO fb (ts, v, c, m, e, lang, dev) VALUES (?, ?, ?, ?, ?, ?, ?)', Date.now(), r.v, r.c, r.m, r.e, r.lang, r.dev);
+    this.hit([r.v > 0 ? 'fb:up' : 'fb:down']);
+    return true;
+  }
+  listFb(since, limit) {
+    return this.sql.exec('SELECT * FROM fb WHERE ts >= ? ORDER BY id DESC LIMIT ?', since, limit).toArray();
+  }
+}
+const store = env => env.STORE.get(env.STORE.idFromName('main'));
+const today = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // KST day
+const clean = (x, n) => String(x == null ? '' : x).replace(/[\u0000-\u001f]/g, ' ').trim().slice(0, n);
+async function sha256hex(text) {
+  const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return [...new Uint8Array(d)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function stat(request, env, ctx, url) {
+  if (!env.STORE) return json({ error: 'no-store' }, 503);
+  if (request.method === 'POST') {
+    let b; try { b = await request.json(); } catch (e) { return json({ error: 'body' }, 400); }
+    const m = b && TYPES[b.m] ? b.m : '';
+    if (!m) return json({ error: 'type' }, 400);
+    const keys = b.k === 'match' ? ['match', 'match:' + today()] : ['all', 'm:' + m, 'd:' + today()];
+    await store(env).hit(keys);
+    return json({ ok: true });
+  }
+  const cache = caches.default, key = new Request(url.origin + '/api/stat?cv=1');
+  const hit = await cache.match(key);
+  if (hit) return hit;
+  const c = await store(env).counts(), m = {};
+  Object.keys(TYPES).forEach(t => { if (c['m:' + t]) m[t] = c['m:' + t]; });
+  const res = json({ all: c.all || 0, m, today: c['d:' + today()] || 0, match: c.match || 0 }, 200, 120);
+  ctx.waitUntil(cache.put(key, res.clone()));
+  return res;
+}
+
+async function feedback(request, env, ctx, url) {
+  if (!env.STORE) return json({ error: 'no-store' }, 503);
+  if (request.method === 'POST') {
+    let b; try { b = await request.json(); } catch (e) { return json({ error: 'body' }, 400); }
+    const v = b && (b.v === 1 || b.v === -1) ? b.v : 0;
+    if (!v) return json({ error: 'vote' }, 400);
+    await store(env).addFb({ v, c: clean(b.c, 300), m: TYPES[b.m] ? b.m : '', e: clean(b.e, 12), lang: clean(b.lang, 4), dev: clean(b.dev, 8) });
+    return json({ ok: true });
+  }
+  if ((await sha256hex(url.searchParams.get('key') || '')) !== ADMIN_HASH) return json({ error: 'key' }, 403);
+  const days = Math.min(Math.max(parseFloat(url.searchParams.get('days') || '1') || 1, 0.04), 90);
+  const S = store(env);
+  const rows = await S.listFb(Date.now() - days * 864e5, 500);
+  const counts = await S.counts();
+  const kst = ts => new Date(ts + 9 * 3600e3).toISOString().slice(0, 16).replace('T', ' ');
+  return json({ days, counts, feedback: rows.map(r => ({ time_kst: kst(r.ts), vote: r.v > 0 ? 'fits' : 'not-me', comment: r.c, type: r.m, era: r.e, lang: r.lang, device: r.dev })) });
+}
+
+// Shared links: link previews (KakaoTalk, X, Facebook…) read og: tags without running scripts, so the worker writes them.
+// Shared links use /s?… so ordinary visits to / stay static (no worker run); /s serves the same page.
+async function page(request, env, url) {
+  const res = await env.ASSETS.fetch(new Request(url.origin + '/', { headers: request.headers }));
+  try {
+    const q = url.searchParams, ct = res.headers.get('content-type') || '';
+    if (res.status !== 200 || !ct.includes('text/html')) return res;
+    const lang = SITE_LANGS.includes(q.get('lang')) ? q.get('lang') : 'ko', T = OG_TXT[lang], img = lang === 'ko' ? 'ko' : 'en';
+    let title, desc, image;
+    if (q.get('vm') && TYPES[q.get('vm')]) { title = T.match; desc = T.matchDesc; image = '/og/match-' + img + '.png'; }
+    else if (q.get('p') && TYPES[q.get('t')]) { title = T.type.replace('{t}', TYPES[q.get('t')][lang]); desc = T.typeDesc; image = '/og/' + q.get('t') + '-' + img + '.png'; }
+    else return res;
+    const abs = url.origin + image, esc = v => v.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    const set = v => ({ element(e) { e.setAttribute('content', v); } });
+    const out = new HTMLRewriter()
+      .on('meta[property="og:title"]', set(title))
+      .on('meta[property="og:description"]', set(desc))
+      .on('meta[property="og:image"]', set(abs))
+      .on('head', { element(e) {
+        e.append('<meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />'
+          + '<meta name="twitter:image" content="' + esc(abs) + '" /><meta name="twitter:title" content="' + esc(title) + '" />', { html: true });
+      } })
+      .transform(res);
+    const h = new Headers(out.headers);
+    h.set('cache-control', 'public, max-age=300'); h.delete('etag');
+    return new Response(out.body, { status: 200, headers: h });
+  } catch (e) {
+    return res;
+  }
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname === '/api/intl-concerts') return intlConcerts(request, env, ctx, url);
     if (url.pathname === '/api/translate') return translate(request, env, ctx, url);
+    if (url.pathname === '/api/stat') return stat(request, env, ctx, url);
+    if (url.pathname === '/api/fb') return feedback(request, env, ctx, url);
+    if (url.pathname === '/s') return page(request, env, url);
     return env.ASSETS.fetch(request);
   },
 };
