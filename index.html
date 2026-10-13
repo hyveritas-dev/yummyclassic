@@ -234,7 +234,16 @@
     .intl-btn:hover .ar { background: rgba(244,233,208,.12); }
     .intl-btn[aria-expanded="true"] .ar { transform: rotate(180deg); }
     @media (max-width: 520px) { .intl-btn { gap: .75rem; padding: .9rem 1rem; } .intl-btn .ib-ic { width: 40px; height: 40px; } .intl-btn .ib-t { font-size: 1rem; } .intl-btn .ib-s { white-space: normal; line-height: 1.45; } }
-    .intl { margin-top: 1.25rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+    .intl { margin-top: 0; }
+    .ev-scope { display: flex; justify-content: center; gap: .5rem; margin-top: 1.5rem; }
+    .ev-scope button { flex: 0 1 15rem; padding: .7rem 1rem; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink); font-weight: 700; font-size: .95rem; transition: background-color .2s ease, color .2s ease; }
+    .ev-scope button[aria-selected="true"] { background: var(--wine-deep, #4d0a1a); color: #f4e9d0; border-color: transparent; }
+    .ev-scope button:focus-visible { outline: 2px solid var(--apricot); outline-offset: 3px; }
+    .ev-pane.peek { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+    .ev-peek-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; max-width: 40rem; margin: 0 auto; }
+    .ev-peek-t { font-weight: 700; font-size: 1.05rem; }
+    .ev-pane.peek .ev-areas, .ev-pane.peek #ev-toggle, .ev-pane.peek #intl-more, .ev-pane.peek #intl-sub, .ev-pane.peek .ev-credit { display: none !important; }
+    @media (max-width: 520px) { .ev-scope button { font-size: .85rem; padding: .6rem .7rem; } }
     .intl .ev-list { max-width: 40rem; margin-left: auto; margin-right: auto; }
     .intl .ev-list .more-item .pic { width: 120px; height: 90px; }
     @media (min-width: 640px) { .intl .ev-list .more-item .pic { width: 144px; height: 108px; } }
@@ -804,12 +813,39 @@
                 <div id="pl-flow" class="pl-flow" hidden></div>
               </div>
 
+              <!-- Recommended composers -->
+              <div class="mt-20">
+                <div class="text-center max-w-2xl mx-auto">
+                  <p class="eyebrow">Meet the chefs</p>
+                  <h3 class="mt-2 font-serif text-3xl sm:text-5xl font-semibold tracking-tight" data-i18n="cmpTitle">Recommended composers</h3>
+                </div>
+                <div id="cmp-top" class="cmp-top" hidden></div>
+                <ul id="r-composers" class="cmp-grid mt-6"></ul>
+
+                <!-- Opens when a composer is tapped -->
+                <div id="cmp-detail" class="menu scroll-mt-24 mt-12 hidden p-6 sm:p-10" aria-live="polite">
+                  <div class="text-center">
+                    <p class="eyebrow" data-i18n="cdEyebrow">Ten pieces by</p>
+                    <h4 id="cd-name" class="mt-1 font-serif text-4xl sm:text-5xl font-semibold tracking-tight"></h4>
+                    <p id="cd-lead" class="mt-3 text-white/70"></p>
+                  </div>
+                  <ol id="cd-list" class="mt-8 grid md:grid-cols-2 md:gap-x-12"></ol>
+                </div>
+              </div>
+
               <!-- Today's concerts & exhibitions (public data: KOPIS + Korea Culture Information Service) -->
               <div id="events" class="more events mt-20">
                 <p class="eyebrow" data-i18n="evEyebrow">Today’s stage &amp; gallery</p>
                 <h3 class="mt-2 font-serif text-3xl sm:text-5xl font-semibold tracking-tight" data-i18n="evTitle">Today’s concerts &amp; exhibitions</h3>
                 <p id="ev-sub" class="mt-3 text-white/70"></p>
                 <p id="ev-note" class="ev-note" hidden></p>
+                <div id="ev-scope" class="ev-scope" role="tablist" aria-label="Concerts">
+                  <button type="button" role="tab" data-scope="kr" aria-selected="true" data-i18n="evScopeKr">대한민국 공연·전시</button>
+                  <button type="button" role="tab" data-scope="intl" aria-selected="false" data-i18n="evScopeIntl">글로벌 공연</button>
+                </div>
+                <div id="ev-panes">
+                <div id="ev-kr" class="ev-pane">
+                <div class="ev-peek-head" hidden><p class="ev-peek-t" data-i18n="evScopeKr">대한민국 공연·전시</p><button type="button" class="btn btn-ghost btn-sm ev-peek-btn" data-pane="kr"></button></div>
                 <div id="ev-areas" class="ev-areas" role="group" aria-label="Region"></div>
                 <div id="ev-sorts" class="ev-areas ev-sorts" role="group" aria-label="Sort">
                   <button type="button" class="ev-area" data-sort="pop" aria-pressed="true" data-i18n="evSortPop">인기순</button>
@@ -826,10 +862,10 @@
                   </div>
                 </div>
                 <button type="button" id="ev-toggle" class="btn btn-ghost mt-6" aria-expanded="false" hidden></button>
-                <div class="mt-10">
-                  <button type="button" id="intl-toggle" class="intl-btn" aria-expanded="false" aria-controls="intl"><span class="ib-ic" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.7"/><ellipse cx="12" cy="12" rx="4.2" ry="9.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.8 9h18.4M2.8 15h18.4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></span><span class="ib-tx"><span class="ib-t"><span id="intl-label" data-i18n="intlBtn">Classical Concerts Worldwide</span><span class="ib-new">NEW</span></span><span class="ib-s" data-i18n="intlBtnSub">New York · London · Berlin · Paris · Toronto · Sydney</span></span><span class="ar" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+                <p class="ev-credit">공연 정보: (재)예술경영지원센터 공연예술통합전산망(<a href="https://www.kopis.or.kr" target="_blank" rel="noopener noreferrer">www.kopis.or.kr</a>) · 전시 정보: 한국문화정보원 문화포털</p>
                 </div>
-                <div id="intl" class="intl" hidden>
+                <div id="intl" class="intl ev-pane">
+                  <div class="ev-peek-head" hidden><p class="ev-peek-t" data-i18n="evScopeIntl">글로벌 공연</p><button type="button" class="btn btn-ghost btn-sm ev-peek-btn" data-pane="intl"></button></div>
                   <p id="intl-sub" class="text-white/70 text-sm"></p>
                   <div id="intl-countries" class="ev-areas" role="group" aria-label="Country"></div>
                   <div id="intl-sorts" class="ev-areas ev-sorts" role="group" aria-label="Sort">
@@ -840,26 +876,6 @@
                   <button type="button" id="intl-more" class="btn btn-ghost btn-sm mt-4" hidden></button>
                   <p class="ev-credit">International concert data: <a href="https://www.ticketmaster.com" target="_blank" rel="noopener noreferrer">Ticketmaster</a></p>
                 </div>
-                <p class="ev-credit">공연 정보: (재)예술경영지원센터 공연예술통합전산망(<a href="https://www.kopis.or.kr" target="_blank" rel="noopener noreferrer">www.kopis.or.kr</a>) · 전시 정보: 한국문화정보원 문화포털</p>
-              </div>
-
-              <!-- Recommended composers -->
-              <div class="mt-24">
-                <div class="text-center max-w-2xl mx-auto">
-                  <p class="eyebrow">Meet the chefs</p>
-                  <h3 class="mt-2 font-serif text-3xl sm:text-5xl font-semibold tracking-tight" data-i18n="cmpTitle">Recommended composers</h3>
-                </div>
-                <div id="cmp-top" class="cmp-top" hidden></div>
-                <ul id="r-composers" class="cmp-grid mt-6"></ul>
-
-                <!-- Opens when a composer is tapped -->
-                <div id="cmp-detail" class="menu scroll-mt-24 mt-12 hidden p-6 sm:p-10" aria-live="polite">
-                  <div class="text-center">
-                    <p class="eyebrow" data-i18n="cdEyebrow">Ten pieces by</p>
-                    <h4 id="cd-name" class="mt-1 font-serif text-4xl sm:text-5xl font-semibold tracking-tight"></h4>
-                    <p id="cd-lead" class="mt-3 text-white/70"></p>
-                  </div>
-                  <ol id="cd-list" class="mt-8 grid md:grid-cols-2 md:gap-x-12"></ol>
                 </div>
               </div>
 
@@ -1277,17 +1293,17 @@
       q1Step: '{kind} {n} / {t} · {theme}', q1KindArch: '建築画', q1KindFig: '人物画',
     });
     // ---- Today's concerts & exhibitions ----
-    Object.assign(I18N.en, { evEyebrow: 'Today’s stage & gallery', evTitle: 'Today’s concerts & exhibitions',
+    Object.assign(I18N.en, { evScopeKr: 'In Korea', evScopeIntl: 'Worldwide', evPeekMore: 'See all ({n})', evPeekOpen: 'See all', evPeekLess: 'Show less', evEyebrow: 'Today’s stage & gallery', evTitle: 'Today’s concerts & exhibitions',
       evMore: 'See more ▼ ({n})', evLess: 'Show less ▲', evFit: 'Matches your taste', evStretch: 'Stretches your taste',
       evSample: 'Sample listings for now · connect the public data APIs and real concerts and exhibitions appear here', evLink: 'Tickets & details ↗',
       evConcert: 'Concert', evExhibit: 'Exhibition', evEmpty: 'No concerts or exhibitions to show right now.', evAll: 'All regions', evColConcert: 'Classical concerts', evColExhibit: 'Exhibitions · museums & special shows', evNoConcert: 'No classical concerts in this region right now.', evNoExhibit: 'No exhibitions in this region right now.', evSpecial: 'Special show', evMuseum: 'Museum', evLoading: 'Loading today’s listings…',
       evSub1: 'Concerts and exhibitions on now that suit the {g} you carry today.', evSub0: 'Concerts and exhibitions on now that suit today’s picks.' });
-    Object.assign(I18N.ko, { evEyebrow: 'Today’s stage & gallery', evTitle: '오늘의 공연·전시',
+    Object.assign(I18N.ko, { evScopeKr: '대한민국 공연·전시', evScopeIntl: '글로벌 공연', evPeekMore: '모두 보기 ({n}건)', evPeekOpen: '모두 보기', evPeekLess: '접기', evEyebrow: 'Today’s stage & gallery', evTitle: '오늘의 공연·전시',
       evMore: '더 보기 ▼ ({n})', evLess: '접기 ▲', evFit: '취향 맞춤', evStretch: '취향 확장',
       evSample: '지금은 샘플 목록이에요 · 공공 API를 연결하면 실제 공연·전시로 바뀌어요', evLink: '예매·자세히 ↗',
       evConcert: '공연', evExhibit: '전시', evEmpty: '지금 보여 드릴 공연·전시가 없어요.', evAll: '전체', evColConcert: '클래식 공연', evColExhibit: '전시 · 미술관·특별전', evNoConcert: '이 지역엔 지금 열리는 클래식 공연이 없어요.', evNoExhibit: '이 지역엔 지금 열리는 전시가 없어요.', evSpecial: '특별전', evMuseum: '미술관', evLoading: '오늘의 공연·전시를 불러오는 중이에요…',
       evSub1: '{g} 품은 오늘의 당신에게 어울리는, 지금 열리고 있는 공연과 전시예요.', evSub0: '오늘 고르신 그림과 어울리는, 지금 열리고 있는 공연과 전시예요.' });
-    Object.assign(I18N.ja, { evEyebrow: 'Today’s stage & gallery', evTitle: '今日の公演・展示',
+    Object.assign(I18N.ja, { evScopeKr: '韓国の公演・展示', evScopeIntl: '世界の公演', evPeekMore: 'すべて見る（{n}件）', evPeekOpen: 'すべて見る', evPeekLess: '閉じる', evEyebrow: 'Today’s stage & gallery', evTitle: '今日の公演・展示',
       evMore: 'もっと見る ▼ ({n})', evLess: '閉じる ▲', evFit: '好みにぴったり', evStretch: '好みを広げる',
       evSample: '現在はサンプルです · 公共APIをつなぐと実際の公演・展示に変わります', evLink: 'チケット・詳細 ↗',
       evConcert: '公演', evExhibit: '展示', evEmpty: '今お見せできる公演・展示はありません。', evAll: 'すべて', evColConcert: 'クラシック公演', evColExhibit: '展示 · 美術館・特別展', evNoConcert: 'この地域では今クラシック公演がありません。', evNoExhibit: 'この地域では今展示がありません。', evSpecial: '特別展', evMuseum: '美術館', evLoading: '今日の公演・展示を読み込んでいます…',
@@ -2878,6 +2894,38 @@
       ['concert', '[샘플] 드뷔시와 라벨, 물의 음악', 'Sample · Debussy & Ravel: music of water', '[サンプル] ドビュッシーとラヴェル、水の音楽', 11, 11, 'Turner_-_Rain,_Steam_and_Speed_-_National_Gallery_file.jpg'],
     ];
     let evData = null, evSample = false, evOpen = false, evLoading = null;
+    // Which list comes first: 'kr' (대한민국 공연·전시) or 'intl' (글로벌 공연). Default by page language; a tap is remembered.
+    let evScopeSaved = (() => { try { const v = localStorage.getItem('yc-ev-scope'); return v === 'kr' || v === 'intl' ? v : ''; } catch (e) { return ''; } })();
+    const evScope = () => evScopeSaved || (lang === 'ko' ? 'kr' : 'intl');
+    const peekOpen = { kr: false, intl: false }, peekCount = { kr: 0, intl: 0 };
+    const isPeek = k => evScope() !== k && !peekOpen[k];
+    function renderScope() {
+      const t = I18N[lang], sc = evScope();
+      document.querySelectorAll('#ev-scope [data-scope]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.scope === sc)));
+      const panes = document.getElementById('ev-panes'), kr = document.getElementById('ev-kr'), it = document.getElementById('intl');
+      if (!panes) return;
+      const [first, second] = sc === 'kr' ? [kr, it] : [it, kr];
+      if (panes.firstElementChild !== first) panes.insertBefore(first, panes.firstElementChild);
+      [['kr', kr], ['intl', it]].forEach(([k, el]) => {
+        const other = k !== sc;
+        el.classList.toggle('peek', isPeek(k));
+        el.classList.toggle('ev-other', other);
+        const head = el.querySelector('.ev-peek-head'), btn = el.querySelector('.ev-peek-btn');
+        head.hidden = !other;
+        btn.textContent = peekOpen[k] ? t.evPeekLess : peekCount[k] ? t.evPeekMore.replace('{n}', peekCount[k]) : t.evPeekOpen;
+        btn.setAttribute('aria-expanded', String(peekOpen[k]));
+      });
+      void second;
+    }
+    document.querySelectorAll('#ev-scope [data-scope]').forEach(b => b.addEventListener('click', () => {
+      evScopeSaved = b.dataset.scope; peekOpen.kr = peekOpen.intl = false;
+      try { localStorage.setItem('yc-ev-scope', evScopeSaved); } catch (e) {}
+      renderEvents(); renderIntl();
+    }));
+    document.querySelectorAll('.ev-peek-btn').forEach(b => b.addEventListener('click', () => {
+      const k = b.dataset.pane; peekOpen[k] = !peekOpen[k];
+      if (k === 'kr') renderEvents(); else renderIntl();
+    }));
     // Regions: [ko, en, ja, matcher]
     const EV_REGIONS = [
       ['서울', 'Seoul', 'ソウル', /서울|Seoul/], ['경기', 'Gyeonggi', '京畿', /경기/], ['인천', 'Incheon', '仁川', /인천/],
@@ -3026,8 +3074,9 @@
         .forEach(r => chip(r[0], r[ja ? 2 : ko ? 0 : 1], counts[r[0]]));
       areas.hidden = Object.keys(counts).length < 2;
 
-      const inRegion = evRegion ? live.filter(e => evRegionOf(e) === evRegion) : live;
-      const SHOW = evOpen ? 20 : 4;
+      const inRegion = isPeek('kr') ? live : evRegion ? live.filter(e => evRegionOf(e) === evRegion) : live;
+      peekCount.kr = live.length; renderScope();
+      const SHOW = isPeek('kr') ? 1 : evOpen ? 20 : 4;
       const cols = [
         ['concert', document.getElementById('ev-concerts'), t.evNoConcert],
         ['exhibition', document.getElementById('ev-exhibits'), t.evNoExhibit],
@@ -3106,7 +3155,7 @@
     const INTL_COUNTRIES = [['US', 'USA', '미국', 'アメリカ'], ['GB', 'UK', '영국', 'イギリス'], ['DE', 'Germany', '독일', 'ドイツ'],
       ['FR', 'France', '프랑스', 'フランス'], ['CA', 'Canada', '캐나다', 'カナダ'], ['AU', 'Australia', '호주', 'オーストラリア']];
     let intlCountry = (() => { try { const c = localStorage.getItem('yc-intl-country'); return INTL_COUNTRIES.some(x => x[0] === c) ? c : 'US'; } catch (e) { return 'US'; } })();
-    let intlOpen = false, intlAll = false;
+    let intlAll = false;
     // 'pop' = 인기순 (default), 'date' = 가까운 날짜순; remembered on this device
     let intlSort = (() => { try { return localStorage.getItem('yc-intl-sort') === 'date' ? 'date' : 'pop'; } catch (e) { return 'pop'; } })();
     const intlCache = {};   // country -> {state:'ok'|'off'|'err'|'loading', items}
@@ -3118,13 +3167,12 @@
         .then(r => r.status === 503 ? { off: true } : r.ok ? r.json() : Promise.reject(r.status))
         .then(j => { intlCache[c] = j.off ? { state: 'off', items: [] } : { state: 'ok', items: (j.items || []).filter(e => e && e.title && e.url) }; })
         .catch(() => { intlCache[c] = { state: 'err', items: [] }; })
-        .then(() => { if (intlOpen && intlCountry === c) renderIntl(); });
+        .then(() => { if (currentEra && intlCountry === c) renderIntl(); });
     }
     function renderIntl() {
       const t = I18N[lang], li3 = lang === 'ja' ? 3 : lang === 'ko' ? 2 : 1;
-      const btn = document.getElementById('intl-toggle'), panel = document.getElementById('intl');
-      btn.setAttribute('aria-expanded', String(intlOpen)); panel.hidden = !intlOpen;
-      if (!intlOpen) return;
+      if (!currentEra) return;
+      renderScope();
       document.getElementById('intl-sub').textContent = t.intlSub;
       const cs = document.getElementById('intl-countries'); cs.innerHTML = '';
       INTL_COUNTRIES.forEach(x => {
@@ -3140,6 +3188,7 @@
       if (st.state === 'loading') return msg(t.intlLoading);
       if (st.state === 'off') return msg(t.intlOff);
       if (st.state === 'err') return msg(t.intlErr);
+      if (peekCount.intl !== st.items.length) { peekCount.intl = st.items.length; renderScope(); }
       if (!st.items.length) return msg(t.intlEmpty);
       document.querySelectorAll('#intl-sorts [data-sort]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.sort === intlSort)));
       // 인기순: classical first, then score (more dates, marquee names), then date. 가까운 날짜순: date, classical first on the same day
@@ -3148,7 +3197,7 @@
       const list = st.items.slice().sort(intlSort === 'date'
         ? (a, b) => (a.date || '').localeCompare(b.date || '') || (isCl(b) - isCl(a)) || byDate(a, b)
         : (a, b) => (isCl(b) - isCl(a)) || ((b.pop || 0) - (a.pop || 0)) || byDate(a, b));
-      const SHOW = intlAll ? 60 : 6;
+      const SHOW = isPeek('intl') ? 2 : intlAll ? 60 : 6;
       list.slice(0, SHOW).forEach(e => {
         const li = document.createElement('li'); li.className = 'more-item';
         const mono = document.createElement('span'); mono.className = 'mono'; mono.textContent = '♪';
@@ -3171,9 +3220,8 @@
         const a = document.createElement('a'); a.className = 'lk'; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.href = e.url; a.textContent = t.evLink; ch.appendChild(a);
         body.append(nm, sb, ch); li.append(lead, body); ul.appendChild(li);
       });
-      if (st.items.length > 6) { more.hidden = false; more.textContent = intlAll ? t.evLess : t.evMore.replace('{n}', st.items.length - 6); }
+      if (st.items.length > 6 && !isPeek('intl')) { more.hidden = false; more.textContent = intlAll ? t.evLess : t.evMore.replace('{n}', st.items.length - 6); }
     }
-    document.getElementById('intl-toggle').addEventListener('click', () => { intlOpen = !intlOpen; renderIntl(); });
     document.getElementById('intl-more').addEventListener('click', () => { intlAll = !intlAll; renderIntl(); });
     document.querySelectorAll('#intl-sorts [data-sort]').forEach(b => b.addEventListener('click', () => {
       intlSort = b.dataset.sort; intlAll = false; try { localStorage.setItem('yc-intl-sort', intlSort); } catch (e) {}
