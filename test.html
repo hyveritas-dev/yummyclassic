@@ -5465,7 +5465,16 @@
       document.getElementById('shared-banner').classList.remove('hidden');
       setTimeout(() => result.scrollIntoView({ behavior: 'auto', block: 'start' }), 700);
     }
-    document.getElementById('shared-try').addEventListener('click', () => reset());
+    // a friend's shared result is also an invitation: "나도 해보기" keeps the friend's picks, so my result shows our 화음률
+    document.getElementById('shared-try').addEventListener('click', () => {
+      try {
+        const q = new URLSearchParams(location.search), ids = (q.get('p') || '').split(',').filter(id => pById(id));
+        const m = TYPES[q.get('t')] ? q.get('t') : (ids.length ? dominantMood(ids.map(pById)) : '');
+        if (m && ids.length) { VS = { m, e: q.get('e') === 'romantic' ? 'romantic' : 'classic', ids }; track('match_from_result', { friend_type: m }); }
+      } catch (e) {}
+      reset();
+      if (typeof renderVsBanner === 'function') renderVsBanner();
+    });
     document.getElementById('restart').addEventListener('click', () => {
       reset(true);
       redeal();
@@ -5491,7 +5500,8 @@
       shKakao: '카카오톡으로 보내기', shLine: '라인으로 보내기', shFb: '페이스북으로 공유하기', shX: 'X로 공유하기',
       shareImage: '인스타그램 피드로 공유하기', shareNative: '다른 앱으로 공유하기',
       shareStory: '인스타그램 스토리로 공유하기', storyKick: '나의 오늘 그림 유형', storyListen: '오늘 들을 곡',
-      storyCta: '나와 함께 들으면 좋은 곡은?', storyTap: '이미지가 준비됐어요. 한 번 더 누르면 바로 공유돼요.',
+      storyCta: '나와 함께 들으면 좋은 곡은?',
+      sharedBanner: '친구가 보낸 오늘의 클래식이에요. 나도 그림을 고르면, 두 분이 함께 들으면 좋은 곡과 화음률이 나와요.', sharedCta: '나도 그림 고르고 함께 들을 곡 찾기 →', storyTap: '이미지가 준비됐어요. 한 번 더 누르면 바로 공유돼요.',
       storySaved: '이미지를 저장했어요. 인스타 스토리에 올려 보세요!',
     });
     Object.assign(I18N.en, {
@@ -5511,7 +5521,8 @@
       shKakao: 'Send via KakaoTalk', shLine: 'Send via LINE', shFb: 'Share on Facebook', shX: 'Share on X',
       shareImage: 'Share to Instagram feed', shareNative: 'Share with another app',
       shareStory: 'Share to Instagram Story', storyKick: 'MY PAINTING TYPE TODAY', storyListen: 'Today’s listening',
-      storyCta: 'What should we listen to together?', storyTap: 'Your image is ready. Tap once more to share.',
+      storyCta: 'What should we listen to together?',
+      sharedBanner: 'A friend sent you their classical of the day. Pick your own paintings to see music to share and your harmony rate.', sharedCta: 'Pick mine and find music to share →', storyTap: 'Your image is ready. Tap once more to share.',
       storySaved: 'Image saved. Post it to your story!',
     });
     Object.assign(I18N.ja, {
@@ -5531,7 +5542,8 @@
       shKakao: 'カカオトークで送る', shLine: 'LINEで送る', shFb: 'Facebookでシェア', shX: 'Xでシェア',
       shareImage: 'Instagramのフィードでシェア', shareNative: 'ほかのアプリでシェア',
       shareStory: 'Instagramのストーリーでシェア', storyKick: '今日の私の絵のタイプ', storyListen: '今日聴く曲',
-      storyCta: '私と一緒に聴きたい曲は?', storyTap: '画像の準備ができました。もう一度押すと共有できます。',
+      storyCta: '私と一緒に聴きたい曲は?',
+      sharedBanner: '友だちから届いた今日のクラシックです。あなたも絵を選ぶと、ふたりで聴きたい曲と和音率が出ます。', sharedCta: '私も選んで一緒に聴く曲を探す →', storyTap: '画像の準備ができました。もう一度押すと共有できます。',
       storySaved: '画像を保存しました。ストーリーに載せてみて!',
     });
     const YC_MATCH_ICON = '<svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg>';
@@ -5540,7 +5552,7 @@
     const myMood = () => { const sel = selected(); return sel.length ? dominantMood(sel) : ''; };
 
     // A friend's match link: ?vm=<type>&ve=<classic|romantic>&vp=<painting ids>
-    const VS = (() => {
+    let VS = (() => {
       try {
         const q = new URLSearchParams(location.search), m = q.get('vm');
         if (!m || !TYPES[m]) return null;
