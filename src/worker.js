@@ -197,6 +197,7 @@ export class Store extends DurableObject {
     super(ctx, env);
     this.sql = ctx.storage.sql;
     this.sql.exec('CREATE TABLE IF NOT EXISTS cnt (k TEXT PRIMARY KEY, n INTEGER NOT NULL DEFAULT 0)');
+    this.sql.exec('CREATE TABLE IF NOT EXISTS short (code TEXT PRIMARY KEY, q TEXT NOT NULL, ts INTEGER NOT NULL)');
     this.sql.exec('CREATE TABLE IF NOT EXISTS fb (id INTEGER PRIMARY KEY AUTOINCREMENT, ts INTEGER NOT NULL, v INTEGER NOT NULL, c TEXT, m TEXT, e TEXT, lang TEXT, dev TEXT)');
   }
   hit(keys) {
@@ -212,6 +213,16 @@ export class Store extends DurableObject {
     this.sql.exec('INSERT INTO fb (ts, v, c, m, e, lang, dev) VALUES (?, ?, ?, ?, ?, ?, ?)', Date.now(), r.v, r.c, r.m, r.e, r.lang, r.dev);
     this.hit([r.v > 0 ? 'fb:up' : 'fb:down']);
     return true;
+  }
+  putShort(code, q) {
+    const row = this.sql.exec('SELECT q FROM short WHERE code = ?', code).toArray()[0];
+    if (row) return row.q === q;
+    this.sql.exec('INSERT INTO short (code, q, ts) VALUES (?, ?, ?)', code, q, Date.now());
+    return true;
+  }
+  getShort(code) {
+    const row = this.sql.exec('SELECT q FROM short WHERE code = ?', code).toArray()[0];
+    return row ? row.q : '';
   }
   listFb(since, limit) {
     return this.sql.exec('SELECT * FROM fb WHERE ts >= ? ORDER BY id DESC LIMIT ?', since, limit).toArray();
@@ -264,9 +275,44 @@ async function feedback(request, env, ctx, url) {
 }
 
 // Shared links: link previews (KakaoTalk, X, Facebook…) read og: tags without running scripts, so the worker writes them.
-// Shared links use /s?… so ordinary visits to / stay static (no worker run); /s serves the same page.
-async function page(request, env, url) {
-  const res = await env.ASSETS.fetch(new Request(url.origin + '/', { headers: request.headers }));
+// POST /api/short {q}  ->  {code, url}: a short /s/<code> link for a shared result or match link
+const SHORT_KEYS = ['e', 'p', 'a', 't', 'vm', 've', 'vp', 'lang'];
+const B62 = '0123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';   // no l/I/O
+function canonQuery(raw) {
+  const q = new URLSearchParams(String(raw || '')), out = new URLSearchParams();
+  SHORT_KEYS.forEach(k => { const v = q.get(k); if (v && /^[A-Za-z0-9_,\-]{1,300}$/.test(v)) out.set(k, v); });
+  return out.toString();
+}
+async function shortCode(q, len) {
+  const d = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(q)));
+  let s = ''; for (let i = 0; i < len; i++) s += B62[d[i] % B62.length];
+  return s;
+}
+async function shortLink(request, env, ctx, url) {
+  if (!env.STORE) return json({ error: 'no-store' }, 503);
+  if (request.method !== 'POST') return json({ error: 'method' }, 405);
+  let b; try { b = await request.json(); } catch (e) { return json({ error: 'body' }, 400); }
+  const q = canonQuery(b && b.q);
+  if (!q || (!q.includes('p=') && !q.includes('vm=')) || q.length > 700) return json({ error: 'query' }, 400);
+  const S = store(env);
+  for (let len = 6; len <= 10; len++) {
+    const code = await shortCode(q, len);
+    if (await S.putShort(code, q)) return json({ code, url: url.origin + '/s/' + code });
+  }
+  return json({ error: 'busy' }, 503);
+}
+async function openShort(request, env, url) {
+  const code = url.pathname.slice(3);
+  if (!env.STORE || !/^[0-9A-Za-z]{6,10}$/.test(code)) return Response.redirect(url.origin + '/', 302);
+  const q = await store(env).getShort(code);
+  if (!q) return Response.redirect(url.origin + '/', 302);
+  return page(request, env, new URL(url.origin + '/s?' + q), q);
+}
+
+// Shared links use /s?… (or the short /s/<code>) so ordinary visits to / stay static (no worker run).
+async function page(request, env, url, shortQ) {
+  const hd = new Headers(request.headers); hd.delete('if-none-match'); hd.delete('if-modified-since');
+  const res = await env.ASSETS.fetch(new Request(url.origin + '/', { headers: hd }));
   try {
     const q = url.searchParams, ct = res.headers.get('content-type') || '';
     if (res.status !== 200 || !ct.includes('text/html')) return res;
@@ -274,10 +320,14 @@ async function page(request, env, url) {
     let title, desc, image;
     if (q.get('vm') && TYPES[q.get('vm')]) { title = T.match; desc = T.matchDesc; image = '/og/match-' + img + '.png'; }
     else if (q.get('p') && TYPES[q.get('t')]) { title = T.type.replace('{t}', TYPES[q.get('t')][lang]); desc = T.typeDesc; image = '/og/' + q.get('t') + '-' + img + '.png'; }
-    else return res;
+    else if (!shortQ) return res;
     const abs = url.origin + image, esc = v => v.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
     const set = v => ({ element(e) { e.setAttribute('content', v); } });
-    const out = new HTMLRewriter()
+    const rw = new HTMLRewriter();
+    // a short link: put the full query back in the address bar before the page script reads it
+    if (shortQ) rw.on('head', { element(e) { e.prepend('<script>try{history.replaceState(null,"","/s?"+' + JSON.stringify(shortQ).replace(/</g, '\\u003c') + ')}catch(e){}</script>', { html: true }); } });
+    if (!title) return rw.transform(res);
+    const out = rw
       .on('meta[property="og:title"]', set(title))
       .on('meta[property="og:description"]', set(desc))
       .on('meta[property="og:image"]', set(abs))
@@ -302,6 +352,8 @@ export default {
     if (url.pathname === '/api/stat') return stat(request, env, ctx, url);
     if (url.pathname === '/api/fb') return feedback(request, env, ctx, url);
     if (url.pathname === '/s') return page(request, env, url);
+    if (url.pathname.startsWith('/s/')) return openShort(request, env, url);
+    if (url.pathname === '/api/short') return shortLink(request, env, ctx, url);
     return env.ASSETS.fetch(request);
   },
 };

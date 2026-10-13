@@ -9,7 +9,7 @@
   "assets": {
     "directory": "./",
     "binding": "ASSETS",
-    "run_worker_first": ["/api/*", "/s"]
+    "run_worker_first": ["/api/*", "/s", "/s/*"]
   },
   // feedback + result-type counts (SQLite-backed Durable Object, free plan)
   "durable_objects": { "bindings": [{ "name": "STORE", "class_name": "Store" }] },

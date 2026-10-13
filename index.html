@@ -712,6 +712,7 @@
     .vs-invite-t { font-weight: 800; font-size: 1.1rem; color: var(--wine); }
     .vs-invite-s { margin: .35rem 0 .8rem; font-size: .88rem; color: var(--muted); }
     .yc-ic { width: 1.4em; height: 1.4em; flex: none; }
+    @media (max-width: 639px) { .share-grid { grid-template-columns: 1fr; } .sh-btn { justify-content: flex-start; padding: .8rem 1rem; } }
     .sh-story .ic { background: linear-gradient(180deg, #7A0F2A, #E8753D); color: #fff; }
   </style>
   <!-- 내부 방문 제외: ?noga=1로 한 번 열면 이 브라우저는 집계에서 빠짐 -->
@@ -958,11 +959,11 @@
                   <button type="button" id="sh-copy" class="btn btn-primary btn-sm" data-i18n="shareCopy">Copy link</button>
                 </div>
                 <div class="share-grid mt-4">
-                  <button type="button" class="sh-btn sh-kakao" data-sh="kakao"><span class="ic">K</span>KakaoTalk</button>
-                  <button type="button" class="sh-btn sh-line" data-sh="line"><span class="ic">L</span>LINE</button>
-                  <button type="button" class="sh-btn sh-fb" data-sh="facebook"><span class="ic">f</span>Facebook</button>
-                  <button type="button" class="sh-btn sh-x" data-sh="x"><span class="ic">𝕏</span>X</button>
-                  <button type="button" class="sh-btn sh-story" data-sh="story"><span class="ic">▯</span><span data-i18n="shareStory">Story image (9:16)</span></button>
+                  <button type="button" class="sh-btn sh-kakao" data-sh="kakao"><span class="ic">K</span><span data-i18n="shKakao">Send via KakaoTalk</span></button>
+                  <button type="button" class="sh-btn sh-line" data-sh="line"><span class="ic">L</span><span data-i18n="shLine">Send via LINE</span></button>
+                  <button type="button" class="sh-btn sh-fb" data-sh="facebook"><span class="ic">f</span><span data-i18n="shFb">Share on Facebook</span></button>
+                  <button type="button" class="sh-btn sh-x" data-sh="x"><span class="ic">𝕏</span><span data-i18n="shX">Share on X</span></button>
+                  <button type="button" class="sh-btn sh-story" data-sh="story"><span class="ic"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.2"/><circle cx="12" cy="13" r="3"/></svg></span><span data-i18n="shareStory">Story image (9:16)</span></button>
                   <button type="button" class="sh-btn sh-ig" data-sh="image"><span class="ic">◎</span><span data-i18n="shareImage">Save image</span></button>
                   <button type="button" class="sh-btn sh-native hidden" data-sh="native"><span class="ic">↗</span><span data-i18n="shareNative">Share</span></button>
                 </div>
@@ -5164,12 +5165,24 @@
       const ek = eraOf(sel), T = TYPES[dominantMood(sel)];
       return { era: ERAS[ek].en, type: isLocal() ? T[1] : T[0], ek, sel };
     }
+    // Short links: /s?… is stored by the site worker as /s/<code>; the long link is used until the short one is ready
+    const shortCache = {};
+    function shorten(url) {
+      if (shortCache[url]) return shortCache[url];
+      const i = url.indexOf('/s?');
+      if (i < 0) return Promise.resolve(url);
+      shortCache[url] = fetch('/api/short', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ q: url.slice(i + 3) }) })
+        .then(r => r.ok ? r.json() : null).then(d => (d && d.url) ? (shortCache[url + '#short'] = d.url) : url).catch(() => url);
+      return shortCache[url];
+    }
+    const shortNow = url => shortCache[url + '#short'] || url;
     function syncShare() {
       const box = document.getElementById('share-url');
       if (!box) return;
       if (!ready()) { box.value = ''; return; }
       const url = tasteUrl();
-      box.value = url;
+      box.value = shortNow(url);
+      shorten(url).then(su => { if (box.value === url) box.value = su; });
       try { history.replaceState(null, '', location.pathname + url.slice(url.indexOf('?'))); } catch (e) {}
     }
     function toast(msg) {
@@ -5178,7 +5191,7 @@
       clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('on'), 2600);
     }
     async function copyLink() {
-      const url = tasteUrl();
+      const url = shortNow(tasteUrl());
       try { await navigator.clipboard.writeText(url); }
       catch (e) { const b = document.getElementById('share-url'); b.select(); try { document.execCommand('copy'); } catch (_) {} }
       return url;
@@ -5354,7 +5367,7 @@
       if (!ready()) return;
       if (kind === 'story') return shareStory();
       track('share', { method: kind });
-      const url = tasteUrl(), text = shareText(), t = I18N[lang];
+      const url = shortNow(tasteUrl()), text = shareText(), t = I18N[lang];
       const open = u => window.open(u, '_blank', 'noopener,width=620,height=640');
       if (kind === 'facebook') open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url));
       else if (kind === 'x') open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url));
@@ -5463,7 +5476,9 @@
       vsSendBack: '이 궁합 결과 보내기', vsBackText: '우리 그림 궁합 {p}% — {l}. 너도 나랑 해볼래?',
       vsLabels: ['같은 그림 앞에서 멈춰 서는 사이', '취향이 척척 통하는 사이', '서로의 플레이리스트가 궁금한 사이', '정반대라 더 재미있는 사이'],
       vsCopied: '링크를 복사했어요. 카카오톡 대화방에 붙여 넣어 보내 보세요.',
-      shareStory: '스토리용 이미지 (9:16)', storyKick: '나의 오늘 그림 유형', storyListen: '오늘 들을 곡',
+      shKakao: '카카오톡으로 보내기', shLine: '라인으로 보내기', shFb: '페이스북으로 공유하기', shX: 'X로 공유하기',
+      shareImage: '인스타그램 피드로 공유하기', shareNative: '다른 앱으로 공유하기',
+      shareStory: '인스타그램 스토리로 공유하기', storyKick: '나의 오늘 그림 유형', storyListen: '오늘 들을 곡',
       storyCta: '나랑 그림 궁합 몇 %일까?', storyTap: '이미지가 준비됐어요. 한 번 더 누르면 바로 공유돼요.',
       storySaved: '이미지를 저장했어요. 인스타 스토리에 올려 보세요!',
     });
@@ -5480,7 +5495,9 @@
       vsSendBack: 'Share this match', vsBackText: 'Our painting match: {p}% — {l}. Want to try with me?',
       vsLabels: ['You stop at the same painting', 'Your tastes click', 'Curious about each other’s playlist', 'Opposites — and that’s the fun'],
       vsCopied: 'Link copied. Paste it into a chat to send.',
-      shareStory: 'Story image (9:16)', storyKick: 'MY PAINTING TYPE TODAY', storyListen: 'Today’s listening',
+      shKakao: 'Send via KakaoTalk', shLine: 'Send via LINE', shFb: 'Share on Facebook', shX: 'Share on X',
+      shareImage: 'Share to Instagram feed', shareNative: 'Share with another app',
+      shareStory: 'Share to Instagram Story', storyKick: 'MY PAINTING TYPE TODAY', storyListen: 'Today’s listening',
       storyCta: 'How well do we match?', storyTap: 'Your image is ready. Tap once more to share.',
       storySaved: 'Image saved. Post it to your story!',
     });
@@ -5497,7 +5514,9 @@
       vsSendBack: 'この相性を送る', vsBackText: '私たちの絵の相性は{p}% — {l}。私ともやってみる?',
       vsLabels: ['同じ絵の前で立ち止まるふたり', '好みがぴったり合うふたり', 'お互いのプレイリストが気になるふたり', '正反対だからこそ面白いふたり'],
       vsCopied: 'リンクをコピーしました。トークに貼り付けて送ってください。',
-      shareStory: 'ストーリー用画像 (9:16)', storyKick: '今日の私の絵のタイプ', storyListen: '今日聴く曲',
+      shKakao: 'カカオトークで送る', shLine: 'LINEで送る', shFb: 'Facebookでシェア', shX: 'Xでシェア',
+      shareImage: 'Instagramのフィードでシェア', shareNative: 'ほかのアプリでシェア',
+      shareStory: 'Instagramのストーリーでシェア', storyKick: '今日の私の絵のタイプ', storyListen: '今日聴く曲',
       storyCta: '私との絵の相性は何%?', storyTap: '画像の準備ができました。もう一度押すと共有できます。',
       storySaved: '画像を保存しました。ストーリーに載せてみて!',
     });
@@ -5545,6 +5564,7 @@
     function matchLabel(p) { const L = I18N[lang].vsLabels; return p >= 90 ? L[0] : p >= 75 ? L[1] : p >= 60 ? L[2] : L[3]; }
 
     async function sendLink(url, text, method) {
+      url = shortNow(url);
       track('share', { method });
       if (navigator.share && isMobile()) { try { await navigator.share({ title: 'Yummy Classic', text, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
       try { await navigator.clipboard.writeText(text + ' ' + url); } catch (e) {}
@@ -5710,6 +5730,7 @@
     }
 
     function renderExtras() {
+      if (ready() && !restored) { shorten(tasteUrl()); shorten(vsUrl()); }
       renderVsBanner(); renderVsCard(); renderPct();
       const ta = document.querySelector('#fb textarea');
       if (ta) ta.placeholder = I18N[lang][fbVote < 0 ? 'fbPhNo' : 'fbPhYes'];
