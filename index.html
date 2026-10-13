@@ -692,6 +692,13 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-MFFJHXYMYQ');
+    // 방문자 행동 기록: track('이름', {값}) — 실패해도 사이트 동작에는 영향 없음
+    window.track = function (name, params) {
+      try {
+        const p = Object.assign({ site_lang: document.documentElement.lang || '', device: matchMedia('(max-width: 639px)').matches ? 'mobile' : 'pc' }, params || {});
+        gtag('event', name, p);
+      } catch (e) {}
+    };
   </script>
 </head>
 
@@ -1843,6 +1850,7 @@
 
     let cmpTouched = false;   // until the visitor taps a composer, the top card wears a "tap me" hint
     function openComposer(id) {
+      track('composer_open', { composer: id });
       selectedComposer = id; cmpTouched = true;
       renderComposers();
       renderComposerDetail();
@@ -2398,6 +2406,7 @@
     function openPlayer(li, r) {
       if (activeLi === li) { stopPlayer(); return; }
       stopPlayer();
+      track('play_music', { piece: (r.en || '').slice(0, 90), composer: r.cid || '', area: (li.closest('[id]') || {}).id || '' });
       if (!CAN_EMBED) {
         window.open('https://www.youtube.com/watch?v=' + r.yt, '_blank', 'noopener');
         if (!li.querySelector('.pl-note')) {
@@ -4551,7 +4560,10 @@
 
     // The recommendation is ready as soon as two paintings are kept; it appears right below, no jump
     function syncResult() {
-      if (ready()) { if (!restored) currentEra = finalEra(); renderResult(); result.classList.add('open'); }
+      if (ready()) {
+        if (!restored) currentEra = finalEra(); renderResult(); result.classList.add('open');
+        if (!syncResult.done) { syncResult.done = true; track(restored ? 'shared_result_open' : 'test_complete', { era: currentEra, picks: picks.size }); }
+      }
       else result.classList.remove('open');
       updateCount();
       if (typeof syncShare === 'function') syncShare();
@@ -4650,6 +4662,7 @@
       r2Grid.appendChild(box);
     }
     function choose(id) {
+      track('round_pick', { round_no: roundIdx + 1, round_total: rounds.length, painting: id, changed: roundPicks[roundIdx] ? 1 : 0 });
       roundPicks[roundIdx] = id;
       syncPicks();
       [...r2Grid.querySelectorAll('.tile')].forEach(x => x.setAttribute('aria-pressed', String(x.dataset.id === id)));
@@ -4751,7 +4764,7 @@
       selectedComposer = null;
       operaOpen = false;
       picks = new Set();
-      rounds = []; roundPicks = []; roundIdx = 0; restored = false;
+      rounds = []; roundPicks = []; roundIdx = 0; restored = false; syncResult.done = false;
       q1Votes = []; q1Idx = 0; pairDirty = true; if (q1.length) renderPair();
       cards.forEach(c => { c.classList.remove('picked'); c.setAttribute('aria-pressed', false); });
       pair.classList.remove('has-pick');
@@ -5049,6 +5062,8 @@
         return;
       }
       q1Votes.push(c.era); mark();
+      if (q1Votes.length === 1) track('test_start');
+      track('q1_answer', { q_no: q1Votes.length, q_total: Q1_N, era: c.era });
       pair.classList.add('has-pick');
       updateProgress();
       q1Lock = true;
@@ -5270,6 +5285,7 @@
     }
     async function doShare(kind) {
       if (!ready()) return;
+      track('share', { method: kind });
       const url = tasteUrl(), text = shareText(), t = I18N[lang];
       const open = u => window.open(u, '_blank', 'noopener,width=620,height=640');
       if (kind === 'facebook') open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url));
@@ -5338,7 +5354,7 @@
     const shSec = document.getElementById('sh-toast').closest('section') || document.getElementById('sh-toast').parentElement;
     if ('IntersectionObserver' in window) new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) prepareImages(); }, { rootMargin: '600px 0px' }).observe(shSec);
     document.querySelectorAll('.sh-btn').forEach(b => b.addEventListener('click', () => doShare(b.dataset.sh)));
-    document.getElementById('sh-copy').addEventListener('click', async () => { await copyLink(); toast(I18N[lang].shareCopied); });
+    document.getElementById('sh-copy').addEventListener('click', async () => { track('share', { method: 'copy_link' }); await copyLink(); toast(I18N[lang].shareCopied); });
     if (navigator.share) document.querySelector('.sh-native').classList.remove('hidden');
 
     // Opening a shared taste link rebuilds the same result
@@ -5371,6 +5387,25 @@
     applyLang(readSavedLang());
     renderLanding();
     restoreFromUrl();
+  </script>
+  <script>
+    // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
+    (function () {
+      const areaOf = el => { const a = el.closest('#events, #intl, #more, #today, #cmp-detail, #result'); return a ? a.id : 'other'; };
+      document.addEventListener('click', e => {
+        const a = e.target.closest && e.target.closest('a[href^="http"]');
+        if (!a || a.host === location.host) return;
+        track('outbound_click', { area: areaOf(a), link_domain: a.hostname, link_text: (a.textContent || '').trim().slice(0, 60) });
+      }, true);
+      if (!('IntersectionObserver' in window)) return;
+      const seen = new Set();
+      const io = new IntersectionObserver(list => list.forEach(x => {
+        const id = x.target.id;
+        if (!x.isIntersecting || seen.has(id) || !document.getElementById('result').classList.contains('open')) return;
+        seen.add(id); track('section_view', { section: id });
+      }), { threshold: 0.3 });
+      ['result', 'events', 'intl', 'more', 'today'].forEach(id => { const el = document.getElementById(id); if (el) io.observe(el); });
+    })();
   </script>
 </body>
 </html>
