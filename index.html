@@ -712,6 +712,9 @@
     .vs-invite-t { font-weight: 800; font-size: 1.1rem; color: var(--wine); }
     .vs-invite-s { margin: .35rem 0 .8rem; font-size: .88rem; color: var(--muted); }
     .yc-ic { width: 1.4em; height: 1.4em; flex: none; }
+    .btn-match { flex-direction: column; gap: .45rem; padding: .85rem 1.6rem .8rem; line-height: 1.3; }
+    .yc-badge { width: 44px; height: 44px; padding: 0 !important; margin: 0 !important; box-sizing: border-box; border-radius: 50%; background: var(--vanilla); color: var(--wine); display: grid; place-items: center; flex: none; }
+    .yc-badge .yc-ic { width: 30px; height: 30px; stroke-width: 2; }
     @media (max-width: 639px) { .share-grid { grid-template-columns: 1fr; } .sh-btn { justify-content: flex-start; padding: .8rem 1rem; } }
     .sh-story .ic { background: linear-gradient(180deg, #7A0F2A, #E8753D); color: #fff; }
   </style>
@@ -840,7 +843,7 @@
                 </figure>
                 <p id="r-pct" class="r-pct" hidden></p>
                 <div class="r-actions">
-                  <button type="button" id="vs-top" class="btn btn-primary"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg><span data-i18n="vsTop">Check your painting match with a friend</span></button>
+                  <button type="button" id="vs-top" class="btn btn-primary btn-match"><span class="yc-badge"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg></span><span data-i18n="vsTop">Check your painting match with a friend</span></button>
                   <button type="button" id="story-top" class="btn btn-ghost"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.2"/><path d="M10.5 5h3"/><circle cx="12" cy="13" r="3"/><circle cx="12" cy="13" r=".6" fill="currentColor"/></svg><span data-i18n="storyTop">Post to your story</span></button>
                 </div>
                 <div id="fb" class="fb-box">
@@ -952,7 +955,7 @@
                 <div class="vs-invite mt-6">
                   <p class="vs-invite-t" data-i18n="vsInviteT">Painting match with a friend</p>
                   <p class="vs-invite-s" data-i18n="vsInviteS"></p>
-                  <button type="button" id="vs-send" class="btn btn-primary"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg><span data-i18n="vsSend">Send the match test</span></button>
+                  <button type="button" id="vs-send" class="btn btn-primary btn-match"><span class="yc-badge"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg></span><span data-i18n="vsSend">Send the match test</span></button>
                 </div>
                 <div class="share-url mt-6">
                   <input id="share-url" type="text" readonly aria-label="Share link" />
@@ -5595,7 +5598,7 @@
       });
       box.append(k, p, l, pair);
       if (r.shared) { const sh = document.createElement('p'); sh.className = 'vs-shared'; sh.textContent = t.vsShared.replace('{n}', r.shared); box.appendChild(sh); }
-      const b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-primary'; b.innerHTML = YC_MATCH_ICON; b.append(t.vsSendBack);
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-primary btn-match'; b.innerHTML = '<span class="yc-badge">' + YC_MATCH_ICON + '</span>'; b.append(t.vsSendBack);
       b.addEventListener('click', () => sendLink(vsUrl(), t.vsBackText.replace('{p}', r.pct).replace('{l}', label), 'match_result'));
       box.appendChild(b);
       box.hidden = false;
