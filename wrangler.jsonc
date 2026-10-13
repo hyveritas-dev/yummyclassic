@@ -1,8 +1,10 @@
 {
-  // Cloudflare Workers: static site (no build step) + a small worker for /api/* and shared-link previews on /s
+  // Cloudflare Workers: static site (Tailwind CSS built at deploy) + a small worker for /api/* and shared-link previews on /s
   "name": "misty-credit-9cc0",
   "compatibility_date": "2026-10-01",
   "main": "src/worker.js",
+  // builds assets/tw.css (Tailwind) from index.html on every deploy
+  "build": { "command": "npx --yes tailwindcss@3.4.17 -c tailwind.config.js -i tw.in.css -o assets/tw.css --minify" },
   "ai": { "binding": "AI" },
   "assets": {
     "directory": "./",

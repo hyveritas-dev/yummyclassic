@@ -13,7 +13,6 @@
   <meta property="og:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg?width=1200" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://upload.wikimedia.org" />
   <link rel="preconnect" href="https://yummy-events.hyveritas.workers.dev" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
@@ -24,26 +23,33 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Noto+Serif+KR:wght@500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Noto+Serif+KR:wght@500;600;700&family=Noto+Serif+JP:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" /></noscript>
 
+  <!-- Tailwind is built at deploy time (wrangler.jsonc build.command → assets/tw.css, from tailwind.config.js).
+       If that file can't load (e.g. opening index.html straight from the computer), the runtime CDN takes over. -->
   <script>
     // Identity: deep burgundy + warm cream + a touch of antique gold
     // Yummy Classic identity: Vanilla 60 / Burgundy 30 / Apricot 10
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            white: '#2A1A1E',   // "white" utilities = ink text on the vanilla page
-            ink: '#F4E9D0',     // "ink" utilities = vanilla paper
-            panel: '#FBF5E6',
-            line: 'rgba(122,15,42,0.16)',
-            amber: { 100: '#F4E9D0', 200: '#7A0F2A' },
-            rose: { 100: '#F4E9D0', 400: '#E8753D' },
-          },
-          fontFamily: {
-            sans: ['Inter', 'var(--sans-cjk)', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
-            serif: ['var(--serif-latin)', 'var(--serif-cjk)', 'Georgia', 'serif'],
+    window.__twFallback = function () {
+      if (window.__twFell) return; window.__twFell = true;
+      var s = document.createElement('script'); s.src = 'https://cdn.tailwindcss.com';
+      s.onload = function () { tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              white: '#2A1A1E',   // "white" utilities = ink text on the vanilla page
+              ink: '#F4E9D0',     // "ink" utilities = vanilla paper
+              panel: '#FBF5E6',
+              line: 'rgba(122,15,42,0.16)',
+              amber: { 100: '#F4E9D0', 200: '#7A0F2A' },
+              rose: { 100: '#F4E9D0', 400: '#E8753D' },
+            },
+            fontFamily: {
+              sans: ['Inter', 'var(--sans-cjk)', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+              serif: ['var(--serif-latin)', 'var(--serif-cjk)', 'Georgia', 'serif'],
+            },
           },
         },
-      },
+      }; };
+      document.head.appendChild(s);
     };
   </script>
 
@@ -729,6 +735,8 @@
       } catch (e) {}
     };
   </script>
+  <!-- after the page styles, where the old runtime Tailwind injected its rules, so the same rules win -->
+  <link rel="stylesheet" href="/assets/tw.css" onerror="__twFallback()" />
 </head>
 
 <body class="ambient font-sans text-white/90 min-h-screen relative">

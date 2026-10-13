@@ -4,3 +4,6 @@ wrangler.jsonc
 README.md
 CNAME
 src
+tailwind.config.js
+tw.in.css
+node_modules
