@@ -711,6 +711,7 @@
     .vs-invite { margin: 0 auto 1.5rem; max-width: 40rem; padding: 1.1rem 1rem 1.2rem; border-radius: var(--r-lg); background: var(--paper); border: 1px solid var(--line); text-align: center; }
     .vs-invite-t { font-weight: 800; font-size: 1.1rem; color: var(--wine); }
     .vs-invite-s { margin: .35rem 0 .8rem; font-size: .88rem; color: var(--muted); }
+    .yc-ic { width: 1.4em; height: 1.4em; flex: none; }
     .sh-story .ic { background: linear-gradient(180deg, #7A0F2A, #E8753D); color: #fff; }
   </style>
   <!-- 내부 방문 제외: ?noga=1로 한 번 열면 이 브라우저는 집계에서 빠짐 -->
@@ -838,8 +839,8 @@
                 </figure>
                 <p id="r-pct" class="r-pct" hidden></p>
                 <div class="r-actions">
-                  <button type="button" id="vs-top" class="btn btn-primary" data-i18n="vsTop">💞 Check your painting match with a friend</button>
-                  <button type="button" id="story-top" class="btn btn-ghost" data-i18n="storyTop">📱 Post to your story</button>
+                  <button type="button" id="vs-top" class="btn btn-primary"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg><span data-i18n="vsTop">Check your painting match with a friend</span></button>
+                  <button type="button" id="story-top" class="btn btn-ghost"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.2"/><path d="M10.5 5h3"/><circle cx="12" cy="13" r="3"/><circle cx="12" cy="13" r=".6" fill="currentColor"/></svg><span data-i18n="storyTop">Post to your story</span></button>
                 </div>
                 <div id="fb" class="fb-box">
                   <p class="fb-q" data-i18n="fbQ">Does this result feel like you?</p>
@@ -950,7 +951,7 @@
                 <div class="vs-invite mt-6">
                   <p class="vs-invite-t" data-i18n="vsInviteT">Painting match with a friend</p>
                   <p class="vs-invite-s" data-i18n="vsInviteS"></p>
-                  <button type="button" id="vs-send" class="btn btn-primary" data-i18n="vsSend">💞 Send the match test</button>
+                  <button type="button" id="vs-send" class="btn btn-primary"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg><span data-i18n="vsSend">Send the match test</span></button>
                 </div>
                 <div class="share-url mt-6">
                   <input id="share-url" type="text" readonly aria-label="Share link" />
@@ -5454,12 +5455,12 @@
       fbPhYes: '어떤 점이 맞았는지 한 줄 남겨 주세요 (선택)', fbPhNo: '어떤 점이 달랐는지 한 줄 남겨 주세요 (선택)',
       fbSend: '보내기', fbThanks: '고마워요! 남겨 주신 의견으로 더 잘 맞게 고칠게요.',
       pctLine: '나와 같은 유형은 전체의 {p}% · 지금까지 {n}명이 해봤어요',
-      vsTop: '💞 친구랑 그림 궁합 보기', storyTop: '📱 스토리에 올리기',
+      vsTop: '친구랑 그림 궁합 보기', storyTop: '스토리에 올리기',
       vsInviteT: '친구랑 그림 궁합 보기', vsInviteS: '링크를 받은 친구가 그림을 고르면, 둘의 그림 궁합이 %로 나와요.',
-      vsSend: '💞 궁합 테스트 보내기', vsShareText: '나랑 그림 궁합 몇 %일까? 그림 몇 장만 골라 봐!',
-      vsBanner: '💞 ‘{t}’ 친구가 그림 궁합 테스트를 보냈어요. 아래 그림을 고르면 둘의 궁합이 나와요.',
+      vsSend: '궁합 테스트 보내기', vsShareText: '나랑 그림 궁합 몇 %일까? 그림 몇 장만 골라 봐!',
+      vsBanner: '‘{t}’ 친구가 그림 궁합 테스트를 보냈어요. 아래 그림을 고르면 둘의 궁합이 나와요.',
       vsKick: '친구와 나의 그림 궁합', vsFriend: '친구', vsMe: '나', vsShared: '둘 다 고른 그림 {n}점',
-      vsSendBack: '💞 이 궁합 결과 보내기', vsBackText: '우리 그림 궁합 {p}% — {l}. 너도 나랑 해볼래?',
+      vsSendBack: '이 궁합 결과 보내기', vsBackText: '우리 그림 궁합 {p}% — {l}. 너도 나랑 해볼래?',
       vsLabels: ['같은 그림 앞에서 멈춰 서는 사이', '취향이 척척 통하는 사이', '서로의 플레이리스트가 궁금한 사이', '정반대라 더 재미있는 사이'],
       vsCopied: '링크를 복사했어요. 카카오톡 대화방에 붙여 넣어 보내 보세요.',
       shareStory: '스토리용 이미지 (9:16)', storyKick: '나의 오늘 그림 유형', storyListen: '오늘 들을 곡',
@@ -5471,12 +5472,12 @@
       fbPhYes: 'What felt right? One line (optional)', fbPhNo: 'What felt off? One line (optional)',
       fbSend: 'Send', fbThanks: 'Thank you! We’ll use this to make the result fit better.',
       pctLine: '{p}% of people share your type · {n} people so far',
-      vsTop: '💞 Check your painting match with a friend', storyTop: '📱 Post to your story',
+      vsTop: 'Check your painting match with a friend', storyTop: 'Post to your story',
       vsInviteT: 'Painting match with a friend', vsInviteS: 'When your friend picks their paintings, you both see your match as a %.',
-      vsSend: '💞 Send the match test', vsShareText: 'How well do our tastes match? Just pick a few paintings!',
-      vsBanner: '💞 Your friend (“{t}”) sent you a painting match test. Pick the paintings below to see your match.',
+      vsSend: 'Send the match test', vsShareText: 'How well do our tastes match? Just pick a few paintings!',
+      vsBanner: 'Your friend (“{t}”) sent you a painting match test. Pick the paintings below to see your match.',
       vsKick: 'Painting match with your friend', vsFriend: 'Friend', vsMe: 'Me', vsShared: '{n} painting(s) you both picked',
-      vsSendBack: '💞 Share this match', vsBackText: 'Our painting match: {p}% — {l}. Want to try with me?',
+      vsSendBack: 'Share this match', vsBackText: 'Our painting match: {p}% — {l}. Want to try with me?',
       vsLabels: ['You stop at the same painting', 'Your tastes click', 'Curious about each other’s playlist', 'Opposites — and that’s the fun'],
       vsCopied: 'Link copied. Paste it into a chat to send.',
       shareStory: 'Story image (9:16)', storyKick: 'MY PAINTING TYPE TODAY', storyListen: 'Today’s listening',
@@ -5488,18 +5489,19 @@
       fbPhYes: 'どこが合っていたか一言どうぞ(任意)', fbPhNo: 'どこがちがったか一言どうぞ(任意)',
       fbSend: '送る', fbThanks: 'ありがとうございます!いただいた声で、もっと合うように直します。',
       pctLine: '同じタイプは全体の{p}% · これまで{n}人が参加',
-      vsTop: '💞 友だちと絵の相性を見る', storyTop: '📱 ストーリーに載せる',
+      vsTop: '友だちと絵の相性を見る', storyTop: 'ストーリーに載せる',
       vsInviteT: '友だちと絵の相性を見る', vsInviteS: 'リンクを受け取った友だちが絵を選ぶと、ふたりの相性が%で出ます。',
-      vsSend: '💞 相性テストを送る', vsShareText: '私と絵の相性は何%?絵を数枚選ぶだけ!',
-      vsBanner: '💞「{t}」の友だちから絵の相性テストが届きました。下の絵を選ぶと、ふたりの相性がわかります。',
+      vsSend: '相性テストを送る', vsShareText: '私と絵の相性は何%?絵を数枚選ぶだけ!',
+      vsBanner: '「{t}」の友だちから絵の相性テストが届きました。下の絵を選ぶと、ふたりの相性がわかります。',
       vsKick: '友だちと私の絵の相性', vsFriend: '友だち', vsMe: '私', vsShared: 'ふたりとも選んだ絵 {n}点',
-      vsSendBack: '💞 この相性を送る', vsBackText: '私たちの絵の相性は{p}% — {l}。私ともやってみる?',
+      vsSendBack: 'この相性を送る', vsBackText: '私たちの絵の相性は{p}% — {l}。私ともやってみる?',
       vsLabels: ['同じ絵の前で立ち止まるふたり', '好みがぴったり合うふたり', 'お互いのプレイリストが気になるふたり', '正反対だからこそ面白いふたり'],
       vsCopied: 'リンクをコピーしました。トークに貼り付けて送ってください。',
       shareStory: 'ストーリー用画像 (9:16)', storyKick: '今日の私の絵のタイプ', storyListen: '今日聴く曲',
       storyCta: '私との絵の相性は何%?', storyTap: '画像の準備ができました。もう一度押すと共有できます。',
       storySaved: '画像を保存しました。ストーリーに載せてみて!',
     });
+    const YC_MATCH_ICON = '<svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg>';
     const devOf = () => (window.matchMedia && matchMedia('(max-width: 639px)').matches) ? 'mobile' : 'pc';
     const typeName = m => TYPES[m] ? (isLocal() ? TYPES[m][1] : TYPES[m][0]) : '';
     const myMood = () => { const sel = selected(); return sel.length ? dominantMood(sel) : ''; };
@@ -5573,7 +5575,7 @@
       });
       box.append(k, p, l, pair);
       if (r.shared) { const sh = document.createElement('p'); sh.className = 'vs-shared'; sh.textContent = t.vsShared.replace('{n}', r.shared); box.appendChild(sh); }
-      const b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-primary'; b.textContent = t.vsSendBack;
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-primary'; b.innerHTML = YC_MATCH_ICON; b.append(t.vsSendBack);
       b.addEventListener('click', () => sendLink(vsUrl(), t.vsBackText.replace('{p}', r.pct).replace('{l}', label), 'match_result'));
       box.appendChild(b);
       box.hidden = false;
