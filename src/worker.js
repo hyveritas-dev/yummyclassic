@@ -185,11 +185,11 @@ const ADMIN_HASH = 'b549ab8e45bf613ffd6031b9aa8f32a0e0d85145dcb20eb4296c6c1ea851
 const SITE_LANGS = ['ko', 'en', 'ja'];
 const OG_TXT = {
   ko: { type: '나의 오늘 그림 유형은 ‘{t}’', typeDesc: '그림 몇 장만 고르면 오늘의 클래식이 나와요. 너는 어떤 그림에 끌려?',
-        match: '친구가 화음 보기 링크를 보냈어요', matchDesc: '그림 몇 장만 고르면 우리 둘의 화음률이 나와요.' },
+        match: '소중한 사람과 나, 그림으로 알아본 화음은 몇 %?', matchDesc: '화음 링크가 도착했어요. 그림 몇 장만 고르면 두 분의 화음과 화음률이 나와요.' },
   en: { type: 'My painting type today: “{t}”', typeDesc: 'Pick a few paintings and today’s classical finds you. Which one draws you?',
-        match: 'A friend sent you a harmony link', matchDesc: 'Pick a few paintings and see your harmony rate.' },
+        match: 'You and someone special: what % harmony do your paintings show?', matchDesc: 'A harmony link for you. Pick a few paintings to see your harmony and its rate.' },
   ja: { type: '今日の私の絵のタイプは「{t}」', typeDesc: '絵を数枚選ぶだけで、今日のクラシックが見つかります。',
-        match: '友だちから和音リンクが届きました', matchDesc: '絵を数枚選ぶだけで、ふたりの和音率がわかります。' },
+        match: '大切な人と私、絵でわかる和音は何%?', matchDesc: '和音リンクが届きました。絵を数枚選ぶと、ふたりの和音と和音率がわかります。' },
 };
 
 export class Store extends DurableObject {
