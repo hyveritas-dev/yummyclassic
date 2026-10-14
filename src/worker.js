@@ -185,10 +185,13 @@ const ADMIN_HASH = 'b549ab8e45bf613ffd6031b9aa8f32a0e0d85145dcb20eb4296c6c1ea851
 const SITE_LANGS = ['ko', 'en', 'ja'];
 const OG_TXT = {
   ko: { type: '나의 오늘 그림 유형은 ‘{t}’', typeDesc: '그림 몇 장만 고르면 오늘의 클래식이 나와요. 어떤 그림에 끌리세요?',
+        pair: '두 분의 화음 결과지가 도착했어요', pairDesc: '그림으로 알아본 소중한 사람과 나의 화음, 지금 열어 보세요.',
         match: '소중한 사람과 나, 그림으로 알아본 화음은 몇 %?', matchDesc: '화음 링크가 도착했어요. 그림 몇 장만 고르면 두 분의 화음과 화음률이 나와요.' },
   en: { type: 'My painting type today: “{t}”', typeDesc: 'Pick a few paintings and today’s classical finds you. Which one draws you?',
+        pair: 'Your harmony report has arrived', pairDesc: 'The harmony the two of you found through paintings. Open it now.',
         match: 'You and someone special: what % harmony do your paintings show?', matchDesc: 'A harmony link for you. Pick a few paintings to see your harmony and its rate.' },
   ja: { type: '今日の私の絵のタイプは「{t}」', typeDesc: '絵を数枚選ぶだけで、今日のクラシックが見つかります。',
+        pair: 'ふたりの和音レポートが届きました', pairDesc: '絵で見つけた大切な人との和音を、今すぐ開いてみてください。',
         match: '大切な人と私、絵でわかる和音は何%?', matchDesc: '和音リンクが届きました。絵を数枚選ぶと、ふたりの和音と和音率がわかります。' },
 };
 
@@ -276,7 +279,7 @@ async function feedback(request, env, ctx, url) {
 
 // Shared links: link previews (KakaoTalk, X, Facebook…) read og: tags without running scripts, so the worker writes them.
 // POST /api/short {q}  ->  {code, url}: a short /s/<code> link for a shared result or match link
-const SHORT_KEYS = ['e', 'p', 'a', 't', 'vm', 've', 'vp', 'lang'];
+const SHORT_KEYS = ['e', 'p', 'a', 't', 'vm', 've', 'vp', 'pr', 'lang'];
 const B62 = '0123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';   // no l/I/O
 function canonQuery(raw) {
   const q = new URLSearchParams(String(raw || '')), out = new URLSearchParams();
@@ -318,7 +321,8 @@ async function page(request, env, url, shortQ) {
     if (res.status !== 200 || !ct.includes('text/html')) return res;
     const lang = SITE_LANGS.includes(q.get('lang')) ? q.get('lang') : 'ko', T = OG_TXT[lang], img = lang === 'ko' ? 'ko' : 'en';
     let title, desc, image;
-    if (q.get('vm') && TYPES[q.get('vm')]) { title = T.match; desc = T.matchDesc; image = '/og/match-' + img + '.png'; }
+    if (q.get('pr') === '1' && q.get('vm') && TYPES[q.get('vm')]) { title = T.pair; desc = T.pairDesc; image = '/og/match-' + img + '.png'; }
+    else if (q.get('vm') && TYPES[q.get('vm')]) { title = T.match; desc = T.matchDesc; image = '/og/match-' + img + '.png'; }
     else if (q.get('p') && TYPES[q.get('t')]) { title = T.type.replace('{t}', TYPES[q.get('t')][lang]); desc = T.typeDesc; image = '/og/' + q.get('t') + '-' + img + '.png'; }
     else if (!shortQ) return res;
     const abs = url.origin + image, esc = v => v.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');

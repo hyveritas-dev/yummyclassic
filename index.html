@@ -5556,7 +5556,9 @@
       vsSend: '화음 측정 링크 보내기', vsShareText: '소중한 사람과 나, 그림으로 알아본 화음은 몇 %? 그림 몇 장만 골라 주세요.',
       vsBanner: '‘{t}’ 유형인 분이 화음 링크를 보냈어요. 소중한 사람과 나, 그림으로 알아본 화음은 몇 %? 아래 그림을 골라 보세요.',
       vsKick: '소중한 사람과 나의 화음률', vsFriend: '보낸 분', vsMe: '나', vsShared: '둘 다 고른 그림 {n}점',
-      vsSendBack: '이 화음 결과 보내기', vsBackText: '소중한 사람과 나, 그림으로 알아본 화음은 {p}% — {l}. 당신과의 화음도 궁금해요.',
+      vsSendBack: '이 화음 결과지 보내기', vsBackText: '소중한 사람과 나, 그림으로 알아본 화음은 {p}% — {l}. 우리 둘의 화음 결과지를 보내요.',
+      vsPairKick: '두 분의 화음 결과지', vsPairA: '처음 링크를 보낸 분', vsPairB: '그림을 고른 분', vsPairTry: '나도 소중한 사람과 화음 보기',
+      vsPairBanner: '두 분이 그림으로 알아본 화음 결과지가 도착했어요.',
       vsLabels: ['완전한 화음 · 같은 그림 앞에서 멈춰 서는 사이', '아름다운 화음 · 취향이 잘 어울리는 사이', '잔잔한 하모니 · 서로의 곡이 궁금한 사이', '서로 다른 두 선율 · 그래서 더 풍성한 사이'],
       vsCopied: '화음 측정 링크를 복사했어요. 카카오톡이나 문자 창에 붙여 넣어 보내 주세요.',
       shCopiedShort: '링크를 복사했어요', shOpened: '{n} 공유 창을 열었어요. 이어서 보내 주세요.', shDone: '전달했어요. 고마워요!', shCopyFail: '복사가 안 됐어요. 주소 칸을 길게 눌러 복사해 주세요.',
@@ -5578,7 +5580,9 @@
       vsSend: 'Send a harmony-test link', vsShareText: 'You and me: what % harmony do our paintings show? Pick a few paintings.',
       vsBanner: 'Someone special (“{t}”) sent you a harmony link. Pick the paintings below to see your harmony rate.',
       vsKick: 'Your harmony rate', vsFriend: 'Sender', vsMe: 'Me', vsShared: '{n} painting(s) you both picked',
-      vsSendBack: 'Share this harmony', vsBackText: 'Our harmony, found through paintings: {p}% — {l}. I’d love to see ours too.',
+      vsPairKick: 'Your harmony report', vsPairA: 'Sent the link', vsPairB: 'Picked the paintings', vsPairTry: 'See my harmony with someone special',
+      vsPairBanner: 'A harmony report for the two of you has arrived.',
+      vsSendBack: 'Send this harmony report', vsBackText: 'Our harmony, found through paintings: {p}% — {l}. I’d love to see ours too.',
       vsLabels: ['Perfect harmony', 'Beautiful harmony', 'Gentle harmony', 'Two different melodies, richer together'],
       vsCopied: 'Harmony-test link copied. Paste it into a chat or text to send.',
       shCopiedShort: 'Link copied', shOpened: 'The {n} share window is open. Finish sending there.', shDone: 'Sent. Thank you!', shCopyFail: 'Couldn’t copy. Press and hold the address box to copy it.',
@@ -5600,7 +5604,9 @@
       vsSend: '和音を測るリンクを送る', vsShareText: '大切な人と私、絵でわかる和音は何%?絵を数枚選んでください。',
       vsBanner: '「{t}」タイプの方から和音リンクが届きました。下の絵を選ぶと、ふたりの和音率がわかります。',
       vsKick: '大切な人と私の和音率', vsFriend: '送った方', vsMe: '私', vsShared: 'ふたりとも選んだ絵 {n}点',
-      vsSendBack: 'この和音を送る', vsBackText: '大切な人と私、絵でわかる和音は{p}% — {l}。あなたとの和音も知りたいです。',
+      vsPairKick: 'ふたりの和音レポート', vsPairA: 'リンクを送った方', vsPairB: '絵を選んだ方', vsPairTry: '私も大切な人と和音を見る',
+      vsPairBanner: 'ふたりが絵で見つけた和音レポートが届きました。',
+      vsSendBack: 'この和音レポートを送る', vsBackText: '大切な人と私、絵でわかる和音は{p}% — {l}。あなたとの和音も知りたいです。',
       vsLabels: ['完全な和音', '美しい和音', 'やさしいハーモニー', 'ちがう二つの旋律、だから豊か'],
       vsCopied: '和音を測るリンクをコピーしました。トークやメッセージに貼り付けて送ってください。',
       shCopiedShort: 'リンクをコピーしました', shOpened: '{n}のシェア画面を開きました。続けて送ってください。', shDone: '送りました。ありがとうございます!', shCopyFail: 'コピーできませんでした。アドレス欄を長押ししてコピーしてください。',
@@ -5626,6 +5632,13 @@
         return { m, e: q.get('ve') === 'romantic' ? 'romantic' : 'classic', ids };
       } catch (e) { return null; }
     })();
+    // pair link (화음 결과지): my result + the person I answered, so whoever opens it sees both and the 화음률
+    const PAIR = (() => { try { return new URLSearchParams(location.search).get('pr') === '1'; } catch (e) { return false; } })();
+    function pairUrl() {
+      const q = new URLSearchParams(tasteUrl().split('?')[1] || '');
+      q.set('vm', VS.m); q.set('ve', VS.e); q.set('vp', VS.ids.join(',')); q.set('pr', '1');
+      return shareBase() + '?' + q.toString();
+    }
     function vsUrl() {
       const q = new URLSearchParams();
       q.set('vm', myMood()); q.set('ve', currentEra || 'classic'); q.set('vp', [...picks].join(',')); q.set('lang', lang);
@@ -5675,23 +5688,31 @@
     function renderVsCard() {
       const box = document.getElementById('vs-card');
       if (!box) return;
-      if (!VS || !ready() || restored) { box.hidden = true; return; }
+      if (!VS || !ready() || (restored && !PAIR)) { box.hidden = true; return; }
       const t = I18N[lang], r = matchScore(VS), label = matchLabel(r.pct);
       box.innerHTML = '';
-      const k = document.createElement('p'); k.className = 'vs-kick'; k.textContent = t.vsKick;
+      const k = document.createElement('p'); k.className = 'vs-kick'; k.textContent = PAIR ? t.vsPairKick : t.vsKick;
       const p = document.createElement('p'); p.className = 'vs-pct'; p.textContent = r.pct + '%';
       const l = document.createElement('p'); l.className = 'vs-label'; l.textContent = label;
       const pair = document.createElement('div'); pair.className = 'vs-pair';
-      [[t.vsFriend, typeName(VS.m)], [t.vsMe, typeName(myMood())]].forEach(([who, nm]) => {
+      [[PAIR ? t.vsPairA : t.vsFriend, typeName(VS.m)], [PAIR ? t.vsPairB : t.vsMe, typeName(myMood())]].forEach(([who, nm]) => {
         const d = document.createElement('div'); const s = document.createElement('small'); s.textContent = who;
         d.append(s, document.createTextNode(nm)); pair.appendChild(d);
       });
       box.append(k, p, l, pair);
       if (r.shared) { const sh = document.createElement('p'); sh.className = 'vs-shared'; sh.textContent = t.vsShared.replace('{n}', r.shared); box.appendChild(sh); }
-      const b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-primary btn-match'; b.innerHTML = '<span class="yc-badge">' + YC_MATCH_ICON + '</span>'; b.append(t.vsSendBack);
-      b.addEventListener('click', () => sendLink(vsUrl(), t.vsBackText.replace('{p}', r.pct).replace('{l}', label), 'match_result'));
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-primary btn-match'; b.innerHTML = '<span class="yc-badge">' + YC_MATCH_ICON + '</span>';
+      if (PAIR) {
+        // the receiver of a 결과지: start their own test (keeps nothing from this pair)
+        b.append(t.vsPairTry);
+        b.addEventListener('click', () => { track('pair_try'); location.href = location.pathname + '?lang=' + lang; });
+      } else {
+        b.append(t.vsSendBack);
+        b.addEventListener('click', e => { sendLink.btn = e.currentTarget; sendLink(pairUrl(), t.vsBackText.replace('{p}', r.pct).replace('{l}', label), 'match_result'); });
+      }
       box.appendChild(b);
       box.hidden = false;
+      if (PAIR) { if (!renderVsCard.seen) { renderVsCard.seen = true; track('pair_result_open', { score: r.pct }); setTimeout(() => box.scrollIntoView({ behavior: 'smooth', block: 'start' }), 900); } return; }
       if (renderVsCard.sent !== r.pct) {
         renderVsCard.sent = r.pct;
         track('match_complete', { score: r.pct, friend_type: VS.m, my_type: myMood() });
@@ -5844,6 +5865,7 @@
     renderLanding();
     restoreFromUrl();
     renderVsBanner();
+    if (PAIR && restored) { const sb = document.getElementById('shared-banner'); const sp = sb && sb.querySelector('span'); if (sp) sp.textContent = I18N[lang].vsPairBanner; renderVsCard(); }
   </script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
