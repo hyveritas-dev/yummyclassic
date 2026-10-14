@@ -351,6 +351,9 @@ async function page(request, env, url, shortQ) {
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    // short promo links: /fb1, /fb2 … → English page with visit tags (utm_campaign = fb1, fb2 …)
+    const fb = url.pathname.match(/^\/fb(\d{1,3})\/?$/);
+    if (fb) return Response.redirect(`${url.origin}/?lang=en&utm_source=facebook&utm_medium=group&utm_campaign=fb${fb[1]}`, 302);
     if (url.pathname === '/api/intl-concerts') return intlConcerts(request, env, ctx, url);
     if (url.pathname === '/api/translate') return translate(request, env, ctx, url);
     if (url.pathname === '/api/stat') return stat(request, env, ctx, url);
