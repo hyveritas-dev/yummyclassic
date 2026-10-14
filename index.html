@@ -592,7 +592,7 @@
     /* shared banner + share block */
     .shared-banner { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; justify-content: space-between; margin: 0 auto 1.5rem; max-width: 64rem;
       background: rgba(232,117,61,.14); border: 1px solid var(--apricot); border-radius: var(--r); padding: .75rem 1rem; font-weight: 600; color: var(--wine-deep); text-align: left; }
-    .share { max-width: 44rem; margin-left: auto; margin-right: auto; text-align: center; border-top: 3px solid var(--wine); padding-top: 2.5rem; }
+    .share { max-width: 64rem; margin-left: auto; margin-right: auto; text-align: center; border-top: 3px solid var(--wine); padding-top: 2.5rem; }
     .share-url { display: flex; gap: .5rem; }
     .share-url input { flex: 1; min-width: 0; border: 1px solid var(--line-strong); border-radius: var(--r); background: var(--paper); padding: .55rem .75rem; font-size: .85rem; color: var(--ink); }
     .share-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: .5rem; }
@@ -606,6 +606,7 @@
     .sh-ig .ic { background: linear-gradient(45deg, #F58529, #DD2A7B 55%, #8134AF); color: #fff; } .sh-native .ic { background: var(--wine); color: var(--vanilla); }
     .sh-toast { margin-top: .75rem; min-height: 1.25rem; font-size: .85rem; font-weight: 600; color: var(--apricot-deep); opacity: 0; transition: opacity .3s ease; }
     .sh-toast.on { opacity: 1; }
+    #sh-toast { display: none; }   /* the floating message (#yc-toast) says it instead */
 
 
     .why-line { display: block; margin-top: .2rem; font-size: .78rem; color: var(--apricot-deep); font-weight: 600; }
@@ -719,6 +720,29 @@
     .yc-badge { width: 44px; height: 44px; padding: 0 !important; margin: 0 !important; box-sizing: border-box; border-radius: 50%; background: var(--vanilla); color: var(--wine); display: grid; place-items: center; flex: none; }
     .yc-badge .yc-ic { width: 30px; height: 30px; stroke-width: 2; }
     @media (max-width: 639px) { .share-grid { grid-template-columns: 1fr; } .sh-btn { justify-content: flex-start; padding: .8rem 1rem; } }
+    /* wide screens: use the full width of the taste card */
+    .r-under { max-width: 64rem; margin: 1.6rem auto 0; display: grid; gap: 1rem; align-items: stretch; }
+    .r-under .r-ask { margin-top: 0; }
+    .r-under .fb-box { margin: 0; max-width: none; display: flex; flex-direction: column; justify-content: center; }
+    .r-left { display: flex; flex-direction: column; justify-content: center; }
+    @media (min-width: 768px) {
+      .r-under { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+      .r-left { padding: 1rem 1.2rem; border-radius: var(--r-lg); background: var(--paper); border: 1px solid var(--line); }
+      .r-left .r-actions { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: stretch; }
+      .r-left .r-actions .btn { width: 100%; }
+      .vs-invite { max-width: none; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; text-align: left; padding: 1.2rem 1.5rem; }
+      .vs-invite .vs-invite-s { margin-bottom: 0; }
+      .vs-invite .btn { flex: none; }
+    }
+    /* reaction when a share button is pressed, and a floating message that is always on screen */
+    .tap-pop { animation: tapPop .35s var(--ease); }
+    @keyframes tapPop { 0% { transform: scale(1); } 40% { transform: scale(.94); } 100% { transform: scale(1); } }
+    .yc-toast { position: fixed; left: 50%; bottom: calc(1.25rem + env(safe-area-inset-bottom)); z-index: 1000; transform: translate(-50%, 1rem);
+      width: max-content; max-width: min(30rem, calc(100vw - 2rem)); box-sizing: border-box; padding: .85rem 1.1rem; border-radius: 10px; background: var(--wine-deep); color: var(--vanilla);
+      font-size: .92rem; font-weight: 600; line-height: 1.45; text-align: center; box-shadow: 0 14px 30px -12px rgba(42,8,16,.55);
+      opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s var(--ease); }
+    .yc-toast.on { opacity: 1; transform: translate(-50%, 0); }
+    .yc-toast b { color: #F3A77B; }
     .sh-story .ic { background: linear-gradient(180deg, #7A0F2A, #E8753D); color: #fff; }
   </style>
   <!-- 내부 방문 제외: ?noga=1로 한 번 열면 이 브라우저는 집계에서 빠짐 -->
@@ -845,10 +869,13 @@
                   </div>
                 </figure>
                 <p id="r-pct" class="r-pct" hidden></p>
+                <div class="r-under">
+                <div class="r-left">
                 <p id="r-ask" class="r-ask" data-i18n="vsInviteT" hidden>You and someone special: what % harmony do your paintings show?</p>
                 <div class="r-actions">
                   <button type="button" id="vs-top" class="btn btn-primary btn-match"><span class="yc-badge"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg></span><span data-i18n="vsTop">Check your painting match with a friend</span></button>
                   <button type="button" id="story-top" class="btn btn-ghost"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.2"/><path d="M10.5 5h3"/><circle cx="12" cy="13" r="3"/><circle cx="12" cy="13" r=".6" fill="currentColor"/></svg><span data-i18n="storyTop">Post to your story</span></button>
+                </div>
                 </div>
                 <div id="fb" class="fb-box">
                   <p class="fb-q" data-i18n="fbQ">Does this result feel like you?</p>
@@ -861,6 +888,7 @@
                     <button type="button" id="fb-send" class="btn btn-primary btn-sm" data-i18n="fbSend">Send</button>
                   </div>
                   <p class="fb-thanks" data-i18n="fbThanks" hidden>Thank you!</p>
+                </div>
                 </div>
                 <div id="read-wrap">
                 <p class="mt-20 eyebrow" data-i18n="readEyebrow">Behind your picks</p>
@@ -957,8 +985,10 @@
                 <h3 class="mt-2 font-serif text-3xl sm:text-5xl font-semibold tracking-tight" data-i18n="shareTitle">Send it to a friend</h3>
                 <p class="mt-3 text-white/70" data-i18n="shareSub"></p>
                 <div class="vs-invite mt-6">
+                  <div class="vs-invite-txt">
                   <p class="vs-invite-t" data-i18n="vsInviteT">Painting match with a friend</p>
                   <p class="vs-invite-s" data-i18n="vsInviteS"></p>
+                  </div>
                   <button type="button" id="vs-send" class="btn btn-primary btn-match"><span class="yc-badge"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg></span><span data-i18n="vsSend">Send the match test</span></button>
                 </div>
                 <div class="share-url mt-6">
@@ -976,6 +1006,7 @@
                 </div>
                 <p class="mt-3 text-xs text-white/60" data-i18n="shareInsta"></p>
                 <p id="sh-toast" class="sh-toast" role="status" aria-live="polite"></p>
+                <div id="yc-toast" class="yc-toast" role="status" aria-live="polite"></div>
                 <button type="button" id="sh-go" class="btn btn-primary sh-go" hidden data-i18n="igShareNow">Share the 3 images</button>
                 <div id="sh-preview" class="sh-preview" hidden></div>
               </div>
@@ -5192,15 +5223,32 @@
       shorten(url).then(su => { if (box.value === url) box.value = su; });
       try { history.replaceState(null, '', location.pathname + url.slice(url.indexOf('?'))); } catch (e) {}
     }
+    // every share action answers with a message that floats at the bottom of the screen, wherever the button was
     function toast(msg) {
       const el = document.getElementById('sh-toast');
-      el.textContent = msg; el.classList.add('on');
-      clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('on'), 2600);
+      if (el) { el.textContent = msg; el.classList.add('on'); }
+      const ft = document.getElementById('yc-toast');
+      if (ft) { ft.textContent = msg; ft.classList.remove('on'); void ft.offsetWidth; ft.classList.add('on'); }
+      clearTimeout(toast._t); toast._t = setTimeout(() => { if (el) el.classList.remove('on'); if (ft) ft.classList.remove('on'); }, 3400);
     }
+    // copy that works even where the clipboard API is blocked (in-app browsers, http)
+    async function copyText(text) {
+      try { await navigator.clipboard.writeText(text); return true; } catch (e) {}
+      try {
+        const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', '');
+        ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;'; document.body.appendChild(ta);
+        ta.select(); ta.setSelectionRange(0, text.length); const ok = document.execCommand('copy'); ta.remove(); return ok;
+      } catch (e) { return false; }
+    }
+    document.addEventListener('click', e => {
+      const b = e.target.closest && e.target.closest('.sh-btn, .btn-match, #sh-copy, #story-top, .fb-btn');
+      if (!b) return;
+      b.classList.remove('tap-pop'); void b.offsetWidth; b.classList.add('tap-pop');
+    }, true);
     async function copyLink() {
       const url = shortNow(tasteUrl());
-      try { await navigator.clipboard.writeText(url); }
-      catch (e) { const b = document.getElementById('share-url'); b.select(); try { document.execCommand('copy'); } catch (_) {} }
+      copyLink.ok = await copyText(url);
+      if (!copyLink.ok) { const b = document.getElementById('share-url'); if (b) { b.focus(); b.select(); } }
       return url;
     }
     function shareText() { const s = tasteSummary(); return I18N[lang].shareText.replace('{era}', s.era).replace('{type}', s.type); }
@@ -5375,11 +5423,11 @@
       if (kind === 'story') return shareStory();
       track('share', { method: kind });
       const url = shortNow(tasteUrl()), text = shareText(), t = I18N[lang];
-      const open = u => window.open(u, '_blank', 'noopener,width=620,height=640');
+      const open = u => { window.open(u, '_blank', 'noopener,width=620,height=640'); toast(t.shOpened.replace('{n}', (t.shNames || {})[kind] || kind)); };
       if (kind === 'facebook') open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url));
       else if (kind === 'x') open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url));
       else if (kind === 'line') open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text));
-      else if (kind === 'native') { try { await navigator.share({ title: 'Yummy Classic', text, url }); } catch (e) {} }
+      else if (kind === 'native') { try { await navigator.share({ title: 'Yummy Classic', text, url }); toast(t.shDone); } catch (e) {} }
       else if (kind === 'kakao') {
         if (await loadKakao()) {
           const S = tasteSummary(), hero = S.sel[0];
@@ -5387,8 +5435,8 @@
             content: { title: S.era + ' · ' + S.type, description: text, imageUrl: FILE(hero.f), link: { mobileWebUrl: url, webUrl: url } },
             buttons: [{ title: t.sharedCta.replace(' →', ''), link: { mobileWebUrl: url, webUrl: url } }] });
         } else if (navigator.share && /Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-          try { await navigator.share({ title: 'Yummy Classic', text, url }); } catch (e) {}
-        } else { await copyLink(); toast(t.kakaoFallback); }
+          try { await navigator.share({ title: 'Yummy Classic', text, url }); toast(t.shDone); } catch (e) {}
+        } else { await copyLink(); toast(copyLink.ok ? t.shCopiedKakao : t.shCopyFail); }
       } else if (kind === 'image') {
         const ready3 = imgCache.key === shareKey() && imgCache.files;
         const files = ready3 ? imgCache.files : (toast(t.imgMade), await prepareImages());
@@ -5442,7 +5490,7 @@
     const shSec = document.getElementById('sh-toast').closest('section') || document.getElementById('sh-toast').parentElement;
     if ('IntersectionObserver' in window) new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { prepareImages(); try { prepareStory(); } catch (e) {} } }, { rootMargin: '600px 0px' }).observe(shSec);
     document.querySelectorAll('.sh-btn').forEach(b => b.addEventListener('click', () => doShare(b.dataset.sh)));
-    document.getElementById('sh-copy').addEventListener('click', async () => { track('share', { method: 'copy_link' }); await copyLink(); toast(I18N[lang].shareCopied); });
+    document.getElementById('sh-copy').addEventListener('click', async () => { track('share', { method: 'copy_link' }); await copyLink(); toast(copyLink.ok ? I18N[lang].shareCopied : I18N[lang].shCopyFail); });
     if (navigator.share) document.querySelector('.sh-native').classList.remove('hidden');
 
     // Opening a shared taste link rebuilds the same result
@@ -5477,12 +5525,15 @@
       pctLine: '나와 같은 유형은 전체의 {p}% · 지금까지 {n}명이 해봤어요',
       vsTop: '소중한 사람과 화음 보기', storyTop: '스토리에 올리기',
       vsInviteT: '소중한 사람과 나, 그림으로 알아본 화음은 몇 %?', vsInviteS: '링크를 받은 분이 그림을 고르면, 두 분의 화음과 화음률이 나와요.',
-      vsSend: '화음 링크 보내기', vsShareText: '소중한 사람과 나, 그림으로 알아본 화음은 몇 %? 그림 몇 장만 골라 주세요.',
+      vsSend: '화음 측정 링크 보내기', vsShareText: '소중한 사람과 나, 그림으로 알아본 화음은 몇 %? 그림 몇 장만 골라 주세요.',
       vsBanner: '‘{t}’ 유형인 분이 화음 링크를 보냈어요. 소중한 사람과 나, 그림으로 알아본 화음은 몇 %? 아래 그림을 골라 보세요.',
       vsKick: '소중한 사람과 나의 화음률', vsFriend: '보낸 분', vsMe: '나', vsShared: '둘 다 고른 그림 {n}점',
       vsSendBack: '이 화음 결과 보내기', vsBackText: '소중한 사람과 나, 그림으로 알아본 화음은 {p}% — {l}. 당신과의 화음도 궁금해요.',
       vsLabels: ['완전한 화음 · 같은 그림 앞에서 멈춰 서는 사이', '아름다운 화음 · 취향이 잘 어울리는 사이', '잔잔한 하모니 · 서로의 곡이 궁금한 사이', '서로 다른 두 선율 · 그래서 더 풍성한 사이'],
-      vsCopied: '링크를 복사했어요. 카카오톡 대화방에 붙여 넣어 보내 보세요.',
+      vsCopied: '화음 측정 링크를 복사했어요. 카카오톡이나 문자 창에 붙여 넣어 보내 주세요.',
+      shOpened: '{n} 공유 창을 열었어요. 이어서 보내 주세요.', shDone: '전달했어요. 고마워요!', shCopyFail: '복사가 안 됐어요. 주소 칸을 길게 눌러 복사해 주세요.',
+      shCopiedKakao: '결과 링크를 복사했어요. 카카오톡 대화방에 붙여 넣어 보내 주세요.', shStoryMade: '스토리 이미지를 만들고 있어요…',
+      shNames: { line: '라인', facebook: '페이스북', x: 'X' },
       shKakao: '카카오톡으로 보내기', shLine: '라인으로 보내기', shFb: '페이스북으로 공유하기', shX: 'X로 공유하기',
       shareImage: '인스타그램 피드로 공유하기', shareNative: '다른 앱으로 공유하기',
       shareStory: '인스타그램 스토리로 공유하기', storyKick: '나의 오늘 그림 유형', storyListen: '오늘 들을 곡',
@@ -5496,12 +5547,15 @@
       pctLine: '{p}% of people share your type · {n} people so far',
       vsTop: 'See your harmony with someone special', storyTop: 'Post to your story',
       vsInviteT: 'You and someone special: what % harmony do your paintings show?', vsInviteS: 'When they pick their paintings, you’ll both see your harmony and its rate.',
-      vsSend: 'Send a harmony link', vsShareText: 'You and me: what % harmony do our paintings show? Pick a few paintings.',
+      vsSend: 'Send a harmony-test link', vsShareText: 'You and me: what % harmony do our paintings show? Pick a few paintings.',
       vsBanner: 'Someone special (“{t}”) sent you a harmony link. Pick the paintings below to see your harmony rate.',
       vsKick: 'Your harmony rate', vsFriend: 'Sender', vsMe: 'Me', vsShared: '{n} painting(s) you both picked',
       vsSendBack: 'Share this harmony', vsBackText: 'Our harmony, found through paintings: {p}% — {l}. I’d love to see ours too.',
       vsLabels: ['Perfect harmony', 'Beautiful harmony', 'Gentle harmony', 'Two different melodies, richer together'],
-      vsCopied: 'Link copied. Paste it into a chat to send.',
+      vsCopied: 'Harmony-test link copied. Paste it into a chat or text to send.',
+      shOpened: 'The {n} share window is open. Finish sending there.', shDone: 'Sent. Thank you!', shCopyFail: 'Couldn’t copy. Press and hold the address box to copy it.',
+      shCopiedKakao: 'Result link copied. Paste it into a KakaoTalk chat to send.', shStoryMade: 'Making your story image…',
+      shNames: { line: 'LINE', facebook: 'Facebook', x: 'X' },
       shKakao: 'Send via KakaoTalk', shLine: 'Send via LINE', shFb: 'Share on Facebook', shX: 'Share on X',
       shareImage: 'Share to Instagram feed', shareNative: 'Share with another app',
       shareStory: 'Share to Instagram Story', storyKick: 'MY PAINTING TYPE TODAY', storyListen: 'Today’s listening',
@@ -5515,12 +5569,15 @@
       pctLine: '同じタイプは全体の{p}% · これまで{n}人が参加',
       vsTop: '大切な人との和音を見る', storyTop: 'ストーリーに載せる',
       vsInviteT: '大切な人と私、絵でわかる和音は何%?', vsInviteS: 'リンクを受け取った方が絵を選ぶと、ふたりの和音と和音率が出ます。',
-      vsSend: '和音リンクを送る', vsShareText: '大切な人と私、絵でわかる和音は何%?絵を数枚選んでください。',
+      vsSend: '和音を測るリンクを送る', vsShareText: '大切な人と私、絵でわかる和音は何%?絵を数枚選んでください。',
       vsBanner: '「{t}」タイプの方から和音リンクが届きました。下の絵を選ぶと、ふたりの和音率がわかります。',
       vsKick: '大切な人と私の和音率', vsFriend: '送った方', vsMe: '私', vsShared: 'ふたりとも選んだ絵 {n}点',
       vsSendBack: 'この和音を送る', vsBackText: '大切な人と私、絵でわかる和音は{p}% — {l}。あなたとの和音も知りたいです。',
       vsLabels: ['完全な和音', '美しい和音', 'やさしいハーモニー', 'ちがう二つの旋律、だから豊か'],
-      vsCopied: 'リンクをコピーしました。トークに貼り付けて送ってください。',
+      vsCopied: '和音を測るリンクをコピーしました。トークやメッセージに貼り付けて送ってください。',
+      shOpened: '{n}のシェア画面を開きました。続けて送ってください。', shDone: '送りました。ありがとうございます!', shCopyFail: 'コピーできませんでした。アドレス欄を長押ししてコピーしてください。',
+      shCopiedKakao: '結果のリンクをコピーしました。カカオトークに貼り付けて送ってください。', shStoryMade: 'ストーリー画像を作っています…',
+      shNames: { line: 'LINE', facebook: 'Facebook', x: 'X' },
       shKakao: 'カカオトークで送る', shLine: 'LINEで送る', shFb: 'Facebookでシェア', shX: 'Xでシェア',
       shareImage: 'Instagramのフィードでシェア', shareNative: 'ほかのアプリでシェア',
       shareStory: 'Instagramのストーリーでシェア', storyKick: '今日の私の絵のタイプ', storyListen: '今日聴く曲',
@@ -5573,11 +5630,10 @@
     async function sendLink(url, text, method) {
       url = shortNow(url);
       track('share', { method });
-      if (navigator.share && isMobile()) { try { await navigator.share({ title: 'Yummy Classic', text, url }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
-      try { await navigator.clipboard.writeText(text + ' ' + url); } catch (e) {}
-      toast(I18N[lang].vsCopied);
+      if (navigator.share && isMobile()) { try { await navigator.share({ title: 'Yummy Classic', text, url }); toast(I18N[lang].shDone); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+      toast((await copyText(text + ' ' + url)) ? I18N[lang].vsCopied : I18N[lang].shCopyFail);
     }
-    function sendVs() { if (ready() && !restored) sendLink(vsUrl(), I18N[lang].vsShareText, 'match_invite'); }
+    function sendVs() { if (!ready() || restored) return; sendLink(vsUrl(), I18N[lang].vsShareText, 'match_invite'); }
 
     function renderVsBanner() {
       const el = document.getElementById('vs-banner');
@@ -5727,7 +5783,7 @@
       if (!ready()) return;
       track('share', { method: 'story' });
       const t = I18N[lang], have = storyCache.key === shareKey() && storyCache.file;
-      const f = have ? storyCache.file : (toast(t.imgMade), await prepareStory());
+      const f = have ? storyCache.file : (toast(t.shStoryMade), await prepareStory());
       if (!f) { toast(t.imgFail); return; }
       if (isMobile() && navigator.canShare && navigator.canShare({ files: [f] })) {
         if (have) { try { await navigator.share({ files: [f] }); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
