@@ -698,6 +698,9 @@
     .vs-pair small { display: block; margin-bottom: .15rem; font-size: .72rem; font-weight: 500; opacity: .7; }
     .vs-shared { margin-top: .7rem; font-size: .85rem; opacity: .85; }
     .vs-card .btn { margin-top: 1.1rem; }
+    #r-ask[hidden] { display: none !important; }
+    .r-ask { margin: 1.4rem auto 0; max-width: 32rem; text-align: center; font-size: .95rem; font-weight: 600; color: var(--wine); line-height: 1.45; }
+    .r-ask + .r-actions { margin-top: .6rem; }
     .r-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin-top: 1.25rem; }
     .r-pct { margin-top: .9rem; font-size: .9rem; color: var(--muted); text-align: center; }
     .fb-box { max-width: 32rem; margin: 1.25rem auto 0; padding: 1rem 1rem 1.1rem; border: 1px dashed var(--line-strong); border-radius: var(--r-lg); text-align: center; }
@@ -842,6 +845,7 @@
                   </div>
                 </figure>
                 <p id="r-pct" class="r-pct" hidden></p>
+                <p id="r-ask" class="r-ask" data-i18n="vsInviteT" hidden>You and someone special: what % harmony do your paintings show?</p>
                 <div class="r-actions">
                   <button type="button" id="vs-top" class="btn btn-primary btn-match"><span class="yc-badge"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg></span><span data-i18n="vsTop">Check your painting match with a friend</span></button>
                   <button type="button" id="story-top" class="btn btn-ghost"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.2"/><path d="M10.5 5h3"/><circle cx="12" cy="13" r="3"/><circle cx="12" cy="13" r=".6" fill="currentColor"/></svg><span data-i18n="storyTop">Post to your story</span></button>
@@ -5738,6 +5742,7 @@
       const ta = document.querySelector('#fb textarea');
       if (ta) ta.placeholder = I18N[lang][fbVote < 0 ? 'fbPhNo' : 'fbPhYes'];
       const vt = document.getElementById('vs-top'); if (vt) vt.hidden = !!(restored || !ready());
+      const ask = document.getElementById('r-ask'); if (ask) ask.hidden = !!(restored || !ready());
       const fb = document.getElementById('fb'); if (fb) fb.hidden = !!restored;
     }
     document.getElementById('vs-top').addEventListener('click', sendVs);

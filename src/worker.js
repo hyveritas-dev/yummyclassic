@@ -184,7 +184,7 @@ const TYPES = {"radiant": {"en": "The Quiet Light-Catcher", "ko": "고요한 빛
 const ADMIN_HASH = 'b549ab8e45bf613ffd6031b9aa8f32a0e0d85145dcb20eb4296c6c1ea8516cb2';
 const SITE_LANGS = ['ko', 'en', 'ja'];
 const OG_TXT = {
-  ko: { type: '나의 오늘 그림 유형은 ‘{t}’', typeDesc: '그림 몇 장만 고르면 오늘의 클래식이 나와요. 너는 어떤 그림에 끌려?',
+  ko: { type: '나의 오늘 그림 유형은 ‘{t}’', typeDesc: '그림 몇 장만 고르면 오늘의 클래식이 나와요. 어떤 그림에 끌리세요?',
         match: '소중한 사람과 나, 그림으로 알아본 화음은 몇 %?', matchDesc: '화음 링크가 도착했어요. 그림 몇 장만 고르면 두 분의 화음과 화음률이 나와요.' },
   en: { type: 'My painting type today: “{t}”', typeDesc: 'Pick a few paintings and today’s classical finds you. Which one draws you?',
         match: 'You and someone special: what % harmony do your paintings show?', matchDesc: 'A harmony link for you. Pick a few paintings to see your harmony and its rate.' },
