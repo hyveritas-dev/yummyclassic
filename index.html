@@ -688,8 +688,11 @@
     }
     /* viral loop: friend match, feedback, same-type % */
     #vs-card[hidden], #vs-banner[hidden], #r-pct[hidden], #fb[hidden], #fb [hidden], #vs-top[hidden] { display: none !important; }
-    .vs-banner { max-width: 40rem; margin: .9rem auto 0; padding: .75rem 1rem; border-radius: var(--r); background: var(--apricot); color: var(--wine-deep);
-      font-size: .92rem; font-weight: 700; line-height: 1.45; text-align: center; }
+    .vs-banner { max-width: 44rem; margin: 1rem auto 0; padding: 1.1rem 1.25rem 1.15rem; border-radius: var(--r-lg); background: var(--apricot); color: var(--wine-deep);
+      line-height: 1.5; text-align: center; box-shadow: 0 12px 26px -16px rgba(77,10,26,.7); }
+    .vs-banner strong { display: block; font-size: 1.22rem; font-weight: 800; line-height: 1.4; word-break: keep-all; }
+    .vs-banner span { display: block; white-space: pre-line; margin-top: .4rem; font-size: 1.02rem; font-weight: 600; word-break: keep-all; }
+    @media (max-width: 639px) { .vs-banner strong { font-size: 1.1rem; } .vs-banner span { font-size: .96rem; } }
     .vs-card { max-width: 40rem; margin: 0 auto 1.75rem; padding: 1.6rem 1.25rem 1.4rem; border-radius: var(--r-lg); background: var(--wine); color: var(--vanilla); text-align: center; }
     .vs-kick { font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #F3A77B; }
     .vs-pct { margin-top: .3rem; font: 800 4.2rem/1 "Playfair Display", Georgia, serif; color: #F3A77B; }
@@ -5554,7 +5557,7 @@
       vsTop: '소중한 사람과 화음 보기', storyTop: '인스타그램 스토리에 올리기',
       vsInviteT: '소중한 사람과 나, 그림으로 알아본 화음은 몇 %?', vsInviteS: '링크를 받은 분이 그림을 고르면, 두 분의 화음과 화음률이 나와요.',
       vsSend: '화음 측정 링크 보내기', vsShareText: '소중한 사람과 나, 그림으로 알아본 화음은 몇 %? 그림 몇 장만 골라 주세요.',
-      vsBanner: '‘{t}’ 유형인 분이 화음 링크를 보냈어요. 소중한 사람과 나, 그림으로 알아본 화음은 몇 %? 아래 그림을 골라 보세요.',
+      vsBanner: '‘{t}’ 유형의 소중한 분이 당신과의 화음을 궁금해해요', vsBannerSub: '그림 몇 장만 고르면, 두 분의 화음률이 바로 나와요.\n오늘 당신의 마음은 어떤 그림에 머물까요?',
       vsKick: '소중한 사람과 나의 화음률', vsFriend: '보낸 분', vsMe: '나', vsShared: '둘 다 고른 그림 {n}점',
       vsSendBack: '이 화음 결과지 보내기', vsBackText: '소중한 사람과 나, 그림으로 알아본 화음은 {p}% — {l}. 우리 둘의 화음 결과지를 보내요.',
       vsPairKick: '두 분의 화음 결과지', vsPairA: '처음 링크를 보낸 분', vsPairB: '그림을 고른 분', vsPairTry: '나도 소중한 사람과 화음 보기',
@@ -5578,7 +5581,7 @@
       vsTop: 'See your harmony with someone special', storyTop: 'Post to Instagram Story',
       vsInviteT: 'You and someone special: what % harmony do your paintings show?', vsInviteS: 'When they pick their paintings, you’ll both see your harmony and its rate.',
       vsSend: 'Send a harmony-test link', vsShareText: 'You and me: what % harmony do our paintings show? Pick a few paintings.',
-      vsBanner: 'Someone special (“{t}”) sent you a harmony link. Pick the paintings below to see your harmony rate.',
+      vsBanner: 'Someone special (“{t}”) is curious about your harmony', vsBannerSub: 'Pick a few paintings and see your harmony rate right away.\nWhich painting will hold your eye today?',
       vsKick: 'Your harmony rate', vsFriend: 'Sender', vsMe: 'Me', vsShared: '{n} painting(s) you both picked',
       vsPairKick: 'Your harmony report', vsPairA: 'Sent the link', vsPairB: 'Picked the paintings', vsPairTry: 'See my harmony with someone special',
       vsPairBanner: 'A harmony report for the two of you has arrived.',
@@ -5602,7 +5605,7 @@
       vsTop: '大切な人との和音を見る', storyTop: 'Instagramのストーリーに載せる',
       vsInviteT: '大切な人と私、絵でわかる和音は何%?', vsInviteS: 'リンクを受け取った方が絵を選ぶと、ふたりの和音と和音率が出ます。',
       vsSend: '和音を測るリンクを送る', vsShareText: '大切な人と私、絵でわかる和音は何%?絵を数枚選んでください。',
-      vsBanner: '「{t}」タイプの方から和音リンクが届きました。下の絵を選ぶと、ふたりの和音率がわかります。',
+      vsBanner: '「{t}」タイプの大切な方が、あなたとの和音を知りたがっています', vsBannerSub: '絵を数枚選ぶだけで、ふたりの和音率がすぐにわかります。\n今日、あなたの心はどの絵にとまるでしょう?',
       vsKick: '大切な人と私の和音率', vsFriend: '送った方', vsMe: '私', vsShared: 'ふたりとも選んだ絵 {n}点',
       vsPairKick: 'ふたりの和音レポート', vsPairA: 'リンクを送った方', vsPairB: '絵を選んだ方', vsPairTry: '私も大切な人と和音を見る',
       vsPairBanner: 'ふたりが絵で見つけた和音レポートが届きました。',
@@ -5682,7 +5685,10 @@
       const el = document.getElementById('vs-banner');
       if (!el) return;
       if (!VS || ready()) { el.hidden = true; return; }
-      el.textContent = I18N[lang].vsBanner.replace('{t}', typeName(VS.m));
+      const t = I18N[lang]; el.innerHTML = '';
+      const h = document.createElement('strong'); h.textContent = t.vsBanner.replace('{t}', typeName(VS.m));
+      const sub = document.createElement('span'); sub.textContent = t.vsBannerSub || '';
+      el.append(h, sub);
       el.hidden = false;
     }
     function renderVsCard() {
