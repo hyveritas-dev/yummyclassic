@@ -185,11 +185,11 @@ const ADMIN_HASH = 'b549ab8e45bf613ffd6031b9aa8f32a0e0d85145dcb20eb4296c6c1ea851
 const SITE_LANGS = ['ko', 'en', 'ja'];
 const OG_TXT = {
   ko: { type: '나의 오늘 그림 유형은 ‘{t}’', typeDesc: '그림 몇 장만 고르면 오늘의 클래식이 나와요. 너는 어떤 그림에 끌려?',
-        match: '친구가 그림 궁합 테스트를 보냈어요', matchDesc: '그림 몇 장만 고르면 우리 둘의 그림 궁합이 나와요.' },
+        match: '친구가 화음 보기 링크를 보냈어요', matchDesc: '그림 몇 장만 고르면 우리 둘의 화음률이 나와요.' },
   en: { type: 'My painting type today: “{t}”', typeDesc: 'Pick a few paintings and today’s classical finds you. Which one draws you?',
-        match: 'A friend sent you a painting match test', matchDesc: 'Pick a few paintings and see how well your tastes match.' },
+        match: 'A friend sent you a harmony link', matchDesc: 'Pick a few paintings and see your harmony rate.' },
   ja: { type: '今日の私の絵のタイプは「{t}」', typeDesc: '絵を数枚選ぶだけで、今日のクラシックが見つかります。',
-        match: '友だちから絵の相性テストが届きました', matchDesc: '絵を数枚選ぶだけで、ふたりの相性がわかります。' },
+        match: '友だちから和音リンクが届きました', matchDesc: '絵を数枚選ぶだけで、ふたりの和音率がわかります。' },
 };
 
 export class Store extends DurableObject {
