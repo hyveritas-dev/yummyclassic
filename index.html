@@ -755,7 +755,68 @@
     .btn-match.is-done { background: var(--wine); color: var(--vanilla); }
     .sh-btn.is-done { background: var(--wine); border-color: var(--wine); color: var(--vanilla); }
     .sh-story .ic { background: linear-gradient(180deg, #7A0F2A, #E8753D); color: #fff; }
+
+    /* ===== Start screen: fits one screen (PC and phone); only the test is hidden while it shows ===== */
+    #intro { display: none; }
+    html.intro-on #intro { display: flex; }
+    html.intro-on main > :not(#intro), html.intro-on footer, html.intro-on .fixed.top-16 { display: none !important; }
+    .intro { position: relative; z-index: 10; height: 100vh; height: 100svh; box-sizing: border-box; overflow: hidden;
+      padding: calc(64px + 1rem) 1rem calc(1rem + env(safe-area-inset-bottom)); }
+    .intro-in { width: 100%; max-width: 72rem; margin: 0 auto; min-height: 0; display: flex; flex-direction: column; gap: 1rem; }
+    .intro-copy { flex: none; display: flex; flex-direction: column; gap: .7rem; order: 1; }
+    .intro-kick { font-size: 12px; font-weight: 700; letter-spacing: .12em; color: #F3A77B; }
+    .intro-h { margin: 0; color: var(--vanilla); font-size: clamp(1.6rem, 7.4vw, 2.2rem); line-height: 1.3; letter-spacing: -.015em; }
+    .intro-sub { margin: 0; font-size: .95rem; line-height: 1.6; color: rgba(244,233,208,.82); }
+    .intro-act { display: flex; flex-direction: column; align-items: stretch; gap: .6rem; margin-top: .35rem; }
+    .intro-cta { min-height: 3.4rem; font-size: 1.05rem; }
+    .intro-meta { margin: 0; text-align: center; font-size: .8rem; color: rgba(244,233,208,.72); }
+    .intro-ex { order: 0; flex: 1 1 auto; min-height: 0; margin: 0; display: flex; flex-direction: column; gap: .55rem; padding: .7rem;
+      border-radius: var(--r-lg); background: rgba(244,233,208,.06); border: 1px solid rgba(244,233,208,.16); }
+    .intro-ex-k { font-size: 12px; font-weight: 600; color: rgba(244,233,208,.72); }
+    .intro-pic { position: relative; flex: 1 1 auto; min-height: 110px; overflow: hidden; border-radius: var(--r); background: #2A070E; }
+    .intro-pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .intro-ex-row { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+    .intro-ex-txt { display: flex; flex-direction: column; gap: .1rem; min-width: 0; }
+    .intro-ex-s { font-size: .75rem; color: rgba(244,233,208,.72); }
+    .intro-ex-t { font-size: 1.1rem; font-weight: 700; color: var(--vanilla); line-height: 1.3; }
+    .intro-play { flex: none; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--apricot); color: var(--wine-deep); }
+    @media (max-height: 620px) and (max-width: 899px) { .intro-sub { display: none; } }
+    @media (min-width: 900px) {
+      .intro { padding: calc(64px + 2.5rem) 2.5rem 2.5rem; }
+      .intro-in { flex-direction: row; align-items: center; gap: clamp(2.5rem, 5vw, 5rem); }
+      .intro-copy { order: 0; flex: 1 1 0; gap: 1.4rem; }
+      .intro-kick { font-size: 14px; }
+      .intro-h { font-size: clamp(2.3rem, 3.6vw, 3.4rem); line-height: 1.25; }
+      .intro-sub { font-size: 1.15rem; max-width: 30rem; }
+      .intro-act { align-items: flex-start; margin-top: .5rem; }
+      .intro-cta { padding: 0 2.6rem; font-size: 1.12rem; min-height: 3.75rem; }
+      .intro-meta { text-align: left; font-size: .9rem; }
+      .intro-ex { flex: 1 1 0; align-self: stretch; max-height: 40rem; padding: 1.1rem; gap: .9rem; }
+      .intro-ex-k { font-size: 13px; }
+      .intro-ex-t { font-size: 1.45rem; }
+      .intro-ex-s { font-size: .88rem; }
+      .intro-play { width: 56px; height: 56px; }
+    }
+
+    /* ===== PC: Q2 paintings use the whole window ===== */
+    @media (min-width: 1024px) {
+      #r2-grid { width: min(calc(100vw - 4rem), 1760px); max-width: none; margin-left: 50%; margin-right: 0; translate: -50% 0; gap: 1.25rem !important; }
+      #r2-grid .tile .frame { aspect-ratio: auto !important; height: clamp(300px, calc(100svh - 460px), 760px); }
+      #r2-grid .tile .frame img { padding: 4px; }
+    }
   </style>
+  <script>
+    // Start screen: shown to first-time direct/search visitors; skipped for SNS links, shared result links and reloads mid-test
+    (function () {
+      try {
+        const q = new URLSearchParams(location.search), ref = document.referrer || '';
+        const skipParam = ['utm_source', 'utm_medium', 'utm_campaign', 'fbclid', 'igshid', 'e', 'vm', 'pr', 'go'].some(k => q.has(k));
+        const sns = /instagram\.com|facebook\.com|fb\.me|threads\.net|blog\.naver\.com|band\.us|kakao|t\.co\/|linkedin\.com/i.test(ref);
+        const started = sessionStorage.getItem('yc-started') === '1';
+        if (!skipParam && !sns && !started && location.hash !== '#choose') document.documentElement.classList.add('intro-on');
+      } catch (e) {}
+    })();
+  </script>
   <!-- 내부 방문 제외: ?noga=1로 한 번 열면 이 브라우저는 집계에서 빠짐 -->
   <script>
     try {
@@ -810,6 +871,33 @@
   </div>
 
   <main class="relative z-10">
+
+    <!-- START SCREEN: one screen, PC and phone. Skipped for SNS / shared-link visitors (see the head script). -->
+    <section id="intro" class="intro dark-band" aria-labelledby="intro-h">
+      <div class="intro-in">
+        <div class="intro-copy">
+          <p class="intro-kick" data-i18n="introKicker">Today’s classical, chosen by a painting</p>
+          <h1 id="intro-h" class="intro-h font-serif" data-i18n-html="introH1">The painting you’re drawn to<br />picks today’s classical piece</h1>
+          <p class="intro-sub" data-i18n="introSub">Pick a few paintings and get one piece for your mood in about 20 seconds.</p>
+          <div class="intro-act">
+            <button type="button" id="intro-go" class="btn btn-primary intro-cta" data-i18n="introCta">Start choosing</button>
+            <p class="intro-meta" data-i18n="introMeta">About 20 sec · No sign-up · No wrong answers</p>
+          </div>
+        </div>
+        <figure class="intro-ex">
+          <figcaption class="intro-ex-k" data-i18n="introExLabel">Your result looks like this</figcaption>
+          <div class="intro-pic"><img id="intro-img" alt="" referrerpolicy="no-referrer" decoding="async" /></div>
+          <div class="intro-ex-row">
+            <div class="intro-ex-txt">
+              <span class="intro-ex-s" data-i18n="introExKick">Today’s classical</span>
+              <span class="intro-ex-t font-serif" data-i18n="introExPiece">Debussy, “Clair de lune”</span>
+              <span class="intro-ex-s" data-i18n="introExWhy">For a day you chose Monet’s Impression, Sunrise</span>
+            </div>
+            <span class="intro-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+          </div>
+        </figure>
+      </div>
+    </section>
 
     <!-- HERO + CHOICE -->
     <section id="choose" class="stage dark-band min-h-screen pt-0 pb-20 sm:pb-28 px-4 sm:px-6">
@@ -1411,6 +1499,25 @@
       kMix: '今日のバランス', mixLean: '今日は「{g}」寄りです。',
       kEra: '古典とロマン', eraLine: '古典 {c}・ロマン {r}。建築画・人物画と名画、計{n}回の選択から、今日は{era}寄りの音楽を選びました。', eraName: { classic: '古典', romantic: 'ロマン' },
       q1Step: '{kind} {n} / {t} · {theme}', q1KindArch: '建築画', q1KindFig: '人物画',
+    });
+    // ---- Start screen ----
+    Object.assign(I18N.en, {
+      introKicker: 'Today’s classical, chosen by a painting', introH1: 'The painting you’re drawn to<br />picks today’s<br />classical piece',
+      introSub: 'Pick a few paintings and get one piece for your mood in about 20 seconds.', introCta: 'Start choosing',
+      introMeta: 'About 20 sec · No sign-up · No wrong answers', introExLabel: 'Your result looks like this', introExKick: 'Today’s classical',
+      introExPiece: 'Debussy, “Clair de lune”', introExWhy: 'For a day you chose Monet’s Impression, Sunrise',
+    });
+    Object.assign(I18N.ko, {
+      introKicker: '그림으로 고르는 오늘의 클래식', introH1: '오늘 끌리는 그림이<br />오늘의 클래식을<br />골라 줍니다',
+      introSub: '그림 몇 장만 고르면, 20초 안에 지금 기분에 맞는 한 곡이 나와요.', introCta: '그림 고르러 가기',
+      introMeta: '약 20초 · 회원가입 없음 · 정답 없음', introExLabel: '결과는 이렇게 나와요', introExKick: '오늘의 클래식',
+      introExPiece: '드뷔시 「달빛」', introExWhy: '모네 〈인상, 해돋이〉를 고른 날',
+    });
+    Object.assign(I18N.ja, {
+      introKicker: '絵で選ぶ、今日のクラシック', introH1: '今日惹かれる絵が<br />今日のクラシックを<br />選びます',
+      introSub: '絵を何枚か選ぶだけで、約20秒で今の気分に合う1曲が届きます。', introCta: '絵を選びに行く',
+      introMeta: '約20秒 · 会員登録なし · 正解なし', introExLabel: '結果はこんなふうに届きます', introExKick: '今日のクラシック',
+      introExPiece: 'ドビュッシー「月の光」', introExWhy: 'モネ《印象・日の出》を選んだ日に',
     });
     // ---- Today's concerts & exhibitions ----
     Object.assign(I18N.en, { evScopeKr: 'In Korea', evScopeIntl: 'Worldwide', evPeekMore: 'See all ({n})', evPeekOpen: 'See all', evPeekLess: 'Show less', evEyebrow: 'Today’s stage & gallery', evTitle: 'Today’s concerts & exhibitions',
@@ -5871,6 +5978,24 @@
     applyLang(readSavedLang());
     renderLanding();
     restoreFromUrl();
+    // Start screen: example painting, then the button (or any link to the test) opens Q1
+    (function () {
+      const root = document.documentElement, img = document.getElementById('intro-img');
+      if (restored || VS || PAIR) root.classList.remove('intro-on');
+      if (!root.classList.contains('intro-on')) return;
+      const f = 'Monet_-_Impression,_Sunrise.jpg';
+      if (img) { img.onerror = () => { img.onerror = null; img.src = FILE(f); }; img.src = THUMB(f, MOBILE ? 640 : 1280); }
+      track('intro_view');
+      const start = (how) => {
+        if (!root.classList.contains('intro-on')) return;
+        root.classList.remove('intro-on');
+        try { sessionStorage.setItem('yc-started', '1'); } catch (e) {}
+        scrollTo(0, 0);
+        track('intro_start', { via: how });
+      };
+      document.getElementById('intro-go').addEventListener('click', () => start('button'));
+      document.querySelectorAll('a[href="#choose"]').forEach(a => a.addEventListener('click', () => start('link')));
+    })();
     renderVsBanner();
     if (PAIR && restored) { const sb = document.getElementById('shared-banner'); const sp = sb && sb.querySelector('span'); if (sp) sp.textContent = I18N[lang].vsPairBanner; renderVsCard(); }
   </script>
