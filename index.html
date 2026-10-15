@@ -779,7 +779,15 @@
     .intro-ex-txt { display: flex; flex-direction: column; gap: .1rem; min-width: 0; }
     .intro-ex-s { font-size: .75rem; color: rgba(244,233,208,.72); }
     .intro-ex-t { font-size: 1.1rem; font-weight: 700; color: var(--vanilla); line-height: 1.3; }
-    .intro-play { flex: none; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--apricot); color: var(--wine-deep); }
+    .intro-play { flex: none; width: 44px; height: 44px; border: 0; padding: 0; cursor: pointer; border-radius: 50%; display: grid; place-items: center; background: var(--apricot); color: var(--wine-deep); transition: transform .2s ease, background .2s ease; }
+    .intro-play:hover { background: var(--apricot-deep); color: #fff; }
+    .intro-play:focus-visible { outline: 2px solid var(--vanilla); outline-offset: 2px; }
+    .intro-play.ping { animation: tapPop .35s var(--ease); }
+    .intro-msg { flex: none; width: 100%; text-align: left; cursor: pointer; padding: .7rem .85rem; border: 0; border-radius: var(--r); background: var(--apricot); color: var(--wine-deep);
+      font: inherit; font-size: .88rem; font-weight: 600; line-height: 1.45; word-break: keep-all; animation: introMsg .35s var(--ease); }
+    .intro-msg b { font-weight: 800; white-space: nowrap; text-decoration: underline; text-underline-offset: 2px; }
+    .intro-msg:hover { background: var(--apricot-deep); color: #fff; }
+    @keyframes introMsg { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
     @media (max-height: 620px) and (max-width: 899px) { .intro-sub { display: none; } }
     @media (min-width: 900px) {
       .intro { padding: calc(64px + 2.5rem) 2.5rem 2.5rem; }
@@ -796,6 +804,7 @@
       .intro-ex-t { font-size: 1.45rem; }
       .intro-ex-s { font-size: .88rem; }
       .intro-play { width: 56px; height: 56px; }
+      .intro-msg { font-size: 1rem; padding: .85rem 1rem; }
     }
 
     /* ===== PC: Q2 paintings use the whole window ===== */
@@ -893,8 +902,9 @@
               <span class="intro-ex-t font-serif" data-i18n="introExPiece">Debussy, “Clair de lune”</span>
               <span class="intro-ex-s" data-i18n="introExWhy">For a day you chose Monet’s Impression, Sunrise</span>
             </div>
-            <span class="intro-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+            <button type="button" id="intro-play" class="intro-play" data-i18n-aria="introPlayAria" aria-label="Play" aria-controls="intro-msg"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
           </div>
+          <button type="button" id="intro-msg" class="intro-msg" hidden><span data-i18n="introPlayMsg">This is a sample. Pick a few paintings and in 20 seconds you can play your own piece.</span> <b data-i18n="introPlayGo">Start now →</b></button>
         </figure>
       </div>
     </section>
@@ -1506,18 +1516,21 @@
       introSub: 'Pick a few paintings and get one piece for your mood in about 20 seconds.', introCta: 'Start choosing',
       introMeta: 'About 20 sec · No sign-up · No wrong answers', introExLabel: 'Your result looks like this', introExKick: 'Today’s classical',
       introExPiece: 'Debussy, “Clair de lune”', introExWhy: 'For a day you chose Monet’s Impression, Sunrise',
+      introPlayAria: 'Play the sample piece', introPlayMsg: 'This is a sample. Pick a few paintings and in 20 seconds you can play the piece chosen for you.', introPlayGo: 'Start now →',
     });
     Object.assign(I18N.ko, {
       introKicker: '그림으로 고르는 오늘의 클래식', introH1: '오늘 끌리는 그림이<br />오늘의 클래식을<br />골라 줍니다',
       introSub: '그림 몇 장만 고르면, 20초 안에 지금 기분에 맞는 한 곡이 나와요.', introCta: '그림 고르러 가기',
       introMeta: '약 20초 · 회원가입 없음 · 정답 없음', introExLabel: '결과는 이렇게 나와요', introExKick: '오늘의 클래식',
       introExPiece: '드뷔시 「달빛」', introExWhy: '모네 〈인상, 해돋이〉를 고른 날',
+      introPlayAria: '예시 곡 재생', introPlayMsg: '이건 예시예요. 그림 몇 장만 고르면, 20초 뒤 나에게 맞는 추천곡을 바로 들을 수 있어요.', introPlayGo: '지금 시작 →',
     });
     Object.assign(I18N.ja, {
       introKicker: '絵で選ぶ、今日のクラシック', introH1: '今日惹かれる絵が<br />今日のクラシックを<br />選びます',
       introSub: '絵を何枚か選ぶだけで、約20秒で今の気分に合う1曲が届きます。', introCta: '絵を選びに行く',
       introMeta: '約20秒 · 会員登録なし · 正解なし', introExLabel: '結果はこんなふうに届きます', introExKick: '今日のクラシック',
       introExPiece: 'ドビュッシー「月の光」', introExWhy: 'モネ《印象・日の出》を選んだ日に',
+      introPlayAria: 'サンプル曲を再生', introPlayMsg: 'これはサンプルです。絵を何枚か選ぶだけで、20秒後にあなたへのおすすめ曲をすぐ聴けます。', introPlayGo: '今すぐ始める →',
     });
     // ---- Today's concerts & exhibitions ----
     Object.assign(I18N.en, { evScopeKr: 'In Korea', evScopeIntl: 'Worldwide', evPeekMore: 'See all ({n})', evPeekOpen: 'See all', evPeekLess: 'Show less', evEyebrow: 'Today’s stage & gallery', evTitle: 'Today’s concerts & exhibitions',
@@ -5994,6 +6007,14 @@
         track('intro_start', { via: how });
       };
       document.getElementById('intro-go').addEventListener('click', () => start('button'));
+      // play on the sample: no audio yet, a nudge that the real piece is 20 seconds away
+      const play = document.getElementById('intro-play'), msg = document.getElementById('intro-msg');
+      play.addEventListener('click', () => {
+        msg.hidden = false;
+        play.classList.remove('ping'); void play.offsetWidth; play.classList.add('ping');
+        track('intro_play_tap');
+      });
+      msg.addEventListener('click', () => start('play_msg'));
       document.querySelectorAll('a[href="#choose"]').forEach(a => a.addEventListener('click', () => start('link')));
     })();
     renderVsBanner();
