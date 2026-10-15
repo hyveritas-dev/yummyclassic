@@ -7,7 +7,8 @@ import { DurableObject } from 'cloudflare:workers';
 //
 // GET  /api/stat           how many people got each result type (for "같은 유형 12%")
 // POST /api/stat {m, k}    count one finished test (k 'done') or finished friend match (k 'match')
-// POST /api/fb {v, c, m}   one-tap result feedback (v 1 = fits me, -1 = not me) + optional one-line comment
+// POST /api/fb {v, c, m}   one-tap result feedback (v 1 = fits me, -1 = not me), saved on tap -> {id}
+// POST /api/fb {id, c}      optional one-line comment added to that vote afterwards
 // GET  /api/fb?key=&days=1 read feedback (key checked against ADMIN_HASH)
 // GET  /s?...&t=<type> or /s?vm=...  the page, with its link preview set to the shared result type
 //
@@ -215,6 +216,11 @@ export class Store extends DurableObject {
   addFb(r) {
     this.sql.exec('INSERT INTO fb (ts, v, c, m, e, lang, dev) VALUES (?, ?, ?, ?, ?, ?, ?)', Date.now(), r.v, r.c, r.m, r.e, r.lang, r.dev);
     this.hit([r.v > 0 ? 'fb:up' : 'fb:down']);
+    return this.sql.exec('SELECT last_insert_rowid() AS id').toArray()[0].id;
+  }
+  // an optional comment added after the vote; only to a fresh row that has no comment yet
+  addComment(id, c) {
+    this.sql.exec("UPDATE fb SET c = ? WHERE id = ? AND (c IS NULL OR c = '') AND ts >= ?", c, id, Date.now() - 3600e3);
     return true;
   }
   putShort(code, q) {
@@ -263,10 +269,14 @@ async function feedback(request, env, ctx, url) {
   if (!env.STORE) return json({ error: 'no-store' }, 503);
   if (request.method === 'POST') {
     let b; try { b = await request.json(); } catch (e) { return json({ error: 'body' }, 400); }
+    if (b && Number.isInteger(b.id) && b.id > 0) {   // comment for a vote already sent
+      const c = clean(b.c, 300); if (c) await store(env).addComment(b.id, c);
+      return json({ ok: true });
+    }
     const v = b && (b.v === 1 || b.v === -1) ? b.v : 0;
     if (!v) return json({ error: 'vote' }, 400);
-    await store(env).addFb({ v, c: clean(b.c, 300), m: TYPES[b.m] ? b.m : '', e: clean(b.e, 12), lang: clean(b.lang, 4), dev: clean(b.dev, 8) });
-    return json({ ok: true });
+    const id = await store(env).addFb({ v, c: clean(b.c, 300), m: TYPES[b.m] ? b.m : '', e: clean(b.e, 12), lang: clean(b.lang, 4), dev: clean(b.dev, 8) });
+    return json({ ok: true, id });
   }
   if ((await sha256hex(url.searchParams.get('key') || '')) !== ADMIN_HASH) return json({ error: 'key' }, 403);
   const days = Math.min(Math.max(parseFloat(url.searchParams.get('days') || '1') || 1, 0.04), 90);

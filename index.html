@@ -603,7 +603,7 @@
     .sh-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 22px -16px rgba(77,10,26,.6); }
     .sh-btn .ic { width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; font-size: .8rem; font-weight: 800; }
     .sh-kakao { background: #FEE500; border-color: #FEE500; color: #191919; } .sh-kakao .ic { background: #191919; color: #FEE500; }
-    .sh-line .ic { background: #06C755; color: #fff; } .sh-fb .ic { background: #1877F2; color: #fff; } .sh-x .ic { background: #111; color: #fff; }
+    .sh-line .ic { background: #06C755; color: #fff; } .sh-wa .ic { background: #25D366; color: #fff; } .sh-fb .ic { background: #1877F2; color: #fff; } .sh-x .ic { background: #111; color: #fff; }
     .sh-ig .ic { background: linear-gradient(45deg, #F58529, #DD2A7B 55%, #8134AF); color: #fff; } .sh-native .ic { background: var(--wine); color: var(--vanilla); }
     .sh-toast { margin-top: .75rem; min-height: 1.25rem; font-size: .85rem; font-weight: 600; color: var(--apricot-deep); opacity: 0; transition: opacity .3s ease; }
     .sh-toast.on { opacity: 1; }
@@ -708,14 +708,17 @@
     .r-ask + .r-actions { margin-top: .6rem; }
     .r-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin-top: 1.25rem; }
     .r-pct { margin-top: .9rem; font-size: .9rem; color: var(--muted); text-align: center; }
-    .fb-box { max-width: 32rem; margin: 1.25rem auto 0; padding: 1rem 1rem 1.1rem; border: 1px dashed var(--line-strong); border-radius: var(--r-lg); text-align: center; }
-    .fb-q { font-weight: 700; color: var(--ink); }
+    .fb-box { max-width: 32rem; margin: 1.25rem auto 0; padding: .6rem 1rem .7rem; border: 0; border-radius: var(--r-lg); text-align: center; opacity: .85; }
+    .fb-q { font-weight: 500; font-size: .88rem; color: var(--ink); }
+    .fb-opt { margin-left: .2rem; padding: .05rem .4rem; border-radius: 999px; background: rgba(77,10,26,.08); font-size: .7rem; font-weight: 600; vertical-align: 1px; }
+    .fb-box .fb-btn { padding: .35rem .8rem; font-size: .82rem; }
+    .fb-add { margin-left: .25rem; font-size: .82rem; font-weight: 600; color: var(--wine); text-decoration: underline; text-underline-offset: 3px; background: none; border: 0; padding: 0; cursor: pointer; }
     .fb-row { display: flex; justify-content: center; gap: .5rem; margin-top: .65rem; }
     .fb-btn { padding: .5rem 1.05rem; border: 1px solid var(--line-strong); border-radius: var(--r); background: var(--paper); color: var(--ink); font-weight: 600; font-size: .9rem; }
     .fb-btn[aria-pressed="true"] { background: var(--apricot); border-color: var(--apricot); color: var(--wine-deep); }
     .fb-more { display: flex; gap: .5rem; margin-top: .7rem; align-items: stretch; }
     .fb-more textarea { flex: 1; min-width: 0; padding: .5rem .65rem; border: 1px solid var(--line-strong); border-radius: var(--r); background: #fff; color: var(--ink); font-size: .9rem; resize: none; letter-spacing: normal; word-spacing: normal; font-family: inherit; }
-    .fb-thanks { margin-top: .5rem; font-size: .9rem; color: var(--wine); font-weight: 600; }
+    .fb-thanks { margin-top: .5rem; font-size: .88rem; color: var(--wine); font-weight: 600; }
     .vs-invite { margin: 0 auto 1.5rem; max-width: 40rem; padding: 1.1rem 1rem 1.2rem; border-radius: var(--r-lg); background: var(--paper); border: 1px solid var(--line); text-align: center; }
     .vs-invite-t { font-weight: 800; font-size: 1.1rem; color: var(--wine); }
     .vs-invite-s { margin: .35rem 0 .8rem; font-size: .88rem; color: var(--muted); }
@@ -987,16 +990,16 @@
                 </div>
                 </div>
                 <div id="fb" class="fb-box">
-                  <p class="fb-q" data-i18n="fbQ">Does this result feel like you?</p>
+                  <p class="fb-q"><span data-i18n="fbQ">Does this result feel like you?</span> <span class="fb-opt" data-i18n="fbOpt">optional</span></p>
                   <div class="fb-row">
                     <button type="button" class="fb-btn" data-v="1" aria-pressed="false" data-i18n="fbYes">👍 That’s me</button>
                     <button type="button" class="fb-btn" data-v="-1" aria-pressed="false" data-i18n="fbNo">👎 Not really</button>
                   </div>
+                  <p class="fb-thanks" hidden><span class="fb-thx" data-i18n="fbThanksVote">Thanks!</span> <button type="button" class="fb-add" data-i18n="fbAdd">Add a line</button></p>
                   <div class="fb-more" hidden>
                     <textarea rows="2" maxlength="300" aria-label="Feedback"></textarea>
                     <button type="button" id="fb-send" class="btn btn-primary btn-sm" data-i18n="fbSend">Send</button>
                   </div>
-                  <p class="fb-thanks" data-i18n="fbThanks" hidden>Thank you!</p>
                 </div>
                 </div>
                 <div id="read-wrap">
@@ -1107,6 +1110,7 @@
                 <div class="share-grid mt-4">
                   <button type="button" class="sh-btn sh-kakao" data-sh="kakao"><span class="ic">K</span><span data-i18n="shKakao">Send via KakaoTalk</span></button>
                   <button type="button" class="sh-btn sh-line" data-sh="line"><span class="ic">L</span><span data-i18n="shLine">Send via LINE</span></button>
+                  <button type="button" class="sh-btn sh-wa" data-sh="whatsapp"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 18.8z"/></svg></span><span data-i18n="shWa">Send via WhatsApp</span></button>
                   <button type="button" class="sh-btn sh-fb" data-sh="facebook"><span class="ic">f</span><span data-i18n="shFb">Share on Facebook</span></button>
                   <button type="button" class="sh-btn sh-x" data-sh="x"><span class="ic">𝕏</span><span data-i18n="shX">Share on X</span></button>
                   <button type="button" class="sh-btn sh-story" data-sh="story"><span class="ic"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.2"/><circle cx="12" cy="13" r="3"/></svg></span><span data-i18n="shareStory">Story image (9:16)</span></button>
@@ -5578,6 +5582,7 @@
       const open = u => { window.open(u, '_blank', 'noopener,width=620,height=640'); toast(t.shOpened.replace('{n}', (t.shNames || {})[kind] || kind)); };
       if (kind === 'facebook') open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url));
       else if (kind === 'x') open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url));
+      else if (kind === 'whatsapp') open('https://wa.me/?text=' + encodeURIComponent(text + '\n' + url));
       else if (kind === 'line') open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text));
       else if (kind === 'native') { try { await navigator.share({ title: 'Yummy Classic', text, url }); toast(t.shDone, true); } catch (e) {} }
       else if (kind === 'kakao') {
@@ -5671,9 +5676,9 @@
 
     // ---------- Viral loop: feedback, "same type %", friend match, story image ----------
     Object.assign(I18N.ko, {
-      fbQ: '이 결과, 나랑 맞나요?', fbYes: '👍 맞아요', fbNo: '👎 아니에요',
+      fbQ: '이 결과, 나랑 맞나요?', fbOpt: '선택', fbYes: '👍 맞아요', fbNo: '👎 아니에요',
       fbPhYes: '어떤 점이 맞았는지 한 줄 남겨 주세요 (선택)', fbPhNo: '어떤 점이 달랐는지 한 줄 남겨 주세요 (선택)',
-      fbSend: '보내기', fbThanks: '고마워요! 남겨 주신 의견으로 더 잘 맞게 고칠게요.',
+      fbSend: '보내기', fbThanks: '고마워요! 남겨 주신 의견으로 더 잘 맞게 고칠게요.', fbThanksVote: '고마워요!', fbAdd: '한 줄 더 남기기',
       pctLine: '나와 같은 유형은 전체의 {p}% · 지금까지 {n}명이 해봤어요',
       vsTop: '소중한 사람과 화음 보기', storyTop: '인스타그램 스토리에 올리기',
       vsInviteT: '소중한 사람과 나, 그림으로 알아본 화음은 몇%일까요?', vsInviteS: '링크를 받은 분이 그림을 고르면, 두 분의 화음과 화음률이 나와요.',
@@ -5687,17 +5692,17 @@
       vsCopied: '화음 측정 링크를 복사했어요. 카카오톡이나 문자 창에 붙여 넣어 보내 주세요.',
       shCopiedShort: '링크를 복사했어요', shOpened: '{n} 공유 창을 열었어요. 이어서 보내 주세요.', shDone: '전달했어요. 고마워요!', shCopyFail: '복사가 안 됐어요. 주소 칸을 길게 눌러 복사해 주세요.',
       shCopiedKakao: '결과 링크를 복사했어요. 카카오톡 대화방에 붙여 넣어 보내 주세요.', shStoryMade: '스토리 이미지를 만들고 있어요…',
-      shNames: { line: '라인', facebook: '페이스북', x: 'X' },
-      shKakao: '카카오톡으로 보내기', shLine: '라인으로 보내기', shFb: '페이스북으로 공유하기', shX: 'X로 공유하기',
+      shNames: { line: '라인', whatsapp: '왓츠앱', facebook: '페이스북', x: 'X' },
+      shKakao: '카카오톡으로 보내기', shLine: '라인으로 보내기', shWa: '왓츠앱으로 보내기', shFb: '페이스북으로 공유하기', shX: 'X로 공유하기',
       shareImage: '인스타그램 피드로 공유하기', shareNative: '다른 앱으로 공유하기',
       shareStory: '인스타그램 스토리로 공유하기', storyKick: '나의 오늘 그림 유형', storyListen: '오늘 들을 곡',
       storyCta: '소중한 사람과 나의 화음은 몇%일까요?', storyTap: '이미지가 준비됐어요. 한 번 더 누르면 바로 공유돼요.',
       storySaved: '이미지를 저장했어요. 인스타 스토리에 올려 보세요!',
     });
     Object.assign(I18N.en, {
-      fbQ: 'Does this result feel like you?', fbYes: '👍 That’s me', fbNo: '👎 Not really',
+      fbQ: 'Does this result feel like you?', fbOpt: 'optional', fbYes: '👍 That’s me', fbNo: '👎 Not really',
       fbPhYes: 'What felt right? One line (optional)', fbPhNo: 'What felt off? One line (optional)',
-      fbSend: 'Send', fbThanks: 'Thank you! We’ll use this to make the result fit better.',
+      fbSend: 'Send', fbThanks: 'Thank you! We’ll use this to make the result fit better.', fbThanksVote: 'Thanks!', fbAdd: 'Add a line',
       pctLine: '{p}% of people share your type · {n} people so far',
       vsTop: 'See your harmony with someone special', storyTop: 'Post to Instagram Story',
       vsInviteT: 'You and someone special: what % harmony do your paintings show?', vsInviteS: 'When they pick their paintings, you’ll both see your harmony and its rate.',
@@ -5711,17 +5716,17 @@
       vsCopied: 'Harmony-test link copied. Paste it into a chat or text to send.',
       shCopiedShort: 'Link copied', shOpened: 'The {n} share window is open. Finish sending there.', shDone: 'Sent. Thank you!', shCopyFail: 'Couldn’t copy. Press and hold the address box to copy it.',
       shCopiedKakao: 'Result link copied. Paste it into a KakaoTalk chat to send.', shStoryMade: 'Making your story image…',
-      shNames: { line: 'LINE', facebook: 'Facebook', x: 'X' },
-      shKakao: 'Send via KakaoTalk', shLine: 'Send via LINE', shFb: 'Share on Facebook', shX: 'Share on X',
+      shNames: { line: 'LINE', whatsapp: 'WhatsApp', facebook: 'Facebook', x: 'X' },
+      shKakao: 'Send via KakaoTalk', shLine: 'Send via LINE', shWa: 'Send via WhatsApp', shFb: 'Share on Facebook', shX: 'Share on X',
       shareImage: 'Share to Instagram feed', shareNative: 'Share with another app',
       shareStory: 'Share to Instagram Story', storyKick: 'MY PAINTING TYPE TODAY', storyListen: 'Today’s listening',
       storyCta: 'You and me: what % harmony?', storyTap: 'Your image is ready. Tap once more to share.',
       storySaved: 'Image saved. Post it to your story!',
     });
     Object.assign(I18N.ja, {
-      fbQ: 'この結果、自分に合っていますか?', fbYes: '👍 合ってる', fbNo: '👎 ちがうかも',
+      fbQ: 'この結果、自分に合っていますか?', fbOpt: '任意', fbYes: '👍 合ってる', fbNo: '👎 ちがうかも',
       fbPhYes: 'どこが合っていたか一言どうぞ(任意)', fbPhNo: 'どこがちがったか一言どうぞ(任意)',
-      fbSend: '送る', fbThanks: 'ありがとうございます!いただいた声で、もっと合うように直します。',
+      fbSend: '送る', fbThanks: 'ありがとうございます!いただいた声で、もっと合うように直します。', fbThanksVote: 'ありがとう!', fbAdd: '一言そえる',
       pctLine: '同じタイプは全体の{p}% · これまで{n}人が参加',
       vsTop: '大切な人との和音を見る', storyTop: 'Instagramのストーリーに載せる',
       vsInviteT: '大切な人と私、絵でわかる和音は何%?', vsInviteS: 'リンクを受け取った方が絵を選ぶと、ふたりの和音と和音率が出ます。',
@@ -5735,8 +5740,8 @@
       vsCopied: '和音を測るリンクをコピーしました。トークやメッセージに貼り付けて送ってください。',
       shCopiedShort: 'リンクをコピーしました', shOpened: '{n}のシェア画面を開きました。続けて送ってください。', shDone: '送りました。ありがとうございます!', shCopyFail: 'コピーできませんでした。アドレス欄を長押ししてコピーしてください。',
       shCopiedKakao: '結果のリンクをコピーしました。カカオトークに貼り付けて送ってください。', shStoryMade: 'ストーリー画像を作っています…',
-      shNames: { line: 'LINE', facebook: 'Facebook', x: 'X' },
-      shKakao: 'カカオトークで送る', shLine: 'LINEで送る', shFb: 'Facebookでシェア', shX: 'Xでシェア',
+      shNames: { line: 'LINE', whatsapp: 'WhatsApp', facebook: 'Facebook', x: 'X' },
+      shKakao: 'カカオトークで送る', shLine: 'LINEで送る', shWa: 'WhatsAppで送る', shFb: 'Facebookでシェア', shX: 'Xでシェア',
       shareImage: 'Instagramのフィードでシェア', shareNative: 'ほかのアプリでシェア',
       shareStory: 'Instagramのストーリーでシェア', storyKick: '今日の私の絵のタイプ', storyListen: '今日聴く曲',
       storyCta: '大切な人と私の和音は何%?', storyTap: '画像の準備ができました。もう一度押すと共有できます。',
@@ -5872,35 +5877,42 @@
       setTimeout(() => { try { prepareStory(); } catch (e) {} }, 2500);
     }
 
-    // One-tap feedback on the result
-    let fbVote = 0;
+    // One-tap feedback on the result: the vote is saved on tap; a one-line comment is optional
+    let fbVote = 0, fbId = 0, fbP = Promise.resolve(0);
     function fbReset() {
-      fbVote = 0;
+      fbVote = 0; fbId = 0; fbP = Promise.resolve(0);
       const box = document.getElementById('fb'); if (!box) return;
       box.querySelectorAll('.fb-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
       box.querySelector('.fb-more').hidden = true; box.querySelector('.fb-thanks').hidden = true;
+      box.querySelector('.fb-add').hidden = false;
+      box.querySelector('.fb-thx').textContent = I18N[lang].fbThanksVote;
       box.querySelector('.fb-row').hidden = false; box.querySelector('textarea').value = '';
-    }
-    function fbSubmit(withText) {
-      const box = document.getElementById('fb'), c = withText ? box.querySelector('textarea').value.trim() : '';
-      postJSON('/api/fb', { v: fbVote, c, m: myMood(), e: currentEra, lang, dev: devOf() });
-      track('result_feedback', { vote: fbVote > 0 ? 'fits' : 'not_me', has_comment: c ? 1 : 0, type: myMood() });
     }
     (function wireFb() {
       const box = document.getElementById('fb'); if (!box) return;
+      const ta = box.querySelector('textarea');
       box.querySelectorAll('.fb-btn').forEach(b => b.addEventListener('click', () => {
+        if (fbVote) return;
         fbVote = Number(b.dataset.v);
-        box.querySelectorAll('.fb-btn').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-        const ta = box.querySelector('textarea');
+        b.setAttribute('aria-pressed', 'true');
+        const p = postJSON('/api/fb', { v: fbVote, c: '', m: myMood(), e: currentEra, lang, dev: devOf() });
+        fbP = Promise.resolve(p).then(r => r && r.ok ? r.json() : null).then(d => { if (d && d.id) fbId = d.id; return fbId; }).catch(() => 0);
+        track('result_feedback', { vote: fbVote > 0 ? 'fits' : 'not_me', type: myMood() });
+        box.querySelector('.fb-row').hidden = true;
+        box.querySelector('.fb-thanks').hidden = false;
+      }));
+      box.querySelector('.fb-add').addEventListener('click', () => {
+        box.querySelector('.fb-add').hidden = true;
         ta.placeholder = I18N[lang][fbVote > 0 ? 'fbPhYes' : 'fbPhNo'];
         box.querySelector('.fb-more').hidden = false;
         ta.focus({ preventScroll: true });
-      }));
+      });
       box.querySelector('#fb-send').addEventListener('click', () => {
-        if (!fbVote) return;
-        fbSubmit(true);
-        box.querySelector('.fb-more').hidden = true; box.querySelector('.fb-row').hidden = true;
-        box.querySelector('.fb-thanks').hidden = false;
+        const c = ta.value.trim();
+        if (c) fbP.then(id => { if (id) postJSON('/api/fb', { id, c }); });
+        if (c) track('result_feedback_comment', { vote: fbVote > 0 ? 'fits' : 'not_me' });
+        box.querySelector('.fb-more').hidden = true;
+        box.querySelector('.fb-thx').textContent = I18N[lang][c ? 'fbThanks' : 'fbThanksVote'];
       });
     })();
 
