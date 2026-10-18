@@ -408,6 +408,10 @@
     footer.site { background: var(--wine-deep); color: rgba(244,233,208,.7); }
     footer.site .logo, footer.site .logo .wm { color: var(--vanilla); } footer.site .logo .sub { color: var(--apricot); }
     footer.site .footer-contact a { color: var(--vanilla); text-decoration: underline; text-underline-offset: 3px; }
+    footer.site .footer-sns { display: inline-flex; gap: 10px; margin-bottom: 4px; }
+    footer.site .footer-sns a { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(244,233,208,.28); color: var(--vanilla); text-decoration: none; font-weight: 600; transition: background-color .2s ease, border-color .2s ease; }
+    footer.site .footer-sns a:hover { background: rgba(244,233,208,.12); border-color: rgba(244,233,208,.55); }
+    footer.site .footer-sns .em { font-size: 15px; line-height: 1; }
 
 
     /* ===== Weight pass: burgundy planes, deeper walls, firmer type & rules ===== */
@@ -1189,6 +1193,10 @@
     <div class="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
       <span class="flex items-center gap-4"><a href="#choose" class="logo" aria-label="Yummy Classic"><svg class="mark" viewBox="-10 -10 260 260" aria-hidden="true"><circle cx="120" cy="120" r="110" fill="#2A1A1E"/><circle cx="120" cy="120" r="97" fill="none" stroke="#F4E9D0" stroke-opacity=".5" stroke-width="3"/><circle cx="120" cy="120" r="78" fill="none" stroke="#F4E9D0" stroke-opacity=".16" stroke-width="2.5"/><circle cx="120" cy="120" r="34" fill="#F4E9D0"/><circle cx="120" cy="120" r="5" fill="#2A1A1E"/><g class="pick" transform="translate(120 120) rotate(-135) scale(0.62) translate(-48 10)" fill="#E8753D"><rect x="22" y="6" width="9" height="62" rx="4.5"/><rect x="43.5" y="6" width="9" height="62" rx="4.5"/><rect x="65" y="6" width="9" height="62" rx="4.5"/><path d="M22 60 H74 C 74 88, 60 98, 53 102 V 196 H 43 V 102 C 36 98, 22 88, 22 60 Z"/><ellipse cx="32" cy="208" rx="22" ry="16" transform="rotate(-22 32 208)"/></g></svg><span class="w"><span class="wm">Yummy Classic</span><span class="sub" data-i18n="logoSub"></span></span></a><span>© 2026 · Today’s classical, one painting at a time.</span></span>
       <span class="flex flex-col items-center sm:items-end gap-1 text-center sm:text-right">
+        <span class="footer-sns">
+          <a href="https://www.youtube.com/@%EB%83%A0%EB%83%A0%ED%81%B4%EB%9E%98%EC%8B%9D" target="_blank" rel="noopener" aria-label="YouTube 냠냠클래식"><span class="em" aria-hidden="true">▶️</span>YouTube</a>
+          <a href="https://www.instagram.com/yummy.classic/" target="_blank" rel="noopener" aria-label="Instagram yummy.classic"><span class="em" aria-hidden="true">📷</span>Instagram</a>
+        </span>
         <span id="footer-art" data-i18n="footerArt">Artworks: J.-A.-D. Ingres (1827), C. D. Friedrich (1822) · Public Domain</span>
         <span class="footer-contact"><span data-i18n="footerContact">Partnership inquiries</span> · <a id="footer-mail" data-u="contact" data-d="yummyclassic.co.kr">contact [at] yummyclassic.co.kr</a></span>
       </span>
