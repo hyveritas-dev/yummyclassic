@@ -284,8 +284,15 @@
     .r-done-h { font-family: var(--serif-cjk), var(--serif-latin), serif; font-size: clamp(1.4rem, 3.4vw, 2rem); font-weight: 700; color: var(--vanilla); }
     .r-done-s { margin-top: .35rem; font-size: .85rem; color: rgba(244,233,208,.7); }
     .r-done-row { margin-top: 1.25rem; display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; }
-    .r-done-row > .r-done-item { flex: 0 1 calc((100% - 1.2rem) / 3); }
-    @media (min-width: 768px) { .r-done-row { gap: 1.25rem; } .r-done-row > .r-done-item { flex: 0 1 17rem; } .r-done-item span { font-size: .9rem !important; text-align: center; } }
+    .r-done-row > .r-done-item { flex: 1 1 0; min-width: 0; align-items: center; }
+    .r-done-row .r-done-item img { aspect-ratio: auto !important; width: 100%; height: 34vw; object-fit: contain !important; background: transparent !important; outline: 0 !important; border-radius: 4px; }
+    .r-done-item span { text-align: center; }
+    @media (min-width: 768px) {
+      .r-done-row { gap: 2rem; align-items: flex-end; }
+      .r-done-row > .r-done-item { flex: 0 1 auto; max-width: 30%; }
+      .r-done-row .r-done-item img { width: auto; max-width: 100%; height: clamp(260px, 44svh, 480px); box-shadow: 0 18px 36px -18px rgba(0,0,0,.6); }
+      .r-done-item span { font-size: .95rem !important; opacity: .9; }
+    }
     .r-done-item { display: flex; flex-direction: column; gap: .35rem; padding: 0; border: 0; background: none; color: var(--vanilla); cursor: pointer; text-align: left; animation: rpop .5s var(--ease) both; }
     .r-done-item:nth-child(2) { animation-delay: .06s; } .r-done-item:nth-child(3) { animation-delay: .12s; } .r-done-item:nth-child(4) { animation-delay: .18s; } .r-done-item:nth-child(5) { animation-delay: .24s; } .r-done-item:nth-child(6) { animation-delay: .3s; }
     .r-done-item:disabled { cursor: default; }
@@ -737,8 +744,9 @@
     .fb-box .fb-q { font-size: 1rem; }
     .fb-btn { cursor: pointer; transition: transform .12s, border-color .12s; }
     .fb-btn:hover { border-color: var(--wine); } .fb-btn:active { transform: scale(.96); }
-    .btn-story { gap: .6rem; font-size: 1.05rem; font-weight: 600; }
-    .btn-story .ig-glyph { width: 30px; height: 30px; flex: none; }
+    .r-actions .btn-match, .r-actions .btn-story { min-width: 0; white-space: normal; word-break: keep-all; font-size: 1.12rem; font-weight: 700; line-height: 1.35; letter-spacing: -.01em; }
+    .btn-story { flex-direction: column; gap: .45rem; padding: .85rem 1rem .8rem; }
+    .btn-story .ig-glyph { width: 44px; height: 44px; flex: none; }
     .fb-add { margin-left: .25rem; font-size: .82rem; font-weight: 600; color: var(--wine); text-decoration: underline; text-underline-offset: 3px; background: none; border: 0; padding: 0; cursor: pointer; }
     .fb-row { display: flex; justify-content: center; gap: .5rem; margin-top: .65rem; }
     .fb-btn { padding: .5rem 1.05rem; border: 1px solid var(--line-strong); border-radius: var(--r); background: var(--paper); color: var(--ink); font-weight: 600; font-size: .9rem; }
@@ -753,7 +761,7 @@
     .btn-match { flex-direction: column; gap: .45rem; padding: .85rem 1.6rem .8rem; line-height: 1.3; }
     .btn-match .yc-badge { width: 44px; height: 44px; padding: 0 !important; margin: 0 !important; box-sizing: border-box; border-radius: 50%; background: var(--vanilla); color: var(--wine); display: grid; place-items: center; flex: none; }
     .btn-match .yc-badge .yc-ic { width: 30px; height: 30px; stroke-width: 2; }
-    @media (max-width: 639px) { .share-grid { grid-template-columns: 1fr; } .sh-btn { justify-content: flex-start; padding: .8rem 1rem; } }
+    @media (max-width: 639px) { .share-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
     /* wide screens: use the full width of the taste card */
     .r-under { max-width: 64rem; margin: 1.6rem auto 0; display: grid; gap: 1rem; align-items: stretch; }
     .r-under .r-ask { margin-top: 0; }
@@ -762,7 +770,7 @@
     @media (min-width: 768px) {
       .r-under { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
       .r-left { padding: 1rem 1.2rem; border-radius: var(--r-lg); background: var(--paper); border: 1px solid var(--line); }
-      .r-left .r-actions { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: stretch; }
+      .r-left .r-actions { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: stretch; gap: .75rem; }
       .r-left .r-actions .btn { width: 100%; }
       .vs-invite { max-width: none; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; text-align: left; padding: 1.2rem 1.5rem; }
       .vs-invite .vs-invite-s { margin-bottom: 0; }
@@ -784,7 +792,17 @@
     .is-done .btn-done { display: inline-flex; align-items: center; min-height: 2.6rem; font-weight: 800; font-size: 1rem; }
     .btn-match.is-done { background: var(--wine); color: var(--vanilla); }
     .sh-btn.is-done { background: var(--wine); border-color: var(--wine); color: var(--vanilla); }
-    .sh-story .ic { background: linear-gradient(180deg, #7A0F2A, #E8753D); color: #fff; }
+    .sh-story .ic { background: radial-gradient(circle at 30% 107%, #fdf497 0, #fd5949 45%, #d6249f 60%, #285AEB 90%); color: #fff; }
+    /* share block: compact rows, big brand icon with a short label beside it */
+    .share { max-width: 52rem; }
+    .share-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: .6rem; }
+    @media (min-width: 640px) { .share-grid { grid-template-columns: repeat(4, minmax(0,1fr)); } }
+    .sh-btn { justify-content: flex-start; gap: .7rem; min-height: 3.6rem; padding: .55rem .8rem; font-size: 1rem; font-weight: 700; text-align: left; }
+    .sh-btn .ic { width: 38px; height: 38px; border-radius: 50%; font-size: 1.1rem; flex: none; }
+    .sh-btn .ic svg { width: 20px; height: 20px; }
+    .vs-invite .btn-match { flex-direction: row; gap: .6rem; padding: .8rem 1.3rem; font-size: 1.05rem; font-weight: 700; }
+    .vs-invite .btn-match .yc-badge { width: 36px; height: 36px; }
+    .vs-invite .btn-match .yc-badge .yc-ic { width: 24px; height: 24px; }
 
     /* ===== Start screen: fits one screen (PC and phone); only the test is hidden while it shows ===== */
     #intro { display: none; }
@@ -837,6 +855,17 @@
       .intro-msg { font-size: 1rem; padding: .85rem 1rem; }
     }
 
+    /* ===== PC: hero copy + Q1 pair fit in the first screen ===== */
+    @media (min-width: 1024px) {
+      .hero-band { padding: 5.25rem 0 1.25rem !important; }
+      .hero-band h1 { font-size: clamp(2.3rem, 3.1vw, 3.2rem) !important; line-height: 1.15 !important; }
+      .hero-band h1 br { display: none; }
+      .hero-band h1 + p { margin-top: .6rem !important; font-size: 1.02rem !important; line-height: 1.6 !important; }
+      .hero-band .q-label { margin-top: 1rem !important; font-size: 2rem !important; }
+      #q1-step { margin-top: .3rem !important; }
+      #pair { margin-top: 1rem !important; }
+      #pair .card { height: clamp(320px, calc(100svh - 370px), 680px) !important; min-height: 0 !important; max-height: none !important; }
+    }
     /* ===== PC: Q2 paintings use the whole window ===== */
     @media (min-width: 1024px) {
       #r2-grid { width: min(calc(100vw - 4rem), 1760px); max-width: none; margin-left: 50%; margin-right: 0; translate: -50% 0; gap: 1.25rem !important; }
@@ -1051,7 +1080,7 @@
                 <div class="text-center max-w-2xl mx-auto">
                   <p class="eyebrow">Your Classical Menu</p>
                   <h3 class="mt-2 font-serif text-3xl sm:text-5xl font-semibold tracking-tight" data-i18n="plTitle">Recommended pieces</h3>
-                  <p class="mt-3 text-white/60" data-i18n="plSub">A mix of composers, with the movement to start from.</p>
+                  <p id="pl-sub" class="mt-3 text-white/60" data-i18n="plSub">A mix of composers, with the movement to start from.</p>
                 </div>
                 <ol id="pl-list" class="menu mt-8 grid md:grid-cols-2 md:gap-x-12 p-6 sm:p-10"></ol>
                 <div id="pl-flow" class="pl-flow" hidden></div>
@@ -1142,11 +1171,11 @@
                 <div class="share-grid mt-4">
                   <button type="button" class="sh-btn sh-kakao" data-sh="kakao"><span class="ic">K</span><span data-i18n="shKakao">Send via KakaoTalk</span></button>
                   <button type="button" class="sh-btn sh-line" data-sh="line"><span class="ic">L</span><span data-i18n="shLine">Send via LINE</span></button>
-                  <button type="button" class="sh-btn sh-wa" data-sh="whatsapp"><span class="ic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 18.8z"/></svg></span><span data-i18n="shWa">Send via WhatsApp</span></button>
+                  <button type="button" class="sh-btn sh-wa" data-sh="whatsapp"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 18.8z"/></svg></span><span data-i18n="shWa">Send via WhatsApp</span></button>
                   <button type="button" class="sh-btn sh-fb" data-sh="facebook"><span class="ic">f</span><span data-i18n="shFb">Share on Facebook</span></button>
                   <button type="button" class="sh-btn sh-x" data-sh="x"><span class="ic">𝕏</span><span data-i18n="shX">Share on X</span></button>
-                  <button type="button" class="sh-btn sh-story" data-sh="story"><span class="ic"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.2"/><circle cx="12" cy="13" r="3"/></svg></span><span data-i18n="shareStory">Story image (9:16)</span></button>
-                  <button type="button" class="sh-btn sh-ig" data-sh="image"><span class="ic">◎</span><span data-i18n="shareImage">Save image</span></button>
+                  <button type="button" class="sh-btn sh-story" data-sh="story"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17" cy="7" r=".9" fill="#fff" stroke="none"/></svg></span><span data-i18n="shareStory">Story image (9:16)</span></button>
+                  <button type="button" class="sh-btn sh-ig" data-sh="image"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17" cy="7" r=".9" fill="#fff" stroke="none"/></svg></span><span data-i18n="shareImage">Save image</span></button>
                   <button type="button" class="sh-btn sh-native hidden" data-sh="native"><span class="ic">↗</span><span data-i18n="shareNative">Share</span></button>
                 </div>
                 <p class="mt-3 text-xs text-white/60" data-i18n="shareInsta"></p>
