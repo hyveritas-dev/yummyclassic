@@ -283,8 +283,9 @@
     .r-done { grid-column: 1 / -1; text-align: center; padding: .5rem 0; }
     .r-done-h { font-family: var(--serif-cjk), var(--serif-latin), serif; font-size: clamp(1.4rem, 3.4vw, 2rem); font-weight: 700; color: var(--vanilla); }
     .r-done-s { margin-top: .35rem; font-size: .85rem; color: rgba(244,233,208,.7); }
-    .r-done-row { margin-top: 1.25rem; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: .6rem; }
-    @media (min-width: 768px) { .r-done-row { grid-template-columns: repeat(6, minmax(0,1fr)); gap: .9rem; } }
+    .r-done-row { margin-top: 1.25rem; display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; }
+    .r-done-row > .r-done-item { flex: 0 1 calc((100% - 1.2rem) / 3); }
+    @media (min-width: 768px) { .r-done-row { gap: 1.25rem; } .r-done-row > .r-done-item { flex: 0 1 17rem; } .r-done-item span { font-size: .9rem !important; text-align: center; } }
     .r-done-item { display: flex; flex-direction: column; gap: .35rem; padding: 0; border: 0; background: none; color: var(--vanilla); cursor: pointer; text-align: left; animation: rpop .5s var(--ease) both; }
     .r-done-item:nth-child(2) { animation-delay: .06s; } .r-done-item:nth-child(3) { animation-delay: .12s; } .r-done-item:nth-child(4) { animation-delay: .18s; } .r-done-item:nth-child(5) { animation-delay: .24s; } .r-done-item:nth-child(6) { animation-delay: .3s; }
     .r-done-item:disabled { cursor: default; }
@@ -731,7 +732,13 @@
     .fb-box { max-width: 32rem; margin: 1.25rem auto 0; padding: .6rem 1rem .7rem; border: 0; border-radius: var(--r-lg); text-align: center; opacity: .85; }
     .fb-q { font-weight: 500; font-size: .88rem; color: var(--ink); }
     .fb-opt { margin-left: .2rem; padding: .05rem .4rem; border-radius: 999px; background: rgba(77,10,26,.08); font-size: .7rem; font-weight: 600; vertical-align: 1px; }
-    .fb-box .fb-btn { padding: .35rem .8rem; font-size: .82rem; }
+    .fb-box .fb-btn { padding: .8rem 1.5rem; font-size: 1.05rem; min-height: 3.2rem; min-width: 8.5rem; }
+    .fb-box .fb-row { gap: .75rem; margin-top: .85rem; }
+    .fb-box .fb-q { font-size: 1rem; }
+    .fb-btn { cursor: pointer; transition: transform .12s, border-color .12s; }
+    .fb-btn:hover { border-color: var(--wine); } .fb-btn:active { transform: scale(.96); }
+    .btn-story { gap: .6rem; font-size: 1.05rem; font-weight: 600; }
+    .btn-story .ig-glyph { width: 30px; height: 30px; flex: none; }
     .fb-add { margin-left: .25rem; font-size: .82rem; font-weight: 600; color: var(--wine); text-decoration: underline; text-underline-offset: 3px; background: none; border: 0; padding: 0; cursor: pointer; }
     .fb-row { display: flex; justify-content: center; gap: .5rem; margin-top: .65rem; }
     .fb-btn { padding: .5rem 1.05rem; border: 1px solid var(--line-strong); border-radius: var(--r); background: var(--paper); color: var(--ink); font-weight: 600; font-size: .9rem; }
@@ -1011,7 +1018,7 @@
                 <p id="r-ask" class="r-ask" data-i18n="vsInviteT" hidden>You and someone special: what % harmony do your paintings show?</p>
                 <div class="r-actions">
                   <button type="button" id="vs-top" class="btn btn-primary btn-match"><span class="yc-badge"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg></span><span data-i18n="vsTop">Check your painting match with a friend</span></button>
-                  <button type="button" id="story-top" class="btn btn-ghost"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.2"/><path d="M10.5 5h3"/><circle cx="12" cy="13" r="3"/><circle cx="12" cy="13" r=".6" fill="currentColor"/></svg><span data-i18n="storyTop">Post to your story</span></button>
+                  <button type="button" id="story-top" class="btn btn-ghost btn-story"><svg class="ig-glyph" viewBox="0 0 24 24" aria-hidden="true"><defs><radialGradient id="igG" cx="30%" cy="107%" r="150%"><stop offset="0" stop-color="#fdf497"/><stop offset=".05" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".6" stop-color="#d6249f"/><stop offset=".9" stop-color="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6.5" fill="url(#igG)"/><rect x="5" y="5" width="14" height="14" rx="4.2" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.3" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="16.4" cy="7.6" r="1.05" fill="#fff"/></svg><span data-i18n="storyTop">Post to your story</span></button>
                 </div>
                 </div>
                 <div id="fb" class="fb-box">
