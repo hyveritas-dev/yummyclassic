@@ -267,7 +267,7 @@
       todayTitle: '오늘의 그림', todayLead: '오늘의 그림에 끌렸다면, 이 음악도 마음에 들지도 몰라요.',
       finalTitle: '오늘의 클래식은<br />어떤 맛일까요?', finalCta: '오늘의 클래식 찾기',
       cdSubLinked: 'Matches for today · 오늘의 어울림',
-      cmpTitle: '그림이 고른 작곡가',
+      cmpTitle: '그림으로 고른 작곡가',
       plTitle: '오늘의 클래식 메뉴',
       shareEyebrow: 'Share today’s classical',
       shareSub: '결과를 링크로 보낼 수 있어요. 링크를 연 친구에게도 같은 카드와 메뉴가 보여요.',
