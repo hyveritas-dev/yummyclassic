@@ -1,6 +1,6 @@
 // Builds assets/tw.css at deploy time (see wrangler.jsonc build.command). Keep in sync with the fallback in index.html.
 module.exports = {
-  content: ['./index.html'],
+  content: ['./index.html', './assets/app.js'],
   theme: {
     extend: {
       colors: {
