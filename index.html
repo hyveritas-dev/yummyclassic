@@ -75,6 +75,11 @@
     .ambient::before, .ambient::after { content: ""; position: fixed; z-index: 0; pointer-events: none; border-radius: 9999px; filter: blur(120px); }
     .ambient::before { width: 560px; height: 560px; left: -200px; top: -160px; background: rgba(232,117,61,.12); }
     .ambient::after  { width: 640px; height: 640px; right: -220px; bottom: -220px; background: rgba(122,15,42,.10); }
+    @media (max-width: 699px) {
+      .ambient::before, .ambient::after { display: none; }
+      .grain { mix-blend-mode: normal; opacity: .1; }
+      header.fixed, header .backdrop-blur-md { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+    }
     .grain { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: .22; mix-blend-mode: multiply;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .3 0 0 0 0 .2 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
@@ -826,7 +831,11 @@
         const skipParam = ['utm_source', 'utm_medium', 'utm_campaign', 'fbclid', 'igshid', 'e', 'vm', 'pr', 'go'].some(k => q.has(k));
         const sns = /instagram\.com|facebook\.com|fb\.me|threads\.net|blog\.naver\.com|band\.us|kakao|t\.co\/|linkedin\.com/i.test(ref);
         const started = sessionStorage.getItem('yc-started') === '1';
-        if (!skipParam && !sns && !started && location.hash !== '#choose') document.documentElement.classList.add('intro-on');
+        if (!skipParam && !sns && !started && location.hash !== '#choose') {
+          document.documentElement.classList.add('intro-on');
+          const l = document.createElement('link'); l.rel = 'preload'; l.as = 'image'; l.setAttribute('fetchpriority', 'high'); l.referrerPolicy = 'no-referrer';
+          l.setAttribute('imagesrcset', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/500px-Monet_-_Impression%2C_Sunrise.jpg 500w, https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/960px-Monet_-_Impression%2C_Sunrise.jpg 960w'); l.setAttribute('imagesizes', '(max-width: 700px) 92vw, 560px'); document.head.appendChild(l);
+        }
       } catch (e) {}
     })();
   </script>
@@ -899,7 +908,8 @@
         </div>
         <figure class="intro-ex">
           <figcaption class="intro-ex-k" data-i18n="introExLabel">Your result looks like this</figcaption>
-          <div class="intro-pic"><img id="intro-img" alt="" referrerpolicy="no-referrer" decoding="async" /></div>
+          <div class="intro-pic"><img id="intro-img" alt="" referrerpolicy="no-referrer" fetchpriority="high" width="960" height="744" /></div>
+          <script>(function(){var i=document.getElementById('intro-img');if(!document.documentElement.classList.contains('intro-on'))return;i.onerror=function(){i.onerror=null;i.removeAttribute('srcset');i.src='https://upload.wikimedia.org/wikipedia/commons/5/59/Monet_-_Impression%2C_Sunrise.jpg';};i.sizes='(max-width: 700px) 92vw, 560px';i.srcset='https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/500px-Monet_-_Impression%2C_Sunrise.jpg 500w, https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/960px-Monet_-_Impression%2C_Sunrise.jpg 960w';i.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/500px-Monet_-_Impression%2C_Sunrise.jpg';})();</script>
           <div class="intro-ex-row">
             <div class="intro-ex-txt">
               <span class="intro-ex-s" data-i18n="introExKick">Today’s classical</span>
@@ -931,7 +941,7 @@
         <!-- Choice cards -->
         <div id="pair" class="grid-pair reveal d3 mt-4 sm:mt-5 grid grid-cols-2 gap-3 sm:gap-5 lg:gap-7" aria-live="polite">
         </div>
-        <img id="src-apotheosis" hidden alt="" src="assets/apotheosis.jpg" />
+        <img id="src-apotheosis" hidden alt="" loading="lazy" src="assets/apotheosis.jpg" />
 
         <p class="mt-7 text-center text-xs text-white/40 flex items-center justify-center gap-2">
           <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-200/70 pulse-dot"></span>
@@ -3687,7 +3697,7 @@
           const art = document.createElement('div'); art.className = 'art';
           const im = document.createElement('img');
           const origin = 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(m.f) + '?width=600';
-          im.src = THUMB(m.f, 600);
+          im.src = THUMB(m.f, 500);
           im.alt = ''; im.loading = 'lazy'; im.referrerPolicy = 'no-referrer';
           im.addEventListener('error', () => { if (im.src !== origin) im.src = origin; else im.remove(); });
           art.appendChild(im);
@@ -3789,7 +3799,9 @@
     };
     // Resized copy (Wikimedia's standard widths) so huge originals like Goya's Third of May still load on phones.
     // Falls back to the original file if the resized copy is unavailable.
+    const STD_W = [120, 250, 330, 500, 960, 1280, 1920];
     const THUMB = (f, w) => {
+      w = STD_W.find(x => x >= w * 0.78) || 1920;
       const name = f.replace(/ /g, '_'), h = md5(name), enc = encodeURIComponent(name);
       return 'https://upload.wikimedia.org/wikipedia/commons/thumb/' + h[0] + '/' + h.slice(0, 2) + '/' + enc + '/' + w + 'px-' + enc;
     };
@@ -6169,7 +6181,7 @@
       if (restored || VS || PAIR) root.classList.remove('intro-on');
       if (!root.classList.contains('intro-on')) return;
       const f = 'Monet_-_Impression,_Sunrise.jpg';
-      if (img) { img.onerror = () => { img.onerror = null; img.src = FILE(f); }; img.src = THUMB(f, MOBILE ? 640 : 1280); }
+      if (img && !img.getAttribute('src')) { img.onerror = () => { img.onerror = null; img.src = FILE(f); }; img.src = THUMB(f, MOBILE ? 500 : 1280); }
       track('intro_view');
       const start = (how) => {
         if (!root.classList.contains('intro-on')) return;
