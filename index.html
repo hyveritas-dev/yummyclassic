@@ -414,6 +414,15 @@
     footer.site .footer-sns .ic { width: 20px; height: 20px; flex: 0 0 auto; -webkit-mask: var(--ic) center / contain no-repeat; mask: var(--ic) center / contain no-repeat; }
     footer.site .footer-sns .ic-yt { --ic: url(https://cdn.jsdelivr.net/npm/simple-icons@13/icons/youtube.svg); background: #FF0000; }
     footer.site .footer-sns .ic-ig { --ic: url(https://cdn.jsdelivr.net/npm/simple-icons@13/icons/instagram.svg); background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+    /* Floating SNS dock: appears only after the visitor has scrolled through the recommended pieces, so it never pulls people out of the test */
+    .sns-dock { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 60; display: flex; flex-direction: column; gap: 10px; opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .35s ease, transform .35s ease; }
+    .sns-dock.on { opacity: 1; transform: none; pointer-events: auto; }
+    .sns-dock a { width: 48px; height: 48px; border-radius: 50%; background: #fff; display: grid; place-items: center; box-shadow: 0 4px 14px rgba(20,6,10,.28); transition: transform .2s ease; }
+    .sns-dock a:hover { transform: scale(1.07); }
+    .sns-dock .ic { width: 26px; height: 26px; -webkit-mask: var(--ic) center / contain no-repeat; mask: var(--ic) center / contain no-repeat; }
+    .sns-dock .ic-yt { --ic: url(https://cdn.jsdelivr.net/npm/simple-icons@13/icons/youtube.svg); background: #FF0000; }
+    .sns-dock .ic-ig { --ic: url(https://cdn.jsdelivr.net/npm/simple-icons@13/icons/instagram.svg); background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+    @media (max-width: 520px) { .sns-dock { right: 12px; } .sns-dock a { width: 44px; height: 44px; } .sns-dock .ic { width: 24px; height: 24px; } }
 
 
     /* ===== Weight pass: burgundy planes, deeper walls, firmer type & rules ===== */
@@ -1204,6 +1213,23 @@
       </span>
     </div>
   </footer>
+  <nav class="sns-dock" id="sns-dock" aria-label="SNS" aria-hidden="true">
+    <a href="https://www.youtube.com/@%EB%83%A0%EB%83%A0%ED%81%B4%EB%9E%98%EC%8B%9D" target="_blank" rel="noopener" aria-label="YouTube 냠냠클래식" tabindex="-1"><span class="ic ic-yt" aria-hidden="true"></span></a>
+    <a href="https://www.instagram.com/yummy.classic/" target="_blank" rel="noopener" aria-label="Instagram yummy.classic" tabindex="-1"><span class="ic ic-ig" aria-hidden="true"></span></a>
+  </nav>
+  <script>(function(){
+    var dock=document.getElementById('sns-dock'), list=document.getElementById('pl-list'), res=document.getElementById('result'), foot=document.querySelector('footer.site');
+    if(!dock||!list||!res||!('IntersectionObserver' in window))return;
+    var seen=false, footIn=false;
+    function sync(){var on=seen&&!footIn&&res.classList.contains('open');dock.classList.toggle('on',on);dock.setAttribute('aria-hidden',on?'false':'true');dock.querySelectorAll('a').forEach(function(a){a.tabIndex=on?0:-1;});}
+    // "seen" = the end of the recommended-pieces list has come into view on an open result
+    var endObs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&res.classList.contains('open')&&list.children.length){var r=e.boundingClientRect;if(r.bottom<=window.innerHeight+4){seen=true;sync();}}});},{threshold:[0,0.5,1]});
+    endObs.observe(list);
+    window.addEventListener('scroll',function(){if(seen)return;if(!res.classList.contains('open')||!list.children.length)return;if(list.getBoundingClientRect().bottom<=window.innerHeight){seen=true;sync();}},{passive:true});
+    if(foot)new IntersectionObserver(function(es){footIn=es[0].isIntersecting;sync();}).observe(foot);
+    // a new test run hides it again until the new pieces have been seen
+    new MutationObserver(function(){if(!res.classList.contains('open')){seen=false;sync();}}).observe(res,{attributes:true,attributeFilter:['class']});
+  })();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
   <script defer src="/assets/app.js?v=8aba8036"></script>
