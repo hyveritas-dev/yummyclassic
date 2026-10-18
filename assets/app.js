@@ -1,5 +1,5 @@
 // Yummy Classic app (moved out of index.html so the first screen paints before this loads; browsers also cache it)
-// Phones get a shorter test: Q1 = 2 questions, Q2 = 3 rounds (decided once, on load)
+// Q1 = 2 questions and Q2 = 3 rounds on PC and phones alike
     // A phone counts as a phone even when held sideways (Android reports the wide side as screen.width)
     // or when the browser asks for the desktop site: the screen's short side decides, not the window width.
     const MOBILE = (() => {
@@ -4187,7 +4187,7 @@
           by: B('Claude Monet', '클로드 모네', 'クロード・モネ'), y: '1876' } },
     ];
     ARCH.forEach(P => { P.kind = 'arch'; }); FIG.forEach(P => { P.kind = 'fig'; });
-    const Q1_PER = MOBILE ? 1 : 2;   // questions per kind: 2 buildings + 2 figures (phones: 1 + 1)
+    const Q1_PER = 1;   // questions per kind: 1 building + 1 figure, PC and phones alike (PC was 2 + 2 until 2026-10-19)
     const Q1_N = Q1_PER * 2;
     const AL = a => Array.isArray(a) ? a[lang === 'ja' ? 2 : lang === 'ko' ? 1 : 0] : a;   // [en, ko, ja] → current language
     let q1 = [], pairDirty = true, q1Votes = [], q1Idx = 0, q1Lock = false;
