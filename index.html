@@ -891,31 +891,46 @@
     @media (max-width: 639px) { .chem-row { grid-template-columns: 1fr; } }
 
     /* Composer taste map: you in the middle, matches close, stretch picks further out */
-    .cmp-map { margin: 2rem auto 0; max-width: 44rem; }
-    .cm-stage { position: relative; aspect-ratio: 16 / 10; border-radius: var(--r-lg); background: radial-gradient(circle at 50% 50%, var(--paper) 0 30%, transparent 70%); }
+    .cmp-map { margin: 2rem auto 0; max-width: 54rem; }
+    .cm-stage { position: relative; aspect-ratio: 16 / 11; border-radius: var(--r-lg); background: radial-gradient(circle at 50% 50%, var(--paper) 0 32%, transparent 72%); }
     .cm-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-    .cm-ln { stroke-width: 1.2; }
-    .cm-ln.fit { stroke: var(--wine); stroke-opacity: .35; }
-    .cm-ln.grow { stroke: var(--apricot-deep); stroke-opacity: .55; stroke-dasharray: 4 4; }
-    .cm-me { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 7.4rem; min-height: 7.4rem; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: .6rem; background: var(--wine-deep); color: var(--vanilla); box-shadow: 0 0 0 4px var(--paper), 0 0 0 5px var(--wine); }
-    .cm-me .k { font-family: 'Inter', var(--sans-cjk), sans-serif; font-size: .62rem; font-weight: 700; letter-spacing: .08em; color: var(--apricot); }
-    .cm-me .nm { font-family: var(--serif-cjk), var(--serif-latin), serif; font-size: .82rem; font-weight: 700; line-height: 1.3; margin-top: .2rem; word-break: keep-all; }
-    .cm-node { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font-family: var(--serif-cjk), var(--serif-latin), serif; font-weight: 700; font-size: .9rem; line-height: 1; padding: .5rem .8rem; border-radius: 999px; background: var(--paper); color: var(--wine-deep); border: 1.5px solid var(--wine); cursor: pointer; transition: transform .15s ease, background .15s ease; }
-    .cm-node.top { font-size: 1.02rem; background: var(--wine); color: var(--vanilla); }
-    .cm-node.grow { background: transparent; color: var(--apricot-deep); border: 1.5px dashed var(--apricot-deep); font-weight: 600; font-size: .84rem; }
-    .cm-node:hover, .cm-node:focus-visible { transform: translate(-50%, -50%) scale(1.06); }
-    .cm-legend { display: flex; justify-content: center; align-items: center; gap: .4rem; margin-top: .9rem; font-size: .82rem; color: var(--ink); }
-    .cm-legend .lg { width: 1.4rem; height: .7rem; border-radius: 999px; border: 1.5px solid var(--wine); background: var(--paper); }
-    .cm-legend .lg.grow { border: 1.5px dashed var(--apricot-deep); background: transparent; margin-left: .8rem; }
-    .cm-note { margin-top: .3rem; font-size: .8rem; color: var(--muted); text-align: center; }
-    html[lang="ko"] .cm-note { word-break: keep-all; }
+    .cm-ln { stroke-width: 2.2; }
+    .cm-ln.fit { stroke: var(--wine); stroke-opacity: .55; }
+    .cm-ln.grow { stroke: var(--apricot-deep); stroke-opacity: .75; stroke-dasharray: 6 6; }
+    .cm-me { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 10rem; min-height: 10rem; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: .8rem; background: var(--wine-deep); color: var(--vanilla); box-shadow: 0 0 0 5px var(--paper), 0 0 0 7px var(--wine); }
+    .cm-me .k { font-family: var(--sans-cjk), 'Inter', sans-serif; font-size: .85rem; font-weight: 700; letter-spacing: .04em; color: var(--apricot); }
+    .cm-me .nm { font-family: var(--serif-cjk), var(--serif-latin), serif; font-size: 1.15rem; font-weight: 700; line-height: 1.3; margin-top: .3rem; word-break: keep-all; }
+    .cm-node { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font-family: var(--serif-cjk), var(--serif-latin), serif; font-weight: 700; font-size: 1.2rem; line-height: 1; padding: .75rem 1.25rem; border-radius: 999px; background: var(--paper); color: var(--wine-deep); border: 2.5px solid var(--wine); box-shadow: 0 2px 8px rgba(80,20,30,.12); cursor: pointer; transition: transform .15s ease, background .15s ease; }
+    .cm-node.top { font-size: 1.4rem; padding: .85rem 1.45rem; background: var(--wine); color: var(--vanilla); }
+    .cm-node.grow { background: #FFF8EF; color: var(--apricot-deep); border: 2.5px dashed var(--apricot-deep); font-size: 1.08rem; box-shadow: none; }
+    .cm-node:hover, .cm-node:focus-visible { transform: translate(-50%, -50%) scale(1.08); }
+    .cm-legend { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; max-width: 40rem; margin: 1.4rem auto 0; padding: 0; list-style: none; }
+    .cm-legend li { display: flex; align-items: center; gap: .8rem; padding: .85rem 1rem; border-radius: var(--r-lg); background: var(--paper); border: 1px solid var(--line); }
+    .cm-legend .chip { flex: none; display: inline-block; font-family: var(--serif-cjk), var(--serif-latin), serif; font-weight: 700; font-size: .95rem; line-height: 1; padding: .5rem .85rem; border-radius: 999px; background: var(--paper); color: var(--wine-deep); border: 2.5px solid var(--wine); }
+    .cm-legend .grow .chip { background: #FFF8EF; color: var(--apricot-deep); border-style: dashed; border-color: var(--apricot-deep); }
+    .cm-legend .d { font-size: .95rem; line-height: 1.45; color: var(--ink); }
+    .cm-note { margin-top: .9rem; font-size: 1rem; font-weight: 600; color: var(--wine-deep); text-align: center; }
+    html[lang="ko"] .cm-note, html[lang="ko"] .cm-legend .d { word-break: keep-all; }
     @media (max-width: 639px) {
-      .cm-stage { aspect-ratio: 1 / 1.08; }
-      .cm-me { width: 5.6rem; min-height: 5.6rem; }
-      .cm-me .nm { font-size: .7rem; }
-      .cm-node { font-size: .76rem; padding: .42rem .6rem; }
-      .cm-node.top { font-size: .86rem; }
-      .cm-node.grow { font-size: .72rem; }
+      .cm-stage { aspect-ratio: 1 / 1.3; }
+      .cm-me { width: 6.8rem; min-height: 6.8rem; padding: .5rem; }
+      .cm-me .k { font-size: .7rem; }
+      .cm-me .nm { font-size: .88rem; }
+      .cm-node { font-size: 1rem; padding: .6rem .85rem; }
+      .cm-node.top { font-size: 1.12rem; padding: .7rem 1rem; }
+      .cm-node.grow { font-size: .92rem; }
+      .cm-legend { grid-template-columns: 1fr; gap: .55rem; }
+      .cm-legend li { padding: .7rem .85rem; }
+      .cm-legend .d { font-size: .9rem; }
+      .cm-note { font-size: .92rem; }
+    }
+    @media (max-width: 400px) {
+      .cm-stage { aspect-ratio: 1 / 1.45; }
+      .cm-me { width: 6rem; min-height: 6rem; }
+      .cm-me .nm { font-size: .8rem; }
+      .cm-node { font-size: .92rem; padding: .55rem .75rem; }
+      .cm-node.top { font-size: 1.02rem; }
+      .cm-node.grow { font-size: .86rem; }
     }
 
     /* the friend-match invite is a quiet extra under the share links, not the headline */
@@ -1327,7 +1342,7 @@
   })();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=f22e1f68"></script>
+  <script defer src="/assets/app.js?v=cmpmap2"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {

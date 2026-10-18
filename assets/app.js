@@ -211,11 +211,11 @@
     Object.assign(I18N.ja, {"logoSub": "ヤミークラシック", "cmpTopKicker": "Top pick for you", "cmpTopTpl": "いちばんのおすすめ作曲家は{n}です", "cmpTopWhy": "選んだ絵とキーワードが{c}個重なります: {t}", "cmpTopGo": "この作曲家のおすすめ曲を見る →", "cmpTopBadge": "★ いちばんのおすすめ", "cmpShared": "重なるキーワード {c}個", "cmpOpera": "オペラ作曲家のおすすめ({n}人)", "r2First": "最初のページに戻る", "h1": "あなたのクラシック音楽の<br />好みを見つけます。", "sub": "惹かれる絵を選んでみてください", "pairSwap": "よくわからない… 別の絵で選んでみます", "r2Sub": "3ページ合わせて24点の絵をすべて見てから、惹かれる絵を4点以上選んでください。絵にマウスを重ねると大きく見られます(スマホは長押し)。", "r2Swap": "次のページへ", "r2SeeAll": "いいですね! ほかのページも見てください({n}/{t})— そのあとメニューが開きます", "r2Go": "私のクラシック・メニュー(好み)を見る ↓", "igShareNow": "画像3枚を共有する →", "igTapAgain": "画像の準備ができました。下のボタンをもう一度押して共有してください。", "igSaveHint": "画像を押すと1枚ずつ保存できます(スマホは長押しで保存)", "imgFail": "画像を作れませんでした。もう一度押してください。", "r2Eyebrow": "", "cdSubLinked": "Your tastes · あなたの好み", "cdBadge": "Yummy Classic おすすめ", "cmpTitle": "作曲家ごとに、あなたの好みに合う曲もおすすめします", "cmpSub": "", "shareImage": "画像3枚を保存 · Instagram用", "shareInsta": "3枚の画像をInstagramのカルーセル投稿やストーリーズにまとめて載せてください。", "ig1Kicker": "MY CLASSICAL TASTE TEST", "ig1Title": "私はこの絵に惹かれました", "ig1Tease": "この絵から見えた私の音楽の好みは? →", "ig2Kicker": "私の音楽の好みは", "ig2Picks": "選んだ絵", "ig3Kicker": "MY CLASSICAL MENU", "ig3Cta": "あなたのクラシックはどんな味?", "ig3Sub": "絵を2枚、約20秒でわかります"});
     // Type chemistry (best / opposite type) and the composer taste map
     Object.assign(I18N.en, { chemBest: 'In harmony with you', chemFar: 'Needs a little tuning with you',
-      mapMe: 'Your taste', mapFit: 'Taste match', mapGrow: 'Taste stretch', mapNote: 'Closer means a stronger match. Tap a name to see the pieces.' });
+      mapMe: 'Your taste', mapFit: 'Taste match', mapGrow: 'Taste stretch', mapFitD: 'Fits the paintings you chose. Closer to the centre = stronger match.', mapGrowD: 'From the other style — a step further to explore.', mapNote: 'Tap a name to hear their pieces.' });
     Object.assign(I18N.ko, { chemBest: '나와 화음이 맞는 유형', chemFar: '나와 조율이 필요한 유형',
-      mapMe: '나의 취향', mapFit: '취향 맞춤', mapGrow: '취향 확장', mapNote: '가까울수록 내 그림과 더 잘 맞아요. 이름을 누르면 곡이 나와요.' });
+      mapMe: '나의 취향', mapFit: '취향 맞춤', mapGrow: '취향 확장', mapFitD: '내 그림과 잘 맞는 작곡가. 가운데에 가까울수록 더 잘 맞아요.', mapGrowD: '다른 시대에서 한 걸음 넓혀 들어 볼 작곡가.', mapNote: '이름을 누르면 대표곡이 나와요.' });
     Object.assign(I18N.ja, { chemBest: '和音が合うタイプ', chemFar: '調律が必要なタイプ',
-      mapMe: 'あなたの好み', mapFit: '好みにぴったり', mapGrow: '好みを広げる', mapNote: '近いほどよく合います。名前を押すと曲が出ます。' });
+      mapMe: 'あなたの好み', mapFit: '好みにぴったり', mapGrow: '好みを広げる', mapFitD: '選んだ絵によく合う作曲家。中心に近いほどぴったり。', mapGrowD: 'もう一方の時代から、一歩広げて聴く作曲家。', mapNote: '名前を押すと代表曲が出ます。' });
     Object.assign(I18N.en, {"r2Need": "Pick {n} more (at least 4 of 24)"});
     Object.assign(I18N.ko, {"r2Need": "{n}점 더 골라 주세요 (24점 중 최소 4점)"});
     Object.assign(I18N.ja, {"r2Need": "あと{n}点選んでください(24点中4点以上)"});
@@ -2440,8 +2440,9 @@
       svg.setAttribute('viewBox', '0 0 100 100'); svg.setAttribute('preserveAspectRatio', 'none'); svg.setAttribute('aria-hidden', 'true');
       stage.appendChild(svg);
       const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+      const narrow = (box.clientWidth || window.innerWidth) < 640;
       const place = (id, x, y, kind, rank) => {
-        x = clamp(x, 13, 87); y = clamp(y, 9, 91);
+        x = clamp(x, narrow ? 19 : 14, narrow ? 81 : 86); y = clamp(y, 8, 92);
         const ln = document.createElementNS(svgNS, 'line');
         ln.setAttribute('x1', 50); ln.setAttribute('y1', 50); ln.setAttribute('x2', x); ln.setAttribute('y2', y);
         ln.setAttribute('class', 'cm-ln ' + kind); ln.setAttribute('vector-effect', 'non-scaling-stroke');
@@ -2457,25 +2458,52 @@
       // closer = better: the top pick sits nearest the centre
       const nf = fit.length, start = -Math.PI / 2;
       fit.forEach((id, i) => {
-        const a = start + i * (2 * Math.PI / nf), r = 0.25 + 0.07 * (i / Math.max(1, nf - 1));
-        place(id, 50 + Math.cos(a) * r * 100, 50 + Math.sin(a) * r * 112, 'fit', i);
+        const a = start + i * (2 * Math.PI / nf), r = (narrow ? 0.29 : 0.27) + 0.06 * (i / Math.max(1, nf - 1));
+        place(id, 50 + Math.cos(a) * r * 100, 50 + Math.sin(a) * r * (narrow ? 118 : 120), 'fit', i);
       });
       grow.forEach((id, i) => {
         const a = start + (i + 0.5) * (2 * Math.PI / nf) + (nf % 2 ? 0 : 0.35), r = 0.42;
-        place(id, 50 + Math.cos(a) * r * 100, 50 + Math.sin(a) * r * 104, 'grow', i);
+        place(id, 50 + Math.cos(a) * r * 100, 50 + Math.sin(a) * r * 102, 'grow', i);
       });
       const me = document.createElement('div'); me.className = 'cm-me';
       const mk = document.createElement('span'); mk.className = 'k'; mk.textContent = t.mapMe;
       const mt = document.createElement('span'); mt.className = 'nm'; { const T = TYPES[dominantMood(sel)]; mt.textContent = T ? (ko ? T[1] : T[0]) : ''; }
       me.append(mk, mt);
       stage.appendChild(me);
-      const legend = document.createElement('p'); legend.className = 'cm-legend';
-      legend.innerHTML = '<span class="lg fit"></span><span class="lt"></span><span class="lg grow"></span><span class="lt"></span>';
-      const lts = legend.querySelectorAll('.lt'); lts[0].textContent = t.mapFit; lts[1].textContent = grow.length ? t.mapGrow : '';
-      if (!grow.length) legend.querySelector('.lg.grow').remove();
+      const legend = document.createElement('ul'); legend.className = 'cm-legend';
+      const key = (cls, label, desc) => { const li = document.createElement('li'); li.className = cls; const c = document.createElement('span'); c.className = 'chip'; c.textContent = label; const d = document.createElement('span'); d.className = 'd'; d.textContent = desc; li.append(c, d); legend.appendChild(li); };
+      key('fit', t.mapFit, t.mapFitD);
+      if (grow.length) key('grow', t.mapGrow, t.mapGrowD);
       const note = document.createElement('p'); note.className = 'cm-note'; note.textContent = t.mapNote;
       box.append(stage, legend, note);
       box.hidden = false;
+      // keep every name clear of the centre circle and of the names placed before it
+      try {
+        const S = stage.getBoundingClientRect(); if (!S.width) return;
+        const nodes = [...stage.querySelectorAll('.cm-node')], pad = 6, fixed = [me.getBoundingClientRect()];
+        const hit = (A, B) => A.left < B.right + pad && B.left < A.right + pad && A.top < B.bottom + pad && B.top < A.bottom + pad;
+        const free = R => !fixed.some(F => hit(R, F)) && R.left >= S.left && R.right <= S.right && R.top >= S.top && R.bottom <= S.bottom;
+        const set = (n, x, y) => { n.style.left = x + '%'; n.style.top = y + '%'; return n.getBoundingClientRect(); };
+        nodes.forEach((n, i) => {
+          const x0 = parseFloat(n.style.left), y0 = parseFloat(n.style.top);
+          let R = n.getBoundingClientRect();
+          if (!free(R)) {
+            const ang = Math.atan2(y0 - 50, x0 - 50), rad = Math.hypot(x0 - 50, y0 - 50);
+            let done = false;
+            for (const k of [1, 1.12, 0.9, 1.24, 0.8, 1.36]) {
+              for (const dA of [0, 12, -12, 24, -24, 36, -36, 50, -50, 65, -65]) {
+                const A = ang + dA * Math.PI / 180, x = 50 + Math.cos(A) * rad * k, y = 50 + Math.sin(A) * rad * k;
+                R = set(n, x, y);
+                if (free(R)) { done = true; break; }
+              }
+              if (done) break;
+            }
+            if (!done) R = set(n, x0, y0);
+            const ln = svg.children[i]; ln.setAttribute('x2', parseFloat(n.style.left)); ln.setAttribute('y2', parseFloat(n.style.top));
+          }
+          fixed.push(R);
+        });
+      } catch (e) {}
     }
 
     function renderResult() {
