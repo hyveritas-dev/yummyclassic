@@ -13,7 +13,6 @@
   <meta property="og:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg?width=1200" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="preconnect" href="https://upload.wikimedia.org" />
   <link rel="preconnect" href="https://yummy-events.hyveritas.workers.dev" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" media="print" onload="this.media='all'" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
@@ -834,7 +833,7 @@
         if (!skipParam && !sns && !started && location.hash !== '#choose') {
           document.documentElement.classList.add('intro-on');
           const l = document.createElement('link'); l.rel = 'preload'; l.as = 'image'; l.setAttribute('fetchpriority', 'high'); l.referrerPolicy = 'no-referrer';
-          l.setAttribute('imagesrcset', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/500px-Monet_-_Impression%2C_Sunrise.jpg 500w, https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/960px-Monet_-_Impression%2C_Sunrise.jpg 960w'); l.setAttribute('imagesizes', '(max-width: 700px) 92vw, 560px'); document.head.appendChild(l);
+          l.setAttribute('imagesrcset', '/img/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/500px-Monet_-_Impression%2C_Sunrise.jpg 500w, /img/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/960px-Monet_-_Impression%2C_Sunrise.jpg 960w'); l.setAttribute('imagesizes', '(max-width: 700px) 92vw, 560px'); document.head.appendChild(l);
         }
       } catch (e) {}
     })();
@@ -909,7 +908,7 @@
         <figure class="intro-ex">
           <figcaption class="intro-ex-k" data-i18n="introExLabel">Your result looks like this</figcaption>
           <div class="intro-pic"><img id="intro-img" alt="" referrerpolicy="no-referrer" fetchpriority="high" width="960" height="744" /></div>
-          <script>(function(){var i=document.getElementById('intro-img');if(!document.documentElement.classList.contains('intro-on'))return;i.onerror=function(){i.onerror=null;i.removeAttribute('srcset');i.src='https://upload.wikimedia.org/wikipedia/commons/5/59/Monet_-_Impression%2C_Sunrise.jpg';};i.sizes='(max-width: 700px) 92vw, 560px';i.srcset='https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/500px-Monet_-_Impression%2C_Sunrise.jpg 500w, https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/960px-Monet_-_Impression%2C_Sunrise.jpg 960w';i.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/500px-Monet_-_Impression%2C_Sunrise.jpg';})();</script>
+          <script>(function(){var i=document.getElementById('intro-img');if(!document.documentElement.classList.contains('intro-on'))return;i.onerror=function(){i.onerror=null;i.removeAttribute('srcset');i.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/500px-Monet_-_Impression%2C_Sunrise.jpg';};i.sizes='(max-width: 700px) 92vw, 560px';i.srcset='/img/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/500px-Monet_-_Impression%2C_Sunrise.jpg 500w, /img/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/960px-Monet_-_Impression%2C_Sunrise.jpg 960w';i.src='/img/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/500px-Monet_-_Impression%2C_Sunrise.jpg';})();</script>
           <div class="intro-ex-row">
             <div class="intro-ex-txt">
               <span class="intro-ex-s" data-i18n="introExKick">Today’s classical</span>
@@ -3793,9 +3792,12 @@
 
     // Round two sets: four paintings per style. Image files load from Wikimedia Commons (public domain);
     // if one fails to load, the tile keeps its burgundy fallback with the title, so nothing looks broken.
+    // Paintings come through our own domain (/img/ → Cloudflare edge cache of Wikimedia Commons, see src/worker.js).
+    // Opening index.html straight from the computer has no worker, so it uses Wikimedia directly.
+    const IMG_BASE = /^https?:$/.test(location.protocol) ? '/img/' : 'https://upload.wikimedia.org/wikipedia/commons/';
     const FILE = f => {
       const name = f.replace(/ /g, '_'), h = md5(name);
-      return 'https://upload.wikimedia.org/wikipedia/commons/' + h[0] + '/' + h.slice(0, 2) + '/' + encodeURIComponent(name);
+      return IMG_BASE + h[0] + '/' + h.slice(0, 2) + '/' + encodeURIComponent(name);
     };
     // Resized copy (Wikimedia's standard widths) so huge originals like Goya's Third of May still load on phones.
     // Falls back to the original file if the resized copy is unavailable.
@@ -3803,8 +3805,10 @@
     const THUMB = (f, w) => {
       w = STD_W.find(x => x >= w * 0.78) || 1920;
       const name = f.replace(/ /g, '_'), h = md5(name), enc = encodeURIComponent(name);
-      return 'https://upload.wikimedia.org/wikipedia/commons/thumb/' + h[0] + '/' + h.slice(0, 2) + '/' + enc + '/' + w + 'px-' + enc;
+      return IMG_BASE + 'thumb/' + h[0] + '/' + h.slice(0, 2) + '/' + enc + '/' + w + 'px-' + enc;
     };
+    // backup: the same copy straight from Wikimedia, if our /img/ route ever fails
+    const WM_THUMB = (f, w) => THUMB(f, w).replace(IMG_BASE, 'https://upload.wikimedia.org/wikipedia/commons/');
     // Backup Commons files for paintings whose main file may fail to load (tried only after the main file fails)
     const ALT_FILE = {
       '1813_Schinkel_Gotischer_Dom_am_Wasser_anagoria.JPG': 'Karl_Friedrich_Schinkel_Gotischer_Dom.jpg',
@@ -3814,7 +3818,7 @@
     };
     function setImgSrc(im, f, w, extra, onFail) {
       let step = 0;
-      const alt = ALT_FILE[f], tries = [THUMB(f, w), FILE(f)].concat(alt ? [THUMB(alt, w), FILE(alt)] : [], extra || []);
+      const alt = ALT_FILE[f], tries = [THUMB(f, w), WM_THUMB(f, w), FILE(f)].concat(alt ? [THUMB(alt, w), WM_THUMB(alt, w)] : [], extra || []);
       im.onerror = () => { step++; if (step < tries.length) im.src = tries[step]; else { if (onFail) onFail(); im.dispatchEvent(new Event('imgfail')); } };
       im.src = tries[0];
     }
@@ -5621,7 +5625,7 @@
     function uploadUrls(f, w) {
       const name = f.replace(/ /g, '_'), h = md5(name), base = 'https://upload.wikimedia.org/wikipedia/commons/' + h[0] + '/' + h.slice(0, 2) + '/';
       const enc = encodeURIComponent(name);
-      return [base.replace('/commons/', '/commons/thumb/') + enc + '/' + w + 'px-' + enc, base + enc, FILE(f)];
+      return [THUMB(f, w), base.replace('/commons/', '/commons/thumb/') + enc + '/' + w + 'px-' + enc, base + enc];
     }
     async function loadPainting(f) {
       for (const u of uploadUrls(f, 960)) { const im = await loadCors(u); if (im) return im; }
@@ -5761,7 +5765,7 @@
         if (await loadKakao()) {
           const S = tasteSummary(), hero = S.sel[0];
           window.Kakao.Share.sendDefault({ objectType: 'feed',
-            content: { title: S.era + ' · ' + S.type, description: text, imageUrl: FILE(hero.f), link: { mobileWebUrl: url, webUrl: url } },
+            content: { title: S.era + ' · ' + S.type, description: text, imageUrl: new URL(THUMB(hero.f, 960), location.href).href, link: { mobileWebUrl: url, webUrl: url } },
             buttons: [{ title: t.sharedCta.replace(' →', ''), link: { mobileWebUrl: url, webUrl: url } }] });
         } else if (navigator.share && /Mobi|Android|iPhone/i.test(navigator.userAgent)) {
           try { await navigator.share({ title: 'Yummy Classic', text, url }); toast(t.shDone, true); } catch (e) {}
@@ -6181,7 +6185,7 @@
       if (restored || VS || PAIR) root.classList.remove('intro-on');
       if (!root.classList.contains('intro-on')) return;
       const f = 'Monet_-_Impression,_Sunrise.jpg';
-      if (img && !img.getAttribute('src')) { img.onerror = () => { img.onerror = null; img.src = FILE(f); }; img.src = THUMB(f, MOBILE ? 500 : 1280); }
+      if (img && !img.getAttribute('src')) { img.onerror = () => { img.onerror = null; img.src = WM_THUMB(f, 500); }; img.src = THUMB(f, MOBILE ? 500 : 1280); }
       track('intro_view');
       const start = (how) => {
         if (!root.classList.contains('intro-on')) return;

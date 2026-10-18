@@ -358,6 +358,43 @@ async function page(request, env, url, shortQ) {
   }
 }
 
+// GET /img/<commons path> — painting images served from our own domain.
+//   /img/thumb/5/59/X.jpg/500px-X.jpg  →  upload.wikimedia.org/wikipedia/commons/thumb/5/59/X.jpg/500px-X.jpg
+//   The first visitor's request fetches it from Wikimedia; after that Cloudflare's edge cache (Seoul, Tokyo …)
+//   serves it, so phones in Korea no longer wait on a far-away server. Only Commons image paths are allowed.
+const IMG_PATH = /^\/img\/(thumb\/)?[0-9a-f]\/[0-9a-f]{2}\/[^/]+(\/\d{2,4}px-[^/]+)?$/;
+const IMG_TTL = 365 * 24 * 60 * 60;
+async function paintingImage(request, ctx, url) {
+  if (request.method !== 'GET' && request.method !== 'HEAD') return new Response('method', { status: 405 });
+  if (!IMG_PATH.test(url.pathname)) return new Response('not found', { status: 404 });
+  const cache = caches.default, key = new Request(url.origin + url.pathname, { method: 'GET' });
+  const hit = await cache.match(key);
+  if (hit) return hit;
+  const src = 'https://upload.wikimedia.org/wikipedia/commons/' + url.pathname.slice(5);
+  let res;
+  try {
+    res = await fetch(src, {
+      headers: { 'user-agent': 'YummyClassic/1.0 (https://www.yummyclassic.co.kr; contact@yummyclassic.co.kr)' },
+      cf: { cacheEverything: true, cacheTtl: IMG_TTL },
+    });
+  } catch (e) {
+    return new Response('upstream', { status: 502 });
+  }
+  const type = res.headers.get('content-type') || '';
+  if (!res.ok || !type.startsWith('image/')) return new Response('upstream', { status: res.ok ? 502 : res.status, headers: { 'cache-control': 'no-store' } });
+  const out = new Response(res.body, {
+    status: 200,
+    headers: {
+      'content-type': type,
+      'cache-control': `public, max-age=${IMG_TTL}, immutable`,
+      'access-control-allow-origin': '*',
+      'timing-allow-origin': '*',
+    },
+  });
+  ctx.waitUntil(cache.put(key, out.clone()));
+  return out;
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -368,6 +405,7 @@ export default {
     if (url.pathname === '/api/translate') return translate(request, env, ctx, url);
     if (url.pathname === '/api/stat') return stat(request, env, ctx, url);
     if (url.pathname === '/api/fb') return feedback(request, env, ctx, url);
+    if (url.pathname.startsWith('/img/')) return paintingImage(request, ctx, url);
     if (url.pathname === '/s') return page(request, env, url);
     if (url.pathname.startsWith('/s/')) return openShort(request, env, url);
     if (url.pathname === '/api/short') return shortLink(request, env, ctx, url);
