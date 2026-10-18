@@ -920,12 +920,12 @@
     }
 
     /* Wrapped-style reveal of the taste story, one line at a time */
-    .story.reveal li { opacity: 0; transform: translateY(8px); animation: storyIn .55s ease forwards; }
-    .story.reveal li:nth-child(1) { animation-delay: .15s; } .story.reveal li:nth-child(2) { animation-delay: .5s; }
-    .story.reveal li:nth-child(3) { animation-delay: .85s; } .story.reveal li:nth-child(4) { animation-delay: 1.2s; }
-    .story.reveal li:nth-child(5) { animation-delay: 1.55s; } .story.reveal li:nth-child(n+6) { animation-delay: 1.9s; }
+    .story.story-in li { opacity: 0; transform: translateY(8px); animation: storyIn .55s ease forwards; }
+    .story.story-in li:nth-child(1) { animation-delay: .15s; } .story.story-in li:nth-child(2) { animation-delay: .5s; }
+    .story.story-in li:nth-child(3) { animation-delay: .85s; } .story.story-in li:nth-child(4) { animation-delay: 1.2s; }
+    .story.story-in li:nth-child(5) { animation-delay: 1.55s; } .story.story-in li:nth-child(n+6) { animation-delay: 1.9s; }
     @keyframes storyIn { to { opacity: 1; transform: none; } }
-    @media (prefers-reduced-motion: reduce) { .story.reveal li { animation: none; opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .story.story-in li { animation: none; opacity: 1; transform: none; } }
   </style>
   <script>
     // Start screen: shown to first-time direct/search visitors; skipped for SNS links, shared result links and reloads mid-test
@@ -1324,7 +1324,7 @@
   })();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=ed3af1ee"></script>
+  <script defer src="/assets/app.js?v=58b91385"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {

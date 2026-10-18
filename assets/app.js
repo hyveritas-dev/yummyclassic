@@ -2540,7 +2540,7 @@
       story.innerHTML = '';
       // Wrapped-style reveal: the lines appear one by one, once per new result (not on a language switch)
       { const key = currentEra + ':' + [...picks].join(',');
-        if (renderResult.revealKey !== key) { renderResult.revealKey = key; story.classList.remove('reveal'); void story.offsetWidth; story.classList.add('reveal'); } }
+        if (renderResult.revealKey !== key) { renderResult.revealKey = key; story.classList.remove('story-in'); void story.offsetWidth; story.classList.add('story-in'); } }
       lines.forEach(([k, v, end]) => {
         const li = document.createElement('li');
         if (end) li.className = 'end';
