@@ -209,6 +209,13 @@
     Object.assign(I18N.en, {"logoSub": "", "cmpTopKicker": "Top pick for you", "cmpTopTpl": "Your top composer is {n}", "cmpTopWhy": "Shares {c} keywords with the paintings you chose: {t}", "cmpTopGo": "See this composer’s picks →", "cmpTopBadge": "★ Top pick", "cmpShared": "{c} shared keywords", "cmpOpera": "Opera composers ({n})", "r2First": "Back to page 1", "h1": "We find your taste<br /> in classical music.", "sub": "Pick the painting that draws you in.", "pairSwap": "Not sure… I’ll choose from other paintings", "r2Sub": "Browse all 24 paintings across the three pages, then pick at least 4 that draw you in. Hover over a painting to see it large (on a phone, press and hold).", "r2Swap": "Next page", "r2SeeAll": "Nice picks! See the other pages too ({n}/{t}) — then your menu opens", "r2Go": "See my Classical Menu (my taste) ↓", "igShareNow": "Share the 3 images →", "igTapAgain": "Images are ready — tap the button once more to share.", "igSaveHint": "Tap an image to save it one by one (on a phone, press and hold).", "imgFail": "Couldn’t make the images. Please try again.", "r2Eyebrow": "", "cdSubLinked": "Your tastes", "cdBadge": "Yummy Classic pick", "cmpTitle": "Get picks for your taste, composer by composer", "cmpSub": "", "shareImage": "Save 3 images · for Instagram", "shareInsta": "Post the 3 images together as one Instagram carousel or story set.", "ig1Kicker": "MY CLASSICAL TASTE TEST", "ig1Title": "These paintings drew me in", "ig1Tease": "So what does my taste in music look like? →", "ig2Kicker": "MY MUSIC TASTE IS", "ig2Picks": "Picked", "ig3Kicker": "MY CLASSICAL MENU", "ig3Cta": "What does your classical taste like?", "ig3Sub": "Two paintings, about 20 seconds."});
     Object.assign(I18N.ko, {"logoSub": "냠냠클래식", "cmpTopKicker": "Top pick for you", "cmpTopTpl": "가장 추천하는 작곡가는 {n}", "cmpTopWhy": "고르신 그림과 키워드 {c}개가 겹쳐요: {t}", "cmpTopGo": "이 작곡가의 추천곡 보기 →", "cmpTopBadge": "★ 가장 추천", "cmpShared": "겹치는 키워드 {c}개", "cmpOpera": "오페라 작곡가 추천 ({n}명)", "r2First": "첫 페이지로 돌아가기", "h1": "당신의 클래식 음악 취향을<br /> 찾아드립니다.", "sub": "끌리는 그림을 선택해 보세요", "pairSwap": "잘 모르겠어요… 다른 그림으로 골라 볼게요", "r2Sub": "총 24점의 그림을 세 페이지에 걸쳐 모두 둘러본 뒤, 끌리는 그림을 최소 4점 이상 골라 주세요. 그림에 마우스를 올리면 크게 보여요 (휴대폰은 길게 누르기).", "r2Swap": "다음 페이지 보기", "r2SeeAll": "좋아요! 다른 페이지도 모두 둘러봐 주세요 ({n}/{t}) — 그다음 메뉴가 열려요", "r2Go": "내 클래식 메뉴(취향) 보기 ↓", "igShareNow": "이미지 3장 공유하기 →", "igTapAgain": "이미지가 준비됐어요. 아래 버튼을 한 번 더 눌러 공유해 주세요.", "igSaveHint": "이미지를 누르면 한 장씩 저장돼요 (휴대폰은 길게 눌러 저장)", "imgFail": "이미지를 만들지 못했어요. 다시 눌러 주세요.", "r2Eyebrow": "", "cdSubLinked": "Your tastes · 당신의 취향", "cdBadge": "Yummy Classic 추천", "cmpTitle": "작곡가별로 내 취향에 맞는 곡도 추천받아 보세요", "cmpSub": "", "shareImage": "이미지 3장 저장 · 인스타그램용", "shareInsta": "이미지 3장을 인스타그램 캐러셀(여러 장 게시물)이나 스토리로 함께 올려 주세요.", "ig1Kicker": "MY CLASSICAL TASTE TEST", "ig1Title": "나는 이 그림들에 끌렸어요", "ig1Tease": "이 그림들로 본 내 음악 취향은? →", "ig2Kicker": "나의 음악 취향은", "ig2Picks": "고른 그림", "ig3Kicker": "MY CLASSICAL MENU", "ig3Cta": "당신의 클래식은 어떤 맛인가요?", "ig3Sub": "그림 두 장, 20초면 알 수 있어요"});
     Object.assign(I18N.ja, {"logoSub": "ヤミークラシック", "cmpTopKicker": "Top pick for you", "cmpTopTpl": "いちばんのおすすめ作曲家は{n}です", "cmpTopWhy": "選んだ絵とキーワードが{c}個重なります: {t}", "cmpTopGo": "この作曲家のおすすめ曲を見る →", "cmpTopBadge": "★ いちばんのおすすめ", "cmpShared": "重なるキーワード {c}個", "cmpOpera": "オペラ作曲家のおすすめ({n}人)", "r2First": "最初のページに戻る", "h1": "あなたのクラシック音楽の<br />好みを見つけます。", "sub": "惹かれる絵を選んでみてください", "pairSwap": "よくわからない… 別の絵で選んでみます", "r2Sub": "3ページ合わせて24点の絵をすべて見てから、惹かれる絵を4点以上選んでください。絵にマウスを重ねると大きく見られます(スマホは長押し)。", "r2Swap": "次のページへ", "r2SeeAll": "いいですね! ほかのページも見てください({n}/{t})— そのあとメニューが開きます", "r2Go": "私のクラシック・メニュー(好み)を見る ↓", "igShareNow": "画像3枚を共有する →", "igTapAgain": "画像の準備ができました。下のボタンをもう一度押して共有してください。", "igSaveHint": "画像を押すと1枚ずつ保存できます(スマホは長押しで保存)", "imgFail": "画像を作れませんでした。もう一度押してください。", "r2Eyebrow": "", "cdSubLinked": "Your tastes · あなたの好み", "cdBadge": "Yummy Classic おすすめ", "cmpTitle": "作曲家ごとに、あなたの好みに合う曲もおすすめします", "cmpSub": "", "shareImage": "画像3枚を保存 · Instagram用", "shareInsta": "3枚の画像をInstagramのカルーセル投稿やストーリーズにまとめて載せてください。", "ig1Kicker": "MY CLASSICAL TASTE TEST", "ig1Title": "私はこの絵に惹かれました", "ig1Tease": "この絵から見えた私の音楽の好みは? →", "ig2Kicker": "私の音楽の好みは", "ig2Picks": "選んだ絵", "ig3Kicker": "MY CLASSICAL MENU", "ig3Cta": "あなたのクラシックはどんな味?", "ig3Sub": "絵を2枚、約20秒でわかります"});
+    // Type chemistry (best / opposite type) and the composer taste map
+    Object.assign(I18N.en, { chemBest: 'Your best match', chemFar: 'Your opposite', chemAsk: 'Which type is your friend?', chemGo: 'Send them the match test',
+      mapMe: 'Your taste', mapFit: 'Taste match', mapGrow: 'Taste stretch', mapNote: 'Closer means a stronger match. Tap a name to see the pieces.' });
+    Object.assign(I18N.ko, { chemBest: '나와 잘 맞는 유형', chemFar: '나와 정반대 유형', chemAsk: '친구는 어떤 유형일까요?', chemGo: '친구에게 냠냠클래식 궁합 보내기',
+      mapMe: '나의 취향', mapFit: '취향 맞춤', mapGrow: '취향 확장', mapNote: '가까울수록 내 그림과 더 잘 맞아요. 이름을 누르면 곡이 나와요.' });
+    Object.assign(I18N.ja, { chemBest: '相性のいいタイプ', chemFar: '正反対のタイプ', chemAsk: '友だちはどのタイプ?', chemGo: '友だちに相性テストを送る',
+      mapMe: 'あなたの好み', mapFit: '好みにぴったり', mapGrow: '好みを広げる', mapNote: '近いほどよく合います。名前を押すと曲が出ます。' });
     Object.assign(I18N.en, {"r2Need": "Pick {n} more (at least 4 of 24)"});
     Object.assign(I18N.ko, {"r2Need": "{n}점 더 골라 주세요 (24점 중 최소 4점)"});
     Object.assign(I18N.ja, {"r2Need": "あと{n}点選んでください(24点中4点以上)"});
@@ -2357,6 +2364,125 @@
     }
     document.getElementById('more-toggle').addEventListener('click', () => { moreOpen = !moreOpen; renderMore(); });
 
+    // ---------- Type chemistry (like personality-test sites): the closest and the most different type ----------
+    // Each type's keyword profile is the sum of its paintings' keywords; types are compared by cosine similarity.
+    let MOOD_VEC = null;
+    function moodVecs() {
+      if (MOOD_VEC) return MOOD_VEC;
+      const EG = engPrep(currentEra || 'classic'), out = {};
+      allPaintings().forEach(p => {
+        const P = EG.pv[p.id]; if (!P || !p.m || !TYPES[p.m]) return;
+        const v = out[p.m] = out[p.m] || {};
+        Object.entries(P.v).forEach(([t, x]) => { v[t] = (v[t] || 0) + x; });
+      });
+      return (MOOD_VEC = out);
+    }
+    function typeChem(m) {
+      const V = moodVecs(), me = V[m];
+      if (!me) return null;
+      const sim = (a, b) => { let d = 0, na = 0, nb = 0; Object.keys(a).forEach(k => { na += a[k] * a[k]; if (b[k]) d += a[k] * b[k]; }); Object.values(b).forEach(x => { nb += x * x; }); return na && nb ? d / Math.sqrt(na * nb) : 0; };
+      const L = Object.keys(V).filter(k => k !== m).map(k => [k, sim(me, V[k])]).sort((a, b) => b[1] - a[1]);
+      return L.length >= 2 ? { best: L[0][0], far: L[L.length - 1][0] } : null;
+    }
+    function renderChem() {
+      const box = document.getElementById('type-chem');
+      if (!box) return;
+      const sel = selected(), m = sel.length ? dominantMood(sel) : '', c = m && typeChem(m);
+      if (!c || restored) { box.hidden = true; return; }
+      const t = I18N[lang], ko = isLocal();
+      box.innerHTML = '';
+      const row = document.createElement('div'); row.className = 'chem-row';
+      [['best', t.chemBest], ['far', t.chemFar]].forEach(([k, label]) => {
+        const id = c[k], T = TYPES[id];
+        const card = document.createElement('div'); card.className = 'chem-card chem-' + k;
+        const pic = document.createElement('div'); pic.className = 'chem-pic';
+        const p = allPaintings().find(x => x.m === id);
+        if (p) { const im = document.createElement('img'); im.alt = ko ? p.ko : p.en; im.referrerPolicy = 'no-referrer'; im.loading = 'lazy'; setImgSrc(im, p.f, 240, null, () => im.remove()); pic.appendChild(im); }
+        const txt = document.createElement('div'); txt.className = 'chem-txt';
+        const kk = document.createElement('p'); kk.className = 'chem-k'; kk.textContent = label;
+        const nm = document.createElement('p'); nm.className = 'chem-nm'; nm.textContent = ko ? T[1] : T[0];
+        const ln = document.createElement('p'); ln.className = 'chem-ln'; ln.textContent = ko ? T[3] : T[2];
+        txt.append(kk, nm, ln);
+        card.append(pic, txt);
+        row.appendChild(card);
+      });
+      const foot = document.createElement('div'); foot.className = 'chem-foot';
+      const ask = document.createElement('span'); ask.textContent = t.chemAsk;
+      const go = document.createElement('button'); go.type = 'button'; go.className = 'btn btn-ghost btn-sm'; go.textContent = t.chemGo;
+      go.addEventListener('click', e => { if (typeof sendVs === 'function') sendVs(e); });
+      foot.append(ask, go);
+      box.append(row, foot);
+      box.hidden = false;
+    }
+
+    // ---------- Composer taste map (like music maps): you in the middle, matched composers close, stretch picks further out ----------
+    function renderCmpMap() {
+      const box = document.getElementById('cmp-map');
+      if (!box) return;
+      const sel = selected();
+      if (!sel.length || !currentEra) { box.hidden = true; return; }
+      const t = I18N[lang], ko = isLocal();
+      const nameOf = id => { const s = SHORT[id]; if (s) return s[ko ? 1 : 0]; for (const L of Object.values(COMPOSERS)) { const n = L.find(x => x[2] === id); if (n) return n[ko ? 1 : 0]; } return id; };
+      // taste match: this style's composers, ranked by how well their pieces fit the chosen paintings
+      const sc = composerScores();
+      const fit = (COMPOSERS[currentEra] || []).map(n => n[2]).filter(id => id && WORKS[id] && sc[id] > 0)
+        .sort((a, b) => sc[b] - sc[a]).slice(0, 5);
+      // taste stretch: the other style's composers that share the most keywords with the chosen paintings
+      const other = currentEra === 'classic' ? 'romantic' : 'classic';
+      let grow = [];
+      try {
+        const E = engPrep(other), mine = engPrep(currentEra).pv, pt = new Set(), sh = {};
+        sel.forEach(p => { const P = mine[p.id]; if (P) Object.keys(P.v).forEach(k => pt.add(k)); });
+        E.items.forEach(x => Object.keys(x.v || x.t || {}).forEach(k => { if (pt.has(k)) (sh[x.c] = sh[x.c] || new Set()).add(k); }));
+        grow = (COMPOSERS[other] || []).map(n => n[2]).filter(id => id && WORKS[id] && sh[id] && !fit.includes(id))
+          .sort((a, b) => sh[b].size - sh[a].size).slice(0, 3);
+      } catch (e) { grow = []; }
+      if (fit.length < 2) { box.hidden = true; return; }
+      box.innerHTML = '';
+      const stage = document.createElement('div'); stage.className = 'cm-stage';
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('viewBox', '0 0 100 100'); svg.setAttribute('preserveAspectRatio', 'none'); svg.setAttribute('aria-hidden', 'true');
+      stage.appendChild(svg);
+      const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+      const place = (id, x, y, kind, rank) => {
+        x = clamp(x, 13, 87); y = clamp(y, 9, 91);
+        const ln = document.createElementNS(svgNS, 'line');
+        ln.setAttribute('x1', 50); ln.setAttribute('y1', 50); ln.setAttribute('x2', x); ln.setAttribute('y2', y);
+        ln.setAttribute('class', 'cm-ln ' + kind); ln.setAttribute('vector-effect', 'non-scaling-stroke');
+        svg.appendChild(ln);
+        const b = document.createElement('button'); b.type = 'button';
+        b.className = 'cm-node ' + kind + (kind === 'fit' && rank === 0 ? ' top' : '');
+        b.style.left = x + '%'; b.style.top = y + '%';
+        b.textContent = nameOf(id);
+        b.setAttribute('aria-label', nameOf(id) + ' · ' + (kind === 'fit' ? t.mapFit : t.mapGrow));
+        b.addEventListener('click', () => { track('composer_map', { composer: id, kind }); openComposer(id); });
+        stage.appendChild(b);
+      };
+      // closer = better: the top pick sits nearest the centre
+      const nf = fit.length, start = -Math.PI / 2;
+      fit.forEach((id, i) => {
+        const a = start + i * (2 * Math.PI / nf), r = 0.25 + 0.07 * (i / Math.max(1, nf - 1));
+        place(id, 50 + Math.cos(a) * r * 100, 50 + Math.sin(a) * r * 112, 'fit', i);
+      });
+      grow.forEach((id, i) => {
+        const a = start + (i + 0.5) * (2 * Math.PI / nf) + (nf % 2 ? 0 : 0.35), r = 0.42;
+        place(id, 50 + Math.cos(a) * r * 100, 50 + Math.sin(a) * r * 104, 'grow', i);
+      });
+      const me = document.createElement('div'); me.className = 'cm-me';
+      const mk = document.createElement('span'); mk.className = 'k'; mk.textContent = t.mapMe;
+      const mt = document.createElement('span'); mt.className = 'nm'; { const T = TYPES[dominantMood(sel)]; mt.textContent = T ? (ko ? T[1] : T[0]) : ''; }
+      me.append(mk, mt);
+      stage.appendChild(me);
+      const legend = document.createElement('p'); legend.className = 'cm-legend';
+      legend.innerHTML = '<span class="lg fit"></span><span class="lt"></span><span class="lg grow"></span><span class="lt"></span>';
+      const lts = legend.querySelectorAll('.lt'); lts[0].textContent = t.mapFit; lts[1].textContent = grow.length ? t.mapGrow : '';
+      if (!grow.length) legend.querySelector('.lg.grow').remove();
+      const note = document.createElement('p'); note.className = 'cm-note'; note.textContent = t.mapNote;
+      box.append(stage, legend, note);
+      box.hidden = false;
+    }
+
     function renderResult() {
       if (!currentEra) return;
       const t = I18N[lang], ko = isLocal();
@@ -2412,6 +2538,9 @@
       lines.push([t.kGyeol, t.gyeol[currentEra], true]);
       const story = document.getElementById('r-story');
       story.innerHTML = '';
+      // Wrapped-style reveal: the lines appear one by one, once per new result (not on a language switch)
+      { const key = currentEra + ':' + [...picks].join(',');
+        if (renderResult.revealKey !== key) { renderResult.revealKey = key; story.classList.remove('reveal'); void story.offsetWidth; story.classList.add('reveal'); } }
       lines.forEach(([k, v, end]) => {
         const li = document.createElement('li');
         if (end) li.className = 'end';
@@ -2460,6 +2589,8 @@
       renderMore();
       renderComposers();
       renderComposerDetail();
+      renderCmpMap();
+      renderChem();
       if (typeof renderExtras === 'function') renderExtras();
     }
 

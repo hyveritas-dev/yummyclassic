@@ -875,6 +875,57 @@
       #r2-grid .tile .frame { aspect-ratio: auto !important; height: clamp(300px, calc(100svh - 460px), 760px); }
       #r2-grid .tile .frame img { padding: 4px; }
     }
+    /* Type chemistry: best and opposite type under the taste card */
+    .type-chem { margin: 1.5rem auto 0; max-width: 46rem; text-align: left; }
+    .chem-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+    .chem-card { display: flex; gap: .8rem; align-items: center; padding: .8rem; border-radius: var(--r-lg); background: var(--paper); border: 1px solid var(--line); }
+    .chem-card.chem-far { background: transparent; border-style: dashed; }
+    .chem-pic { flex: 0 0 64px; width: 64px; height: 64px; border-radius: var(--r); overflow: hidden; background: var(--paper-2); }
+    .chem-pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .chem-txt { min-width: 0; }
+    .chem-k { font-family: 'Inter', var(--sans-cjk), sans-serif; font-size: .68rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--era-text, var(--wine)); }
+    .chem-far .chem-k { color: var(--apricot-deep); }
+    .chem-nm { font-family: var(--serif-cjk), var(--serif-latin), serif; font-weight: 700; font-size: 1.02rem; line-height: 1.35; color: var(--ink); margin-top: .1rem; }
+    .chem-ln { font-size: .8rem; line-height: 1.5; color: var(--muted); margin-top: .2rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    html[lang="ko"] .chem-nm, html[lang="ko"] .chem-ln { word-break: keep-all; }
+    .chem-foot { display: flex; flex-wrap: wrap; gap: .5rem .9rem; align-items: center; justify-content: center; margin-top: .8rem; font-size: .88rem; color: var(--muted); }
+    @media (max-width: 639px) { .chem-row { grid-template-columns: 1fr; } }
+
+    /* Composer taste map: you in the middle, matches close, stretch picks further out */
+    .cmp-map { margin: 2rem auto 0; max-width: 44rem; }
+    .cm-stage { position: relative; aspect-ratio: 16 / 10; border-radius: var(--r-lg); background: radial-gradient(circle at 50% 50%, var(--paper) 0 30%, transparent 70%); }
+    .cm-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .cm-ln { stroke-width: 1.2; }
+    .cm-ln.fit { stroke: var(--wine); stroke-opacity: .35; }
+    .cm-ln.grow { stroke: var(--apricot-deep); stroke-opacity: .55; stroke-dasharray: 4 4; }
+    .cm-me { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 7.4rem; min-height: 7.4rem; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: .6rem; background: var(--wine-deep); color: var(--vanilla); box-shadow: 0 0 0 4px var(--paper), 0 0 0 5px var(--wine); }
+    .cm-me .k { font-family: 'Inter', var(--sans-cjk), sans-serif; font-size: .62rem; font-weight: 700; letter-spacing: .08em; color: var(--apricot); }
+    .cm-me .nm { font-family: var(--serif-cjk), var(--serif-latin), serif; font-size: .82rem; font-weight: 700; line-height: 1.3; margin-top: .2rem; word-break: keep-all; }
+    .cm-node { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font-family: var(--serif-cjk), var(--serif-latin), serif; font-weight: 700; font-size: .9rem; line-height: 1; padding: .5rem .8rem; border-radius: 999px; background: var(--paper); color: var(--wine-deep); border: 1.5px solid var(--wine); cursor: pointer; transition: transform .15s ease, background .15s ease; }
+    .cm-node.top { font-size: 1.02rem; background: var(--wine); color: var(--vanilla); }
+    .cm-node.grow { background: transparent; color: var(--apricot-deep); border: 1.5px dashed var(--apricot-deep); font-weight: 600; font-size: .84rem; }
+    .cm-node:hover, .cm-node:focus-visible { transform: translate(-50%, -50%) scale(1.06); }
+    .cm-legend { display: flex; justify-content: center; align-items: center; gap: .4rem; margin-top: .9rem; font-size: .82rem; color: var(--ink); }
+    .cm-legend .lg { width: 1.4rem; height: .7rem; border-radius: 999px; border: 1.5px solid var(--wine); background: var(--paper); }
+    .cm-legend .lg.grow { border: 1.5px dashed var(--apricot-deep); background: transparent; margin-left: .8rem; }
+    .cm-note { margin-top: .3rem; font-size: .8rem; color: var(--muted); text-align: center; }
+    html[lang="ko"] .cm-note { word-break: keep-all; }
+    @media (max-width: 639px) {
+      .cm-stage { aspect-ratio: 1 / 1.08; }
+      .cm-me { width: 5.6rem; min-height: 5.6rem; }
+      .cm-me .nm { font-size: .7rem; }
+      .cm-node { font-size: .76rem; padding: .42rem .6rem; }
+      .cm-node.top { font-size: .86rem; }
+      .cm-node.grow { font-size: .72rem; }
+    }
+
+    /* Wrapped-style reveal of the taste story, one line at a time */
+    .story.reveal li { opacity: 0; transform: translateY(8px); animation: storyIn .55s ease forwards; }
+    .story.reveal li:nth-child(1) { animation-delay: .15s; } .story.reveal li:nth-child(2) { animation-delay: .5s; }
+    .story.reveal li:nth-child(3) { animation-delay: .85s; } .story.reveal li:nth-child(4) { animation-delay: 1.2s; }
+    .story.reveal li:nth-child(5) { animation-delay: 1.55s; } .story.reveal li:nth-child(n+6) { animation-delay: 1.9s; }
+    @keyframes storyIn { to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .story.reveal li { animation: none; opacity: 1; transform: none; } }
   </style>
   <script>
     // Start screen: shown to first-time direct/search visitors; skipped for SNS links, shared result links and reloads mid-test
@@ -1045,6 +1096,7 @@
                   </div>
                 </figure>
                 <p id="r-pct" class="r-pct" hidden></p>
+                <div id="type-chem" class="type-chem" hidden></div>
                 <div class="r-under">
                 <div class="r-left">
                 <p id="r-ask" class="r-ask" data-i18n="vsInviteT" hidden>You and someone special: what % harmony do your paintings show?</p>
@@ -1095,6 +1147,7 @@
                   <p class="eyebrow">Meet the chefs</p>
                   <h3 class="mt-2 font-serif text-3xl sm:text-5xl font-semibold tracking-tight" data-i18n="cmpTitle">Recommended composers</h3>
                 </div>
+                <div id="cmp-map" class="cmp-map" hidden></div>
                 <div id="cmp-top" class="cmp-top" hidden></div>
                 <ul id="r-composers" class="cmp-grid mt-6"></ul>
 
@@ -1271,7 +1324,7 @@
   })();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=c6dea290"></script>
+  <script defer src="/assets/app.js?v=ed3af1ee"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {
