@@ -210,11 +210,11 @@
     Object.assign(I18N.ko, {"logoSub": "냠냠클래식", "cmpTopKicker": "Top pick for you", "cmpTopTpl": "가장 추천하는 작곡가는 {n}", "cmpTopWhy": "고르신 그림과 키워드 {c}개가 겹쳐요: {t}", "cmpTopGo": "이 작곡가의 추천곡 보기 →", "cmpTopBadge": "★ 가장 추천", "cmpShared": "겹치는 키워드 {c}개", "cmpOpera": "오페라 작곡가 추천 ({n}명)", "r2First": "첫 페이지로 돌아가기", "h1": "당신의 클래식 음악 취향을<br /> 찾아드립니다.", "sub": "끌리는 그림을 선택해 보세요", "pairSwap": "잘 모르겠어요… 다른 그림으로 골라 볼게요", "r2Sub": "총 24점의 그림을 세 페이지에 걸쳐 모두 둘러본 뒤, 끌리는 그림을 최소 4점 이상 골라 주세요. 그림에 마우스를 올리면 크게 보여요 (휴대폰은 길게 누르기).", "r2Swap": "다음 페이지 보기", "r2SeeAll": "좋아요! 다른 페이지도 모두 둘러봐 주세요 ({n}/{t}) — 그다음 메뉴가 열려요", "r2Go": "내 클래식 메뉴(취향) 보기 ↓", "igShareNow": "이미지 3장 공유하기 →", "igTapAgain": "이미지가 준비됐어요. 아래 버튼을 한 번 더 눌러 공유해 주세요.", "igSaveHint": "이미지를 누르면 한 장씩 저장돼요 (휴대폰은 길게 눌러 저장)", "imgFail": "이미지를 만들지 못했어요. 다시 눌러 주세요.", "r2Eyebrow": "", "cdSubLinked": "Your tastes · 당신의 취향", "cdBadge": "Yummy Classic 추천", "cmpTitle": "작곡가별로 내 취향에 맞는 곡도 추천받아 보세요", "cmpSub": "", "shareImage": "이미지 3장 저장 · 인스타그램용", "shareInsta": "이미지 3장을 인스타그램 캐러셀(여러 장 게시물)이나 스토리로 함께 올려 주세요.", "ig1Kicker": "MY CLASSICAL TASTE TEST", "ig1Title": "나는 이 그림들에 끌렸어요", "ig1Tease": "이 그림들로 본 내 음악 취향은? →", "ig2Kicker": "나의 음악 취향은", "ig2Picks": "고른 그림", "ig3Kicker": "MY CLASSICAL MENU", "ig3Cta": "당신의 클래식은 어떤 맛인가요?", "ig3Sub": "그림 두 장, 20초면 알 수 있어요"});
     Object.assign(I18N.ja, {"logoSub": "ヤミークラシック", "cmpTopKicker": "Top pick for you", "cmpTopTpl": "いちばんのおすすめ作曲家は{n}です", "cmpTopWhy": "選んだ絵とキーワードが{c}個重なります: {t}", "cmpTopGo": "この作曲家のおすすめ曲を見る →", "cmpTopBadge": "★ いちばんのおすすめ", "cmpShared": "重なるキーワード {c}個", "cmpOpera": "オペラ作曲家のおすすめ({n}人)", "r2First": "最初のページに戻る", "h1": "あなたのクラシック音楽の<br />好みを見つけます。", "sub": "惹かれる絵を選んでみてください", "pairSwap": "よくわからない… 別の絵で選んでみます", "r2Sub": "3ページ合わせて24点の絵をすべて見てから、惹かれる絵を4点以上選んでください。絵にマウスを重ねると大きく見られます(スマホは長押し)。", "r2Swap": "次のページへ", "r2SeeAll": "いいですね! ほかのページも見てください({n}/{t})— そのあとメニューが開きます", "r2Go": "私のクラシック・メニュー(好み)を見る ↓", "igShareNow": "画像3枚を共有する →", "igTapAgain": "画像の準備ができました。下のボタンをもう一度押して共有してください。", "igSaveHint": "画像を押すと1枚ずつ保存できます(スマホは長押しで保存)", "imgFail": "画像を作れませんでした。もう一度押してください。", "r2Eyebrow": "", "cdSubLinked": "Your tastes · あなたの好み", "cdBadge": "Yummy Classic おすすめ", "cmpTitle": "作曲家ごとに、あなたの好みに合う曲もおすすめします", "cmpSub": "", "shareImage": "画像3枚を保存 · Instagram用", "shareInsta": "3枚の画像をInstagramのカルーセル投稿やストーリーズにまとめて載せてください。", "ig1Kicker": "MY CLASSICAL TASTE TEST", "ig1Title": "私はこの絵に惹かれました", "ig1Tease": "この絵から見えた私の音楽の好みは? →", "ig2Kicker": "私の音楽の好みは", "ig2Picks": "選んだ絵", "ig3Kicker": "MY CLASSICAL MENU", "ig3Cta": "あなたのクラシックはどんな味?", "ig3Sub": "絵を2枚、約20秒でわかります"});
     // Type chemistry (best / opposite type) and the composer taste map
-    Object.assign(I18N.en, { chemBest: 'Your best match', chemFar: 'Your opposite', chemAsk: 'Which type is your friend?', chemGo: 'Send them the match test',
+    Object.assign(I18N.en, { chemBest: 'In harmony with you', chemFar: 'Needs a little tuning with you',
       mapMe: 'Your taste', mapFit: 'Taste match', mapGrow: 'Taste stretch', mapNote: 'Closer means a stronger match. Tap a name to see the pieces.' });
-    Object.assign(I18N.ko, { chemBest: '나와 잘 맞는 유형', chemFar: '나와 정반대 유형', chemAsk: '친구는 어떤 유형일까요?', chemGo: '친구에게 냠냠클래식 궁합 보내기',
+    Object.assign(I18N.ko, { chemBest: '나와 화음이 맞는 유형', chemFar: '나와 조율이 필요한 유형',
       mapMe: '나의 취향', mapFit: '취향 맞춤', mapGrow: '취향 확장', mapNote: '가까울수록 내 그림과 더 잘 맞아요. 이름을 누르면 곡이 나와요.' });
-    Object.assign(I18N.ja, { chemBest: '相性のいいタイプ', chemFar: '正反対のタイプ', chemAsk: '友だちはどのタイプ?', chemGo: '友だちに相性テストを送る',
+    Object.assign(I18N.ja, { chemBest: '和音が合うタイプ', chemFar: '調律が必要なタイプ',
       mapMe: 'あなたの好み', mapFit: '好みにぴったり', mapGrow: '好みを広げる', mapNote: '近いほどよく合います。名前を押すと曲が出ます。' });
     Object.assign(I18N.en, {"r2Need": "Pick {n} more (at least 4 of 24)"});
     Object.assign(I18N.ko, {"r2Need": "{n}점 더 골라 주세요 (24점 중 최소 4점)"});
@@ -2406,12 +2406,7 @@
         card.append(pic, txt);
         row.appendChild(card);
       });
-      const foot = document.createElement('div'); foot.className = 'chem-foot';
-      const ask = document.createElement('span'); ask.textContent = t.chemAsk;
-      const go = document.createElement('button'); go.type = 'button'; go.className = 'btn btn-ghost btn-sm'; go.textContent = t.chemGo;
-      go.addEventListener('click', e => { if (typeof sendVs === 'function') sendVs(e); });
-      foot.append(ask, go);
-      box.append(row, foot);
+      box.append(row);
       box.hidden = false;
     }
 
@@ -5095,8 +5090,8 @@
       renderVsBanner(); renderVsCard(); renderPct();
       const ta = document.querySelector('#fb textarea');
       if (ta) ta.placeholder = I18N[lang][fbVote < 0 ? 'fbPhNo' : 'fbPhYes'];
-      const vt = document.getElementById('vs-top'); if (vt) vt.hidden = !!(restored || !ready());
-      const ask = document.getElementById('r-ask'); if (ask) ask.hidden = !!(restored || !ready());
+      const vt = document.getElementById('vs-top'); if (vt) vt.hidden = true;   // match invite kept out of the result's first screen (share section only)
+      const ask = document.getElementById('r-ask'); if (ask) ask.hidden = true;
       const fb = document.getElementById('fb'); if (fb) fb.hidden = !!restored;
     }
     document.getElementById('vs-top').addEventListener('click', sendVs);
