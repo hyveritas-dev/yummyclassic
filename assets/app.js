@@ -304,7 +304,7 @@
     // ---- Q2 as rounds: four paintings a round, one pick each ----
     Object.assign(I18N.en, {
       r2Title: '<b>Q2</b>Round by round, just one painting',
-      r2Sub: 'Six rounds of four paintings. In each round, pick the one that draws you most today. Hover over a painting to see it large (on a phone, press and hold).',
+      r2Sub: 'Three rounds of four paintings. In each round, pick the one that draws you most today. Hover over a painting to see it large (on a phone, press and hold).',
       rRound: 'Round {n} / {t}', rPickOne: 'Just one of these', rCount: '{n} of {t} picked',
       rPrev: '← Previous round', r2Back: 'Start over',
       rDone: 'Today’s {n} paintings are in!', rDoneSub: 'Tap a painting or a dot to change that round.',
@@ -314,7 +314,7 @@
     });
     Object.assign(I18N.ko, {
       r2Title: '<b>Q2</b>라운드마다, 끌리는 한 장만',
-      r2Sub: '4점씩 6라운드예요. 라운드마다 오늘 더 끌리는 그림 한 장만 골라 주세요. 그림에 마우스를 올리면 크게 보여요 (휴대폰은 길게 누르기).',
+      r2Sub: '4점씩 3라운드예요. 라운드마다 오늘 더 끌리는 그림 한 장만 골라 주세요. 그림에 마우스를 올리면 크게 보여요 (휴대폰은 길게 누르기).',
       rRound: 'Round {n} / {t}', rPickOne: '이 중 한 장만', rCount: '{t}라운드 중 {n}라운드 완료',
       rPrev: '← 이전 라운드', r2Back: '처음으로',
       rDone: '오늘의 그림 {n}점이 모였어요!', rDoneSub: '그림이나 위의 점을 누르면 그 라운드를 다시 고를 수 있어요.',
@@ -324,7 +324,7 @@
     });
     Object.assign(I18N.ja, {
       r2Title: '<b>Q2</b>ラウンドごとに、惹かれる1枚だけ',
-      r2Sub: '4枚ずつ6ラウンドです。各ラウンドで、今日いちばん惹かれる絵を1枚だけ選んでください。絵にマウスを重ねると大きく見られます(スマホは長押し)。',
+      r2Sub: '4枚ずつ3ラウンドです。各ラウンドで、今日いちばん惹かれる絵を1枚だけ選んでください。絵にマウスを重ねると大きく見られます(スマホは長押し)。',
       rRound: 'Round {n} / {t}', rPickOne: 'この中から1枚だけ', rCount: '{t}ラウンド中{n}ラウンド完了',
       rPrev: '← 前のラウンド', r2Back: '最初へ',
       rDone: '今日の{n}枚がそろいました!', rDoneSub: '絵か上の点を押すと、そのラウンドを選び直せます。',
@@ -421,7 +421,7 @@
     Object.assign(I18N.en, { readOpen: 'Why these paintings? ▼', readClose: 'Close ▲' });
     Object.assign(I18N.ko, { readOpen: '이 그림들에 끌린 이유 보기 ▼', readClose: '접기 ▲' });
     Object.assign(I18N.ja, { readOpen: 'これらの絵に惹かれた理由を見る ▼', readClose: '閉じる ▲' });
-    if (MOBILE) {
+    {   // PC and phones alike: "Behind your picks" sits lower and opens on tap (PC since 2026-10-19)
       const wrap = document.getElementById('read-wrap'), body = document.getElementById('r-read'), tg = document.getElementById('read-toggle');
       const foot = document.getElementById('r-reset').parentElement;
       foot.parentElement.insertBefore(wrap, foot);
@@ -3521,11 +3521,11 @@
         { en: 'Love & dream', ko: '사랑·몽환', ja: '愛と夢', ids: ['kiss', 'francesca', 'ophelia', 'titania', 'shalott', 'algiers', 'hylas', 'huguenot', 'proserpine', 'beatrix', 'goldenstairs', 'flamingjune', 'aprillove', 'lastengland', 'esther', 'atala', 'belledame', 'eugenie'] },
       ],
     };
-    const ROUNDS = MOBILE ? 3 : 6;
+    const ROUNDS = 3;   // PC and phones alike (PC was 6 until 2026-10-19)
     const groupName = g => g[lang === 'ja' ? 'ja' : lang === 'ko' ? 'ko' : 'en'];
     const groupFor = id => { for (const era of ['classic', 'romantic']) { const g = (GROUPS[era] || []).find(g => g.ids.includes(id)); if (g) return g; } return null; };
     // Mixed rounds: every round shows two classic-style and two romantic-style paintings, from two different
-    // feeling groups of each style. Over six rounds each of the eight groups appears three times, so neither
+    // feeling groups of each style, so neither
     // style is favoured; the final style is counted from these picks together with the Q1 buildings.
     const GROUP_PAIRS = [[0, 1], [2, 3], [0, 2], [1, 3], [0, 3], [1, 2]];
     function buildRounds() {
