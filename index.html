@@ -772,6 +772,9 @@
       .r-left { padding: 1rem 1.2rem; border-radius: var(--r-lg); background: var(--paper); border: 1px solid var(--line); }
       .r-left .r-actions { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: stretch; gap: .75rem; }
       .r-left .r-actions .btn { width: 100%; }
+      /* when the match button or the feedback box is hidden (e.g. a reopened result), centre what is left */
+      .r-under:not(:has(> #fb:not([hidden]))) { grid-template-columns: minmax(0, 1fr); max-width: 30rem; }
+      .r-left .r-actions:not(:has(> #vs-top:not([hidden]))) { grid-template-columns: minmax(0, 1fr); }
       .vs-invite { max-width: none; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; text-align: left; padding: 1.2rem 1.5rem; }
       .vs-invite .vs-invite-s { margin-bottom: 0; }
       .vs-invite .btn { flex: none; }
