@@ -257,10 +257,10 @@ typeIds.forEach(t => {
   const body = [
     `    <p class="lead">냠냠클래식은 음악을 듣기 전에 그림을 먼저 골라, 오늘의 취향에 맞는 클래식을 추천해 주는 서비스예요. 여기서는 작곡가별 대표곡과 그림 취향 유형별 추천곡을 한눈에 볼 수 있어요.</p>`,
     CTA,
-    `    <h2>그림 취향 유형별 추천 클래식</h2>`,
-    `    <ul class="grid">${typeIds.map(t => `<li><a href="/classical/types/${t}/"><b>${esc(TYPES[t][1])}</b><span>${esc(TYPES[t][3])}</span></a></li>`).join('')}</ul>`,
     ...byEra.map(([era, ids]) => `    <h2>${esc(ERA_KO[era])} 작곡가 대표곡</h2>
     <ul class="chips">${ids.map(id => `<li><a href="/classical/composers/${id}/">${esc(shortKo(id))} 대표곡</a></li>`).join('')}</ul>`),
+    `    <h2>그림 취향 유형별 추천 클래식</h2>`,
+    `    <ul class="grid">${typeIds.map(t => `<li><a href="/classical/types/${t}/"><b>${esc(TYPES[t][1])}</b><span>${esc(TYPES[t][3])}</span></a></li>`).join('')}</ul>`,
   ].join('\n');
   out.push([url, page({ url, title: '작곡가별 대표곡 · 그림 취향별 추천 클래식 모아보기 | 냠냠클래식', desc: `바흐부터 푸치니까지 작곡가 ${composerIds.length}명의 대표곡과, 그림 취향 유형 ${typeIds.length}가지에 어울리는 클래식을 모았어요.`, image: '/og/match-ko.png', h1: '작곡가별 대표곡<br />그림 취향별 추천 클래식', crumbs: [['냠냠클래식', '/?lang=ko'], ['작곡가·취향 모아보기', null]], body })]);
 }
