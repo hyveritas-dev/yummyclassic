@@ -54,6 +54,10 @@ const imgUrl = (file, w) => {
   const name = file.replace(/ /g, '_'), h = crypto.createHash('md5').update(name).digest('hex'), enc = encodeURIComponent(name);
   return '/img/thumb/' + h[0] + '/' + h.slice(0, 2) + '/' + enc + '/' + w + 'px-' + enc;
 };
+// 작곡가 칩 옆 작은 초상: 본앱과 같은 120px 썸네일(엣지 캐시 공유), 지연 로딩, 크기 고정으로 레이아웃 흔들림 없음
+const face = id => PORTRAIT[id]
+  ? `<img class="face" src="${imgUrl(PORTRAIT[id], 120)}" alt="" width="26" height="26" loading="lazy" decoding="async">`
+  : '';
 const ytWatch = id => 'https://www.youtube.com/watch?v=' + id;
 const ytSearch = q => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q);
 
@@ -111,6 +115,8 @@ ol.works li::before{content:counter(w);position:absolute;left:16px;top:14px;widt
 .cta small{display:block;font-weight:400;opacity:.85;font-size:.8rem}
 .chips{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
 .chips a{display:inline-block;text-decoration:none;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.88rem;color:var(--ink)}
+.chips a.has-face{display:inline-flex;align-items:center;gap:7px;padding:4px 12px 4px 4px}
+.face{width:26px;height:26px;border-radius:50%;object-fit:cover;object-position:50% 20%;background:var(--line);flex:none}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;padding:0;margin:0;list-style:none}
 .grid a{display:block;height:100%;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px}
 .grid b{display:block;color:var(--wine)}
@@ -258,7 +264,7 @@ typeIds.forEach(t => {
     `    <p class="lead">냠냠클래식은 음악을 듣기 전에 그림을 먼저 골라, 오늘의 취향에 맞는 클래식을 추천해 주는 서비스예요. 여기서는 작곡가별 대표곡과 그림 취향 유형별 추천곡을 한눈에 볼 수 있어요.</p>`,
     CTA,
     ...byEra.map(([era, ids]) => `    <h2>${esc(ERA_KO[era])} 작곡가 대표곡</h2>
-    <ul class="chips">${ids.map(id => `<li><a href="/classical/composers/${id}/">${esc(shortKo(id))} 대표곡</a></li>`).join('')}</ul>`),
+    <ul class="chips">${ids.map(id => `<li><a class="has-face" href="/classical/composers/${id}/">${face(id)}${esc(shortKo(id))} 대표곡</a></li>`).join('')}</ul>`),
     `    <h2>그림 취향 유형별 추천 클래식</h2>`,
     `    <ul class="grid">${typeIds.map(t => `<li><a href="/classical/types/${t}/"><b>${esc(TYPES[t][1])}</b><span>${esc(TYPES[t][3])}</span></a></li>`).join('')}</ul>`,
   ].join('\n');

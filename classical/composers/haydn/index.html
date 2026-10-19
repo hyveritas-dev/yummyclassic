@@ -46,6 +46,8 @@ ol.works li::before{content:counter(w);position:absolute;left:16px;top:14px;widt
 .cta small{display:block;font-weight:400;opacity:.85;font-size:.8rem}
 .chips{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
 .chips a{display:inline-block;text-decoration:none;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.88rem;color:var(--ink)}
+.chips a.has-face{display:inline-flex;align-items:center;gap:7px;padding:4px 12px 4px 4px}
+.face{width:26px;height:26px;border-radius:50%;object-fit:cover;object-position:50% 20%;background:var(--line);flex:none}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;padding:0;margin:0;list-style:none}
 .grid a{display:block;height:100%;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px}
 .grid b{display:block;color:var(--wine)}
