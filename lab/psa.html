@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" />
 <title>명화 프사 시안실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap" />
 <style>
   :root { --bg: #f4efe6; --ink: #2a2433; --muted: #6d6576; --line: #ddd3c2; --wine: #7c1d35; --card: #fffdf8; }
   * { box-sizing: border-box; }
@@ -26,8 +28,14 @@
   .phone .bar { position: absolute; left: 6%; right: 6%; bottom: 4%; border-top: 1px solid rgba(255,255,255,.5); padding-top: 8px; display: flex; justify-content: space-around; color: #fff; font-size: .6rem; text-align: center; }
   .phone .bar span::before { content: ""; display: block; width: 20px; height: 20px; margin: 0 auto 3px; border: 1.5px solid #fff; border-radius: 50%; }
   .phone, .pf, .pfsolo { container-type: inline-size; }
-  .wm { position: absolute; right: 5.2%; top: 20%; text-align: right; color: rgba(255,255,255,.88); text-shadow: 0 0 .4cqw rgba(0,0,0,.6); line-height: 1.25; pointer-events: none; }
-  .wm b { display: block; font-size: 3.15cqw; } .wm span { font-size: 2.6cqw; }
+  .cap { position: absolute; left: 7%; right: 7%; transform: translateY(-50%); text-align: center; color: #fff; text-shadow: 0 0 .8cqw rgba(0,0,0,.65), 0 .2cqw .5cqw rgba(0,0,0,.5); pointer-events: none; }
+  .cap p { margin: 0; }
+  .cap .cl { font-family: "Nanum Myeongjo", serif; font-weight: 700; font-size: 5.4cqw; line-height: 1.35; text-wrap: balance; }
+  .cap .cs { font-size: 3.6cqw; margin-top: 1.6cqw; opacity: .95; }
+  .cap .cb { font-size: 2.3cqw; margin-top: 2.4cqw; opacity: .8; letter-spacing: .02em; }
+  .txt input[type=text] { width: 100%; font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+  .txt .row { display: grid; grid-template-columns: 1fr; gap: 4px; font-size: .88rem; margin-bottom: 10px; }
+  .txt .chk { display: flex; gap: 8px; align-items: center; grid-template-columns: none; }
   .pwm { position: absolute; left: 0; right: 0; bottom: 5%; text-align: center; color: rgba(255,255,255,.8); font-size: 3.6cqw; text-shadow: 0 0 .8cqw rgba(0,0,0,.7); pointer-events: none; }
   .solo { display: flex; gap: 14px; align-items: center; margin-top: 14px; }
   .solo .pfsolo { position: relative; width: 84px; aspect-ratio: 1; border-radius: 40%; background-repeat: no-repeat; flex: none; }
@@ -59,7 +67,7 @@ const SETS = [
     id: 'starry', title: '고흐 〈별이 빛나는 밤〉 — 내가 달이 된다',
     src: '빈센트 반 고흐, 1889 · 퍼블릭 도메인 (Wikimedia Commons)',
     img: '/img/thumb/0/01/Vincent_van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1920px-Vincent_van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg',
-    status: '소용돌이치는 밤하늘 · 드뷔시 「달빛」',
+    txt: { on: true, line: '말없이 오래 앉아 있고 싶은 밤', song: '드뷔시 「달빛」', y: 0.38 },
     // pf focus = point shown at the centre of the profile photo; bg focus = point that sits right under the profile photo; zoom 1 = just covers
     pf: { x: 0.87, y: 0.14, z: 4.5 },
     bg: { x: 0.45, y: 0.33, z: 1.35 },
@@ -68,7 +76,7 @@ const SETS = [
     id: 'adam', title: '미켈란젤로 〈아담의 창조〉 — 닿기 직전의 손끝',
     src: '미켈란젤로 부오나로티, 1508~1512 · 퍼블릭 도메인 (Wikimedia Commons)',
     img: '/img/thumb/5/5b/Michelangelo_-_Creation_of_Adam_(cropped).jpg/1920px-Michelangelo_-_Creation_of_Adam_(cropped).jpg',
-    status: '닿기 직전의 손끝 · 헨델 「할렐루야」',
+    txt: { on: true, line: '닿을 듯 말 듯, 그래서 더 간절한', song: '헨델 「할렐루야」', y: 0.38 },
     pf: { x: 0.50, y: 0.40, z: 5.0 },
     bg: { x: 0.545, y: 0.38, z: 2.0 },
   },
@@ -98,19 +106,37 @@ function watermark(g, W, H) {
   if (W === H) {
     g.textAlign = 'center'; g.font = '500 ' + Math.round(W * .036) + 'px ' + WM_FONT; g.fillStyle = 'rgba(255,255,255,.8)';
     g.fillText('yummyclassic', W / 2, H * .93);
-  } else {
-    g.textAlign = 'right'; const x = W * .948, y = H * .2;
-    g.font = '700 ' + Math.round(W * .0315) + 'px ' + WM_FONT; g.fillText('냠냠클래식 명화 프사', x, y + W * .03);
-    g.font = '400 ' + Math.round(W * .026) + 'px ' + WM_FONT; g.fillText('yummyclassic.co.kr', x, y + W * .065);
   }
   g.restore();
 }
-function save(im, f, W, H, name, cx = 0.5, cy = 0.5) {
+// Mood line + song + brand on the background, centred around txt.y (same proportions as the preview's .cap)
+function wrap(g, text, maxW) {
+  const words = text.split(' '), out = []; let cur = '';
+  words.forEach(w => { const t = cur ? cur + ' ' + w : w; if (g.measureText(t).width > maxW && cur) { out.push(cur); cur = w; } else cur = t; });
+  if (cur) out.push(cur); return out;
+}
+function caption(g, W, H, T) {
+  g.save(); g.textAlign = 'center'; g.textBaseline = 'alphabetic'; g.fillStyle = '#fff';
+  g.shadowColor = 'rgba(0,0,0,.65)'; g.shadowBlur = W * .012;
+  const cl = W * .054, cs = W * .036, cb = W * .023, maxW = W * .86;
+  g.font = '700 ' + cl + 'px "Nanum Myeongjo", serif';
+  const lines = T.on && T.line ? wrap(g, T.line, maxW) : [];
+  const parts = [];
+  lines.forEach((l, i) => parts.push({ t: l, f: g.font, h: cl * 1.35, gap: 0 }));
+  if (T.on && T.song) parts.push({ t: T.song, f: '400 ' + cs + 'px ' + WM_FONT, h: cs * 1.4, gap: W * .016 });
+  parts.push({ t: '냠냠클래식 명화 프사 · yummyclassic.co.kr', f: '400 ' + cb + 'px ' + WM_FONT, h: cb * 1.4, gap: W * .024, a: .8 });
+  const total = parts.reduce((n, p) => n + p.h + p.gap, 0);
+  let y = H * T.y - total / 2;
+  parts.forEach(p => { y += p.gap + p.h; g.font = p.f; g.globalAlpha = p.a || 1; g.fillText(p.t, W / 2, y - p.h * .25); });
+  g.restore();
+}
+async function save(im, f, W, H, name, cx = 0.5, cy = 0.5, T = null) {
+  try { await document.fonts.load('700 40px "Nanum Myeongjo"'); } catch (e) {}
   const c = document.createElement('canvas'); c.width = W; c.height = H;
   const L = layout(im.naturalWidth, im.naturalHeight, W, H, f, cx, cy);
   const g = c.getContext('2d');
   g.drawImage(im, L.x, L.y, L.dw, L.dh);
-  watermark(g, W, H);
+  if (T) caption(g, W, H, T); else watermark(g, W, H);
   c.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }, 'image/jpeg', .92);
 }
 
@@ -120,7 +146,7 @@ SETS.forEach(S => {
   el.innerHTML = `
     <div>
       <h2></h2><p class="src"></p>
-      <div class="phone"><div class="bgimg"></div><div class="shade"></div><div class="wm"><b>냠냠클래식 명화 프사</b><span>yummyclassic.co.kr</span></div><div class="pf"><div class="pwm">yummyclassic</div></div>
+      <div class="phone"><div class="bgimg"></div><div class="shade"></div><div class="cap"><p class="cl"></p><p class="cs"></p><p class="cb">냠냠클래식 명화 프사 · yummyclassic.co.kr</p></div><div class="pf"><div class="pwm">yummyclassic</div></div>
         <div class="nm">냠냠클래식</div><div class="st"></div>
         <div class="bar"><span>나와의 채팅</span><span>프로필 편집</span><span>카카오스토리</span></div></div>
       <div class="solo"><div class="pfsolo"><div class="pwm">yummyclassic</div></div><small>채팅 목록에서 프로필만 보일 때</small></div>
@@ -129,7 +155,6 @@ SETS.forEach(S => {
     <div class="ctl"></div>`;
   el.querySelector('h2').textContent = S.title;
   el.querySelector('.src').textContent = S.src;
-  el.querySelector('.st').textContent = S.status;
   const ctl = el.querySelector('.ctl');
   const groups = [['pf', '프로필 사진 (원 안)'], ['bg', '배경 사진']];
   const vals = document.createElement('div'); vals.className = 'vals';
@@ -147,6 +172,21 @@ SETS.forEach(S => {
     });
     ctl.append(fs);
   });
+  // mood line editor
+  const tf = document.createElement('fieldset'); tf.className = 'txt';
+  tf.innerHTML = `<legend>배경 문구</legend>
+    <label class="row" for="${S.id}-line">한 줄 문구<input type="text" id="${S.id}-line" maxlength="40"></label>
+    <label class="row" for="${S.id}-song">곡 이름<input type="text" id="${S.id}-song" maxlength="40"></label>
+    <label for="${S.id}-ty"><span>세로 위치</span><input type="range" id="${S.id}-ty" min="0.22" max="0.55" step="0.005"><output></output></label>
+    <label class="chk" for="${S.id}-on"><input type="checkbox" id="${S.id}-on"> 문구 넣기</label>`;
+  const iLine = tf.querySelector('#' + S.id + '-line'), iSong = tf.querySelector('#' + S.id + '-song'),
+        iY = tf.querySelector('#' + S.id + '-ty'), oY = iY.nextElementSibling, iOn = tf.querySelector('#' + S.id + '-on');
+  iLine.value = S.txt.line; iSong.value = S.txt.song; iY.value = S.txt.y; oY.textContent = (+S.txt.y).toFixed(2); iOn.checked = S.txt.on;
+  iLine.addEventListener('input', () => { S.txt.line = iLine.value; draw(); });
+  iSong.addEventListener('input', () => { S.txt.song = iSong.value; draw(); });
+  iY.addEventListener('input', () => { S.txt.y = +iY.value; oY.textContent = (+iY.value).toFixed(2); draw(); });
+  iOn.addEventListener('change', () => { S.txt.on = iOn.checked; draw(); });
+  ctl.append(tf);
   const btns = document.createElement('div'); btns.className = 'btns';
   btns.innerHTML = '<button type="button" data-a="pf">프로필 저장 (640×640)</button><button type="button" data-a="bg">배경 저장 (1080×1920)</button><button type="button" class="ghost" data-a="copy">값 복사</button>';
   ctl.append(btns, vals);
@@ -157,15 +197,19 @@ SETS.forEach(S => {
   function draw() {
     if (!im.naturalWidth) return;
     applyCss(bgEl, im, S.bg, PF_CX, PF_CY); applyCss(pfEl, im, S.pf); applyCss(soloEl, im, S.pf);
-    vals.textContent = JSON.stringify({ id: S.id, pf: S.pf, bg: S.bg });
+    const cap = el.querySelector('.cap'), on = S.txt.on;
+    cap.style.top = (S.txt.y * 100) + '%';
+    cap.querySelector('.cl').textContent = on ? S.txt.line : ''; cap.querySelector('.cs').textContent = on ? S.txt.song : '';
+    el.querySelector('.st').textContent = [S.txt.line, S.txt.song].filter(Boolean).join(' · ');
+    vals.textContent = JSON.stringify({ id: S.id, pf: S.pf, bg: S.bg, txt: S.txt });
   }
-  im.onload = draw; im.onerror = () => { el.querySelector('.err').hidden = false; };
+  im.onload = draw; document.fonts && document.fonts.ready.then(draw); im.onerror = () => { el.querySelector('.err').hidden = false; };
   im.src = S.img;
   window.addEventListener('resize', draw);
   btns.addEventListener('click', e => {
     const a = e.target.dataset.a; if (!a || !im.naturalWidth) return;
     if (a === 'pf') save(im, S.pf, 640, 640, S.id + '_profile.jpg');
-    if (a === 'bg') save(im, S.bg, 1080, 1920, S.id + '_background.jpg', PF_CX, PF_CY);
+    if (a === 'bg') save(im, S.bg, 1080, 1920, S.id + '_background.jpg', PF_CX, PF_CY, S.txt);
     if (a === 'copy') navigator.clipboard.writeText(vals.textContent).then(() => { e.target.textContent = '복사됨'; setTimeout(() => e.target.textContent = '값 복사', 1500); }).catch(() => {});
   });
 });
