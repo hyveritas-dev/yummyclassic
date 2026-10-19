@@ -112,6 +112,7 @@ ol.works li::before{content:counter(w);position:absolute;left:16px;top:14px;widt
 .w-by{font-size:.82rem;color:var(--muted)}
 .w-link{font-size:.82rem;font-weight:600;text-decoration:none;margin-top:4px;display:inline-block}
 .cta{display:block;text-align:center;background:var(--wine);color:var(--paper);text-decoration:none;font-weight:700;border-radius:14px;padding:16px;margin:34px 0 8px}
+.cta.share{width:100%;border:0;font:inherit;font-weight:700;cursor:pointer}
 .cta small{display:block;font-weight:400;opacity:.85;font-size:.8rem}
 .chips{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
 .chips a{display:inline-block;text-decoration:none;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.88rem;color:var(--ink)}
@@ -184,6 +185,25 @@ ${body}
 
 const CTA = `    <a class="cta" href="/?lang=ko">그림 몇 장만 고르면, 오늘 나에게 맞는 클래식을 추천해 드려요
       <small>약 20초 · 회원가입 없음 · 정답 없음</small></a>`;
+// 친구에게 추천하기: 휴대폰은 공유 시트, PC는 링크 복사
+const SHARE = `    <button type="button" class="cta share" id="share-site">친구에게 냠냠클래식 추천하기
+      <small id="share-note">그림 몇 장으로 고르는 오늘의 클래식, 20초면 돼요</small></button>
+    <script>
+      (function () {
+        var b = document.getElementById('share-site'), note = document.getElementById('share-note');
+        var data = { title: '냠냠클래식', text: '그림 몇 장만 고르면 오늘 나에게 맞는 클래식을 추천해 줘요. 20초면 돼요!', url: 'https://www.yummyclassic.co.kr/?lang=ko' };
+        function done(m) { note.textContent = m; try { gtag('event', 'share', { method: m === '링크를 복사했어요' ? 'copy' : 'native', content_type: 'site', item_id: 'classical_hub' }); } catch (e) {} }
+        function copy() {
+          var t = data.text + ' ' + data.url;
+          if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(function () { done('링크를 복사했어요'); }, function () { prompt('아래 링크를 복사해 친구에게 보내 주세요', data.url); });
+          else prompt('아래 링크를 복사해 친구에게 보내 주세요', data.url);
+        }
+        b.addEventListener('click', function () {
+          if (navigator.share) navigator.share(data).then(function () { done('추천해 주셔서 고마워요'); }, function (e) { if (e && e.name !== 'AbortError') copy(); });
+          else copy();
+        });
+      })();
+    </script>`;
 
 function workItem(en, ko, who, composerKo) {
   const r = REC.get(norm(en));
@@ -262,11 +282,12 @@ typeIds.forEach(t => {
   const byEra = Object.keys(ERA_KO).map(era => [era, composerIds.filter(id => eraOf[id] === era)]).filter(([, l]) => l.length);
   const body = [
     `    <p class="lead">냠냠클래식은 음악을 듣기 전에 그림을 먼저 골라, 오늘의 취향에 맞는 클래식을 추천해 주는 서비스예요. 여기서는 작곡가별 대표곡과 그림 취향 유형별 추천곡을 한눈에 볼 수 있어요.</p>`,
-    CTA,
+    SHARE,
     ...byEra.map(([era, ids]) => `    <h2>${esc(ERA_KO[era])} 작곡가 대표곡</h2>
     <ul class="chips">${ids.map(id => `<li><a class="has-face" href="/classical/composers/${id}/">${face(id)}${esc(shortKo(id))} 대표곡</a></li>`).join('')}</ul>`),
     `    <h2>그림 취향 유형별 추천 클래식</h2>`,
     `    <ul class="grid">${typeIds.map(t => `<li><a href="/classical/types/${t}/"><b>${esc(TYPES[t][1])}</b><span>${esc(TYPES[t][3])}</span></a></li>`).join('')}</ul>`,
+    CTA,
   ].join('\n');
   out.push([url, page({ url, title: '작곡가별 대표곡 · 그림 취향별 추천 클래식 모아보기 | 냠냠클래식', desc: `바흐부터 푸치니까지 작곡가 ${composerIds.length}명의 대표곡과, 그림 취향 유형 ${typeIds.length}가지에 어울리는 클래식을 모았어요.`, image: '/og/match-ko.png', h1: '작곡가별 대표곡<br />그림 취향별 추천 클래식', crumbs: [['냠냠클래식', '/?lang=ko'], ['작곡가·취향 모아보기', null]], body })]);
 }
