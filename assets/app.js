@@ -2522,6 +2522,21 @@
 
       document.getElementById('r-era-big').textContent = E.en;
       document.getElementById('r-era').textContent = ko ? E.ko : ERA_EN[eraKey];
+      // footnote: Renaissance paintings (da Vinci, Michelangelo...) predate the Baroque but are grouped on the classical side
+      const renPicks = eraKey !== 'romantic' ? sel.filter(s => /Renaissance/.test(s.tagEn)) : [];
+      const eraNote = document.getElementById('r-era-note');
+      if (eraNote) {
+        eraNote.hidden = !renPicks.length;
+        if (renPicks.length) {
+          const who = [...new Set(renPicks.map(s => ko ? s.byKo : s.byEn))].slice(0, 2).join(lang === 'ja' ? '・' : ko ? '·' : ', ');
+          const NOTE = {
+            ko: '{n}의 그림은 바로크보다 앞선 르네상스(1400~1500년대) 작품이에요. 시대는 다르지만 균형과 절제를 중시하는 결이 닮아, 냠냠클래식에서는 바로크·고전 쪽으로 함께 묶었어요.',
+            ja: '{n}の作品は、バロックより前のルネサンス期（15〜16世紀）のものです。時代は異なりますが、均衡と節度を重んじる点が近いため、Yummy Classicではバロック・古典の側にまとめています。',
+            en: 'Works by {n} come from the Renaissance (1400s–1500s), before the Baroque. The era differs, but they share the same love of balance and restraint, so Yummy Classic groups them on the Baroque–Classical side.',
+          };
+          eraNote.textContent = '※ ' + (NOTE[lang] || NOTE.en).replace('{n}', who);
+        }
+      }
       const ty = document.getElementById('r-type');
       ty.innerHTML = '';
       const sm = document.createElement('small'); sm.textContent = t.typeLead;
