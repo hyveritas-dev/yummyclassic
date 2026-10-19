@@ -53,6 +53,15 @@ ol.works li::before{content:counter(w);position:absolute;left:16px;top:14px;widt
 .grid a{display:block;height:100%;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px}
 .grid b{display:block;color:var(--wine)}
 .grid span{font-size:.85rem;color:var(--muted)}
+.w-link.on{color:var(--ink)}
+ol.works li.playing{border-color:var(--wine);box-shadow:0 2px 12px rgba(122,15,42,.12)}
+.pl-player{margin:10px 0 4px;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;max-width:520px}
+.pl-player iframe{width:100%;height:100%;display:block;border:0}
+.pl-player.pl-fail{aspect-ratio:auto;background:transparent;padding:4px 0}
+.pl-player.pl-fail a{font-size:.88rem}
+.pl-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pl-tool{font:inherit;font-size:.8rem;font-weight:600;color:var(--wine);background:var(--vanilla);border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;cursor:pointer}
+.pl-auto{font-size:.78rem;color:var(--muted);margin:2px 0 0}
 .typeimg{width:100%;max-width:520px;border-radius:14px;display:block;margin:10px 0 4px;border:1px solid var(--line)}
 footer.site{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 40px;font-size:.8rem;color:var(--muted)}
 footer.site a{color:var(--muted)}</style>
@@ -76,11 +85,11 @@ footer.site a{color:var(--muted)}</style>
     <img class="typeimg" src="/og/dash-ko.png" alt="그림 취향 유형 ‘멈추지 않는 질주자’ 카드" loading="eager" />
     <h2>‘멈추지 않는 질주자’에게 어울리는 클래식</h2>
     <ol class="works">
-      <li><div class="w-ko">리스트 · 헝가리 광시곡 2번 S. 244</div><div class="w-en">Hungarian Rhapsody No. 2, S. 244</div><div class="w-by">연주 Lang Lang, piano (Horowitz’s arrangement)</div><a class="w-link" href="https://www.youtube.com/watch?v=Oxxf2t4E4nc" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">차이콥스키 · 피아노 협주곡 1번 내림나단조 Op. 23 — 1악장</div><div class="w-en">Piano Concerto No. 1 in B-flat minor, Op. 23 — I. Allegro non troppo e molto maestoso</div><div class="w-by">연주 Martha Argerich · Abbado · Berliner Philharmoniker</div><a class="w-link" href="https://www.youtube.com/watch?v=esK8GgfbRDQ" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">쇼팽 · 폴로네이즈 내림A장조 “영웅” Op. 53</div><div class="w-en">Polonaise in A-flat major “Heroic”, Op. 53</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=VEl9zn8JPW8" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">브람스 · 헝가리 무곡 5번 G단조</div><div class="w-en">Hungarian Dance No. 5 in G minor</div><div class="w-by">연주 Abbado · Berliner Philharmoniker</div><a class="w-link" href="https://www.youtube.com/watch?v=6Z0gYhRkRfM" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">멘델스존 · 바이올린 협주곡 E단조 Op. 64 — 3악장 알레그로 몰토 비바체</div><div class="w-en">Violin Concerto in E minor, Op. 64 — III. Allegro molto vivace</div><div class="w-by">연주 Hilary Hahn, violin</div><a class="w-link" href="https://www.youtube.com/watch?v=2xElqIYzzR8" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="Oxxf2t4E4nc" data-name="리스트 · 리스트 · 헝가리 광시곡 2번 S. 244"><div class="w-ko">리스트 · 헝가리 광시곡 2번 S. 244</div><div class="w-en">Hungarian Rhapsody No. 2, S. 244</div><div class="w-by">연주 Lang Lang, piano (Horowitz’s arrangement)</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=Oxxf2t4E4nc" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="esK8GgfbRDQ" data-name="차이콥스키 · 차이콥스키 · 피아노 협주곡 1번 내림나단조 Op. 23 — 1악장"><div class="w-ko">차이콥스키 · 피아노 협주곡 1번 내림나단조 Op. 23 — 1악장</div><div class="w-en">Piano Concerto No. 1 in B-flat minor, Op. 23 — I. Allegro non troppo e molto maestoso</div><div class="w-by">연주 Martha Argerich · Abbado · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=esK8GgfbRDQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="VEl9zn8JPW8" data-name="쇼팽 · 쇼팽 · 폴로네이즈 내림A장조 “영웅” Op. 53"><div class="w-ko">쇼팽 · 폴로네이즈 내림A장조 “영웅” Op. 53</div><div class="w-en">Polonaise in A-flat major “Heroic”, Op. 53</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=VEl9zn8JPW8" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="6Z0gYhRkRfM" data-name="브람스 · 브람스 · 헝가리 무곡 5번 G단조"><div class="w-ko">브람스 · 헝가리 무곡 5번 G단조</div><div class="w-en">Hungarian Dance No. 5 in G minor</div><div class="w-by">연주 Abbado · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=6Z0gYhRkRfM" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="2xElqIYzzR8" data-name="멘델스존 · 멘델스존 · 바이올린 협주곡 E단조 Op. 64 — 3악장 알레그로 몰토 비바체"><div class="w-ko">멘델스존 · 바이올린 협주곡 E단조 Op. 64 — 3악장 알레그로 몰토 비바체</div><div class="w-en">Violin Concerto in E minor, Op. 64 — III. Allegro molto vivace</div><div class="w-by">연주 Hilary Hahn, violin</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=2xElqIYzzR8" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
     </ol>
     <a class="cta" href="/?lang=ko">그림 몇 장만 고르면, 오늘 나에게 맞는 클래식을 추천해 드려요
       <small>약 20초 · 회원가입 없음 · 정답 없음</small></a>
@@ -94,5 +103,103 @@ footer.site a{color:var(--muted)}</style>
     <p>초상화·그림: Wikimedia Commons (퍼블릭 도메인) · 음원: YouTube</p>
     <p>© 2026 냠냠클래식 · 그림 한 장으로 고르는 오늘의 클래식</p>
   </div></footer>
+  <script>
+  (function () {
+    var items = document.querySelectorAll('ol.works li[data-yt]');
+    if (!items.length || !/^https?:$/.test(location.protocol)) return;
+    var api = null, li0 = null, player = null;
+    function loadYT() {
+      if (api) return api;
+      api = new Promise(function (res) {
+        if (window.YT && window.YT.Player) return res(true);
+        var prev = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = function () { if (typeof prev === 'function') prev(); res(true); };
+        var s = document.createElement('script');
+        s.src = 'https://www.youtube.com/iframe_api'; s.async = true;
+        s.onerror = function () { res(false); };
+        document.head.appendChild(s);
+        setTimeout(function () { res(!!(window.YT && window.YT.Player)); }, 9000);
+      });
+      return api;
+    }
+    window.addEventListener('pointerdown', function () { loadYT(); }, { once: true });
+    function btn(li) { return li.querySelector('.pl-btn'); }
+    function stop() {
+      if (player) { try { player.destroy(); } catch (e) {} }
+      if (li0) {
+        ['.pl-player', '.pl-tools', '.pl-auto'].forEach(function (c) { var x = li0.querySelector(c); if (x) x.remove(); });
+        li0.classList.remove('playing');
+        var b = btn(li0); if (b) { b.textContent = '▶ 이 창에서 듣기'; b.classList.remove('on'); }
+      }
+      player = null; li0 = null;
+    }
+    function nextOf(li) {
+      var n = li.nextElementSibling;
+      while (n && !n.dataset.yt) n = n.nextElementSibling;
+      if (!n) {   // 같은 페이지의 다음 목록(예: 더 들어볼 만한 곡)으로 이어서
+        var lists = Array.prototype.slice.call(document.querySelectorAll('ol.works'));
+        for (var i = lists.indexOf(li.parentNode) + 1; i < lists.length && !n; i++) n = lists[i].querySelector('li[data-yt]');
+      }
+      return n;
+    }
+    function playNext(li) { var n = nextOf(li); if (n) open(n, true); else stop(); }
+    function fail(li, auto, code) {
+      var box = li.querySelector('.pl-player'); if (!box) return;
+      if (player) { try { player.destroy(); } catch (e) {} player = null; }
+      box.className = 'pl-player pl-fail'; box.innerHTML = '';
+      var a = document.createElement('a');
+      a.href = 'https://www.youtube.com/watch?v=' + li.dataset.yt; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = '이 곡은 여기서 재생할 수 없어요 — 유튜브에서 열기 ↗';
+      box.appendChild(a);
+      try { gtag('event', 'play_fail', { piece: li.dataset.name, code: code || 0 }); } catch (e) {}
+      if (auto) setTimeout(function () { if (li0 === li) playNext(li); }, 1500);   // 연속 재생 중이면 건너뛰고 다음 곡
+    }
+    function open(li, auto) {
+      if (li0 === li && !auto) { stop(); return; }
+      stop();
+      li0 = li;
+      li.classList.add('playing');
+      var b = btn(li); if (b) { b.textContent = '■ 멈추기'; b.classList.add('on'); }
+      var box = document.createElement('div'); box.className = 'pl-player';
+      var holder = document.createElement('div'); box.appendChild(holder);
+      var tools = document.createElement('div'); tools.className = 'pl-tools';
+      var nx = document.createElement('button'); nx.type = 'button'; nx.className = 'pl-tool'; nx.textContent = '다음 곡 ▶▶';
+      nx.addEventListener('click', function () { var n = nextOf(li); if (n) open(n, false); });
+      var yt = document.createElement('a'); yt.className = 'pl-tool'; yt.href = 'https://www.youtube.com/watch?v=' + li.dataset.yt;
+      yt.target = '_blank'; yt.rel = 'noopener'; yt.textContent = '유튜브에서 보기 ↗';
+      yt.addEventListener('click', function () { try { player && player.pauseVideo(); } catch (e) {} });
+      var cl = document.createElement('button'); cl.type = 'button'; cl.className = 'pl-tool'; cl.textContent = '■ 닫기';
+      cl.addEventListener('click', stop);
+      if (nextOf(li)) tools.appendChild(nx);
+      tools.appendChild(yt); tools.appendChild(cl);
+      li.appendChild(box); li.appendChild(tools);
+      if (nextOf(li)) { var note = document.createElement('p'); note.className = 'pl-auto'; note.textContent = '곡이 끝나면 다음 곡이 이어서 나와요'; li.appendChild(note); }
+      setTimeout(function () { li.scrollIntoView({ behavior: 'smooth', block: auto ? 'center' : 'nearest' }); }, 60);
+      try { gtag('event', 'play_music', { piece: li.dataset.name, area: 'seo', auto: auto ? 1 : 0 }); } catch (e) {}
+      function build() {
+        if (li0 !== li) return;
+        if (!(window.YT && window.YT.Player)) return fail(li, auto);
+        player = new YT.Player(holder, {
+          videoId: li.dataset.yt, width: '100%', height: '100%', host: 'https://www.youtube.com',
+          playerVars: { autoplay: 1, mute: 0, rel: 0, playsinline: 1, modestbranding: 1, origin: location.origin, enablejsapi: 1 },
+          events: {
+            onReady: function (e) { try { e.target.unMute(); e.target.setVolume(100); e.target.playVideo(); } catch (x) {} },
+            onError: function (e) { fail(li, auto, e && e.data); },
+            onStateChange: function (e) {
+              if (e.data === 1) { try { if (e.target.isMuted()) { e.target.unMute(); e.target.setVolume(100); } } catch (x) {} }
+              if (e.data === 0) playNext(li);
+            }
+          }
+        });
+      }
+      // API가 이미 있으면 탭 안에서 바로 만들어 자동재생이 막히지 않게
+      if (window.YT && window.YT.Player) build(); else loadYT().then(build);
+    }
+    items.forEach(function (li) {
+      var b = btn(li); if (!b) return;
+      b.addEventListener('click', function (e) { e.preventDefault(); open(li, false); });
+    });
+  })();
+  </script>
 </body>
 </html>

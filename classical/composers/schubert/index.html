@@ -53,6 +53,15 @@ ol.works li::before{content:counter(w);position:absolute;left:16px;top:14px;widt
 .grid a{display:block;height:100%;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px}
 .grid b{display:block;color:var(--wine)}
 .grid span{font-size:.85rem;color:var(--muted)}
+.w-link.on{color:var(--ink)}
+ol.works li.playing{border-color:var(--wine);box-shadow:0 2px 12px rgba(122,15,42,.12)}
+.pl-player{margin:10px 0 4px;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;max-width:520px}
+.pl-player iframe{width:100%;height:100%;display:block;border:0}
+.pl-player.pl-fail{aspect-ratio:auto;background:transparent;padding:4px 0}
+.pl-player.pl-fail a{font-size:.88rem}
+.pl-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pl-tool{font:inherit;font-size:.8rem;font-weight:600;color:var(--wine);background:var(--vanilla);border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;cursor:pointer}
+.pl-auto{font-size:.78rem;color:var(--muted);margin:2px 0 0}
 .typeimg{width:100%;max-width:520px;border-radius:14px;display:block;margin:10px 0 4px;border:1px solid var(--line)}
 footer.site{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 40px;font-size:.8rem;color:var(--muted)}
 footer.site a{color:var(--muted)}</style>
@@ -77,16 +86,16 @@ footer.site a{color:var(--muted)}</style>
       <div><span class="tag">낭만주의</span><p class="lead">프란츠 슈베르트 · Franz Schubert<br />처음 듣는 분도 편하게 시작할 수 있도록, 슈베르트의 대표곡을 들을 만한 악장까지 짚어 골랐어요.</p></div></div>
     <h2>슈베르트 대표곡 10곡</h2>
     <ol class="works">
-      <li><div class="w-ko">아베 마리아 D. 839</div><div class="w-en">Ave Maria, D. 839</div><div class="w-by">연주 Barbara Bonney, soprano</div><a class="w-link" href="https://www.youtube.com/watch?v=CM0W98t9KSU" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">교향곡 8번 “미완성” D. 759 — 1악장 알레그로 모데라토</div><div class="w-en">Symphony No. 8 “Unfinished”, D. 759 — I. Allegro moderato</div><div class="w-by">연주 Carlos Kleiber · Wiener Philharmoniker</div><a class="w-link" href="https://www.youtube.com/watch?v=I4MxMwLSlM4" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 오중주 “송어” D. 667 — 4악장 안단티노</div><div class="w-en">Piano Quintet “Trout”, D. 667 — IV. Andantino</div><div class="w-by">연주 András Schiff, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=pogdUk0keiw" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="CM0W98t9KSU" data-name="슈베르트 · 아베 마리아 D. 839"><div class="w-ko">아베 마리아 D. 839</div><div class="w-en">Ave Maria, D. 839</div><div class="w-by">연주 Barbara Bonney, soprano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=CM0W98t9KSU" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="I4MxMwLSlM4" data-name="슈베르트 · 교향곡 8번 “미완성” D. 759 — 1악장 알레그로 모데라토"><div class="w-ko">교향곡 8번 “미완성” D. 759 — 1악장 알레그로 모데라토</div><div class="w-en">Symphony No. 8 “Unfinished”, D. 759 — I. Allegro moderato</div><div class="w-by">연주 Carlos Kleiber · Wiener Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=I4MxMwLSlM4" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="pogdUk0keiw" data-name="슈베르트 · 피아노 오중주 “송어” D. 667 — 4악장 안단티노"><div class="w-ko">피아노 오중주 “송어” D. 667 — 4악장 안단티노</div><div class="w-en">Piano Quintet “Trout”, D. 667 — IV. Andantino</div><div class="w-by">연주 András Schiff, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=pogdUk0keiw" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
       <li><div class="w-ko">즉흥곡 내림G장조 Op. 90 No. 3 D. 899</div><div class="w-en">Impromptu in G-flat major, Op. 90 No. 3, D. 899</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8%20%EC%A6%89%ED%9D%A5%EA%B3%A1%20%EB%82%B4%EB%A6%BCG%EC%9E%A5%EC%A1%B0%20Op.%2090%20No.%203%20D.%20899" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
       <li><div class="w-ko">세레나데 D. 957 No. 4</div><div class="w-en">Ständchen (Serenade), D. 957 No. 4</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8%20%EC%84%B8%EB%A0%88%EB%82%98%EB%8D%B0%20D.%20957%20No.%204" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">현악 사중주 14번 “죽음과 소녀” D. 810 — 2악장 안단테 콘 모토</div><div class="w-en">String Quartet No. 14 “Death and the Maiden”, D. 810 — II. Andante con moto</div><div class="w-by">연주 Amadeus Quartet</div><a class="w-link" href="https://www.youtube.com/watch?v=p-RfRavKCSQ" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="p-RfRavKCSQ" data-name="슈베르트 · 현악 사중주 14번 “죽음과 소녀” D. 810 — 2악장 안단테 콘 모토"><div class="w-ko">현악 사중주 14번 “죽음과 소녀” D. 810 — 2악장 안단테 콘 모토</div><div class="w-en">String Quartet No. 14 “Death and the Maiden”, D. 810 — II. Andante con moto</div><div class="w-by">연주 Amadeus Quartet</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=p-RfRavKCSQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
       <li><div class="w-ko">피아노 삼중주 2번 D. 929 — 2악장 안단테 콘 모토</div><div class="w-en">Piano Trio No. 2, D. 929 — II. Andante con moto</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8%20%ED%94%BC%EC%95%84%EB%85%B8%20%EC%82%BC%EC%A4%91%EC%A3%BC%202%EB%B2%88%20D.%20929%20%E2%80%94%202%EC%95%85%EC%9E%A5%20%EC%95%88%EB%8B%A8%ED%85%8C%20%EC%BD%98%20%EB%AA%A8%ED%86%A0" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">겨울 나그네 D. 911 — “보리수”</div><div class="w-en">Winterreise, D. 911 — “Der Lindenbaum”</div><div class="w-by">연주 Dietrich Fischer-Dieskau · Gerald Moore</div><a class="w-link" href="https://www.youtube.com/watch?v=3LhO43EEPMg" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="3LhO43EEPMg" data-name="슈베르트 · 겨울 나그네 D. 911 — “보리수”"><div class="w-ko">겨울 나그네 D. 911 — “보리수”</div><div class="w-en">Winterreise, D. 911 — “Der Lindenbaum”</div><div class="w-by">연주 Dietrich Fischer-Dieskau · Gerald Moore</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=3LhO43EEPMg" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
       <li><div class="w-ko">교향곡 9번 “그레이트” D. 944 — 4악장 알레그로 비바체</div><div class="w-en">Symphony No. 9 “The Great”, D. 944 — IV. Allegro vivace</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8%20%EA%B5%90%ED%96%A5%EA%B3%A1%209%EB%B2%88%20%E2%80%9C%EA%B7%B8%EB%A0%88%EC%9D%B4%ED%8A%B8%E2%80%9D%20D.%20944%20%E2%80%94%204%EC%95%85%EC%9E%A5%20%EC%95%8C%EB%A0%88%EA%B7%B8%EB%A1%9C%20%EB%B9%84%EB%B0%94%EC%B2%B4" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">악흥의 순간 D. 780 — 3번 F단조</div><div class="w-en">Moments musicaux, D. 780 — No. 3 in F minor</div><div class="w-by">연주 David Fray, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=Wq5Ks3_r6f0" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="Wq5Ks3_r6f0" data-name="슈베르트 · 악흥의 순간 D. 780 — 3번 F단조"><div class="w-ko">악흥의 순간 D. 780 — 3번 F단조</div><div class="w-en">Moments musicaux, D. 780 — No. 3 in F minor</div><div class="w-by">연주 David Fray, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=Wq5Ks3_r6f0" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
     </ol>
     <h2>슈베르트, 더 들어볼 만한 곡</h2>
     <ol class="works" start="11" style="counter-reset:w 10">
@@ -95,19 +104,19 @@ footer.site a{color:var(--muted)}</style>
       <li><div class="w-ko">환상곡 F단조 D. 940 (피아노 4손)</div><div class="w-en">Fantasia in F minor, D. 940 (piano four hands)</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8%20%ED%99%98%EC%83%81%EA%B3%A1%20F%EB%8B%A8%EC%A1%B0%20D.%20940%20(%ED%94%BC%EC%95%84%EB%85%B8%204%EC%86%90)" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
       <li><div class="w-ko">아르페지오네 소나타 A단조 D. 821 — 1악장 알레그로 모데라토</div><div class="w-en">Arpeggione Sonata in A minor, D. 821 — I. Allegro moderato</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8%20%EC%95%84%EB%A5%B4%ED%8E%98%EC%A7%80%EC%98%A4%EB%84%A4%20%EC%86%8C%EB%82%98%ED%83%80%20A%EB%8B%A8%EC%A1%B0%20D.%20821%20%E2%80%94%201%EC%95%85%EC%9E%A5%20%EC%95%8C%EB%A0%88%EA%B7%B8%EB%A1%9C%20%EB%AA%A8%EB%8D%B0%EB%9D%BC%ED%86%A0" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
       <li><div class="w-ko">아르페지오네 소나타 A단조 D. 821 — 2악장 아다지오</div><div class="w-en">Arpeggione Sonata in A minor, D. 821 — II. Adagio</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8%20%EC%95%84%EB%A5%B4%ED%8E%98%EC%A7%80%EC%98%A4%EB%84%A4%20%EC%86%8C%EB%82%98%ED%83%80%20A%EB%8B%A8%EC%A1%B0%20D.%20821%20%E2%80%94%202%EC%95%85%EC%9E%A5%20%EC%95%84%EB%8B%A4%EC%A7%80%EC%98%A4" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">현악 사중주 14번 “죽음과 소녀” D. 810 — 1악장 알레그로</div><div class="w-en">String Quartet No. 14 “Death and the Maiden”, D. 810 — I. Allegro</div><div class="w-by">연주 Escher Quartet</div><a class="w-link" href="https://www.youtube.com/watch?v=KMyvgUOOD6Y" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">현악 오중주 C장조 D. 956 — 2악장 아다지오</div><div class="w-en">String Quintet in C major, D. 956 — II. Adagio</div><div class="w-by">연주 Mstislav Rostropovich, cello 외</div><a class="w-link" href="https://www.youtube.com/watch?v=o_i7R-wahdQ" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 삼중주 2번 E♭장조 D. 929 — 2악장 안단테 콘 모토</div><div class="w-en">Piano Trio No. 2 in E-flat major, D. 929 — II. Andante con moto</div><div class="w-by">연주 Trio Wanderer</div><a class="w-link" href="https://www.youtube.com/watch?v=e52IMaE-3As" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 소나타 B♭장조 D. 960 — 1악장 몰토 모데라토</div><div class="w-en">Piano Sonata in B-flat major, D. 960 — I. Molto moderato</div><div class="w-by">연주 Krystian Zimerman, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=Z1kRFDA7orU" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="KMyvgUOOD6Y" data-name="슈베르트 · 현악 사중주 14번 “죽음과 소녀” D. 810 — 1악장 알레그로"><div class="w-ko">현악 사중주 14번 “죽음과 소녀” D. 810 — 1악장 알레그로</div><div class="w-en">String Quartet No. 14 “Death and the Maiden”, D. 810 — I. Allegro</div><div class="w-by">연주 Escher Quartet</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=KMyvgUOOD6Y" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="o_i7R-wahdQ" data-name="슈베르트 · 현악 오중주 C장조 D. 956 — 2악장 아다지오"><div class="w-ko">현악 오중주 C장조 D. 956 — 2악장 아다지오</div><div class="w-en">String Quintet in C major, D. 956 — II. Adagio</div><div class="w-by">연주 Mstislav Rostropovich, cello 외</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=o_i7R-wahdQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="e52IMaE-3As" data-name="슈베르트 · 피아노 삼중주 2번 E♭장조 D. 929 — 2악장 안단테 콘 모토"><div class="w-ko">피아노 삼중주 2번 E♭장조 D. 929 — 2악장 안단테 콘 모토</div><div class="w-en">Piano Trio No. 2 in E-flat major, D. 929 — II. Andante con moto</div><div class="w-by">연주 Trio Wanderer</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=e52IMaE-3As" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="Z1kRFDA7orU" data-name="슈베르트 · 피아노 소나타 B♭장조 D. 960 — 1악장 몰토 모데라토"><div class="w-ko">피아노 소나타 B♭장조 D. 960 — 1악장 몰토 모데라토</div><div class="w-en">Piano Sonata in B-flat major, D. 960 — I. Molto moderato</div><div class="w-by">연주 Krystian Zimerman, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=Z1kRFDA7orU" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
       <li><div class="w-ko">피아노 소나타 A장조 D. 664 — 3악장 알레그로</div><div class="w-en">Piano Sonata in A major, D. 664 — III. Allegro</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8%20%ED%94%BC%EC%95%84%EB%85%B8%20%EC%86%8C%EB%82%98%ED%83%80%20A%EC%9E%A5%EC%A1%B0%20D.%20664%20%E2%80%94%203%EC%95%85%EC%9E%A5%20%EC%95%8C%EB%A0%88%EA%B7%B8%EB%A1%9C" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
       <li><div class="w-ko">피아노 소나타 A장조 D. 959 — 1악장 알레그로</div><div class="w-en">Piano Sonata in A major, D. 959 — I. Allegro</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8%20%ED%94%BC%EC%95%84%EB%85%B8%20%EC%86%8C%EB%82%98%ED%83%80%20A%EC%9E%A5%EC%A1%B0%20D.%20959%20%E2%80%94%201%EC%95%85%EC%9E%A5%20%EC%95%8C%EB%A0%88%EA%B7%B8%EB%A1%9C" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
       <li><div class="w-ko">피아노 소나타 A장조 D. 959 — 4악장 론도: 알레그레토</div><div class="w-en">Piano Sonata in A major, D. 959 — IV. Rondo: Allegretto</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8%20%ED%94%BC%EC%95%84%EB%85%B8%20%EC%86%8C%EB%82%98%ED%83%80%20A%EC%9E%A5%EC%A1%B0%20D.%20959%20%E2%80%94%204%EC%95%85%EC%9E%A5%20%EB%A1%A0%EB%8F%84%3A%20%EC%95%8C%EB%A0%88%EA%B7%B8%EB%A0%88%ED%86%A0" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">백조의 노래 D. 957 — “세레나데”</div><div class="w-en">Schwanengesang, D. 957 — “Ständchen” (Serenade)</div><div class="w-by">연주 Mischa Maisky, cello (편곡)</div><a class="w-link" href="https://www.youtube.com/watch?v=LFHHc2Wlpug" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">송어 D. 550</div><div class="w-en">Die Forelle, D. 550</div><div class="w-by">연주 Dietrich Fischer-Dieskau</div><a class="w-link" href="https://www.youtube.com/watch?v=JDmfCE57R7Q" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">교향곡 9번 “그레이트” D. 944 — 1악장</div><div class="w-en">Symphony No. 9 “Great”, D. 944 — I. Andante – Allegro ma non troppo</div><div class="w-by">연주 Orozco-Estrada · hr-Sinfonieorchester</div><a class="w-link" href="https://www.youtube.com/watch?v=z9RTvJS8F64" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">마왕 D. 328</div><div class="w-en">Erlkönig, D. 328</div><div class="w-by">연주 Dietrich Fischer-Dieskau · Gerald Moore</div><a class="w-link" href="https://www.youtube.com/watch?v=a2J9Yn2YjjE" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">즉흥곡 G♭장조 D. 899 No. 3</div><div class="w-en">Impromptu in G-flat major, D. 899 No. 3</div><div class="w-by">연주 Evgeny Kissin, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=Ybq6Ea79nZ4" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">음악에 부쳐 D. 547</div><div class="w-en">An die Musik, D. 547</div><div class="w-by">연주 Dietrich Fischer-Dieskau</div><a class="w-link" href="https://www.youtube.com/watch?v=RxsFgJF6XS4" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="LFHHc2Wlpug" data-name="슈베르트 · 백조의 노래 D. 957 — “세레나데”"><div class="w-ko">백조의 노래 D. 957 — “세레나데”</div><div class="w-en">Schwanengesang, D. 957 — “Ständchen” (Serenade)</div><div class="w-by">연주 Mischa Maisky, cello (편곡)</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=LFHHc2Wlpug" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="JDmfCE57R7Q" data-name="슈베르트 · 송어 D. 550"><div class="w-ko">송어 D. 550</div><div class="w-en">Die Forelle, D. 550</div><div class="w-by">연주 Dietrich Fischer-Dieskau</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=JDmfCE57R7Q" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="z9RTvJS8F64" data-name="슈베르트 · 교향곡 9번 “그레이트” D. 944 — 1악장"><div class="w-ko">교향곡 9번 “그레이트” D. 944 — 1악장</div><div class="w-en">Symphony No. 9 “Great”, D. 944 — I. Andante – Allegro ma non troppo</div><div class="w-by">연주 Orozco-Estrada · hr-Sinfonieorchester</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=z9RTvJS8F64" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="a2J9Yn2YjjE" data-name="슈베르트 · 마왕 D. 328"><div class="w-ko">마왕 D. 328</div><div class="w-en">Erlkönig, D. 328</div><div class="w-by">연주 Dietrich Fischer-Dieskau · Gerald Moore</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=a2J9Yn2YjjE" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="Ybq6Ea79nZ4" data-name="슈베르트 · 즉흥곡 G♭장조 D. 899 No. 3"><div class="w-ko">즉흥곡 G♭장조 D. 899 No. 3</div><div class="w-en">Impromptu in G-flat major, D. 899 No. 3</div><div class="w-by">연주 Evgeny Kissin, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=Ybq6Ea79nZ4" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="RxsFgJF6XS4" data-name="슈베르트 · 음악에 부쳐 D. 547"><div class="w-ko">음악에 부쳐 D. 547</div><div class="w-en">An die Musik, D. 547</div><div class="w-by">연주 Dietrich Fischer-Dieskau</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=RxsFgJF6XS4" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
     </ol>
     <a class="cta" href="/?lang=ko">그림 몇 장만 고르면, 오늘 나에게 맞는 클래식을 추천해 드려요
       <small>약 20초 · 회원가입 없음 · 정답 없음</small></a>
@@ -121,5 +130,103 @@ footer.site a{color:var(--muted)}</style>
     <p>초상화·그림: Wikimedia Commons (퍼블릭 도메인) · 음원: YouTube</p>
     <p>© 2026 냠냠클래식 · 그림 한 장으로 고르는 오늘의 클래식</p>
   </div></footer>
+  <script>
+  (function () {
+    var items = document.querySelectorAll('ol.works li[data-yt]');
+    if (!items.length || !/^https?:$/.test(location.protocol)) return;
+    var api = null, li0 = null, player = null;
+    function loadYT() {
+      if (api) return api;
+      api = new Promise(function (res) {
+        if (window.YT && window.YT.Player) return res(true);
+        var prev = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = function () { if (typeof prev === 'function') prev(); res(true); };
+        var s = document.createElement('script');
+        s.src = 'https://www.youtube.com/iframe_api'; s.async = true;
+        s.onerror = function () { res(false); };
+        document.head.appendChild(s);
+        setTimeout(function () { res(!!(window.YT && window.YT.Player)); }, 9000);
+      });
+      return api;
+    }
+    window.addEventListener('pointerdown', function () { loadYT(); }, { once: true });
+    function btn(li) { return li.querySelector('.pl-btn'); }
+    function stop() {
+      if (player) { try { player.destroy(); } catch (e) {} }
+      if (li0) {
+        ['.pl-player', '.pl-tools', '.pl-auto'].forEach(function (c) { var x = li0.querySelector(c); if (x) x.remove(); });
+        li0.classList.remove('playing');
+        var b = btn(li0); if (b) { b.textContent = '▶ 이 창에서 듣기'; b.classList.remove('on'); }
+      }
+      player = null; li0 = null;
+    }
+    function nextOf(li) {
+      var n = li.nextElementSibling;
+      while (n && !n.dataset.yt) n = n.nextElementSibling;
+      if (!n) {   // 같은 페이지의 다음 목록(예: 더 들어볼 만한 곡)으로 이어서
+        var lists = Array.prototype.slice.call(document.querySelectorAll('ol.works'));
+        for (var i = lists.indexOf(li.parentNode) + 1; i < lists.length && !n; i++) n = lists[i].querySelector('li[data-yt]');
+      }
+      return n;
+    }
+    function playNext(li) { var n = nextOf(li); if (n) open(n, true); else stop(); }
+    function fail(li, auto, code) {
+      var box = li.querySelector('.pl-player'); if (!box) return;
+      if (player) { try { player.destroy(); } catch (e) {} player = null; }
+      box.className = 'pl-player pl-fail'; box.innerHTML = '';
+      var a = document.createElement('a');
+      a.href = 'https://www.youtube.com/watch?v=' + li.dataset.yt; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = '이 곡은 여기서 재생할 수 없어요 — 유튜브에서 열기 ↗';
+      box.appendChild(a);
+      try { gtag('event', 'play_fail', { piece: li.dataset.name, code: code || 0 }); } catch (e) {}
+      if (auto) setTimeout(function () { if (li0 === li) playNext(li); }, 1500);   // 연속 재생 중이면 건너뛰고 다음 곡
+    }
+    function open(li, auto) {
+      if (li0 === li && !auto) { stop(); return; }
+      stop();
+      li0 = li;
+      li.classList.add('playing');
+      var b = btn(li); if (b) { b.textContent = '■ 멈추기'; b.classList.add('on'); }
+      var box = document.createElement('div'); box.className = 'pl-player';
+      var holder = document.createElement('div'); box.appendChild(holder);
+      var tools = document.createElement('div'); tools.className = 'pl-tools';
+      var nx = document.createElement('button'); nx.type = 'button'; nx.className = 'pl-tool'; nx.textContent = '다음 곡 ▶▶';
+      nx.addEventListener('click', function () { var n = nextOf(li); if (n) open(n, false); });
+      var yt = document.createElement('a'); yt.className = 'pl-tool'; yt.href = 'https://www.youtube.com/watch?v=' + li.dataset.yt;
+      yt.target = '_blank'; yt.rel = 'noopener'; yt.textContent = '유튜브에서 보기 ↗';
+      yt.addEventListener('click', function () { try { player && player.pauseVideo(); } catch (e) {} });
+      var cl = document.createElement('button'); cl.type = 'button'; cl.className = 'pl-tool'; cl.textContent = '■ 닫기';
+      cl.addEventListener('click', stop);
+      if (nextOf(li)) tools.appendChild(nx);
+      tools.appendChild(yt); tools.appendChild(cl);
+      li.appendChild(box); li.appendChild(tools);
+      if (nextOf(li)) { var note = document.createElement('p'); note.className = 'pl-auto'; note.textContent = '곡이 끝나면 다음 곡이 이어서 나와요'; li.appendChild(note); }
+      setTimeout(function () { li.scrollIntoView({ behavior: 'smooth', block: auto ? 'center' : 'nearest' }); }, 60);
+      try { gtag('event', 'play_music', { piece: li.dataset.name, area: 'seo', auto: auto ? 1 : 0 }); } catch (e) {}
+      function build() {
+        if (li0 !== li) return;
+        if (!(window.YT && window.YT.Player)) return fail(li, auto);
+        player = new YT.Player(holder, {
+          videoId: li.dataset.yt, width: '100%', height: '100%', host: 'https://www.youtube.com',
+          playerVars: { autoplay: 1, mute: 0, rel: 0, playsinline: 1, modestbranding: 1, origin: location.origin, enablejsapi: 1 },
+          events: {
+            onReady: function (e) { try { e.target.unMute(); e.target.setVolume(100); e.target.playVideo(); } catch (x) {} },
+            onError: function (e) { fail(li, auto, e && e.data); },
+            onStateChange: function (e) {
+              if (e.data === 1) { try { if (e.target.isMuted()) { e.target.unMute(); e.target.setVolume(100); } } catch (x) {} }
+              if (e.data === 0) playNext(li);
+            }
+          }
+        });
+      }
+      // API가 이미 있으면 탭 안에서 바로 만들어 자동재생이 막히지 않게
+      if (window.YT && window.YT.Player) build(); else loadYT().then(build);
+    }
+    items.forEach(function (li) {
+      var b = btn(li); if (!b) return;
+      b.addEventListener('click', function (e) { e.preventDefault(); open(li, false); });
+    });
+  })();
+  </script>
 </body>
 </html>

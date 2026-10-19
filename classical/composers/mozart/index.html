@@ -53,6 +53,15 @@ ol.works li::before{content:counter(w);position:absolute;left:16px;top:14px;widt
 .grid a{display:block;height:100%;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px}
 .grid b{display:block;color:var(--wine)}
 .grid span{font-size:.85rem;color:var(--muted)}
+.w-link.on{color:var(--ink)}
+ol.works li.playing{border-color:var(--wine);box-shadow:0 2px 12px rgba(122,15,42,.12)}
+.pl-player{margin:10px 0 4px;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;max-width:520px}
+.pl-player iframe{width:100%;height:100%;display:block;border:0}
+.pl-player.pl-fail{aspect-ratio:auto;background:transparent;padding:4px 0}
+.pl-player.pl-fail a{font-size:.88rem}
+.pl-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pl-tool{font:inherit;font-size:.8rem;font-weight:600;color:var(--wine);background:var(--vanilla);border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;cursor:pointer}
+.pl-auto{font-size:.78rem;color:var(--muted);margin:2px 0 0}
 .typeimg{width:100%;max-width:520px;border-radius:14px;display:block;margin:10px 0 4px;border:1px solid var(--line)}
 footer.site{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 40px;font-size:.8rem;color:var(--muted)}
 footer.site a{color:var(--muted)}</style>
@@ -77,46 +86,46 @@ footer.site a{color:var(--muted)}</style>
       <div><span class="tag">바로크 · 고전주의</span><p class="lead">볼프강 아마데우스 모차르트 · Wolfgang Amadeus Mozart<br />처음 듣는 분도 편하게 시작할 수 있도록, 모차르트의 대표곡을 들을 만한 악장까지 짚어 골랐어요.</p></div></div>
     <h2>모차르트 대표곡 10곡</h2>
     <ol class="works">
-      <li><div class="w-ko">돈 조반니 — 서곡 K. 527</div><div class="w-en">Don Giovanni — Overture, K. 527</div><div class="w-by">연주 Berliner Philharmoniker</div><a class="w-link" href="https://www.youtube.com/watch?v=G1YS61pu8Rc" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">마술피리 — 서곡 K. 620</div><div class="w-en">The Magic Flute — Overture, K. 620</div><div class="w-by">연주 Berliner Philharmoniker</div><a class="w-link" href="https://www.youtube.com/watch?v=uteSoRohdEY" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 협주곡 21번 K. 467 — 2악장 안단테</div><div class="w-en">Piano Concerto No. 21, K. 467 — II. Andante</div><div class="w-by">연주 Mitsuko Uchida, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=_3n3AHx6Qtk" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">교향곡 40번 K. 550 — 1악장 몰토 알레그로</div><div class="w-en">Symphony No. 40, K. 550 — I. Molto allegro</div><div class="w-by">연주 Leonard Bernstein</div><a class="w-link" href="https://www.youtube.com/watch?v=p8bZ7vm4_6M" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">아이네 클라이네 나흐트무지크 K. 525 — 1악장 알레그로</div><div class="w-en">Eine kleine Nachtmusik, K. 525 — I. Allegro</div><div class="w-by">연주 Karl Böhm · Wiener Philharmoniker</div><a class="w-link" href="https://www.youtube.com/watch?v=k5Hr-uiDyP8" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">클라리넷 협주곡 K. 622 — 2악장 아다지오</div><div class="w-en">Clarinet Concerto, K. 622 — II. Adagio</div><div class="w-by">연주 Karl Leister · Karajan · Berliner Philharmoniker</div><a class="w-link" href="https://www.youtube.com/watch?v=8f-NDmmpVF4" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">레퀴엠 K. 626 — 라크리모사</div><div class="w-en">Requiem, K. 626 — Lacrimosa</div><div class="w-by">연주 Harnoncourt</div><a class="w-link" href="https://www.youtube.com/watch?v=uy1rSQKWCnw" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="G1YS61pu8Rc" data-name="모차르트 · 돈 조반니 — 서곡 K. 527"><div class="w-ko">돈 조반니 — 서곡 K. 527</div><div class="w-en">Don Giovanni — Overture, K. 527</div><div class="w-by">연주 Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=G1YS61pu8Rc" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="uteSoRohdEY" data-name="모차르트 · 마술피리 — 서곡 K. 620"><div class="w-ko">마술피리 — 서곡 K. 620</div><div class="w-en">The Magic Flute — Overture, K. 620</div><div class="w-by">연주 Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=uteSoRohdEY" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="_3n3AHx6Qtk" data-name="모차르트 · 피아노 협주곡 21번 K. 467 — 2악장 안단테"><div class="w-ko">피아노 협주곡 21번 K. 467 — 2악장 안단테</div><div class="w-en">Piano Concerto No. 21, K. 467 — II. Andante</div><div class="w-by">연주 Mitsuko Uchida, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=_3n3AHx6Qtk" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="p8bZ7vm4_6M" data-name="모차르트 · 교향곡 40번 K. 550 — 1악장 몰토 알레그로"><div class="w-ko">교향곡 40번 K. 550 — 1악장 몰토 알레그로</div><div class="w-en">Symphony No. 40, K. 550 — I. Molto allegro</div><div class="w-by">연주 Leonard Bernstein</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=p8bZ7vm4_6M" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="k5Hr-uiDyP8" data-name="모차르트 · 아이네 클라이네 나흐트무지크 K. 525 — 1악장 알레그로"><div class="w-ko">아이네 클라이네 나흐트무지크 K. 525 — 1악장 알레그로</div><div class="w-en">Eine kleine Nachtmusik, K. 525 — I. Allegro</div><div class="w-by">연주 Karl Böhm · Wiener Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=k5Hr-uiDyP8" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="8f-NDmmpVF4" data-name="모차르트 · 클라리넷 협주곡 K. 622 — 2악장 아다지오"><div class="w-ko">클라리넷 협주곡 K. 622 — 2악장 아다지오</div><div class="w-en">Clarinet Concerto, K. 622 — II. Adagio</div><div class="w-by">연주 Karl Leister · Karajan · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=8f-NDmmpVF4" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="uy1rSQKWCnw" data-name="모차르트 · 레퀴엠 K. 626 — 라크리모사"><div class="w-ko">레퀴엠 K. 626 — 라크리모사</div><div class="w-en">Requiem, K. 626 — Lacrimosa</div><div class="w-by">연주 Harnoncourt</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=uy1rSQKWCnw" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
       <li><div class="w-ko">피가로의 결혼 — 서곡</div><div class="w-en">The Marriage of Figaro — Overture</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8%20%ED%94%BC%EA%B0%80%EB%A1%9C%EC%9D%98%20%EA%B2%B0%ED%98%BC%20%E2%80%94%20%EC%84%9C%EA%B3%A1" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">마술피리 — 밤의 여왕 아리아 “지옥의 복수가”</div><div class="w-en">The Magic Flute — “Der Hölle Rache” (Queen of the Night)</div><div class="w-by">연주 Diana Damrau · The Royal Opera</div><a class="w-link" href="https://www.youtube.com/watch?v=YuBeBjqKSGQ" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 소나타 11번 K. 331 — 3악장 터키 행진곡</div><div class="w-en">Piano Sonata No. 11, K. 331 — III. Rondo alla turca</div><div class="w-by">연주 Vladimir Horowitz, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=VKlRJJKRuto" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="YuBeBjqKSGQ" data-name="모차르트 · 마술피리 — 밤의 여왕 아리아 “지옥의 복수가”"><div class="w-ko">마술피리 — 밤의 여왕 아리아 “지옥의 복수가”</div><div class="w-en">The Magic Flute — “Der Hölle Rache” (Queen of the Night)</div><div class="w-by">연주 Diana Damrau · The Royal Opera</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=YuBeBjqKSGQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="VKlRJJKRuto" data-name="모차르트 · 피아노 소나타 11번 K. 331 — 3악장 터키 행진곡"><div class="w-ko">피아노 소나타 11번 K. 331 — 3악장 터키 행진곡</div><div class="w-en">Piano Sonata No. 11, K. 331 — III. Rondo alla turca</div><div class="w-by">연주 Vladimir Horowitz, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=VKlRJJKRuto" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
     </ol>
     <h2>모차르트, 더 들어볼 만한 곡</h2>
     <ol class="works" start="11" style="counter-reset:w 10">
-      <li><div class="w-ko">교향곡 41번 “주피터” K. 551 — 4악장 몰토 알레그로</div><div class="w-en">Symphony No. 41 “Jupiter”, K. 551 — IV. Molto allegro</div><div class="w-by">연주 George Szell · Cleveland Orchestra</div><a class="w-link" href="https://www.youtube.com/watch?v=tEwg_AiKC7A" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">아베 베룸 코르푸스 K. 618</div><div class="w-en">Ave verum corpus, K. 618</div><div class="w-by">연주 Herbert von Karajan</div><a class="w-link" href="https://www.youtube.com/watch?v=Oub5NjO6u4c" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 소나타 11번 K. 331 — 1악장 안단테 그라치오소</div><div class="w-en">Piano Sonata No. 11, K. 331 — I. Andante grazioso</div><div class="w-by">연주 Daniel Barenboim, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=FZ1mj9IaczQ" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피가로의 결혼 — 서곡 K. 492</div><div class="w-en">The Marriage of Figaro — Overture, K. 492</div><div class="w-by">연주 Karajan · Wiener Philharmoniker</div><a class="w-link" href="https://www.youtube.com/watch?v=yh9OTvIiH_I" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">교향곡 25번 G단조 K. 183 — 1악장 알레그로 콘 브리오</div><div class="w-en">Symphony No. 25 in G minor, K. 183 — I. Allegro con brio</div><div class="w-by">연주 Academy of St Martin in the Fields</div><a class="w-link" href="https://www.youtube.com/watch?v=HMtm_P7Z3iM" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 협주곡 20번 D단조 K. 466 — 1악장 알레그로</div><div class="w-en">Piano Concerto No. 20 in D minor, K. 466 — I. Allegro</div><div class="w-by">연주 조성진 Seong-Jin Cho, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=W44aZnSW1TU" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">신포니아 콘체르탄테 E♭장조 K. 364 — 2악장 안단테</div><div class="w-en">Sinfonia Concertante in E-flat major, K. 364 — II. Andante</div><div class="w-by">연주 Zagreb Chamber Orchestra</div><a class="w-link" href="https://www.youtube.com/watch?v=OKgS5LoSQPw" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 소나타 8번 A단조 K. 310 — 1악장 알레그로 마에스토소</div><div class="w-en">Piano Sonata No. 8 in A minor, K. 310 — I. Allegro maestoso</div><div class="w-by">연주 Grigory Sokolov, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=ZKs1WpMJ0X8" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피가로의 결혼 — 편지 이중창 “산들바람에 실려”</div><div class="w-en">The Marriage of Figaro — “Sull’aria” (Letter Duet)</div><div class="w-by">연주 Julie Fuchs · Olga Peretyatko</div><a class="w-link" href="https://www.youtube.com/watch?v=q1tmHHpEJWM" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">레퀴엠 K. 626 — 진노의 날</div><div class="w-en">Requiem, K. 626 — Dies irae</div><div class="w-by">연주 Claudio Abbado</div><a class="w-link" href="https://www.youtube.com/watch?v=0T7eMctuJLQ" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">환상곡 D단조 K. 397</div><div class="w-en">Fantasia in D minor, K. 397</div><div class="w-by">연주 조성진 Seong-Jin Cho, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=Yjkc-pjvxdk" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">교향곡 39번 E♭장조 K. 543 — 3악장 미뉴에트</div><div class="w-en">Symphony No. 39 in E-flat major, K. 543 — III. Menuetto: Allegretto</div><div class="w-by">연주 Clarus Ensemble</div><a class="w-link" href="https://www.youtube.com/watch?v=y0RwDWqLA1U" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 협주곡 23번 A장조 K. 488 — 2악장 아다지오</div><div class="w-en">Piano Concerto No. 23 in A major, K. 488 — II. Adagio</div><div class="w-by">연주 Maurizio Pollini, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=Z71Ya9M1WIA" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">클라리넷 오중주 A장조 K. 581 — 2악장 라르게토</div><div class="w-en">Clarinet Quintet in A major, K. 581 — II. Larghetto</div><div class="w-by">연주 Martin Fröst, clarinet</div><a class="w-link" href="https://www.youtube.com/watch?v=sV_GeI9_E_k" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">호른 협주곡 4번 E♭장조 K. 495 — 3악장 론도 알레그로 비바체</div><div class="w-en">Horn Concerto No. 4 in E-flat major, K. 495 — III. Rondo: Allegro vivace</div><div class="w-by">연주 Dennis Brain · Karajan · Philharmonia</div><a class="w-link" href="https://www.youtube.com/watch?v=IcklOuaNZfk" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 소나타 16번 “쉬운 소나타” K. 545 — 1악장 알레그로</div><div class="w-en">Piano Sonata No. 16 “Sonata facile”, K. 545 — I. Allegro</div><div class="w-by">연주 Friedrich Gulda, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=jPo3uXWJ440" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">디베르티멘토 D장조 K. 136 — 1악장 알레그로</div><div class="w-en">Divertimento in D major, K. 136 — I. Allegro</div><div class="w-by">연주 Karajan · Berliner Philharmoniker</div><a class="w-link" href="https://www.youtube.com/watch?v=oq-kqDDxdIE" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 협주곡 19번 F장조 K. 459 — 2악장 알레그레토</div><div class="w-en">Piano Concerto No. 19 in F major, K. 459 — II. Allegretto</div><div class="w-by">연주 Mitsuko Uchida, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=opdmE9wjzis" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 협주곡 22번 E♭장조 K. 482 — 2악장 안단테</div><div class="w-en">Piano Concerto No. 22 in E-flat major, K. 482 — II. Andante</div><div class="w-by">연주 London Mozart Players</div><a class="w-link" href="https://www.youtube.com/watch?v=tqS33CfF2uM" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 협주곡 25번 C장조 K. 503 — 2악장 안단테</div><div class="w-en">Piano Concerto No. 25 in C major, K. 503 — II. Andante</div><div class="w-by">연주 Mitsuko Uchida, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=JhU47zsh7is" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 협주곡 27번 B♭장조 K. 595 — 2악장 라르게토</div><div class="w-en">Piano Concerto No. 27 in B-flat major, K. 595 — II. Larghetto</div><div class="w-by">연주 Emil Gilels, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=pSGuzttLMzY" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">현악 사중주 19번 C장조 “불협화음” K. 465 — 1악장 아다지오 – 알레그로</div><div class="w-en">String Quartet No. 19 in C major “Dissonance”, K. 465 — I. Adagio – Allegro</div><div class="w-by">연주 Emerson String Quartet</div><a class="w-link" href="https://www.youtube.com/watch?v=VarJ-MbdgHg" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">현악 사중주 17번 B♭장조 “사냥” K. 458 — 1악장 알레그로 비바체 아사이</div><div class="w-en">String Quartet No. 17 in B-flat major “Hunt”, K. 458 — I. Allegro vivace assai</div><div class="w-by">연주 Emerson String Quartet</div><a class="w-link" href="https://www.youtube.com/watch?v=4Kq-guc6dP0" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">현악 사중주 15번 D단조 K. 421 — 1악장 알레그로 모데라토</div><div class="w-en">String Quartet No. 15 in D minor, K. 421 — I. Allegro moderato</div><div class="w-by">연주 Emerson String Quartet</div><a class="w-link" href="https://www.youtube.com/watch?v=p9mujZvjDac" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">“아, 어머니께 말씀드리죠” 주제에 의한 12개의 변주곡 K. 265 (작은 별 변주곡)</div><div class="w-en">12 Variations on “Ah, vous dirai-je, Maman”, K. 265</div><div class="w-by">연주 정명훈 Myung-Whun Chung, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=VcrvP7KaVoA" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="tEwg_AiKC7A" data-name="모차르트 · 교향곡 41번 “주피터” K. 551 — 4악장 몰토 알레그로"><div class="w-ko">교향곡 41번 “주피터” K. 551 — 4악장 몰토 알레그로</div><div class="w-en">Symphony No. 41 “Jupiter”, K. 551 — IV. Molto allegro</div><div class="w-by">연주 George Szell · Cleveland Orchestra</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=tEwg_AiKC7A" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="Oub5NjO6u4c" data-name="모차르트 · 아베 베룸 코르푸스 K. 618"><div class="w-ko">아베 베룸 코르푸스 K. 618</div><div class="w-en">Ave verum corpus, K. 618</div><div class="w-by">연주 Herbert von Karajan</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=Oub5NjO6u4c" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="FZ1mj9IaczQ" data-name="모차르트 · 피아노 소나타 11번 K. 331 — 1악장 안단테 그라치오소"><div class="w-ko">피아노 소나타 11번 K. 331 — 1악장 안단테 그라치오소</div><div class="w-en">Piano Sonata No. 11, K. 331 — I. Andante grazioso</div><div class="w-by">연주 Daniel Barenboim, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=FZ1mj9IaczQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="yh9OTvIiH_I" data-name="모차르트 · 피가로의 결혼 — 서곡 K. 492"><div class="w-ko">피가로의 결혼 — 서곡 K. 492</div><div class="w-en">The Marriage of Figaro — Overture, K. 492</div><div class="w-by">연주 Karajan · Wiener Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=yh9OTvIiH_I" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="HMtm_P7Z3iM" data-name="모차르트 · 교향곡 25번 G단조 K. 183 — 1악장 알레그로 콘 브리오"><div class="w-ko">교향곡 25번 G단조 K. 183 — 1악장 알레그로 콘 브리오</div><div class="w-en">Symphony No. 25 in G minor, K. 183 — I. Allegro con brio</div><div class="w-by">연주 Academy of St Martin in the Fields</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=HMtm_P7Z3iM" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="W44aZnSW1TU" data-name="모차르트 · 피아노 협주곡 20번 D단조 K. 466 — 1악장 알레그로"><div class="w-ko">피아노 협주곡 20번 D단조 K. 466 — 1악장 알레그로</div><div class="w-en">Piano Concerto No. 20 in D minor, K. 466 — I. Allegro</div><div class="w-by">연주 조성진 Seong-Jin Cho, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=W44aZnSW1TU" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="OKgS5LoSQPw" data-name="모차르트 · 신포니아 콘체르탄테 E♭장조 K. 364 — 2악장 안단테"><div class="w-ko">신포니아 콘체르탄테 E♭장조 K. 364 — 2악장 안단테</div><div class="w-en">Sinfonia Concertante in E-flat major, K. 364 — II. Andante</div><div class="w-by">연주 Zagreb Chamber Orchestra</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=OKgS5LoSQPw" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="ZKs1WpMJ0X8" data-name="모차르트 · 피아노 소나타 8번 A단조 K. 310 — 1악장 알레그로 마에스토소"><div class="w-ko">피아노 소나타 8번 A단조 K. 310 — 1악장 알레그로 마에스토소</div><div class="w-en">Piano Sonata No. 8 in A minor, K. 310 — I. Allegro maestoso</div><div class="w-by">연주 Grigory Sokolov, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=ZKs1WpMJ0X8" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="q1tmHHpEJWM" data-name="모차르트 · 피가로의 결혼 — 편지 이중창 “산들바람에 실려”"><div class="w-ko">피가로의 결혼 — 편지 이중창 “산들바람에 실려”</div><div class="w-en">The Marriage of Figaro — “Sull’aria” (Letter Duet)</div><div class="w-by">연주 Julie Fuchs · Olga Peretyatko</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=q1tmHHpEJWM" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="0T7eMctuJLQ" data-name="모차르트 · 레퀴엠 K. 626 — 진노의 날"><div class="w-ko">레퀴엠 K. 626 — 진노의 날</div><div class="w-en">Requiem, K. 626 — Dies irae</div><div class="w-by">연주 Claudio Abbado</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=0T7eMctuJLQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="Yjkc-pjvxdk" data-name="모차르트 · 환상곡 D단조 K. 397"><div class="w-ko">환상곡 D단조 K. 397</div><div class="w-en">Fantasia in D minor, K. 397</div><div class="w-by">연주 조성진 Seong-Jin Cho, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=Yjkc-pjvxdk" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="y0RwDWqLA1U" data-name="모차르트 · 교향곡 39번 E♭장조 K. 543 — 3악장 미뉴에트"><div class="w-ko">교향곡 39번 E♭장조 K. 543 — 3악장 미뉴에트</div><div class="w-en">Symphony No. 39 in E-flat major, K. 543 — III. Menuetto: Allegretto</div><div class="w-by">연주 Clarus Ensemble</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=y0RwDWqLA1U" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="Z71Ya9M1WIA" data-name="모차르트 · 피아노 협주곡 23번 A장조 K. 488 — 2악장 아다지오"><div class="w-ko">피아노 협주곡 23번 A장조 K. 488 — 2악장 아다지오</div><div class="w-en">Piano Concerto No. 23 in A major, K. 488 — II. Adagio</div><div class="w-by">연주 Maurizio Pollini, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=Z71Ya9M1WIA" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="sV_GeI9_E_k" data-name="모차르트 · 클라리넷 오중주 A장조 K. 581 — 2악장 라르게토"><div class="w-ko">클라리넷 오중주 A장조 K. 581 — 2악장 라르게토</div><div class="w-en">Clarinet Quintet in A major, K. 581 — II. Larghetto</div><div class="w-by">연주 Martin Fröst, clarinet</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=sV_GeI9_E_k" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="IcklOuaNZfk" data-name="모차르트 · 호른 협주곡 4번 E♭장조 K. 495 — 3악장 론도 알레그로 비바체"><div class="w-ko">호른 협주곡 4번 E♭장조 K. 495 — 3악장 론도 알레그로 비바체</div><div class="w-en">Horn Concerto No. 4 in E-flat major, K. 495 — III. Rondo: Allegro vivace</div><div class="w-by">연주 Dennis Brain · Karajan · Philharmonia</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=IcklOuaNZfk" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="jPo3uXWJ440" data-name="모차르트 · 피아노 소나타 16번 “쉬운 소나타” K. 545 — 1악장 알레그로"><div class="w-ko">피아노 소나타 16번 “쉬운 소나타” K. 545 — 1악장 알레그로</div><div class="w-en">Piano Sonata No. 16 “Sonata facile”, K. 545 — I. Allegro</div><div class="w-by">연주 Friedrich Gulda, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=jPo3uXWJ440" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="oq-kqDDxdIE" data-name="모차르트 · 디베르티멘토 D장조 K. 136 — 1악장 알레그로"><div class="w-ko">디베르티멘토 D장조 K. 136 — 1악장 알레그로</div><div class="w-en">Divertimento in D major, K. 136 — I. Allegro</div><div class="w-by">연주 Karajan · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=oq-kqDDxdIE" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="opdmE9wjzis" data-name="모차르트 · 피아노 협주곡 19번 F장조 K. 459 — 2악장 알레그레토"><div class="w-ko">피아노 협주곡 19번 F장조 K. 459 — 2악장 알레그레토</div><div class="w-en">Piano Concerto No. 19 in F major, K. 459 — II. Allegretto</div><div class="w-by">연주 Mitsuko Uchida, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=opdmE9wjzis" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="tqS33CfF2uM" data-name="모차르트 · 피아노 협주곡 22번 E♭장조 K. 482 — 2악장 안단테"><div class="w-ko">피아노 협주곡 22번 E♭장조 K. 482 — 2악장 안단테</div><div class="w-en">Piano Concerto No. 22 in E-flat major, K. 482 — II. Andante</div><div class="w-by">연주 London Mozart Players</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=tqS33CfF2uM" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="JhU47zsh7is" data-name="모차르트 · 피아노 협주곡 25번 C장조 K. 503 — 2악장 안단테"><div class="w-ko">피아노 협주곡 25번 C장조 K. 503 — 2악장 안단테</div><div class="w-en">Piano Concerto No. 25 in C major, K. 503 — II. Andante</div><div class="w-by">연주 Mitsuko Uchida, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=JhU47zsh7is" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="pSGuzttLMzY" data-name="모차르트 · 피아노 협주곡 27번 B♭장조 K. 595 — 2악장 라르게토"><div class="w-ko">피아노 협주곡 27번 B♭장조 K. 595 — 2악장 라르게토</div><div class="w-en">Piano Concerto No. 27 in B-flat major, K. 595 — II. Larghetto</div><div class="w-by">연주 Emil Gilels, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=pSGuzttLMzY" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="VarJ-MbdgHg" data-name="모차르트 · 현악 사중주 19번 C장조 “불협화음” K. 465 — 1악장 아다지오 – 알레그로"><div class="w-ko">현악 사중주 19번 C장조 “불협화음” K. 465 — 1악장 아다지오 – 알레그로</div><div class="w-en">String Quartet No. 19 in C major “Dissonance”, K. 465 — I. Adagio – Allegro</div><div class="w-by">연주 Emerson String Quartet</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=VarJ-MbdgHg" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="4Kq-guc6dP0" data-name="모차르트 · 현악 사중주 17번 B♭장조 “사냥” K. 458 — 1악장 알레그로 비바체 아사이"><div class="w-ko">현악 사중주 17번 B♭장조 “사냥” K. 458 — 1악장 알레그로 비바체 아사이</div><div class="w-en">String Quartet No. 17 in B-flat major “Hunt”, K. 458 — I. Allegro vivace assai</div><div class="w-by">연주 Emerson String Quartet</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=4Kq-guc6dP0" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="p9mujZvjDac" data-name="모차르트 · 현악 사중주 15번 D단조 K. 421 — 1악장 알레그로 모데라토"><div class="w-ko">현악 사중주 15번 D단조 K. 421 — 1악장 알레그로 모데라토</div><div class="w-en">String Quartet No. 15 in D minor, K. 421 — I. Allegro moderato</div><div class="w-by">연주 Emerson String Quartet</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=p9mujZvjDac" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="VcrvP7KaVoA" data-name="모차르트 · “아, 어머니께 말씀드리죠” 주제에 의한 12개의 변주곡 K. 265 (작은 별 변주곡)"><div class="w-ko">“아, 어머니께 말씀드리죠” 주제에 의한 12개의 변주곡 K. 265 (작은 별 변주곡)</div><div class="w-en">12 Variations on “Ah, vous dirai-je, Maman”, K. 265</div><div class="w-by">연주 정명훈 Myung-Whun Chung, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=VcrvP7KaVoA" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
       <li><div class="w-ko">현악 사중주 14번 G장조 K. 387 — 1악장 알레그로 비바체 아사이</div><div class="w-en">String Quartet No. 14 in G major, K. 387 — I. Allegro vivace assai</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8%20%ED%98%84%EC%95%85%20%EC%82%AC%EC%A4%91%EC%A3%BC%2014%EB%B2%88%20G%EC%9E%A5%EC%A1%B0%20K.%20387%20%E2%80%94%201%EC%95%85%EC%9E%A5%20%EC%95%8C%EB%A0%88%EA%B7%B8%EB%A1%9C%20%EB%B9%84%EB%B0%94%EC%B2%B4%20%EC%95%84%EC%82%AC%EC%9D%B4" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">현악 사중주 14번 G장조 K. 387 — 3악장 안단테 칸타빌레</div><div class="w-en">String Quartet No. 14 in G major, K. 387 — III. Andante cantabile</div><div class="w-by">연주 Emerson String Quartet</div><a class="w-link" href="https://www.youtube.com/watch?v=LMbvdi6tmCA" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="LMbvdi6tmCA" data-name="모차르트 · 현악 사중주 14번 G장조 K. 387 — 3악장 안단테 칸타빌레"><div class="w-ko">현악 사중주 14번 G장조 K. 387 — 3악장 안단테 칸타빌레</div><div class="w-en">String Quartet No. 14 in G major, K. 387 — III. Andante cantabile</div><div class="w-by">연주 Emerson String Quartet</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=LMbvdi6tmCA" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
       <li><div class="w-ko">피아노 4손 소나타 C장조 K. 521</div><div class="w-en">Sonata in C major for piano four hands, K. 521</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8%20%ED%94%BC%EC%95%84%EB%85%B8%204%EC%86%90%20%EC%86%8C%EB%82%98%ED%83%80%20C%EC%9E%A5%EC%A1%B0%20K.%20521" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
       <li><div class="w-ko">돈 조반니 — “그대 손을 잡아요”</div><div class="w-en">Don Giovanni — “Là ci darem la mano”</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8%20%EB%8F%88%20%EC%A1%B0%EB%B0%98%EB%8B%88%20%E2%80%94%20%E2%80%9C%EA%B7%B8%EB%8C%80%20%EC%86%90%EC%9D%84%20%EC%9E%A1%EC%95%84%EC%9A%94%E2%80%9D" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
     </ol>
@@ -132,5 +141,103 @@ footer.site a{color:var(--muted)}</style>
     <p>초상화·그림: Wikimedia Commons (퍼블릭 도메인) · 음원: YouTube</p>
     <p>© 2026 냠냠클래식 · 그림 한 장으로 고르는 오늘의 클래식</p>
   </div></footer>
+  <script>
+  (function () {
+    var items = document.querySelectorAll('ol.works li[data-yt]');
+    if (!items.length || !/^https?:$/.test(location.protocol)) return;
+    var api = null, li0 = null, player = null;
+    function loadYT() {
+      if (api) return api;
+      api = new Promise(function (res) {
+        if (window.YT && window.YT.Player) return res(true);
+        var prev = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = function () { if (typeof prev === 'function') prev(); res(true); };
+        var s = document.createElement('script');
+        s.src = 'https://www.youtube.com/iframe_api'; s.async = true;
+        s.onerror = function () { res(false); };
+        document.head.appendChild(s);
+        setTimeout(function () { res(!!(window.YT && window.YT.Player)); }, 9000);
+      });
+      return api;
+    }
+    window.addEventListener('pointerdown', function () { loadYT(); }, { once: true });
+    function btn(li) { return li.querySelector('.pl-btn'); }
+    function stop() {
+      if (player) { try { player.destroy(); } catch (e) {} }
+      if (li0) {
+        ['.pl-player', '.pl-tools', '.pl-auto'].forEach(function (c) { var x = li0.querySelector(c); if (x) x.remove(); });
+        li0.classList.remove('playing');
+        var b = btn(li0); if (b) { b.textContent = '▶ 이 창에서 듣기'; b.classList.remove('on'); }
+      }
+      player = null; li0 = null;
+    }
+    function nextOf(li) {
+      var n = li.nextElementSibling;
+      while (n && !n.dataset.yt) n = n.nextElementSibling;
+      if (!n) {   // 같은 페이지의 다음 목록(예: 더 들어볼 만한 곡)으로 이어서
+        var lists = Array.prototype.slice.call(document.querySelectorAll('ol.works'));
+        for (var i = lists.indexOf(li.parentNode) + 1; i < lists.length && !n; i++) n = lists[i].querySelector('li[data-yt]');
+      }
+      return n;
+    }
+    function playNext(li) { var n = nextOf(li); if (n) open(n, true); else stop(); }
+    function fail(li, auto, code) {
+      var box = li.querySelector('.pl-player'); if (!box) return;
+      if (player) { try { player.destroy(); } catch (e) {} player = null; }
+      box.className = 'pl-player pl-fail'; box.innerHTML = '';
+      var a = document.createElement('a');
+      a.href = 'https://www.youtube.com/watch?v=' + li.dataset.yt; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = '이 곡은 여기서 재생할 수 없어요 — 유튜브에서 열기 ↗';
+      box.appendChild(a);
+      try { gtag('event', 'play_fail', { piece: li.dataset.name, code: code || 0 }); } catch (e) {}
+      if (auto) setTimeout(function () { if (li0 === li) playNext(li); }, 1500);   // 연속 재생 중이면 건너뛰고 다음 곡
+    }
+    function open(li, auto) {
+      if (li0 === li && !auto) { stop(); return; }
+      stop();
+      li0 = li;
+      li.classList.add('playing');
+      var b = btn(li); if (b) { b.textContent = '■ 멈추기'; b.classList.add('on'); }
+      var box = document.createElement('div'); box.className = 'pl-player';
+      var holder = document.createElement('div'); box.appendChild(holder);
+      var tools = document.createElement('div'); tools.className = 'pl-tools';
+      var nx = document.createElement('button'); nx.type = 'button'; nx.className = 'pl-tool'; nx.textContent = '다음 곡 ▶▶';
+      nx.addEventListener('click', function () { var n = nextOf(li); if (n) open(n, false); });
+      var yt = document.createElement('a'); yt.className = 'pl-tool'; yt.href = 'https://www.youtube.com/watch?v=' + li.dataset.yt;
+      yt.target = '_blank'; yt.rel = 'noopener'; yt.textContent = '유튜브에서 보기 ↗';
+      yt.addEventListener('click', function () { try { player && player.pauseVideo(); } catch (e) {} });
+      var cl = document.createElement('button'); cl.type = 'button'; cl.className = 'pl-tool'; cl.textContent = '■ 닫기';
+      cl.addEventListener('click', stop);
+      if (nextOf(li)) tools.appendChild(nx);
+      tools.appendChild(yt); tools.appendChild(cl);
+      li.appendChild(box); li.appendChild(tools);
+      if (nextOf(li)) { var note = document.createElement('p'); note.className = 'pl-auto'; note.textContent = '곡이 끝나면 다음 곡이 이어서 나와요'; li.appendChild(note); }
+      setTimeout(function () { li.scrollIntoView({ behavior: 'smooth', block: auto ? 'center' : 'nearest' }); }, 60);
+      try { gtag('event', 'play_music', { piece: li.dataset.name, area: 'seo', auto: auto ? 1 : 0 }); } catch (e) {}
+      function build() {
+        if (li0 !== li) return;
+        if (!(window.YT && window.YT.Player)) return fail(li, auto);
+        player = new YT.Player(holder, {
+          videoId: li.dataset.yt, width: '100%', height: '100%', host: 'https://www.youtube.com',
+          playerVars: { autoplay: 1, mute: 0, rel: 0, playsinline: 1, modestbranding: 1, origin: location.origin, enablejsapi: 1 },
+          events: {
+            onReady: function (e) { try { e.target.unMute(); e.target.setVolume(100); e.target.playVideo(); } catch (x) {} },
+            onError: function (e) { fail(li, auto, e && e.data); },
+            onStateChange: function (e) {
+              if (e.data === 1) { try { if (e.target.isMuted()) { e.target.unMute(); e.target.setVolume(100); } } catch (x) {} }
+              if (e.data === 0) playNext(li);
+            }
+          }
+        });
+      }
+      // API가 이미 있으면 탭 안에서 바로 만들어 자동재생이 막히지 않게
+      if (window.YT && window.YT.Player) build(); else loadYT().then(build);
+    }
+    items.forEach(function (li) {
+      var b = btn(li); if (!b) return;
+      b.addEventListener('click', function (e) { e.preventDefault(); open(li, false); });
+    });
+  })();
+  </script>
 </body>
 </html>

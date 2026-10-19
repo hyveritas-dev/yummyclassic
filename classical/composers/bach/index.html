@@ -53,6 +53,15 @@ ol.works li::before{content:counter(w);position:absolute;left:16px;top:14px;widt
 .grid a{display:block;height:100%;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px}
 .grid b{display:block;color:var(--wine)}
 .grid span{font-size:.85rem;color:var(--muted)}
+.w-link.on{color:var(--ink)}
+ol.works li.playing{border-color:var(--wine);box-shadow:0 2px 12px rgba(122,15,42,.12)}
+.pl-player{margin:10px 0 4px;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;max-width:520px}
+.pl-player iframe{width:100%;height:100%;display:block;border:0}
+.pl-player.pl-fail{aspect-ratio:auto;background:transparent;padding:4px 0}
+.pl-player.pl-fail a{font-size:.88rem}
+.pl-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pl-tool{font:inherit;font-size:.8rem;font-weight:600;color:var(--wine);background:var(--vanilla);border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;cursor:pointer}
+.pl-auto{font-size:.78rem;color:var(--muted);margin:2px 0 0}
 .typeimg{width:100%;max-width:520px;border-radius:14px;display:block;margin:10px 0 4px;border:1px solid var(--line)}
 footer.site{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 40px;font-size:.8rem;color:var(--muted)}
 footer.site a{color:var(--muted)}</style>
@@ -80,7 +89,7 @@ footer.site a{color:var(--muted)}</style>
       <li><div class="w-ko">브란덴부르크 협주곡 5번 D장조 BWV 1050</div><div class="w-en">Brandenburg Concerto No. 5 in D major, BWV 1050</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%B0%94%ED%9D%90%20%EB%B8%8C%EB%9E%80%EB%8D%B4%EB%B6%80%EB%A5%B4%ED%81%AC%20%ED%98%91%EC%A3%BC%EA%B3%A1%205%EB%B2%88%20D%EC%9E%A5%EC%A1%B0%20BWV%201050" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
       <li><div class="w-ko">브란덴부르크 협주곡 3번 G장조 BWV 1048</div><div class="w-en">Brandenburg Concerto No. 3 in G major, BWV 1048</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%B0%94%ED%9D%90%20%EB%B8%8C%EB%9E%80%EB%8D%B4%EB%B6%80%EB%A5%B4%ED%81%AC%20%ED%98%91%EC%A3%BC%EA%B3%A1%203%EB%B2%88%20G%EC%9E%A5%EC%A1%B0%20BWV%201048" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
       <li><div class="w-ko">관현악 모음곡 3번 — 아리아 BWV 1068</div><div class="w-en">Orchestral Suite No. 3 — Air, BWV 1068</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%B0%94%ED%9D%90%20%EA%B4%80%ED%98%84%EC%95%85%20%EB%AA%A8%EC%9D%8C%EA%B3%A1%203%EB%B2%88%20%E2%80%94%20%EC%95%84%EB%A6%AC%EC%95%84%20BWV%201068" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">토카타와 푸가 D단조 BWV 565</div><div class="w-en">Toccata and Fugue in D minor, BWV 565</div><div class="w-by">연주 Karl Richter, organ</div><a class="w-link" href="https://www.youtube.com/watch?v=1UQ25tCgCog" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="1UQ25tCgCog" data-name="바흐 · 토카타와 푸가 D단조 BWV 565"><div class="w-ko">토카타와 푸가 D단조 BWV 565</div><div class="w-en">Toccata and Fugue in D minor, BWV 565</div><div class="w-by">연주 Karl Richter, organ</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=1UQ25tCgCog" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
       <li><div class="w-ko">골드베르크 변주곡 BWV 988</div><div class="w-en">Goldberg Variations, BWV 988</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%B0%94%ED%9D%90%20%EA%B3%A8%EB%93%9C%EB%B2%A0%EB%A5%B4%ED%81%AC%20%EB%B3%80%EC%A3%BC%EA%B3%A1%20BWV%20988" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
       <li><div class="w-ko">평균율 클라비어 곡집 1권 — 프렐류드 C장조 BWV 846</div><div class="w-en">The Well-Tempered Clavier, Book I — Prelude in C major, BWV 846</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%B0%94%ED%9D%90%20%ED%8F%89%EA%B7%A0%EC%9C%A8%20%ED%81%B4%EB%9D%BC%EB%B9%84%EC%96%B4%20%EA%B3%A1%EC%A7%91%201%EA%B6%8C%20%E2%80%94%20%ED%94%84%EB%A0%90%EB%A5%98%EB%93%9C%20C%EC%9E%A5%EC%A1%B0%20BWV%20846" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
       <li><div class="w-ko">무반주 첼로 모음곡 1번 G장조 BWV 1007</div><div class="w-en">Cello Suite No. 1 in G major, BWV 1007</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%B0%94%ED%9D%90%20%EB%AC%B4%EB%B0%98%EC%A3%BC%20%EC%B2%BC%EB%A1%9C%20%EB%AA%A8%EC%9D%8C%EA%B3%A1%201%EB%B2%88%20G%EC%9E%A5%EC%A1%B0%20BWV%201007" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
@@ -90,29 +99,29 @@ footer.site a{color:var(--muted)}</style>
     </ol>
     <h2>바흐, 더 들어볼 만한 곡</h2>
     <ol class="works" start="11" style="counter-reset:w 10">
-      <li><div class="w-ko">관현악 모음곡 3번 D장조 BWV 1068 — 2악장 아리아 (“G선상의 아리아”)</div><div class="w-en">Orchestral Suite No. 3 in D major, BWV 1068 — II. Air (“Air on the G String”)</div><div class="w-by">연주 Karajan · Berliner Philharmoniker</div><a class="w-link" href="https://www.youtube.com/watch?v=MPia1ap_Wb8" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">관현악 모음곡 2번 B단조 BWV 1067 — 7곡 바디네리</div><div class="w-en">Orchestral Suite No. 2 in B minor, BWV 1067 — VII. Badinerie</div><div class="w-by">연주 Karajan · Berliner Philharmoniker</div><a class="w-link" href="https://www.youtube.com/watch?v=9aFUuHIdV1o" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">골드베르크 변주곡 BWV 988 — 아리아</div><div class="w-en">Goldberg Variations, BWV 988 — Aria</div><div class="w-by">연주 Glenn Gould, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=rCuALWK6ZNg" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">무반주 첼로 모음곡 1번 G장조 BWV 1007 — 프렐류드</div><div class="w-en">Cello Suite No. 1 in G major, BWV 1007 — Prélude</div><div class="w-by">연주 Yo-Yo Ma, cello</div><a class="w-link" href="https://www.youtube.com/watch?v=1prweT95Mo0" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">바이올린 파르티타 2번 D단조 BWV 1004 — 5곡 샤콘</div><div class="w-en">Violin Partita No. 2 in D minor, BWV 1004 — V. Chaconne</div><div class="w-by">연주 Itzhak Perlman, violin</div><a class="w-link" href="https://www.youtube.com/watch?v=aBQkRzZYN8I" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">파사칼리아와 푸가 C단조 BWV 582</div><div class="w-en">Passacaglia and Fugue in C minor, BWV 582</div><div class="w-by">연주 Helmut Walcha, organ</div><a class="w-link" href="https://www.youtube.com/watch?v=7aTQ3RHDHCY" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">두 대의 바이올린을 위한 협주곡 D단조 BWV 1043 — 1악장 비바체</div><div class="w-en">Concerto for Two Violins in D minor, BWV 1043 — I. Vivace</div><div class="w-by">연주 Menuhin &amp; Oistrakh, violins</div><a class="w-link" href="https://www.youtube.com/watch?v=CmmpjziKcFU" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">두 대의 바이올린을 위한 협주곡 D단조 BWV 1043 — 2악장 라르고 마 논 트로포</div><div class="w-en">Concerto for Two Violins in D minor, BWV 1043 — II. Largo ma non troppo</div><div class="w-by">연주 Menuhin &amp; Oistrakh, violins</div><a class="w-link" href="https://www.youtube.com/watch?v=zf1X7ppZiIQ" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">마태 수난곡 BWV 244 — “불쌍히 여기소서, 나의 하느님”</div><div class="w-en">St Matthew Passion, BWV 244 — “Erbarme dich, mein Gott”</div><div class="w-by">연주 Janet Baker, mezzo-soprano</div><a class="w-link" href="https://www.youtube.com/watch?v=xt2FtlK2gZM" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">칸타타 BWV 147 — “예수, 인간 소망의 기쁨”</div><div class="w-en">Cantata BWV 147 — “Jesu, Joy of Man’s Desiring”</div><div class="w-by">연주 Netherlands Bach Society</div><a class="w-link" href="https://www.youtube.com/watch?v=GWtoeYznx8E" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">브란덴부르크 협주곡 3번 G장조 BWV 1048 — 1악장 알레그로</div><div class="w-en">Brandenburg Concerto No. 3 in G major, BWV 1048 — I. Allegro</div><div class="w-by">연주 Shunske Sato · Netherlands Bach Society</div><a class="w-link" href="https://www.youtube.com/watch?v=GEhc0cqXsYA" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">브란덴부르크 협주곡 5번 D장조 BWV 1050 — 1악장 알레그로</div><div class="w-en">Brandenburg Concerto No. 5 in D major, BWV 1050 — I. Allegro</div><div class="w-by">연주 Berliner Philharmoniker</div><a class="w-link" href="https://www.youtube.com/watch?v=xw-H_BpcOPk" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">평균율 클라비어곡집 1권 — 프렐류드 1번 C장조 BWV 846</div><div class="w-en">The Well-Tempered Clavier, Book I — Prelude No. 1 in C major, BWV 846</div><div class="w-by">연주 Lang Lang, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=gVah1cr3pU0" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">무반주 첼로 모음곡 5번 C단조 BWV 1011 — 사라방드</div><div class="w-en">Cello Suite No. 5 in C minor, BWV 1011 — Sarabande</div><div class="w-by">연주 Mstislav Rostropovich, cello</div><a class="w-link" href="https://www.youtube.com/watch?v=gOk5Qtian1w" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">바이올린 협주곡 A단조 BWV 1041 — 1악장</div><div class="w-en">Violin Concerto in A minor, BWV 1041 — I. Allegro moderato</div><div class="w-by">연주 Hilary Hahn, violin</div><a class="w-link" href="https://www.youtube.com/watch?v=Q3-5144TaYg" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">건반 협주곡 5번 F단조 BWV 1056 — 2악장 라르고</div><div class="w-en">Keyboard Concerto No. 5 in F minor, BWV 1056 — II. Largo</div><div class="w-by">연주 Beatrice Rana, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=Fe40O80Kmcg" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">미사 B단조 BWV 232 — 아뉴스 데이</div><div class="w-en">Mass in B minor, BWV 232 — Agnus Dei</div><div class="w-by">연주 Netherlands Bach Society</div><a class="w-link" href="https://www.youtube.com/watch?v=Ug6Wj8rO-iw" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">마태 수난곡 BWV 244 — 첫 합창 “오라, 딸들아”</div><div class="w-en">St Matthew Passion, BWV 244 — Opening chorus “Kommt, ihr Töchter”</div><div class="w-by">연주 Netherlands Bach Society</div><a class="w-link" href="https://www.youtube.com/watch?v=RnkSFKJ4rC0" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">이탈리아 협주곡 F장조 BWV 971 — 3악장 프레스토</div><div class="w-en">Italian Concerto in F major, BWV 971 — III. Presto</div><div class="w-by">연주 Daniel Martyn Lewis</div><a class="w-link" href="https://www.youtube.com/watch?v=763rK2flIJc" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">칸타타 BWV 208 — “양들은 한가로이 풀을 뜯고”</div><div class="w-en">Cantata BWV 208 — “Sheep May Safely Graze”</div><div class="w-by">연주 Toronto Bach Festival</div><a class="w-link" href="https://www.youtube.com/watch?v=xt3DEuw0wjM" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">프랑스 모음곡 1번 D단조 BWV 812 — 1곡 알르망드</div><div class="w-en">French Suite No. 1 in D minor, BWV 812 — I. Allemande</div><div class="w-by">연주 András Schiff, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=aTnN5rPpdwE" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">코랄 전주곡 “주 예수 그리스도여, 당신께 부르짖나이다” BWV 639</div><div class="w-en">Chorale Prelude “Ich ruf zu dir, Herr Jesu Christ”, BWV 639</div><div class="w-by">연주 Leo van Doeselaar, organ · Netherlands Bach Society</div><a class="w-link" href="https://www.youtube.com/watch?v=fLLEumabTPA" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">플루트 소나타 E♭장조 BWV 1031 — 2악장 시칠리아노</div><div class="w-en">Flute Sonata in E-flat major, BWV 1031 — II. Siciliano</div><div class="w-by">연주 Lang Lang, piano (arr. Kempff)</div><a class="w-link" href="https://www.youtube.com/watch?v=FHqytGT0lqo" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="MPia1ap_Wb8" data-name="바흐 · 관현악 모음곡 3번 D장조 BWV 1068 — 2악장 아리아 (“G선상의 아리아”)"><div class="w-ko">관현악 모음곡 3번 D장조 BWV 1068 — 2악장 아리아 (“G선상의 아리아”)</div><div class="w-en">Orchestral Suite No. 3 in D major, BWV 1068 — II. Air (“Air on the G String”)</div><div class="w-by">연주 Karajan · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=MPia1ap_Wb8" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="9aFUuHIdV1o" data-name="바흐 · 관현악 모음곡 2번 B단조 BWV 1067 — 7곡 바디네리"><div class="w-ko">관현악 모음곡 2번 B단조 BWV 1067 — 7곡 바디네리</div><div class="w-en">Orchestral Suite No. 2 in B minor, BWV 1067 — VII. Badinerie</div><div class="w-by">연주 Karajan · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=9aFUuHIdV1o" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="rCuALWK6ZNg" data-name="바흐 · 골드베르크 변주곡 BWV 988 — 아리아"><div class="w-ko">골드베르크 변주곡 BWV 988 — 아리아</div><div class="w-en">Goldberg Variations, BWV 988 — Aria</div><div class="w-by">연주 Glenn Gould, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=rCuALWK6ZNg" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="1prweT95Mo0" data-name="바흐 · 무반주 첼로 모음곡 1번 G장조 BWV 1007 — 프렐류드"><div class="w-ko">무반주 첼로 모음곡 1번 G장조 BWV 1007 — 프렐류드</div><div class="w-en">Cello Suite No. 1 in G major, BWV 1007 — Prélude</div><div class="w-by">연주 Yo-Yo Ma, cello</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=1prweT95Mo0" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="aBQkRzZYN8I" data-name="바흐 · 바이올린 파르티타 2번 D단조 BWV 1004 — 5곡 샤콘"><div class="w-ko">바이올린 파르티타 2번 D단조 BWV 1004 — 5곡 샤콘</div><div class="w-en">Violin Partita No. 2 in D minor, BWV 1004 — V. Chaconne</div><div class="w-by">연주 Itzhak Perlman, violin</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=aBQkRzZYN8I" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="7aTQ3RHDHCY" data-name="바흐 · 파사칼리아와 푸가 C단조 BWV 582"><div class="w-ko">파사칼리아와 푸가 C단조 BWV 582</div><div class="w-en">Passacaglia and Fugue in C minor, BWV 582</div><div class="w-by">연주 Helmut Walcha, organ</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=7aTQ3RHDHCY" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="CmmpjziKcFU" data-name="바흐 · 두 대의 바이올린을 위한 협주곡 D단조 BWV 1043 — 1악장 비바체"><div class="w-ko">두 대의 바이올린을 위한 협주곡 D단조 BWV 1043 — 1악장 비바체</div><div class="w-en">Concerto for Two Violins in D minor, BWV 1043 — I. Vivace</div><div class="w-by">연주 Menuhin &amp; Oistrakh, violins</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=CmmpjziKcFU" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="zf1X7ppZiIQ" data-name="바흐 · 두 대의 바이올린을 위한 협주곡 D단조 BWV 1043 — 2악장 라르고 마 논 트로포"><div class="w-ko">두 대의 바이올린을 위한 협주곡 D단조 BWV 1043 — 2악장 라르고 마 논 트로포</div><div class="w-en">Concerto for Two Violins in D minor, BWV 1043 — II. Largo ma non troppo</div><div class="w-by">연주 Menuhin &amp; Oistrakh, violins</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=zf1X7ppZiIQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="xt2FtlK2gZM" data-name="바흐 · 마태 수난곡 BWV 244 — “불쌍히 여기소서, 나의 하느님”"><div class="w-ko">마태 수난곡 BWV 244 — “불쌍히 여기소서, 나의 하느님”</div><div class="w-en">St Matthew Passion, BWV 244 — “Erbarme dich, mein Gott”</div><div class="w-by">연주 Janet Baker, mezzo-soprano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=xt2FtlK2gZM" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="GWtoeYznx8E" data-name="바흐 · 칸타타 BWV 147 — “예수, 인간 소망의 기쁨”"><div class="w-ko">칸타타 BWV 147 — “예수, 인간 소망의 기쁨”</div><div class="w-en">Cantata BWV 147 — “Jesu, Joy of Man’s Desiring”</div><div class="w-by">연주 Netherlands Bach Society</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=GWtoeYznx8E" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="GEhc0cqXsYA" data-name="바흐 · 브란덴부르크 협주곡 3번 G장조 BWV 1048 — 1악장 알레그로"><div class="w-ko">브란덴부르크 협주곡 3번 G장조 BWV 1048 — 1악장 알레그로</div><div class="w-en">Brandenburg Concerto No. 3 in G major, BWV 1048 — I. Allegro</div><div class="w-by">연주 Shunske Sato · Netherlands Bach Society</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=GEhc0cqXsYA" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="xw-H_BpcOPk" data-name="바흐 · 브란덴부르크 협주곡 5번 D장조 BWV 1050 — 1악장 알레그로"><div class="w-ko">브란덴부르크 협주곡 5번 D장조 BWV 1050 — 1악장 알레그로</div><div class="w-en">Brandenburg Concerto No. 5 in D major, BWV 1050 — I. Allegro</div><div class="w-by">연주 Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=xw-H_BpcOPk" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="gVah1cr3pU0" data-name="바흐 · 평균율 클라비어곡집 1권 — 프렐류드 1번 C장조 BWV 846"><div class="w-ko">평균율 클라비어곡집 1권 — 프렐류드 1번 C장조 BWV 846</div><div class="w-en">The Well-Tempered Clavier, Book I — Prelude No. 1 in C major, BWV 846</div><div class="w-by">연주 Lang Lang, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=gVah1cr3pU0" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="gOk5Qtian1w" data-name="바흐 · 무반주 첼로 모음곡 5번 C단조 BWV 1011 — 사라방드"><div class="w-ko">무반주 첼로 모음곡 5번 C단조 BWV 1011 — 사라방드</div><div class="w-en">Cello Suite No. 5 in C minor, BWV 1011 — Sarabande</div><div class="w-by">연주 Mstislav Rostropovich, cello</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=gOk5Qtian1w" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="Q3-5144TaYg" data-name="바흐 · 바이올린 협주곡 A단조 BWV 1041 — 1악장"><div class="w-ko">바이올린 협주곡 A단조 BWV 1041 — 1악장</div><div class="w-en">Violin Concerto in A minor, BWV 1041 — I. Allegro moderato</div><div class="w-by">연주 Hilary Hahn, violin</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=Q3-5144TaYg" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="Fe40O80Kmcg" data-name="바흐 · 건반 협주곡 5번 F단조 BWV 1056 — 2악장 라르고"><div class="w-ko">건반 협주곡 5번 F단조 BWV 1056 — 2악장 라르고</div><div class="w-en">Keyboard Concerto No. 5 in F minor, BWV 1056 — II. Largo</div><div class="w-by">연주 Beatrice Rana, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=Fe40O80Kmcg" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="Ug6Wj8rO-iw" data-name="바흐 · 미사 B단조 BWV 232 — 아뉴스 데이"><div class="w-ko">미사 B단조 BWV 232 — 아뉴스 데이</div><div class="w-en">Mass in B minor, BWV 232 — Agnus Dei</div><div class="w-by">연주 Netherlands Bach Society</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=Ug6Wj8rO-iw" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="RnkSFKJ4rC0" data-name="바흐 · 마태 수난곡 BWV 244 — 첫 합창 “오라, 딸들아”"><div class="w-ko">마태 수난곡 BWV 244 — 첫 합창 “오라, 딸들아”</div><div class="w-en">St Matthew Passion, BWV 244 — Opening chorus “Kommt, ihr Töchter”</div><div class="w-by">연주 Netherlands Bach Society</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=RnkSFKJ4rC0" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="763rK2flIJc" data-name="바흐 · 이탈리아 협주곡 F장조 BWV 971 — 3악장 프레스토"><div class="w-ko">이탈리아 협주곡 F장조 BWV 971 — 3악장 프레스토</div><div class="w-en">Italian Concerto in F major, BWV 971 — III. Presto</div><div class="w-by">연주 Daniel Martyn Lewis</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=763rK2flIJc" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="xt3DEuw0wjM" data-name="바흐 · 칸타타 BWV 208 — “양들은 한가로이 풀을 뜯고”"><div class="w-ko">칸타타 BWV 208 — “양들은 한가로이 풀을 뜯고”</div><div class="w-en">Cantata BWV 208 — “Sheep May Safely Graze”</div><div class="w-by">연주 Toronto Bach Festival</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=xt3DEuw0wjM" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="aTnN5rPpdwE" data-name="바흐 · 프랑스 모음곡 1번 D단조 BWV 812 — 1곡 알르망드"><div class="w-ko">프랑스 모음곡 1번 D단조 BWV 812 — 1곡 알르망드</div><div class="w-en">French Suite No. 1 in D minor, BWV 812 — I. Allemande</div><div class="w-by">연주 András Schiff, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=aTnN5rPpdwE" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="fLLEumabTPA" data-name="바흐 · 코랄 전주곡 “주 예수 그리스도여, 당신께 부르짖나이다” BWV 639"><div class="w-ko">코랄 전주곡 “주 예수 그리스도여, 당신께 부르짖나이다” BWV 639</div><div class="w-en">Chorale Prelude “Ich ruf zu dir, Herr Jesu Christ”, BWV 639</div><div class="w-by">연주 Leo van Doeselaar, organ · Netherlands Bach Society</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=fLLEumabTPA" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="FHqytGT0lqo" data-name="바흐 · 플루트 소나타 E♭장조 BWV 1031 — 2악장 시칠리아노"><div class="w-ko">플루트 소나타 E♭장조 BWV 1031 — 2악장 시칠리아노</div><div class="w-en">Flute Sonata in E-flat major, BWV 1031 — II. Siciliano</div><div class="w-by">연주 Lang Lang, piano (arr. Kempff)</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=FHqytGT0lqo" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
     </ol>
     <a class="cta" href="/?lang=ko">그림 몇 장만 고르면, 오늘 나에게 맞는 클래식을 추천해 드려요
       <small>약 20초 · 회원가입 없음 · 정답 없음</small></a>
@@ -126,5 +135,103 @@ footer.site a{color:var(--muted)}</style>
     <p>초상화·그림: Wikimedia Commons (퍼블릭 도메인) · 음원: YouTube</p>
     <p>© 2026 냠냠클래식 · 그림 한 장으로 고르는 오늘의 클래식</p>
   </div></footer>
+  <script>
+  (function () {
+    var items = document.querySelectorAll('ol.works li[data-yt]');
+    if (!items.length || !/^https?:$/.test(location.protocol)) return;
+    var api = null, li0 = null, player = null;
+    function loadYT() {
+      if (api) return api;
+      api = new Promise(function (res) {
+        if (window.YT && window.YT.Player) return res(true);
+        var prev = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = function () { if (typeof prev === 'function') prev(); res(true); };
+        var s = document.createElement('script');
+        s.src = 'https://www.youtube.com/iframe_api'; s.async = true;
+        s.onerror = function () { res(false); };
+        document.head.appendChild(s);
+        setTimeout(function () { res(!!(window.YT && window.YT.Player)); }, 9000);
+      });
+      return api;
+    }
+    window.addEventListener('pointerdown', function () { loadYT(); }, { once: true });
+    function btn(li) { return li.querySelector('.pl-btn'); }
+    function stop() {
+      if (player) { try { player.destroy(); } catch (e) {} }
+      if (li0) {
+        ['.pl-player', '.pl-tools', '.pl-auto'].forEach(function (c) { var x = li0.querySelector(c); if (x) x.remove(); });
+        li0.classList.remove('playing');
+        var b = btn(li0); if (b) { b.textContent = '▶ 이 창에서 듣기'; b.classList.remove('on'); }
+      }
+      player = null; li0 = null;
+    }
+    function nextOf(li) {
+      var n = li.nextElementSibling;
+      while (n && !n.dataset.yt) n = n.nextElementSibling;
+      if (!n) {   // 같은 페이지의 다음 목록(예: 더 들어볼 만한 곡)으로 이어서
+        var lists = Array.prototype.slice.call(document.querySelectorAll('ol.works'));
+        for (var i = lists.indexOf(li.parentNode) + 1; i < lists.length && !n; i++) n = lists[i].querySelector('li[data-yt]');
+      }
+      return n;
+    }
+    function playNext(li) { var n = nextOf(li); if (n) open(n, true); else stop(); }
+    function fail(li, auto, code) {
+      var box = li.querySelector('.pl-player'); if (!box) return;
+      if (player) { try { player.destroy(); } catch (e) {} player = null; }
+      box.className = 'pl-player pl-fail'; box.innerHTML = '';
+      var a = document.createElement('a');
+      a.href = 'https://www.youtube.com/watch?v=' + li.dataset.yt; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = '이 곡은 여기서 재생할 수 없어요 — 유튜브에서 열기 ↗';
+      box.appendChild(a);
+      try { gtag('event', 'play_fail', { piece: li.dataset.name, code: code || 0 }); } catch (e) {}
+      if (auto) setTimeout(function () { if (li0 === li) playNext(li); }, 1500);   // 연속 재생 중이면 건너뛰고 다음 곡
+    }
+    function open(li, auto) {
+      if (li0 === li && !auto) { stop(); return; }
+      stop();
+      li0 = li;
+      li.classList.add('playing');
+      var b = btn(li); if (b) { b.textContent = '■ 멈추기'; b.classList.add('on'); }
+      var box = document.createElement('div'); box.className = 'pl-player';
+      var holder = document.createElement('div'); box.appendChild(holder);
+      var tools = document.createElement('div'); tools.className = 'pl-tools';
+      var nx = document.createElement('button'); nx.type = 'button'; nx.className = 'pl-tool'; nx.textContent = '다음 곡 ▶▶';
+      nx.addEventListener('click', function () { var n = nextOf(li); if (n) open(n, false); });
+      var yt = document.createElement('a'); yt.className = 'pl-tool'; yt.href = 'https://www.youtube.com/watch?v=' + li.dataset.yt;
+      yt.target = '_blank'; yt.rel = 'noopener'; yt.textContent = '유튜브에서 보기 ↗';
+      yt.addEventListener('click', function () { try { player && player.pauseVideo(); } catch (e) {} });
+      var cl = document.createElement('button'); cl.type = 'button'; cl.className = 'pl-tool'; cl.textContent = '■ 닫기';
+      cl.addEventListener('click', stop);
+      if (nextOf(li)) tools.appendChild(nx);
+      tools.appendChild(yt); tools.appendChild(cl);
+      li.appendChild(box); li.appendChild(tools);
+      if (nextOf(li)) { var note = document.createElement('p'); note.className = 'pl-auto'; note.textContent = '곡이 끝나면 다음 곡이 이어서 나와요'; li.appendChild(note); }
+      setTimeout(function () { li.scrollIntoView({ behavior: 'smooth', block: auto ? 'center' : 'nearest' }); }, 60);
+      try { gtag('event', 'play_music', { piece: li.dataset.name, area: 'seo', auto: auto ? 1 : 0 }); } catch (e) {}
+      function build() {
+        if (li0 !== li) return;
+        if (!(window.YT && window.YT.Player)) return fail(li, auto);
+        player = new YT.Player(holder, {
+          videoId: li.dataset.yt, width: '100%', height: '100%', host: 'https://www.youtube.com',
+          playerVars: { autoplay: 1, mute: 0, rel: 0, playsinline: 1, modestbranding: 1, origin: location.origin, enablejsapi: 1 },
+          events: {
+            onReady: function (e) { try { e.target.unMute(); e.target.setVolume(100); e.target.playVideo(); } catch (x) {} },
+            onError: function (e) { fail(li, auto, e && e.data); },
+            onStateChange: function (e) {
+              if (e.data === 1) { try { if (e.target.isMuted()) { e.target.unMute(); e.target.setVolume(100); } } catch (x) {} }
+              if (e.data === 0) playNext(li);
+            }
+          }
+        });
+      }
+      // API가 이미 있으면 탭 안에서 바로 만들어 자동재생이 막히지 않게
+      if (window.YT && window.YT.Player) build(); else loadYT().then(build);
+    }
+    items.forEach(function (li) {
+      var b = btn(li); if (!b) return;
+      b.addEventListener('click', function (e) { e.preventDefault(); open(li, false); });
+    });
+  })();
+  </script>
 </body>
 </html>

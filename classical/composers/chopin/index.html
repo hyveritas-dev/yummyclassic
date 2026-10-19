@@ -53,6 +53,15 @@ ol.works li::before{content:counter(w);position:absolute;left:16px;top:14px;widt
 .grid a{display:block;height:100%;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px}
 .grid b{display:block;color:var(--wine)}
 .grid span{font-size:.85rem;color:var(--muted)}
+.w-link.on{color:var(--ink)}
+ol.works li.playing{border-color:var(--wine);box-shadow:0 2px 12px rgba(122,15,42,.12)}
+.pl-player{margin:10px 0 4px;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;max-width:520px}
+.pl-player iframe{width:100%;height:100%;display:block;border:0}
+.pl-player.pl-fail{aspect-ratio:auto;background:transparent;padding:4px 0}
+.pl-player.pl-fail a{font-size:.88rem}
+.pl-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pl-tool{font:inherit;font-size:.8rem;font-weight:600;color:var(--wine);background:var(--vanilla);border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;cursor:pointer}
+.pl-auto{font-size:.78rem;color:var(--muted);margin:2px 0 0}
 .typeimg{width:100%;max-width:520px;border-radius:14px;display:block;margin:10px 0 4px;border:1px solid var(--line)}
 footer.site{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 40px;font-size:.8rem;color:var(--muted)}
 footer.site a{color:var(--muted)}</style>
@@ -77,41 +86,41 @@ footer.site a{color:var(--muted)}</style>
       <div><span class="tag">낭만주의</span><p class="lead">프레데리크 쇼팽 · Frédéric Chopin<br />처음 듣는 분도 편하게 시작할 수 있도록, 쇼팽의 대표곡을 들을 만한 악장까지 짚어 골랐어요.</p></div></div>
     <h2>쇼팽 대표곡 10곡</h2>
     <ol class="works">
-      <li><div class="w-ko">녹턴 내림E장조 Op. 9 No. 2</div><div class="w-en">Nocturne in E-flat major, Op. 9 No. 2</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=2I1WhzKx3Ks" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">발라드 1번 G단조 Op. 23</div><div class="w-en">Ballade No. 1 in G minor, Op. 23</div><div class="w-by">연주 Krystian Zimerman, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=VmFmAvwO1pE" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">에튀드 E장조 Op. 10 No. 3 “이별의 곡”</div><div class="w-en">Étude in E major, Op. 10 No. 3 “Tristesse”</div><div class="w-by">연주 Maurizio Pollini, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=JS7KfOyMEIY" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">에튀드 C단조 Op. 10 No. 12 “혁명”</div><div class="w-en">Étude in C minor, Op. 10 No. 12 “Revolutionary”</div><div class="w-by">연주 Evgeny Kissin, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=7VWHBHeNrg4" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">환상 즉흥곡 올림C단조 Op. 66</div><div class="w-en">Fantaisie-Impromptu in C-sharp minor, Op. 66</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=75x6DncZDgI" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">왈츠 내림D장조 Op. 64 No. 1 “강아지”</div><div class="w-en">Waltz in D-flat major, Op. 64 No. 1 “Minute”</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=OoX6ZTUd3Vo" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 협주곡 2번 Op. 21 — 2악장 라르게토</div><div class="w-en">Piano Concerto No. 2, Op. 21 — II. Larghetto</div><div class="w-by">연주 Krystian Zimerman, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=OEsAM8_V1jk" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="2I1WhzKx3Ks" data-name="쇼팽 · 녹턴 내림E장조 Op. 9 No. 2"><div class="w-ko">녹턴 내림E장조 Op. 9 No. 2</div><div class="w-en">Nocturne in E-flat major, Op. 9 No. 2</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=2I1WhzKx3Ks" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="VmFmAvwO1pE" data-name="쇼팽 · 발라드 1번 G단조 Op. 23"><div class="w-ko">발라드 1번 G단조 Op. 23</div><div class="w-en">Ballade No. 1 in G minor, Op. 23</div><div class="w-by">연주 Krystian Zimerman, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=VmFmAvwO1pE" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="JS7KfOyMEIY" data-name="쇼팽 · 에튀드 E장조 Op. 10 No. 3 “이별의 곡”"><div class="w-ko">에튀드 E장조 Op. 10 No. 3 “이별의 곡”</div><div class="w-en">Étude in E major, Op. 10 No. 3 “Tristesse”</div><div class="w-by">연주 Maurizio Pollini, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=JS7KfOyMEIY" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="7VWHBHeNrg4" data-name="쇼팽 · 에튀드 C단조 Op. 10 No. 12 “혁명”"><div class="w-ko">에튀드 C단조 Op. 10 No. 12 “혁명”</div><div class="w-en">Étude in C minor, Op. 10 No. 12 “Revolutionary”</div><div class="w-by">연주 Evgeny Kissin, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=7VWHBHeNrg4" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="75x6DncZDgI" data-name="쇼팽 · 환상 즉흥곡 올림C단조 Op. 66"><div class="w-ko">환상 즉흥곡 올림C단조 Op. 66</div><div class="w-en">Fantaisie-Impromptu in C-sharp minor, Op. 66</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=75x6DncZDgI" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="OoX6ZTUd3Vo" data-name="쇼팽 · 왈츠 내림D장조 Op. 64 No. 1 “강아지”"><div class="w-ko">왈츠 내림D장조 Op. 64 No. 1 “강아지”</div><div class="w-en">Waltz in D-flat major, Op. 64 No. 1 “Minute”</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=OoX6ZTUd3Vo" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="OEsAM8_V1jk" data-name="쇼팽 · 피아노 협주곡 2번 Op. 21 — 2악장 라르게토"><div class="w-ko">피아노 협주곡 2번 Op. 21 — 2악장 라르게토</div><div class="w-en">Piano Concerto No. 2, Op. 21 — II. Larghetto</div><div class="w-by">연주 Krystian Zimerman, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=OEsAM8_V1jk" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
       <li><div class="w-ko">폴로네이즈 내림A장조 Op. 53 “영웅”</div><div class="w-en">Polonaise in A-flat major, Op. 53 “Heroic”</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%87%BC%ED%8C%BD%20%ED%8F%B4%EB%A1%9C%EB%84%A4%EC%9D%B4%EC%A6%88%20%EB%82%B4%EB%A6%BCA%EC%9E%A5%EC%A1%B0%20Op.%2053%20%E2%80%9C%EC%98%81%EC%9B%85%E2%80%9D" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">전주곡 내림D장조 Op. 28 No. 15 “빗방울”</div><div class="w-en">Prelude in D-flat major, Op. 28 No. 15 “Raindrop”</div><div class="w-by">연주 Maurizio Pollini, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=BczgDb9-ctQ" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 소나타 2번 Op. 35 — 3악장 장송 행진곡</div><div class="w-en">Piano Sonata No. 2, Op. 35 — III. Marche funèbre</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=ido55uT5U0k" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="BczgDb9-ctQ" data-name="쇼팽 · 전주곡 내림D장조 Op. 28 No. 15 “빗방울”"><div class="w-ko">전주곡 내림D장조 Op. 28 No. 15 “빗방울”</div><div class="w-en">Prelude in D-flat major, Op. 28 No. 15 “Raindrop”</div><div class="w-by">연주 Maurizio Pollini, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=BczgDb9-ctQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="ido55uT5U0k" data-name="쇼팽 · 피아노 소나타 2번 Op. 35 — 3악장 장송 행진곡"><div class="w-ko">피아노 소나타 2번 Op. 35 — 3악장 장송 행진곡</div><div class="w-en">Piano Sonata No. 2, Op. 35 — III. Marche funèbre</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=ido55uT5U0k" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
     </ol>
     <h2>쇼팽, 더 들어볼 만한 곡</h2>
     <ol class="works" start="11" style="counter-reset:w 10">
       <li><div class="w-ko">녹턴 F단조 Op. 55 No. 1</div><div class="w-en">Nocturne in F minor, Op. 55 No. 1</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%87%BC%ED%8C%BD%20%EB%85%B9%ED%84%B4%20F%EB%8B%A8%EC%A1%B0%20Op.%2055%20No.%201" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">녹턴 20번 C♯단조 (유작)</div><div class="w-en">Nocturne No. 20 in C-sharp minor, Op. posth.</div><div class="w-by">연주 Bruce Liu, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=s_ST3hzMsVE" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="s_ST3hzMsVE" data-name="쇼팽 · 녹턴 20번 C♯단조 (유작)"><div class="w-ko">녹턴 20번 C♯단조 (유작)</div><div class="w-en">Nocturne No. 20 in C-sharp minor, Op. posth.</div><div class="w-by">연주 Bruce Liu, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=s_ST3hzMsVE" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
       <li><div class="w-ko">녹턴 D♭장조 Op. 27 No. 2</div><div class="w-en">Nocturne in D-flat major, Op. 27 No. 2</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%87%BC%ED%8C%BD%20%EB%85%B9%ED%84%B4%20D%E2%99%AD%EC%9E%A5%EC%A1%B0%20Op.%2027%20No.%202" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">녹턴 C단조 Op. 48 No. 1</div><div class="w-en">Nocturne in C minor, Op. 48 No. 1</div><div class="w-by">연주 조성진 Seong-Jin Cho, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=tSAwZP8e-zQ" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">발라드 4번 F단조 Op. 52</div><div class="w-en">Ballade No. 4 in F minor, Op. 52</div><div class="w-by">연주 Krystian Zimerman, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=pe-GrRQz8pk" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">뱃노래 F♯장조 Op. 60</div><div class="w-en">Barcarolle in F-sharp major, Op. 60</div><div class="w-by">연주 Daniil Trifonov, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=crLaBkFzXHo" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">에튀드 A♭장조 Op. 25 No. 1 “에올리안 하프”</div><div class="w-en">Étude in A-flat major, Op. 25 No. 1 “Aeolian Harp”</div><div class="w-by">연주 임윤찬 Yunchan Lim, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=rrNE9aHJlzw" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">에튀드 A단조 Op. 25 No. 11 “겨울바람”</div><div class="w-en">Étude in A minor, Op. 25 No. 11 “Winter Wind”</div><div class="w-by">연주 Hayato Sumino, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=pHlqEvAwdVc" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">프렐류드 E단조 Op. 28 No. 4</div><div class="w-en">Prelude in E minor, Op. 28 No. 4</div><div class="w-by">연주 Maurizio Pollini, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=gco_v-jm_68" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 협주곡 1번 E단조 Op. 11 — 2악장 로망스</div><div class="w-en">Piano Concerto No. 1 in E minor, Op. 11 — II. Romance: Larghetto</div><div class="w-by">연주 Krystian Zimerman, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=V0gwZxnpYNU" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">마주르카 A단조 Op. 17 No. 4</div><div class="w-en">Mazurka in A minor, Op. 17 No. 4</div><div class="w-by">연주 Vladimir Horowitz, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=vmLvpJySb50" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">안단테 스피아나토와 화려한 대 폴로네즈 Op. 22</div><div class="w-en">Andante spianato et Grande polonaise brillante, Op. 22</div><div class="w-by">연주 Kate Liu, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=AO6k_ipgEsI" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">스케르초 2번 B♭단조 Op. 31</div><div class="w-en">Scherzo No. 2 in B-flat minor, Op. 31</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=RQb32EA1bCQ" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">피아노 소나타 2번 Op. 35 — 4악장 프레스토</div><div class="w-en">Piano Sonata No. 2, Op. 35 — IV. Finale: Presto</div><div class="w-by">연주 Maurizio Pollini, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=JJEQqcw-830" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">폴로네이즈 A♭장조 “영웅” Op. 53</div><div class="w-en">Polonaise in A-flat major “Heroic”, Op. 53</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=VEl9zn8JPW8" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">왈츠 A단조 B. 150 (유작)</div><div class="w-en">Waltz in A minor, B. 150, Op. posth.</div><div class="w-by">연주 Claudio Arrau, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=n-voZrgjUVc" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">녹턴 B장조 Op. 32 No. 1</div><div class="w-en">Nocturne in B major, Op. 32 No. 1</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=U92QEmtR63E" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="tSAwZP8e-zQ" data-name="쇼팽 · 녹턴 C단조 Op. 48 No. 1"><div class="w-ko">녹턴 C단조 Op. 48 No. 1</div><div class="w-en">Nocturne in C minor, Op. 48 No. 1</div><div class="w-by">연주 조성진 Seong-Jin Cho, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=tSAwZP8e-zQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="pe-GrRQz8pk" data-name="쇼팽 · 발라드 4번 F단조 Op. 52"><div class="w-ko">발라드 4번 F단조 Op. 52</div><div class="w-en">Ballade No. 4 in F minor, Op. 52</div><div class="w-by">연주 Krystian Zimerman, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=pe-GrRQz8pk" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="crLaBkFzXHo" data-name="쇼팽 · 뱃노래 F♯장조 Op. 60"><div class="w-ko">뱃노래 F♯장조 Op. 60</div><div class="w-en">Barcarolle in F-sharp major, Op. 60</div><div class="w-by">연주 Daniil Trifonov, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=crLaBkFzXHo" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="rrNE9aHJlzw" data-name="쇼팽 · 에튀드 A♭장조 Op. 25 No. 1 “에올리안 하프”"><div class="w-ko">에튀드 A♭장조 Op. 25 No. 1 “에올리안 하프”</div><div class="w-en">Étude in A-flat major, Op. 25 No. 1 “Aeolian Harp”</div><div class="w-by">연주 임윤찬 Yunchan Lim, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=rrNE9aHJlzw" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="pHlqEvAwdVc" data-name="쇼팽 · 에튀드 A단조 Op. 25 No. 11 “겨울바람”"><div class="w-ko">에튀드 A단조 Op. 25 No. 11 “겨울바람”</div><div class="w-en">Étude in A minor, Op. 25 No. 11 “Winter Wind”</div><div class="w-by">연주 Hayato Sumino, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=pHlqEvAwdVc" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="gco_v-jm_68" data-name="쇼팽 · 프렐류드 E단조 Op. 28 No. 4"><div class="w-ko">프렐류드 E단조 Op. 28 No. 4</div><div class="w-en">Prelude in E minor, Op. 28 No. 4</div><div class="w-by">연주 Maurizio Pollini, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=gco_v-jm_68" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="V0gwZxnpYNU" data-name="쇼팽 · 피아노 협주곡 1번 E단조 Op. 11 — 2악장 로망스"><div class="w-ko">피아노 협주곡 1번 E단조 Op. 11 — 2악장 로망스</div><div class="w-en">Piano Concerto No. 1 in E minor, Op. 11 — II. Romance: Larghetto</div><div class="w-by">연주 Krystian Zimerman, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=V0gwZxnpYNU" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="vmLvpJySb50" data-name="쇼팽 · 마주르카 A단조 Op. 17 No. 4"><div class="w-ko">마주르카 A단조 Op. 17 No. 4</div><div class="w-en">Mazurka in A minor, Op. 17 No. 4</div><div class="w-by">연주 Vladimir Horowitz, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=vmLvpJySb50" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="AO6k_ipgEsI" data-name="쇼팽 · 안단테 스피아나토와 화려한 대 폴로네즈 Op. 22"><div class="w-ko">안단테 스피아나토와 화려한 대 폴로네즈 Op. 22</div><div class="w-en">Andante spianato et Grande polonaise brillante, Op. 22</div><div class="w-by">연주 Kate Liu, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=AO6k_ipgEsI" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="RQb32EA1bCQ" data-name="쇼팽 · 스케르초 2번 B♭단조 Op. 31"><div class="w-ko">스케르초 2번 B♭단조 Op. 31</div><div class="w-en">Scherzo No. 2 in B-flat minor, Op. 31</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=RQb32EA1bCQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="JJEQqcw-830" data-name="쇼팽 · 피아노 소나타 2번 Op. 35 — 4악장 프레스토"><div class="w-ko">피아노 소나타 2번 Op. 35 — 4악장 프레스토</div><div class="w-en">Piano Sonata No. 2, Op. 35 — IV. Finale: Presto</div><div class="w-by">연주 Maurizio Pollini, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=JJEQqcw-830" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="VEl9zn8JPW8" data-name="쇼팽 · 폴로네이즈 A♭장조 “영웅” Op. 53"><div class="w-ko">폴로네이즈 A♭장조 “영웅” Op. 53</div><div class="w-en">Polonaise in A-flat major “Heroic”, Op. 53</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=VEl9zn8JPW8" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="n-voZrgjUVc" data-name="쇼팽 · 왈츠 A단조 B. 150 (유작)"><div class="w-ko">왈츠 A단조 B. 150 (유작)</div><div class="w-en">Waltz in A minor, B. 150, Op. posth.</div><div class="w-by">연주 Claudio Arrau, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=n-voZrgjUVc" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="U92QEmtR63E" data-name="쇼팽 · 녹턴 B장조 Op. 32 No. 1"><div class="w-ko">녹턴 B장조 Op. 32 No. 1</div><div class="w-en">Nocturne in B major, Op. 32 No. 1</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=U92QEmtR63E" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
       <li><div class="w-ko">발라드 2번 F장조 Op. 38</div><div class="w-en">Ballade No. 2 in F major, Op. 38</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%87%BC%ED%8C%BD%20%EB%B0%9C%EB%9D%BC%EB%93%9C%202%EB%B2%88%20F%EC%9E%A5%EC%A1%B0%20Op.%2038" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
       <li><div class="w-ko">발라드 3번 A♭장조 Op. 47</div><div class="w-en">Ballade No. 3 in A-flat major, Op. 47</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%87%BC%ED%8C%BD%20%EB%B0%9C%EB%9D%BC%EB%93%9C%203%EB%B2%88%20A%E2%99%AD%EC%9E%A5%EC%A1%B0%20Op.%2047" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">녹턴 F♯장조 Op. 15 No. 2</div><div class="w-en">Nocturne in F-sharp major, Op. 15 No. 2</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=u-vmSSkFdwE" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">왈츠 A♭장조 Op. 34 No. 1</div><div class="w-en">Waltz in A-flat major, Op. 34 No. 1</div><div class="w-by">연주 조성진 Seong-Jin Cho, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=Bc3cKqurmLY" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
-      <li><div class="w-ko">왈츠 F장조 Op. 34 No. 3</div><div class="w-en">Waltz in F major, Op. 34 No. 3</div><div class="w-by">연주 조성진 Seong-Jin Cho, piano</div><a class="w-link" href="https://www.youtube.com/watch?v=GTARJm5avDo" target="_blank" rel="noopener">▶ 유튜브로 듣기</a></li>
+      <li data-yt="u-vmSSkFdwE" data-name="쇼팽 · 녹턴 F♯장조 Op. 15 No. 2"><div class="w-ko">녹턴 F♯장조 Op. 15 No. 2</div><div class="w-en">Nocturne in F-sharp major, Op. 15 No. 2</div><div class="w-by">연주 Arthur Rubinstein, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=u-vmSSkFdwE" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="Bc3cKqurmLY" data-name="쇼팽 · 왈츠 A♭장조 Op. 34 No. 1"><div class="w-ko">왈츠 A♭장조 Op. 34 No. 1</div><div class="w-en">Waltz in A-flat major, Op. 34 No. 1</div><div class="w-by">연주 조성진 Seong-Jin Cho, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=Bc3cKqurmLY" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="GTARJm5avDo" data-name="쇼팽 · 왈츠 F장조 Op. 34 No. 3"><div class="w-ko">왈츠 F장조 Op. 34 No. 3</div><div class="w-en">Waltz in F major, Op. 34 No. 3</div><div class="w-by">연주 조성진 Seong-Jin Cho, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=GTARJm5avDo" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
     </ol>
     <a class="cta" href="/?lang=ko">그림 몇 장만 고르면, 오늘 나에게 맞는 클래식을 추천해 드려요
       <small>약 20초 · 회원가입 없음 · 정답 없음</small></a>
@@ -125,5 +134,103 @@ footer.site a{color:var(--muted)}</style>
     <p>초상화·그림: Wikimedia Commons (퍼블릭 도메인) · 음원: YouTube</p>
     <p>© 2026 냠냠클래식 · 그림 한 장으로 고르는 오늘의 클래식</p>
   </div></footer>
+  <script>
+  (function () {
+    var items = document.querySelectorAll('ol.works li[data-yt]');
+    if (!items.length || !/^https?:$/.test(location.protocol)) return;
+    var api = null, li0 = null, player = null;
+    function loadYT() {
+      if (api) return api;
+      api = new Promise(function (res) {
+        if (window.YT && window.YT.Player) return res(true);
+        var prev = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = function () { if (typeof prev === 'function') prev(); res(true); };
+        var s = document.createElement('script');
+        s.src = 'https://www.youtube.com/iframe_api'; s.async = true;
+        s.onerror = function () { res(false); };
+        document.head.appendChild(s);
+        setTimeout(function () { res(!!(window.YT && window.YT.Player)); }, 9000);
+      });
+      return api;
+    }
+    window.addEventListener('pointerdown', function () { loadYT(); }, { once: true });
+    function btn(li) { return li.querySelector('.pl-btn'); }
+    function stop() {
+      if (player) { try { player.destroy(); } catch (e) {} }
+      if (li0) {
+        ['.pl-player', '.pl-tools', '.pl-auto'].forEach(function (c) { var x = li0.querySelector(c); if (x) x.remove(); });
+        li0.classList.remove('playing');
+        var b = btn(li0); if (b) { b.textContent = '▶ 이 창에서 듣기'; b.classList.remove('on'); }
+      }
+      player = null; li0 = null;
+    }
+    function nextOf(li) {
+      var n = li.nextElementSibling;
+      while (n && !n.dataset.yt) n = n.nextElementSibling;
+      if (!n) {   // 같은 페이지의 다음 목록(예: 더 들어볼 만한 곡)으로 이어서
+        var lists = Array.prototype.slice.call(document.querySelectorAll('ol.works'));
+        for (var i = lists.indexOf(li.parentNode) + 1; i < lists.length && !n; i++) n = lists[i].querySelector('li[data-yt]');
+      }
+      return n;
+    }
+    function playNext(li) { var n = nextOf(li); if (n) open(n, true); else stop(); }
+    function fail(li, auto, code) {
+      var box = li.querySelector('.pl-player'); if (!box) return;
+      if (player) { try { player.destroy(); } catch (e) {} player = null; }
+      box.className = 'pl-player pl-fail'; box.innerHTML = '';
+      var a = document.createElement('a');
+      a.href = 'https://www.youtube.com/watch?v=' + li.dataset.yt; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = '이 곡은 여기서 재생할 수 없어요 — 유튜브에서 열기 ↗';
+      box.appendChild(a);
+      try { gtag('event', 'play_fail', { piece: li.dataset.name, code: code || 0 }); } catch (e) {}
+      if (auto) setTimeout(function () { if (li0 === li) playNext(li); }, 1500);   // 연속 재생 중이면 건너뛰고 다음 곡
+    }
+    function open(li, auto) {
+      if (li0 === li && !auto) { stop(); return; }
+      stop();
+      li0 = li;
+      li.classList.add('playing');
+      var b = btn(li); if (b) { b.textContent = '■ 멈추기'; b.classList.add('on'); }
+      var box = document.createElement('div'); box.className = 'pl-player';
+      var holder = document.createElement('div'); box.appendChild(holder);
+      var tools = document.createElement('div'); tools.className = 'pl-tools';
+      var nx = document.createElement('button'); nx.type = 'button'; nx.className = 'pl-tool'; nx.textContent = '다음 곡 ▶▶';
+      nx.addEventListener('click', function () { var n = nextOf(li); if (n) open(n, false); });
+      var yt = document.createElement('a'); yt.className = 'pl-tool'; yt.href = 'https://www.youtube.com/watch?v=' + li.dataset.yt;
+      yt.target = '_blank'; yt.rel = 'noopener'; yt.textContent = '유튜브에서 보기 ↗';
+      yt.addEventListener('click', function () { try { player && player.pauseVideo(); } catch (e) {} });
+      var cl = document.createElement('button'); cl.type = 'button'; cl.className = 'pl-tool'; cl.textContent = '■ 닫기';
+      cl.addEventListener('click', stop);
+      if (nextOf(li)) tools.appendChild(nx);
+      tools.appendChild(yt); tools.appendChild(cl);
+      li.appendChild(box); li.appendChild(tools);
+      if (nextOf(li)) { var note = document.createElement('p'); note.className = 'pl-auto'; note.textContent = '곡이 끝나면 다음 곡이 이어서 나와요'; li.appendChild(note); }
+      setTimeout(function () { li.scrollIntoView({ behavior: 'smooth', block: auto ? 'center' : 'nearest' }); }, 60);
+      try { gtag('event', 'play_music', { piece: li.dataset.name, area: 'seo', auto: auto ? 1 : 0 }); } catch (e) {}
+      function build() {
+        if (li0 !== li) return;
+        if (!(window.YT && window.YT.Player)) return fail(li, auto);
+        player = new YT.Player(holder, {
+          videoId: li.dataset.yt, width: '100%', height: '100%', host: 'https://www.youtube.com',
+          playerVars: { autoplay: 1, mute: 0, rel: 0, playsinline: 1, modestbranding: 1, origin: location.origin, enablejsapi: 1 },
+          events: {
+            onReady: function (e) { try { e.target.unMute(); e.target.setVolume(100); e.target.playVideo(); } catch (x) {} },
+            onError: function (e) { fail(li, auto, e && e.data); },
+            onStateChange: function (e) {
+              if (e.data === 1) { try { if (e.target.isMuted()) { e.target.unMute(); e.target.setVolume(100); } } catch (x) {} }
+              if (e.data === 0) playNext(li);
+            }
+          }
+        });
+      }
+      // API가 이미 있으면 탭 안에서 바로 만들어 자동재생이 막히지 않게
+      if (window.YT && window.YT.Player) build(); else loadYT().then(build);
+    }
+    items.forEach(function (li) {
+      var b = btn(li); if (!b) return;
+      b.addEventListener('click', function (e) { e.preventDefault(); open(li, false); });
+    });
+  })();
+  </script>
 </body>
 </html>
