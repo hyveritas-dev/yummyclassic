@@ -7,3 +7,4 @@ src
 tailwind.config.js
 tw.in.css
 node_modules
+scripts
