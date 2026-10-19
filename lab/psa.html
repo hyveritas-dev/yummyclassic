@@ -25,8 +25,12 @@
   .phone .st { position: absolute; left: 6%; right: 6%; top: 79%; text-align: center; color: #eee; font-size: .68rem; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
   .phone .bar { position: absolute; left: 6%; right: 6%; bottom: 4%; border-top: 1px solid rgba(255,255,255,.5); padding-top: 8px; display: flex; justify-content: space-around; color: #fff; font-size: .6rem; text-align: center; }
   .phone .bar span::before { content: ""; display: block; width: 20px; height: 20px; margin: 0 auto 3px; border: 1.5px solid #fff; border-radius: 50%; }
+  .phone, .pf, .pfsolo { container-type: inline-size; }
+  .wm { position: absolute; right: 5.2%; top: 20%; text-align: right; color: rgba(255,255,255,.88); text-shadow: 0 0 .4cqw rgba(0,0,0,.6); line-height: 1.25; pointer-events: none; }
+  .wm b { display: block; font-size: 3.15cqw; } .wm span { font-size: 2.6cqw; }
+  .pwm { position: absolute; left: 0; right: 0; bottom: 5%; text-align: center; color: rgba(255,255,255,.8); font-size: 3.6cqw; text-shadow: 0 0 .8cqw rgba(0,0,0,.7); pointer-events: none; }
   .solo { display: flex; gap: 14px; align-items: center; margin-top: 14px; }
-  .solo .pfsolo { width: 84px; aspect-ratio: 1; border-radius: 40%; background-repeat: no-repeat; flex: none; }
+  .solo .pfsolo { position: relative; width: 84px; aspect-ratio: 1; border-radius: 40%; background-repeat: no-repeat; flex: none; }
   .solo small { color: var(--muted); }
   .ctl { display: grid; gap: 14px; align-content: start; }
   fieldset { border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px 12px; margin: 0; }
@@ -86,10 +90,27 @@ function applyCss(el, im, f, cx = 0.5, cy = 0.5) {
   el.style.backgroundSize = L.dw + 'px ' + L.dh + 'px';
   el.style.backgroundPosition = L.x + 'px ' + L.y + 'px';
 }
+// Watermark so friends who see the photo can find the site and make their own.
+// Background: upper right, clear of Kakao's top icons and the name/buttons at the bottom. Profile: small, bottom centre.
+const WM_FONT = '"Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif';
+function watermark(g, W, H) {
+  g.save(); g.fillStyle = 'rgba(255,255,255,.88)'; g.shadowColor = 'rgba(0,0,0,.6)'; g.shadowBlur = W * .006;
+  if (W === H) {
+    g.textAlign = 'center'; g.font = '500 ' + Math.round(W * .036) + 'px ' + WM_FONT; g.fillStyle = 'rgba(255,255,255,.8)';
+    g.fillText('yummyclassic', W / 2, H * .93);
+  } else {
+    g.textAlign = 'right'; const x = W * .948, y = H * .2;
+    g.font = '700 ' + Math.round(W * .0315) + 'px ' + WM_FONT; g.fillText('냠냠클래식 명화 프사', x, y + W * .03);
+    g.font = '400 ' + Math.round(W * .026) + 'px ' + WM_FONT; g.fillText('yummyclassic.co.kr', x, y + W * .065);
+  }
+  g.restore();
+}
 function save(im, f, W, H, name, cx = 0.5, cy = 0.5) {
   const c = document.createElement('canvas'); c.width = W; c.height = H;
   const L = layout(im.naturalWidth, im.naturalHeight, W, H, f, cx, cy);
-  c.getContext('2d').drawImage(im, L.x, L.y, L.dw, L.dh);
+  const g = c.getContext('2d');
+  g.drawImage(im, L.x, L.y, L.dw, L.dh);
+  watermark(g, W, H);
   c.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }, 'image/jpeg', .92);
 }
 
@@ -99,10 +120,10 @@ SETS.forEach(S => {
   el.innerHTML = `
     <div>
       <h2></h2><p class="src"></p>
-      <div class="phone"><div class="bgimg"></div><div class="shade"></div><div class="pf"></div>
+      <div class="phone"><div class="bgimg"></div><div class="shade"></div><div class="wm"><b>냠냠클래식 명화 프사</b><span>yummyclassic.co.kr</span></div><div class="pf"><div class="pwm">yummyclassic</div></div>
         <div class="nm">냠냠클래식</div><div class="st"></div>
         <div class="bar"><span>나와의 채팅</span><span>프로필 편집</span><span>카카오스토리</span></div></div>
-      <div class="solo"><div class="pfsolo"></div><small>채팅 목록에서 프로필만 보일 때</small></div>
+      <div class="solo"><div class="pfsolo"><div class="pwm">yummyclassic</div></div><small>채팅 목록에서 프로필만 보일 때</small></div>
       <p class="err" hidden>그림을 불러오지 못했어요. 잠시 뒤 새로고침해 주세요.</p>
     </div>
     <div class="ctl"></div>`;
