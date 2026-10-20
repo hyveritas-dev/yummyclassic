@@ -41,6 +41,11 @@
   .wm { position: absolute; color: rgba(255,255,255,.92); line-height: 1.3; text-shadow: 0 0 1cqw rgba(0,0,0,.55), 0 .2cqw .6cqw rgba(0,0,0,.4); pointer-events: none; }
   .wm b { display: block; font-size: 3.8cqw; letter-spacing: .01em; } .wm span { font-size: 3cqw; opacity: .9; }
   .wm.tl { left: 4.5%; top: 9%; text-align: left; } .wm.br { right: 4.5%; bottom: 14%; text-align: right; }
+  .picks { display: grid; gap: 6px; }
+  .pick { text-align: left; background: #fff; color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font-size: .88rem; line-height: 1.45; }
+  .pick small { display: block; color: var(--muted); font-size: .78rem; }
+  .pick[aria-checked="true"] { border-color: var(--wine); box-shadow: inset 0 0 0 1px var(--wine); background: #fbf3f4; }
+  .more { justify-self: start; padding: 5px 12px; font-size: .82rem; }
   .txt select, .txt input[type=text] { width: 100%; font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
   .txt .row { display: grid; grid-template-columns: 1fr; gap: 4px; font-size: .88rem; margin-bottom: 10px; }
   .txt .chk { display: flex; gap: 8px; align-items: center; grid-template-columns: none; }
@@ -71,32 +76,24 @@
 <body>
 <main>
   <h1>명화 프사 시안실</h1>
-  <p class="lead">비공개 테스트 페이지입니다(메뉴·검색 노출 없음). 배경의 '위치'는 프로필 사진 바로 밑에 오는 지점이에요. 문구는 저작권이 끝난 시·시조·소설에서만 골라 주세요(시트 '명화 프사 문구' 탭). 슬라이더로 자르는 위치를 맞춰 보고, 마음에 들면 아래 값을 복사해 Claude에게 알려 주세요. 이미지 저장 버튼으로 실제 크기 파일도 받을 수 있어요.</p>
+  <p class="lead">비공개 테스트 페이지입니다(메뉴·검색 노출 없음). 배경의 '위치'는 프로필 사진 바로 밑에 오는 지점이에요. 문장은 저작권이 끝난 시·시조·고려가요 61개 중에서 그림 키워드와 잘 맞는 순서로 3개씩 보여 줘요(시트 '명화 프사 문구' 탭). 슬라이더로 자르는 위치를 맞춰 보고, 마음에 들면 아래 값을 복사해 Claude에게 알려 주세요. 이미지 저장 버튼으로 실제 크기 파일도 받을 수 있어요.</p>
   <div id="sets"></div>
   <section class="srcs" aria-labelledby="srcs-h">
     <h2 id="srcs-h">문구 출처</h2>
     <p class="lead">모두 저작권 보호기간이 끝난 작품입니다(1929년 이전 발표, 작가 1962년 이전 별세). 표기는 판본마다 조금씩 달라 정식 사용 전 원문과 대조합니다.</p>
-    <div class="tbl"><table><thead><tr><th>문구</th><th>작가·작품</th><th>발표</th><th>짝지을 명화</th><th>어울리는 곡</th></tr></thead><tbody id="qrows"></tbody></table></div>
+    <div class="tbl"><table><thead><tr><th>문구</th><th>작가·작품</th><th>키워드</th></tr></thead><tbody id="qrows"></tbody></table></div>
   </section>
 </main>
 <script>
-// Quote library (mirror of the sheet tab "명화 프사 문구"). Public domain only: published before 1929, author died before 1962.
-const QUOTES = [
-  { line: '동짓달 기나긴 밤을 한 허리를 버혀 내어', by: '황진이, 시조', year: '16세기', pair: '별이 빛나는 밤', song: '드뷔시 「달빛」' },
-  { line: '님은 갔지마는 나는 님을 보내지 아니하였습니다', by: '한용운, 〈님의 침묵〉', year: '1926', pair: '아담의 창조', song: '헨델 「할렐루야」' },
-  { line: '날카로운 첫 키스의 추억은 나의 운명의 지침을 돌려 놓고', by: '한용운, 〈님의 침묵〉', year: '1926', pair: '키스', song: '말러 「아다지에토」' },
-  { line: '산에는 꽃 피네 꽃이 피네', by: '김소월, 〈산유화〉', year: '1925', pair: '해바라기', song: '베토벤 「전원」' },
-  { line: '나 보기가 역겨워 가실 때에는 말없이 고이 보내 드리우리다', by: '김소월, 〈진달래꽃〉', year: '1922', pair: '모나리자', song: '쇼팽 녹턴 20번' },
-  { line: '먼 훗날 당신이 찾으시면 그때에 내 말이 ‘잊었노라’', by: '김소월, 〈먼 후일〉', year: '1925', pair: '진주 귀걸이를 한 소녀', song: '바흐 「G선상의 아리아」' },
-  { line: '뜰에는 반짝이는 금모래빛', by: '김소월, 〈엄마야 누나야〉', year: '1922', pair: '인상, 해돋이', song: '하이든 「천지창조」' },
-  { line: '넓은 벌 동쪽 끝으로 옛이야기 지즐대는 실개천이 휘돌아 나가고', by: '정지용, 〈향수〉', year: '1927', pair: '양산을 든 여인', song: '드보르자크 첼로 협주곡' },
-];
+// Quote library with keyword codes (mirror of the sheet tab "명화 프사 문구"; same codes as the painting keywords). Public domain only: published before 1929, author died before 1962.
+const QUOTES = [{"line": "나 보기가 역겨워 가실 때에는 말없이 고이 보내 드리우리다", "by": "김소월, 〈진달래꽃〉", "k": ["farewell", "longing", "tender"]}, {"line": "영변에 약산 진달래꽃 아름 따다 가실 길에 뿌리우리다", "by": "김소월, 〈진달래꽃〉", "k": ["nature", "farewell", "tender"]}, {"line": "가시는 걸음 걸음 놓인 그 꽃을 사뿐히 즈려밟고 가시옵소서", "by": "김소월, 〈진달래꽃〉", "k": ["farewell", "elegance"]}, {"line": "산에는 꽃 피네 꽃이 피네 갈 봄 여름 없이 꽃이 피네", "by": "김소월, 〈산유화〉", "k": ["nature", "serene"]}, {"line": "산에서 우는 작은 새요 꽃이 좋아 산에서 사노라네", "by": "김소월, 〈산유화〉", "k": ["nature", "solitude", "tender"]}, {"line": "엄마야 누나야 강변 살자", "by": "김소월, 〈엄마야 누나야〉", "k": ["water", "nostalgia", "youth"]}, {"line": "뜰에는 반짝이는 금모래빛 뒷문 밖에는 갈잎의 노래", "by": "김소월, 〈엄마야 누나야〉", "k": ["light", "nature", "water"]}, {"line": "먼 훗날 당신이 찾으시면 그때에 내 말이 ‘잊었노라’", "by": "김소월, 〈먼 후일〉", "k": ["longing", "farewell"]}, {"line": "못 잊어 생각이 나겠지요 그런대로 한 세상 지내시구려", "by": "김소월, 〈못 잊어〉", "k": ["longing", "melancholy"]}, {"line": "그립다 말을 할까 하니 그리워 그냥 갈까 그래도 다시 더 한 번", "by": "김소월, 〈가는 길〉", "k": ["longing", "farewell"]}, {"line": "앞 강물 뒷 강물 흐르는 물은 어서 따라오라고 따라가자고", "by": "김소월, 〈가는 길〉", "k": ["water", "speed"]}, {"line": "산산이 부서진 이름이여! 허공 중에 헤어진 이름이여!", "by": "김소월, 〈초혼〉", "k": ["grief", "longing", "drama"]}, {"line": "붉은 해는 서산마루에 걸리었다", "by": "김소월, 〈초혼〉", "k": ["light", "nature", "melancholy"]}, {"line": "하늘과 땅 사이가 너무 넓구나", "by": "김소월, 〈초혼〉", "k": ["solitude", "grandeur"]}, {"line": "비가 온다 오누나 오는 비는 올지라도 한 닷새 왔으면 좋지", "by": "김소월, 〈왕십리〉", "k": ["water", "melancholy", "serene"]}, {"line": "당신은 무슨 일로 그리합니까? 홀로이 개여울에 주저앉아서", "by": "김소월, 〈개여울〉", "k": ["water", "solitude", "longing"]}, {"line": "가도 아주 가지는 않노라시던 그러한 약속이 있었겠지요", "by": "김소월, 〈개여울〉", "k": ["longing", "farewell"]}, {"line": "봄 가을 없이 밤마다 돋는 달도 ‘예전엔 미처 몰랐어요’", "by": "김소월, 〈예전엔 미처 몰랐어요〉", "k": ["night", "longing"]}, {"line": "공중에 저 기러기 공중엔 길 있어서 잘 가는가?", "by": "김소월, 〈길〉", "k": ["longing", "nature", "solitude"]}, {"line": "실버들을 천만사 늘어놓고도 가는 봄을 잡지는 못한단 말인가", "by": "김소월, 〈실버들〉", "k": ["nature", "farewell"]}, {"line": "님은 갔습니다. 아아, 사랑하는 나의 님은 갔습니다.", "by": "한용운, 〈님의 침묵〉", "k": ["farewell", "grief", "love"]}, {"line": "푸른 산빛을 깨치고 단풍나무 숲을 향하여 난 작은 길을 걸어서", "by": "한용운, 〈님의 침묵〉", "k": ["nature", "farewell"]}, {"line": "날카로운 첫 키스의 추억은 나의 운명의 지침을 돌려 놓고", "by": "한용운, 〈님의 침묵〉", "k": ["love", "drama"]}, {"line": "우리는 만날 때에 떠날 것을 염려하는 것과 같이 떠날 때에 다시 만날 것을 믿습니다", "by": "한용운, 〈님의 침묵〉", "k": ["farewell", "longing", "love"]}, {"line": "님은 갔지마는 나는 님을 보내지 아니하였습니다", "by": "한용운, 〈님의 침묵〉", "k": ["love", "longing"]}, {"line": "바람도 없는 공중에 수직의 파문을 내이며 고요히 떨어지는 오동잎은 누구의 발자취입니까?", "by": "한용운, 〈알 수 없어요〉", "k": ["serene", "nature", "mystery"]}, {"line": "검은 구름의 터진 틈으로 언뜻언뜻 보이는 푸른 하늘은 누구의 얼굴입니까?", "by": "한용운, 〈알 수 없어요〉", "k": ["storm", "light", "mystery"]}, {"line": "옛 탑 위의 고요한 하늘을 스치는 알 수 없는 향기는 누구의 입김입니까?", "by": "한용운, 〈알 수 없어요〉", "k": ["sacred", "serene", "mystery"]}, {"line": "가늘게 흐르는 작은 시내는 구비구비 누구의 노래입니까?", "by": "한용운, 〈알 수 없어요〉", "k": ["water", "nature"]}, {"line": "떨어지는 날을 곱게 단장하는 저녁놀은 누구의 시입니까?", "by": "한용운, 〈알 수 없어요〉", "k": ["light", "nature", "elegance"]}, {"line": "그칠 줄을 모르고 타는 나의 가슴은 누구의 밤을 지키는 약한 등불입니까?", "by": "한용운, 〈알 수 없어요〉", "k": ["night", "longing", "light"]}, {"line": "나는 나룻배 당신은 행인", "by": "한용운, 〈나룻배와 행인〉", "k": ["water", "love", "tender"]}, {"line": "당신은 흙발로 나를 짓밟습니다. 나는 당신을 안고 물을 건너갑니다.", "by": "한용운, 〈나룻배와 행인〉", "k": ["love", "water", "tender"]}, {"line": "넓은 벌 동쪽 끝으로 옛이야기 지즐대는 실개천이 휘돌아 나가고", "by": "정지용, 〈향수〉", "k": ["nature", "water", "nostalgia"]}, {"line": "얼룩백이 황소가 해설피 금빛 게으른 울음을 우는 곳", "by": "정지용, 〈향수〉", "k": ["nature", "serene", "nostalgia"]}, {"line": "그곳이 차마 꿈엔들 잊힐리야", "by": "정지용, 〈향수〉", "k": ["nostalgia", "longing", "dream"]}, {"line": "흙에서 자란 내 마음 파아란 하늘빛이 그리워", "by": "정지용, 〈향수〉", "k": ["nature", "longing"]}, {"line": "꽃가루와 같이 부드러운 고양이의 털에 고운 봄의 향기가 어리우도다", "by": "이장희, 〈봄은 고양이로다〉", "k": ["tender", "nature"]}, {"line": "고요히 다물은 고양이의 입술에 포근한 봄 졸음이 떠돌아라", "by": "이장희, 〈봄은 고양이로다〉", "k": ["serene", "tender", "dream"]}, {"line": "거룩한 분노는 종교보다도 깊고 불붙는 정열은 사랑보다도 강하다", "by": "변영로, 〈논개〉", "k": ["heroic", "drama", "sacred"]}, {"line": "강낭콩꽃보다도 더 푸른 그 물결 위에 양귀비꽃보다도 더 붉은 그 마음 흘러라", "by": "변영로, 〈논개〉", "k": ["water", "love", "heroic"]}, {"line": "나는 왕이로소이다 어머니의 가장 어여쁜 아들 나는 왕이로소이다", "by": "홍사용, 〈나는 왕이로소이다〉", "k": ["tender", "youth", "nostalgia"]}, {"line": "동짓달 기나긴 밤을 한 허리를 버혀 내어", "by": "황진이, 시조", "k": ["night", "longing", "love"]}, {"line": "청산리 벽계수야 수이 감을 자랑 마라", "by": "황진이, 시조", "k": ["water", "nature"]}, {"line": "명월이 만공산하니 쉬어 간들 어떠리", "by": "황진이, 시조", "k": ["night", "light", "serene"]}, {"line": "산은 옛 산이로되 물은 옛 물이 아니로다", "by": "황진이, 시조", "k": ["water", "nature", "nostalgia"]}, {"line": "이화에 월백하고 은한이 삼경인 제", "by": "이조년, 시조", "k": ["night", "light", "nature"]}, {"line": "다정도 병인 양하여 잠 못 들어 하노라", "by": "이조년, 시조", "k": ["longing", "night", "tender"]}, {"line": "내 벗이 몇이나 하니 수석과 송죽이라", "by": "윤선도, 〈오우가〉", "k": ["nature", "serene"]}, {"line": "동산에 달 오르니 그 더욱 반갑고야", "by": "윤선도, 〈오우가〉", "k": ["night", "light", "joy"]}, {"line": "이 몸이 죽고 죽어 일백 번 고쳐 죽어", "by": "정몽주, 〈단심가〉", "k": ["heroic", "sacred"]}, {"line": "이런들 어떠하리 저런들 어떠하리", "by": "이방원, 〈하여가〉", "k": ["humour", "joy"]}, {"line": "산천은 의구하되 인걸은 간 데 없다", "by": "길재, 시조", "k": ["nostalgia", "grandeur", "melancholy"]}, {"line": "태산이 높다 하되 하늘 아래 뫼이로다", "by": "양사언, 시조", "k": ["grandeur", "nature", "heroic"]}, {"line": "추강에 밤이 드니 물결이 차노매라", "by": "월산대군, 시조", "k": ["night", "water", "cold", "serene"]}, {"line": "무심한 달빛만 싣고 빈 배 저어 오노라", "by": "월산대군, 시조", "k": ["night", "light", "water", "serene"]}, {"line": "낙락장송 되었다가 백설이 만건곤할 제 독야청청하리라", "by": "성삼문, 시조", "k": ["heroic", "cold", "nature"]}, {"line": "살어리 살어리랏다 청산에 살어리랏다", "by": "작자 미상, 〈청산별곡〉", "k": ["nature", "solitude"]}, {"line": "머루랑 다래랑 먹고 청산에 살어리랏다", "by": "작자 미상, 〈청산별곡〉", "k": ["nature", "joy"]}, {"line": "가시리 가시리잇고 나는 바리고 가시리잇고", "by": "작자 미상, 〈가시리〉", "k": ["farewell", "grief"]}, {"line": "설온 님 보내옵노니 가시는 듯 도셔 오쇼셔", "by": "작자 미상, 〈가시리〉", "k": ["farewell", "longing"]}];
 // Public-domain paintings served through our own /img/ route (Wikimedia Commons cache).
 const SETS = [
   {
     id: 'starry', title: '고흐 〈별이 빛나는 밤〉 — 내가 달이 된다',
     src: '빈센트 반 고흐, 1889 · 퍼블릭 도메인 (Wikimedia Commons)',
     img: '/img/thumb/0/01/Vincent_van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1920px-Vincent_van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg',
+    kw: { night: 3, dream: 2, fantasy: 1, longing: 1, light: 1 },
     txt: { on: true, line: '동짓달 기나긴 밤을 한 허리를 버혀 내어', by: '황진이, 시조', song: '드뷔시 「달빛」', y: 0.42 },
     // pf focus = point shown at the centre of the profile photo; bg focus = point that sits right under the profile photo; zoom 1 = just covers
     pf: { x: 0.87, y: 0.14, z: 4.5 },
@@ -106,6 +103,7 @@ const SETS = [
     id: 'adam', title: '미켈란젤로 〈아담의 창조〉 — 닿기 직전의 손끝',
     src: '미켈란젤로 부오나로티, 1508~1512 · 퍼블릭 도메인 (Wikimedia Commons)',
     img: '/img/thumb/5/5b/Michelangelo_-_Creation_of_Adam_(cropped).jpg/1920px-Michelangelo_-_Creation_of_Adam_(cropped).jpg',
+    kw: { longing: 2, love: 2, sacred: 2, grandeur: 1, drama: 1 },
     txt: { on: true, line: '님은 갔지마는 나는 님을 보내지 아니하였습니다', by: '한용운, 〈님의 침묵〉', song: '헨델 「할렐루야」', y: 0.42 },
     pf: { x: 0.50, y: 0.40, z: 5.0 },
     bg: { x: 0.545, y: 0.38, z: 2.0 },
@@ -192,7 +190,8 @@ async function save(im, f, W, H, name, cx = 0.5, cy = 0.5, T = null) {
 }
 
 const qrows = document.getElementById('qrows');
-QUOTES.forEach(q => { const tr = document.createElement('tr'); [q.line, q.by, q.year, q.pair, q.song].forEach(v => { const td = document.createElement('td'); td.textContent = v; tr.append(td); }); qrows.append(tr); });
+const KW_KO = { darkness: '어둠', light: '빛', night: '밤', melancholy: '우수', grief: '애도', death: '죽음', storm: '폭풍', speed: '질주', joy: '기쁨', humour: '유머', love: '사랑', longing: '그리움', nostalgia: '향수', farewell: '작별', tender: '다정함', solitude: '고독', serene: '고요', sacred: '성스러움', grandeur: '장엄', heroic: '영웅', elegance: '우아함', nature: '자연', water: '물', cold: '차가움', dream: '꿈', drama: '극적', youth: '젊음', mystery: '수수께끼' };
+QUOTES.forEach(q => { const tr = document.createElement('tr'); [q.line, q.by, q.k.map(k => KW_KO[k] || k).join(', ')].forEach(v => { const td = document.createElement('td'); td.textContent = v; tr.append(td); }); qrows.append(tr); });
 const root = document.getElementById('sets');
 SETS.forEach(S => {
   const el = document.createElement('section'); el.className = 'set';
@@ -228,7 +227,8 @@ SETS.forEach(S => {
   // mood line editor
   const tf = document.createElement('fieldset'); tf.className = 'txt';
   tf.innerHTML = `<legend>배경 문구</legend>
-    <label class="row" for="${S.id}-pick">문구 고르기<select id="${S.id}-pick"></select></label>
+    <div class="row"><span>그림과 어울리는 문장</span><div class="picks" role="radiogroup" aria-label="어울리는 문장"></div>
+      <button type="button" class="ghost more">다른 문장 보기</button></div>
     <label class="row" for="${S.id}-line">한 줄 문구<input type="text" id="${S.id}-line" maxlength="40"></label>
     <label class="row" for="${S.id}-by">출처 (작가, 작품)<input type="text" id="${S.id}-by" maxlength="40"></label>
     <label class="row" for="${S.id}-song">곡 이름<input type="text" id="${S.id}-song" maxlength="40"></label>
@@ -236,18 +236,27 @@ SETS.forEach(S => {
     <label class="chk" for="${S.id}-on"><input type="checkbox" id="${S.id}-on"> 문구 넣기</label>`;
   const iLine = tf.querySelector('#' + S.id + '-line'), iSong = tf.querySelector('#' + S.id + '-song'),
         iY = tf.querySelector('#' + S.id + '-ty'), oY = iY.nextElementSibling, iOn = tf.querySelector('#' + S.id + '-on');
-  const iPick = tf.querySelector('#' + S.id + '-pick');
-  iPick.innerHTML = '<option value="">직접 입력</option>' + QUOTES.map((q, i) => `<option value="${i}"></option>`).join('');
-  QUOTES.forEach((q, i) => { iPick.options[i + 1].textContent = q.line.slice(0, 22) + (q.line.length > 22 ? '…' : '') + ' — ' + q.by.split(',')[0]; });
-  const cur = QUOTES.findIndex(q => q.line === S.txt.line); iPick.value = cur >= 0 ? String(cur) : '';
-  iPick.addEventListener('change', () => {
-    const q = QUOTES[+iPick.value]; if (iPick.value === '' || !q) return;
-    S.txt.line = q.line; S.txt.by = q.by; S.txt.song = q.song; iLine.value = q.line; iBy.value = q.by; iSong.value = q.song; draw();
-  });
+  // rank quotes by how many of the painting's keywords they share (weighted), show three at a time
+  const ranked = QUOTES.map(q => ({ q, sc: q.k.reduce((n, k) => n + (S.kw[k] || 0), 0) }))
+    .filter(r => r.sc > 0).sort((x, y) => y.sc - x.sc).map(r => r.q);
+  let page = 0;
+  const picksEl = tf.querySelector('.picks'), moreBtn = tf.querySelector('.more');
+  function renderPicks() {
+    picksEl.innerHTML = '';
+    ranked.slice(page * 3, page * 3 + 3).forEach((q, i) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'pick'; b.setAttribute('role', 'radio');
+      b.setAttribute('aria-checked', String(S.txt.line === q.line));
+      b.innerHTML = '<span></span><small></small>'; b.querySelector('span').textContent = q.line; b.querySelector('small').textContent = '— ' + q.by;
+      b.addEventListener('click', () => { S.txt.line = q.line; S.txt.by = q.by; iLine.value = q.line; iBy.value = q.by; renderPicks(); draw(); });
+      picksEl.append(b);
+    });
+  }
+  moreBtn.addEventListener('click', () => { page = (page + 1) % Math.max(1, Math.ceil(ranked.length / 3)); renderPicks(); });
   const iBy = tf.querySelector('#' + S.id + '-by'); iBy.value = S.txt.by || '';
   iBy.addEventListener('input', () => { S.txt.by = iBy.value; draw(); });
   iLine.value = S.txt.line; iSong.value = S.txt.song; iY.value = S.txt.y; oY.textContent = (+S.txt.y).toFixed(2); iOn.checked = S.txt.on;
-  iLine.addEventListener('input', () => { S.txt.line = iLine.value; draw(); });
+  iLine.addEventListener('input', () => { S.txt.line = iLine.value; renderPicks(); draw(); });
+  renderPicks();
   iSong.addEventListener('input', () => { S.txt.song = iSong.value; draw(); });
   iY.addEventListener('input', () => { S.txt.y = +iY.value; oY.textContent = (+iY.value).toFixed(2); draw(); });
   iOn.addEventListener('change', () => { S.txt.on = iOn.checked; draw(); });
