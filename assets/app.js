@@ -1612,8 +1612,10 @@
       return keep.concat(rest);
     }
     // 명화 프사 (Korean page only): the visitor's top pieces set the song line and steer which quotes come first
+    const PSA_ON = false;   // 명화 프사 보류(2026-10-20): true로 바꾸면 다시 켜짐
     function psaHook(recs) {
       const box = document.getElementById('psa'); if (!box) return;
+      if (!PSA_ON) { box.hidden = true; return; }
       const r = recs && recs[0];
       if (lang !== 'ko' || !r) { box.hidden = true; return; }
       const nick = (r.ko || '').match(/[“"]([^”"]+)[”"]/);
