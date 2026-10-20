@@ -1611,6 +1611,21 @@
       groups.forEach(g => { if (!keep.includes(g)) { rest.items.push(...g.items); g.vias.forEach(v => rest.vias.push(v)); } });
       return keep.concat(rest);
     }
+    // 명화 프사 (Korean page only): the visitor's top pieces set the song line and steer which quotes come first
+    function psaHook(recs) {
+      const box = document.getElementById('psa'); if (!box) return;
+      const r = recs && recs[0];
+      if (lang !== 'ko' || !r) { box.hidden = true; return; }
+      const nick = (r.ko || '').match(/[“"]([^”"]+)[”"]/);
+      const title = nick ? nick[1] : (r.ko || '').split(' — ')[0].replace(/\s+(Op\.|BWV|K\.|D\.|HWV|RV|S\.|Z\.).*$/, '');
+      const kw = {}; recs.slice(0, 3).forEach(x => (x.why || []).forEach(t => { kw[t] = (kw[t] || 0) + 1; }));
+      const ctx = { song: (SHORT[r.cid] || ['', ''])[1] + ' 「' + title + '」', kw };
+      box.hidden = false;
+      if (window.YC_PSA) return window.YC_PSA.mount(box, ctx);
+      const s = document.createElement('script'); s.src = '/assets/psa.js?v=1'; s.onload = () => window.YC_PSA && window.YC_PSA.mount(box, ctx);
+      document.head.append(s);
+    }
+
     function renderPlaylist() {
       const idx = isLocal() ? 1 : 0;
       const t = I18N[lang];
@@ -1620,6 +1635,7 @@
       ol.innerHTML = '';
       loadYT();
       const recs = buildRecommendation(), groups = groupRecs(recs);
+      psaHook(recs);
       const q = x => lang === 'ja' ? '「' + x + '」' : idx ? '〈' + x + '〉' : '“' + x + '”';
       let i = 0;
       groups.forEach(g => {
@@ -1822,7 +1838,7 @@
     const MORE_IMG = {
       'Claude Monet': 'Monet_-_Impression,_Sunrise.jpg',
       'J. M. W. Turner': 'Turner_-_Rain,_Steam_and_Speed_-_National_Gallery_file.jpg',
-      'Vincent van Gogh': 'Vincent_van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg',
+      'Vincent van Gogh': 'Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg',
       'Gustav Klimt': 'The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg',
       'Vilhelm Hammershøi': 'Vilhelm_Hammershøi_-_Interior_from_Strandgade_with_Sunlight_on_the_Floor.jpg',
       'Caspar David Friedrich': 'Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg',
@@ -1963,7 +1979,7 @@
       ['concert', '[샘플] 모차르트 실내악 시리즈', 'Sample · Mozart chamber series', '[サンプル] モーツァルト室内楽シリーズ', 4, 4, 'Jean-Honoré_Fragonard_-_The_Swing_-_Google_Art_Project.jpg'],
       ['exhibition', '[샘플] 낭만주의 풍경화전', 'Sample · Romantic landscapes', '[サンプル] ロマン主義風景画展', -5, 30, 'Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg'],
       ['concert', '[샘플] 차이콥스키 & 라흐마니노프의 밤', 'Sample · Tchaikovsky & Rachmaninoff night', '[サンプル] チャイコフスキー＆ラフマニノフの夜', 6, 6, 'Francesco_Hayez_-_The_Kiss_-_WGA11218.jpg'],
-      ['exhibition', '[샘플] 고흐, 별이 빛나는 밤', 'Sample · Van Gogh: the starry night', '[サンプル] ゴッホ、星月夜', 0, 60, 'Vincent_van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg'],
+      ['exhibition', '[샘플] 고흐, 별이 빛나는 밤', 'Sample · Van Gogh: the starry night', '[サンプル] ゴッホ、星月夜', 0, 60, 'Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg'],
       ['concert', '[샘플] 바흐 무반주 첼로 모음곡', 'Sample · Bach cello suites', '[サンプル] バッハ 無伴奏チェロ組曲', 9, 9, 'Johannes_Vermeer_-_Girl_with_a_Pearl_Earring_-_670_-_Mauritshuis.jpg'],
       ['concert', '[샘플] 드뷔시와 라벨, 물의 음악', 'Sample · Debussy & Ravel: music of water', '[サンプル] ドビュッシーとラヴェル、水の音楽', 11, 11, 'Turner_-_Rain,_Steam_and_Speed_-_National_Gallery_file.jpg'],
     ];
@@ -3605,7 +3621,7 @@
           tagEn: "American Romanticism · a scene from history", tagKo: "미국 낭만주의 · 역사의 한 장면",
           readEn: "Washington stands at the bow as the boat pushes through ice on a raging winter river. If you like it, heroic music that marches through hardship suits you.",
           readKo: "성난 겨울 강의 얼음 사이로 워싱턴이 뱃머리에 서서 나아갑니다. 이 그림이 좋다면 역경을 뚫고 행진하는 영웅적인 음악을 좋아하실 거예요." },
-        { id: "starrynight", m: "fantasy", f: "Vincent_van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg", y: 1889,
+        { id: "starrynight", m: "fantasy", f: "Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg", y: 1889,
           en: "The Starry Night", ko: "별이 빛나는 밤", byEn: "Vincent van Gogh", byKo: "빈센트 반 고흐",
           moodEn: "a swirling night sky", moodKo: "소용돌이치는 밤하늘",
           tagEn: "Post-Impressionism · brushstrokes that move", tagKo: "후기인상주의 · 꿈틀대는 붓질",
