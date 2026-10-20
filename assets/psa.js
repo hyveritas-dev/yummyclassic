@@ -91,9 +91,9 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
 
   const CSS = `
   .psa-wrap{display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));margin-top:28px;text-align:left}
-  .psa-card{border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:18px;background:rgba(255,255,255,.03);display:grid;gap:14px;min-width:0}
-  .psa-card h4{margin:0;font-family:var(--serif-cjk),serif;font-size:1.15rem}
-  .psa-card .idea{margin:2px 0 0;color:rgba(255,255,255,.6);font-size:.88rem}
+  .psa-card{border:1px solid rgba(0,0,0,.12);border-radius:18px;padding:18px;background:#fffdf8;color:#1a1a1a;display:grid;gap:14px;min-width:0}
+  .psa-card h4{margin:0;color:#111;font-family:var(--serif-cjk),serif;font-size:1.15rem}
+  .psa-card .idea{margin:2px 0 0;color:#444;font-size:.88rem}
   .psa-phone{position:relative;width:min(100%,260px);margin:0 auto;aspect-ratio:9/16;border-radius:22px;overflow:hidden;background:#111;container-type:inline-size}
   .psa-phone>div{position:absolute;pointer-events:none}
   .psa-bg{inset:0;background-repeat:no-repeat}
@@ -103,13 +103,13 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
   .psa-q{left:7%;right:7%;top:42%;transform:translateY(-50%);text-align:center;color:#fff;text-shadow:0 0 .8cqw rgba(0,0,0,.65)}
   .psa-q b{display:block;font-family:var(--serif-cjk),serif;font-size:5.4cqw;line-height:1.35;text-wrap:balance}.psa-q span{display:block;font-size:2.7cqw;margin-top:1cqw;opacity:.85}
   .psa-picks{display:grid;gap:6px}
-  .psa-pick{all:unset;box-sizing:border-box;cursor:pointer;border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:8px 12px;font-size:.88rem;line-height:1.45;color:rgba(255,255,255,.88)}
-  .psa-pick small{display:block;color:rgba(255,255,255,.5);font-size:.76rem}
-  .psa-pick[aria-checked="true"]{border-color:#e2b04a;background:rgba(226,176,74,.1)}
+  .psa-pick{all:unset;box-sizing:border-box;cursor:pointer;border:1px solid rgba(0,0,0,.14);border-radius:10px;padding:8px 12px;font-size:.88rem;line-height:1.45;color:#111;background:#fff}
+  .psa-pick small{display:block;color:#555;font-size:.76rem}
+  .psa-pick[aria-checked="true"]{border-color:#e2b04a;background:#fbefd2;font-weight:600}
   .psa-pick:focus-visible{outline:2px solid #e2b04a;outline-offset:2px}
   .psa-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-  .psa-more{all:unset;cursor:pointer;font-size:.82rem;color:#e2b04a;text-decoration:underline;text-underline-offset:3px}
-  .psa-how{color:rgba(255,255,255,.55);font-size:.8rem;line-height:1.55;margin:0}
+  .psa-more{all:unset;cursor:pointer;font-size:.82rem;color:#9a6a0c;text-decoration:underline;text-underline-offset:3px}
+  .psa-how{color:#333;font-size:.8rem;line-height:1.55;margin:0}
   .psa-over{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.82);display:grid;place-items:center;padding:20px}
   .psa-over-box{display:grid;gap:12px;justify-items:center;color:#fff;max-width:420px}
   .psa-over-box img{max-height:70vh;width:auto;border-radius:12px}
