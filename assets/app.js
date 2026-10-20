@@ -1630,7 +1630,7 @@
       const ctx = { song: (SHORT[r.cid] || ['', ''])[1] + ' 「' + title + '」', kw, mine };
       box.hidden = false;
       if (window.YC_PSA) return window.YC_PSA.mount(box, ctx);
-      const s = document.createElement('script'); s.src = '/assets/psa.js?v=04eef55a'; s.onload = () => window.YC_PSA && window.YC_PSA.mount(box, ctx);
+      const s = document.createElement('script'); s.src = '/assets/psa.js?v=09bee190'; s.onload = () => window.YC_PSA && window.YC_PSA.mount(box, ctx);
       document.head.append(s);
     }
 

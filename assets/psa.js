@@ -16,6 +16,42 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
       pf: { x: 0.355, y: 0.415, z: 4.2 }, bg: { x: 0.39, y: 0.42, z: 1.8 },
       kw: { longing: 2, love: 2, sacred: 2, grandeur: 1, drama: 1 },
     },
+    {
+      id: 'sunrise', title: '모네 〈인상, 해돋이〉', idea: '프로필 사진이 안개 속 붉은 해가 돼요',
+      img: '/img/thumb/5/54/Claude_Monet%2C_Impression%2C_soleil_levant.jpg/1920px-Claude_Monet%2C_Impression%2C_soleil_levant.jpg', img2: '/img/5/54/Claude_Monet%2C_Impression%2C_soleil_levant.jpg',
+      pf: { x: 0.61, y: 0.31, z: 5 }, bg: { x: 0.61, y: 0.31, z: 1.2 },
+      kw: {light:  3, water:  2, serene:  1, nature:  1},
+    },
+    {
+      id: 'pearl', title: '페르메이르 〈진주 귀걸이를 한 소녀〉', idea: '프로필 속 소녀가 어깨 너머로 돌아봐요',
+      img: '/img/thumb/e/e4/Johannes_Vermeer_-_Girl_with_a_Pearl_Earring_-_670_-_Mauritshuis.jpg/1920px-Johannes_Vermeer_-_Girl_with_a_Pearl_Earring_-_670_-_Mauritshuis.jpg', img2: '/img/e/e4/Johannes_Vermeer_-_Girl_with_a_Pearl_Earring_-_670_-_Mauritshuis.jpg',
+      pf: { x: 0.55, y: 0.45, z: 2.2 }, bg: { x: 0.55, y: 0.45, z: 1 },
+      kw: {mystery:  2, tender:  2, light:  1, longing:  1},
+    },
+    {
+      id: 'kiss', title: '클림트 〈키스〉', idea: '프로필에 두 얼굴이 맞닿는 순간이 담겨요',
+      img: '/img/thumb/f/f3/Gustav_Klimt_016.jpg/1920px-Gustav_Klimt_016.jpg', img2: '/img/f/f3/Gustav_Klimt_016.jpg',
+      pf: { x: 0.57, y: 0.13, z: 4 }, bg: { x: 0.57, y: 0.4, z: 1 },
+      kw: {love:  3, tender:  2, sensual:  1, joy:  1},
+    },
+    {
+      id: 'sunflowers', title: '고흐 〈해바라기〉', idea: '프로필 사진이 해바라기 한 송이가 돼요',
+      img: '/img/thumb/4/46/Vincent_Willem_van_Gogh_127.jpg/1920px-Vincent_Willem_van_Gogh_127.jpg', img2: '/img/4/46/Vincent_Willem_van_Gogh_127.jpg',
+      pf: { x: 0.577, y: 0.35, z: 3.5 }, bg: { x: 0.5, y: 0.45, z: 1 },
+      kw: {joy:  3, light:  2, nature:  2, youth:  1},
+    },
+    {
+      id: 'monalisa', title: '다빈치 〈모나리자〉', idea: '프로필 사진에 그 미소가 담겨요',
+      img: '/img/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/1920px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg', img2: '/img/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg',
+      pf: { x: 0.5, y: 0.25, z: 2.6 }, bg: { x: 0.5, y: 0.4, z: 1 },
+      kw: {mystery:  3, serene:  2, contemplative:  1},
+    },
+    {
+      id: 'parasol', title: '모네 〈양산을 든 여인〉', idea: '프로필 속 여인이 바람 부는 언덕에 서 있어요',
+      img: '/img/thumb/1/1b/Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son_-_Google_Art_Project.jpg/1920px-Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son_-_Google_Art_Project.jpg', img2: '/img/1/1b/Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son_-_Google_Art_Project.jpg',
+      pf: { x: 0.58, y: 0.15, z: 2.6 }, bg: { x: 0.55, y: 0.4, z: 1 },
+      kw: {light:  2, nature:  2, joy:  1, tender:  1, nostalgia:  1},
+    },
   ];
   // where Kakao shows the profile photo over the background (approximate): centre 50% / 65%, 28% of the width
   const PF_CX = 0.5, PF_CY = 0.65, PF_W = 0.28;
@@ -42,12 +78,12 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
   }
   function drawText(g, W, H, T) {
     g.save(); g.fillStyle = '#fff'; g.shadowColor = 'rgba(0,0,0,.6)'; g.shadowBlur = W * .012;
-    // watermark, top-left under Kakao's close button
-    g.textAlign = 'left'; g.font = '700 ' + W * .038 + 'px ' + SANS; g.fillText('♪ 냠냠클래식', W * .045, H * .09 + W * .038);
-    g.font = '400 ' + W * .03 + 'px ' + SANS; g.globalAlpha = .9; g.fillText('yummyclassic.co.kr', W * .045, H * .09 + W * .038 * 1.3 + W * .03); g.globalAlpha = 1;
+    // watermark, top-left: below Kakao's close button and below Instagram story's avatar/name bar (the same image serves both)
+    g.textAlign = 'left'; g.font = '700 ' + W * .038 + 'px ' + SANS; g.fillText('♪ 냠냠클래식', W * .045, H * .14 + W * .038);
+    g.font = '400 ' + W * .03 + 'px ' + SANS; g.globalAlpha = .9; g.fillText('yummyclassic.co.kr', W * .045, H * .14 + W * .038 * 1.3 + W * .03); g.globalAlpha = 1;
     // song, top centre
     g.textAlign = 'center'; g.shadowBlur = W * .01;
-    if (T.song) { g.font = '400 ' + W * .036 + 'px ' + SANS; g.fillText('♪ ' + T.song, W / 2, H * .165 + W * .036); }
+    if (T.song) { g.font = '400 ' + W * .036 + 'px ' + SANS; g.fillText('♪ ' + T.song, W / 2, H * .205 + W * .036); }
     // quote + source, centre
     g.shadowBlur = W * .012;
     const cl = W * .054; g.font = '700 ' + cl + 'px ' + SERIF;
@@ -98,8 +134,8 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
   .psa-phone>div{position:absolute;pointer-events:none}
   .psa-bg{inset:0;background-repeat:no-repeat}
   .psa-pf{left:50%;top:65%;width:28%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:40%;background-repeat:no-repeat;box-shadow:0 2px 10px rgba(0,0,0,.35)}
-  .psa-wm{left:4.5%;top:9%;color:#fff;line-height:1.3;text-shadow:0 0 1cqw rgba(0,0,0,.6)}.psa-wm b{display:block;font-size:3.8cqw}.psa-wm span{font-size:3cqw;opacity:.9}
-  .psa-song{left:7%;right:7%;top:16.5%;text-align:center;color:#fff;font-size:3.6cqw;text-shadow:0 0 .8cqw rgba(0,0,0,.7)}
+  .psa-wm{left:4.5%;top:14%;color:#fff;line-height:1.3;text-shadow:0 0 1cqw rgba(0,0,0,.6)}.psa-wm b{display:block;font-size:3.8cqw}.psa-wm span{font-size:3cqw;opacity:.9}
+  .psa-song{left:7%;right:7%;top:20.5%;text-align:center;color:#fff;font-size:3.6cqw;text-shadow:0 0 .8cqw rgba(0,0,0,.7)}
   .psa-q{left:7%;right:7%;top:42%;transform:translateY(-50%);text-align:center;color:#fff;text-shadow:0 0 .8cqw rgba(0,0,0,.65)}
   .psa-q b{display:block;font-family:var(--serif-cjk),serif;font-size:5.4cqw;line-height:1.35;text-wrap:balance}.psa-q span{display:block;font-size:2.7cqw;margin-top:1cqw;opacity:.85}
   .psa-picks{display:grid;gap:6px}
@@ -151,10 +187,10 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
           <button type="button" class="psa-more" data-reset>처음 위치로</button></div>
         <div><p class="psa-how" style="margin-bottom:6px">어울리는 문장 고르기</p><div class="psa-picks" role="radiogroup" aria-label="어울리는 문장"></div>
           <div class="psa-row" style="margin-top:6px"><button type="button" class="psa-more">다른 문장 보기</button></div></div>
-        <div class="psa-row"><button type="button" class="btn btn-primary btn-sm" data-a="bg">배경 사진 받기</button>
+        <div class="psa-row"><button type="button" class="btn btn-primary btn-sm" data-a="bg">배경·인스타 스토리용 받기</button>
           <button type="button" class="btn btn-ghost btn-sm" data-a="pf">프로필 사진 받기</button>
           <button type="button" class="btn btn-ghost btn-sm" data-a="st">상태메시지 복사</button></div>
-        <p class="psa-how">카카오톡 → 내 프로필 → 프로필 편집에서 배경과 프로필 사진을 바꾸고, 상태메시지에 붙여 넣으세요.</p>`;
+        <p class="psa-how">카카오톡 → 내 프로필 → 프로필 편집에서 배경과 프로필 사진을 바꾸고, 상태메시지에 붙여 넣으세요.<br>같은 배경 사진을 인스타 스토리에도 올릴 수 있어요. 링크 스티커로 yummyclassic.co.kr을 붙이면 친구가 바로 들어와요.</p>`;
       card.querySelector('h4').textContent = S.title; card.querySelector('.idea').textContent = S.idea;
       wrapEl.append(card);
       const ranked = rankQuotes(S, ctx.kw || {}); let page = 0;
@@ -217,7 +253,7 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
         if (!im.naturalWidth) return;
         try { await document.fonts.load('700 40px "Noto Serif KR"'); } catch (e) {}
         const blob = await render(im, S, a, T);
-        deliver(blob, 'yummyclassic_' + S.id + (a === 'pf' ? '_profile' : '_background') + '.jpg');
+        deliver(blob, 'yummyclassic_' + S.id + (a === 'pf' ? '_profile' : '_background_story') + '.jpg');
         ga('psa_save', { set: S.id, kind: a, quote: (T.by || '').slice(0, 60) });
       }));
     });
