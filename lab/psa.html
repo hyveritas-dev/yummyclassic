@@ -37,9 +37,11 @@
   .song:empty::before { content: none; }
   .cap .cs { font-size: 3.6cqw; margin-top: 1.6cqw; opacity: .95; }
   /* corner watermark: top-left sits just under Kakao's close button, bottom-right just above the button row */
-  .wm { position: absolute; padding: 1.4cqw 2.6cqw; border-radius: 2cqw; background: rgba(0,0,0,.32); color: #fff; line-height: 1.3; pointer-events: none; }
-  .wm b { display: block; font-size: 3.4cqw; letter-spacing: .02em; } .wm span { font-size: 2.8cqw; opacity: .9; }
-  .wm.tl { left: 5%; top: 9%; text-align: left; } .wm.br { right: 5%; bottom: 15%; text-align: right; }
+  /* corner badge in the brand wine so friends notice it: top-left sits under Kakao's close button, bottom-right above the button row */
+  .wm { position: absolute; padding: 1.6cqw 3cqw; border-radius: 2.2cqw; background: rgba(124,29,53,.92); color: #fff; line-height: 1.3;
+        border: .35cqw solid rgba(226,176,74,.9); box-shadow: 0 .8cqw 2.4cqw rgba(0,0,0,.45); pointer-events: none; }
+  .wm b { display: block; font-size: 3.8cqw; letter-spacing: .01em; } .wm span { font-size: 3cqw; }
+  .wm.tl { left: 4.5%; top: 9%; text-align: left; } .wm.br { right: 4.5%; bottom: 14%; text-align: right; }
   .txt select, .txt input[type=text] { width: 100%; font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
   .txt .row { display: grid; grid-template-columns: 1fr; gap: 4px; font-size: .88rem; margin-bottom: 10px; }
   .txt .chk { display: flex; gap: 8px; align-items: center; grid-template-columns: none; }
@@ -146,16 +148,19 @@ function wrap(g, text, maxW) {
 }
 function cornerMark(g, W, H, pos) {
   g.save();
-  const f1 = W * .034, f2 = W * .028, padX = W * .026, padY = W * .014;
-  g.font = '700 ' + f1 + 'px ' + WM_FONT; const w1 = g.measureText('냠냠클래식 명화 프사').width;
-  g.font = '400 ' + f2 + 'px ' + WM_FONT; const w2 = g.measureText('yummyclassic.co.kr').width;
+  const t1 = '♪ 냠냠클래식 명화 프사', t2 = '나도 받기 · yummyclassic.co.kr';
+  const f1 = W * .038, f2 = W * .030, padX = W * .03, padY = W * .016;
+  g.font = '700 ' + f1 + 'px ' + WM_FONT; const w1 = g.measureText(t1).width;
+  g.font = '400 ' + f2 + 'px ' + WM_FONT; const w2 = g.measureText(t2).width;
   const bw = Math.max(w1, w2) + padX * 2, bh = f1 * 1.3 + f2 * 1.3 + padY * 2;
-  const x = pos === 'br' ? W * .95 - bw : W * .05, y = pos === 'br' ? H * .85 - bh : H * .09;
-  g.fillStyle = 'rgba(0,0,0,.32)'; g.beginPath(); g.roundRect(x, y, bw, bh, W * .02); g.fill();
+  const x = pos === 'br' ? W * .955 - bw : W * .045, y = pos === 'br' ? H * .86 - bh : H * .09;
+  g.shadowColor = 'rgba(0,0,0,.45)'; g.shadowBlur = W * .024; g.shadowOffsetY = W * .008;
+  g.fillStyle = 'rgba(124,29,53,.92)'; g.beginPath(); g.roundRect(x, y, bw, bh, W * .022); g.fill();
+  g.shadowColor = 'transparent'; g.lineWidth = W * .0035; g.strokeStyle = 'rgba(226,176,74,.9)'; g.stroke();
   g.fillStyle = '#fff'; g.textAlign = pos === 'br' ? 'right' : 'left';
   const tx = pos === 'br' ? x + bw - padX : x + padX;
-  g.font = '700 ' + f1 + 'px ' + WM_FONT; g.fillText('냠냠클래식 명화 프사', tx, y + padY + f1 * 1.0);
-  g.font = '400 ' + f2 + 'px ' + WM_FONT; g.globalAlpha = .9; g.fillText('yummyclassic.co.kr', tx, y + padY + f1 * 1.3 + f2 * 1.0);
+  g.font = '700 ' + f1 + 'px ' + WM_FONT; g.fillText(t1, tx, y + padY + f1 * 1.0);
+  g.font = '400 ' + f2 + 'px ' + WM_FONT; g.fillText(t2, tx, y + padY + f1 * 1.3 + f2 * 1.0);
   g.restore();
 }
 function songTop(g, W, H, T) {
@@ -185,7 +190,7 @@ async function save(im, f, W, H, name, cx = 0.5, cy = 0.5, T = null) {
   const L = layout(im.naturalWidth, im.naturalHeight, W, H, f, cx, cy);
   const g = c.getContext('2d');
   g.drawImage(im, L.x, L.y, L.dw, L.dh);
-  if (T) { caption(g, W, H, T); songTop(g, W, H, T); cornerMark(g, W, H, T.wm || 'tl'); } else watermark(g, W, H);
+  if (T) { caption(g, W, H, T); songTop(g, W, H, T); cornerMark(g, W, H, T.wm || 'br'); } else watermark(g, W, H);
   c.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }, 'image/jpeg', .92);
 }
 
@@ -197,7 +202,7 @@ SETS.forEach(S => {
   el.innerHTML = `
     <div>
       <h2></h2><p class="src"></p>
-      <div class="phone"><div class="bgimg"></div><div class="shade"></div><div class="wm tl"><b>냠냠클래식 명화 프사</b><span>yummyclassic.co.kr</span></div><div class="cap"><p class="cl"></p><p class="cby"></p></div><div class="song"></div><div class="pf"><div class="pwm">yummyclassic</div></div>
+      <div class="phone"><div class="bgimg"></div><div class="shade"></div><div class="wm br"><b>♪ 냠냠클래식 명화 프사</b><span>나도 받기 · yummyclassic.co.kr</span></div><div class="cap"><p class="cl"></p><p class="cby"></p></div><div class="song"></div><div class="pf"><div class="pwm">yummyclassic</div></div>
         <div class="nm">냠냠클래식</div><div class="st"></div>
         <div class="bar"><span>나와의 채팅</span><span>프로필 편집</span><span>카카오스토리</span></div></div>
       <div class="solo"><div class="pfsolo"><div class="pwm">yummyclassic</div></div><small>채팅 목록에서 프로필만 보일 때</small></div>
@@ -231,11 +236,11 @@ SETS.forEach(S => {
     <label class="row" for="${S.id}-by">출처 (작가, 작품)<input type="text" id="${S.id}-by" maxlength="40"></label>
     <label class="row" for="${S.id}-song">곡 이름<input type="text" id="${S.id}-song" maxlength="40"></label>
     <label for="${S.id}-ty"><span>세로 위치</span><input type="range" id="${S.id}-ty" min="0.22" max="0.55" step="0.005"><output></output></label>
-    <label class="row" for="${S.id}-wm">워터마크 위치<select id="${S.id}-wm"><option value="tl">왼쪽 위</option><option value="br">오른쪽 아래</option></select></label>
+    <label class="row" for="${S.id}-wm">워터마크 위치<select id="${S.id}-wm"><option value="br">오른쪽 아래</option><option value="tl">왼쪽 위</option></select></label>
     <label class="chk" for="${S.id}-on"><input type="checkbox" id="${S.id}-on"> 문구 넣기</label>`;
   const iLine = tf.querySelector('#' + S.id + '-line'), iSong = tf.querySelector('#' + S.id + '-song'),
         iY = tf.querySelector('#' + S.id + '-ty'), oY = iY.nextElementSibling, iOn = tf.querySelector('#' + S.id + '-on');
-  const iWm = tf.querySelector('#' + S.id + '-wm'); iWm.value = S.txt.wm || 'tl';
+  const iWm = tf.querySelector('#' + S.id + '-wm'); iWm.value = S.txt.wm || 'br';
   iWm.addEventListener('change', () => { S.txt.wm = iWm.value; draw(); });
   const iPick = tf.querySelector('#' + S.id + '-pick');
   iPick.innerHTML = '<option value="">직접 입력</option>' + QUOTES.map((q, i) => `<option value="${i}"></option>`).join('');
@@ -264,7 +269,7 @@ SETS.forEach(S => {
     if (!im.naturalWidth) return;
     applyCss(bgEl, im, S.bg, PF_CX, PF_CY); applyCss(pfEl, im, S.pf); applyCss(soloEl, im, S.pf);
     const cap = el.querySelector('.cap'), on = S.txt.on;
-    el.querySelector('.wm').className = 'wm ' + (S.txt.wm || 'tl');
+    el.querySelector('.wm').className = 'wm ' + (S.txt.wm || 'br');
     cap.style.top = (S.txt.y * 100) + '%';
     cap.querySelector('.cl').textContent = on ? S.txt.line : ''; el.querySelector('.song').textContent = on ? S.txt.song : '';
     cap.querySelector('.cby').textContent = on && S.txt.by ? '— ' + S.txt.by : '';
