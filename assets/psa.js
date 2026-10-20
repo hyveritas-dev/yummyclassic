@@ -110,6 +110,15 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
   .psa-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
   .psa-more{all:unset;cursor:pointer;font-size:.82rem;color:#9a6a0c;text-decoration:underline;text-underline-offset:3px}
   .psa-how{color:#333;font-size:.8rem;line-height:1.55;margin:0}
+  .psa-sec{grid-column:1/-1;margin:6px 0 -14px;font-family:var(--serif-cjk),serif;font-size:1.05rem;color:rgba(255,255,255,.85)}
+  .psa-sec small{display:block;font-family:inherit;font-size:.8rem;color:rgba(255,255,255,.5);margin-top:2px}
+  .psa-phone>.psa-bg,.psa-phone>.psa-pf{pointer-events:auto;touch-action:none;cursor:grab}
+  .psa-phone>.psa-pf{outline:2px dashed rgba(226,176,74,.0);transition:outline-color .2s}
+  .psa-phone:hover>.psa-pf,.psa-phone>.psa-pf.drag{outline-color:rgba(226,176,74,.9);outline-offset:2px}
+  .psa-adj{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:.8rem;color:rgba(255,255,255,.6)}
+  .psa-adj span{display:inline-flex;gap:4px;align-items:center}
+  .psa-z{all:unset;cursor:pointer;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.25);text-align:center;line-height:28px;color:#fff;font-size:1rem}
+  .psa-z:focus-visible{outline:2px solid #e2b04a}
   .psa-over{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.82);display:grid;place-items:center;padding:20px}
   .psa-over-box{display:grid;gap:12px;justify-items:center;color:#fff;max-width:420px}
   .psa-over-box img{max-height:70vh;width:auto;border-radius:12px}
@@ -124,11 +133,22 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
   function mount(root, ctx) {
     if (!document.getElementById('psa-css')) { const st = document.createElement('style'); st.id = 'psa-css'; st.textContent = CSS; document.head.append(st); }
     const wrapEl = root.querySelector('.psa-wrap'); wrapEl.innerHTML = '';
-    PSA_SETS.forEach(S => {
+    // auto crop for the visitor's own paintings: background centred, profile = the middle of the painting
+    const mine = (ctx.mine || []).map(m => Object.assign({ idea: '내가 고른 그림', pf: { x: .5, y: .45, z: 2.2 }, bg: { x: .5, y: .5, z: 1 } }, m));
+    const head = (t, sub) => { const h = document.createElement('p'); h.className = 'psa-sec'; h.textContent = t; if (sub) { const sm = document.createElement('small'); sm.textContent = sub; h.append(sm); } wrapEl.append(h); };
+    const list = [];
+    if (mine.length) { list.push(['내가 고른 그림으로', '미리보기에서 사진을 끌어 위치를 옮기고, ＋ − 로 크기를 맞춰 보세요.']); list.push(...mine); list.push(['추천 프사', '프로필 자리에 그림의 한 장면이 들어가도록 맞춰 둔 명화예요.']); }
+    list.push(...PSA_SETS);
+    list.forEach(S0 => {
+      if (Array.isArray(S0)) return head(S0[0], S0[1]);
+      const S = JSON.parse(JSON.stringify(S0)), F0 = JSON.parse(JSON.stringify({ pf: S0.pf, bg: S0.bg }));
       const card = document.createElement('article'); card.className = 'psa-card';
       card.innerHTML = `<div><h4></h4><p class="idea"></p></div>
         <div class="psa-phone"><div class="psa-bg"></div><div class="psa-wm"><b>♪ 냠냠클래식</b><span>yummyclassic.co.kr</span></div>
           <div class="psa-song"></div><div class="psa-q"><b></b><span></span></div><div class="psa-pf"></div></div>
+        <div class="psa-adj"><span>프로필 <button type="button" class="psa-z" data-z="pf,-1" aria-label="프로필 사진 작게">−</button><button type="button" class="psa-z" data-z="pf,1" aria-label="프로필 사진 크게">＋</button></span>
+          <span>배경 <button type="button" class="psa-z" data-z="bg,-1" aria-label="배경 사진 작게">−</button><button type="button" class="psa-z" data-z="bg,1" aria-label="배경 사진 크게">＋</button></span>
+          <button type="button" class="psa-more" data-reset>처음 위치로</button></div>
         <div><p class="psa-how" style="margin-bottom:6px">어울리는 문장 고르기</p><div class="psa-picks" role="radiogroup" aria-label="어울리는 문장"></div>
           <div class="psa-row" style="margin-top:6px"><button type="button" class="psa-more">다른 문장 보기</button></div></div>
         <div class="psa-row"><button type="button" class="btn btn-primary btn-sm" data-a="bg">배경 사진 받기</button>
@@ -140,6 +160,7 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
       const ranked = rankQuotes(S, ctx.kw || {}); let page = 0;
       const T = { song: ctx.song || '', line: ranked[0] ? ranked[0].line : '', by: ranked[0] ? ranked[0].by : '' };
       const im = new Image(); im.src = S.img;
+      if (S.img2) im.onerror = () => { im.onerror = null; im.src = S.img2; };
       const bgEl = card.querySelector('.psa-bg'), pfEl = card.querySelector('.psa-pf'), picks = card.querySelector('.psa-picks');
       function draw() {
         cssCrop(bgEl, im, S.bg, PF_CX, PF_CY); cssCrop(pfEl, im, S.pf);
@@ -158,6 +179,32 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
       }
       card.querySelector('.psa-more').addEventListener('click', () => { page = (page + 1) % Math.max(1, Math.ceil(ranked.length / 5)); renderPicks(); });
       im.onload = draw; renderPicks();
+      // drag to move: profile circle moves the profile crop, the rest of the preview moves the background
+      const anchor = k => k === 'pf' ? [.5, .5] : [PF_CX, PF_CY];
+      function settle(k, el) {   // keep the focus point where the clamped crop actually is, so dragging back responds at once
+        const r = el.getBoundingClientRect(), [cx, cy] = anchor(k); if (!r.width || !im.naturalWidth) return;
+        const L = layout(im.naturalWidth, im.naturalHeight, r.width, r.height, S[k], cx, cy);
+        S[k].x = (r.width * cx - L.x) / L.dw; S[k].y = (r.height * cy - L.y) / L.dh;
+      }
+      let moved = false;
+      [['pf', pfEl], ['bg', bgEl]].forEach(([k, el]) => {
+        let last = null;
+        el.addEventListener('pointerdown', e => { if (!im.naturalWidth) return; e.preventDefault(); e.stopPropagation(); last = [e.clientX, e.clientY]; el.setPointerCapture(e.pointerId); el.classList.add('drag'); });
+        el.addEventListener('pointermove', e => {
+          if (!last) return;
+          const r = el.getBoundingClientRect(), [cx, cy] = anchor(k), L = layout(im.naturalWidth, im.naturalHeight, r.width, r.height, S[k], cx, cy);
+          S[k].x -= (e.clientX - last[0]) / L.dw; S[k].y -= (e.clientY - last[1]) / L.dh; last = [e.clientX, e.clientY];
+          settle(k, el); draw(); moved = true;
+        });
+        const end = () => { if (!last) return; last = null; el.classList.remove('drag'); if (moved) ga('psa_adjust', { set: S.id, kind: k }); moved = false; };
+        el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end);
+      });
+      card.querySelectorAll('[data-z]').forEach(b => b.addEventListener('click', () => {
+        const [k, d] = b.dataset.z.split(','), el = k === 'pf' ? pfEl : bgEl;
+        S[k].z = Math.min(k === 'pf' ? 8 : 4, Math.max(1, S[k].z * (d > 0 ? 1.15 : 1 / 1.15)));
+        settle(k, el); draw();
+      }));
+      card.querySelector('[data-reset]').addEventListener('click', () => { S.pf = Object.assign({}, F0.pf); S.bg = Object.assign({}, F0.bg); draw(); });
       new ResizeObserver(draw).observe(bgEl);
       card.querySelectorAll('[data-a]').forEach(btn => btn.addEventListener('click', async () => {
         const a = btn.dataset.a;

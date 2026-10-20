@@ -1619,10 +1619,16 @@
       const nick = (r.ko || '').match(/[“"]([^”"]+)[”"]/);
       const title = nick ? nick[1] : (r.ko || '').split(' — ')[0].replace(/\s+(Op\.|BWV|K\.|D\.|HWV|RV|S\.|Z\.).*$/, '');
       const kw = {}; recs.slice(0, 3).forEach(x => (x.why || []).forEach(t => { kw[t] = (kw[t] || 0) + 1; }));
-      const ctx = { song: (SHORT[r.cid] || ['', ''])[1] + ' 「' + title + '」', kw };
+      // the visitor's own Q2 paintings come first; their keyword weights steer the quotes for each card
+      const mine = selected().slice(0, 3).map(p => {
+        const P = engPrep(eraIdOf(p.id) || currentEra).pv[p.id], pk = {};
+        if (P) Object.entries(P.v).sort((a, b) => b[1] - a[1]).slice(0, 6).forEach(([k], i) => { pk[k] = 3 - Math.floor(i / 2); });
+        return { id: 'my-' + p.id, title: (p.byKo || '') + ' 〈' + (p.ko || '') + '〉', img: THUMB(p.f, 1920), img2: FILE(p.f), kw: pk };
+      });
+      const ctx = { song: (SHORT[r.cid] || ['', ''])[1] + ' 「' + title + '」', kw, mine };
       box.hidden = false;
       if (window.YC_PSA) return window.YC_PSA.mount(box, ctx);
-      const s = document.createElement('script'); s.src = '/assets/psa.js?v=47bb68f7'; s.onload = () => window.YC_PSA && window.YC_PSA.mount(box, ctx);
+      const s = document.createElement('script'); s.src = '/assets/psa.js?v=04eef55a'; s.onload = () => window.YC_PSA && window.YC_PSA.mount(box, ctx);
       document.head.append(s);
     }
 
