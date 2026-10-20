@@ -49,7 +49,7 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
     {
       id: 'parasol', title: '모네 〈양산을 든 여인〉', idea: '프로필 속 여인이 바람 부는 언덕에 서 있어요',
       img: '/img/thumb/1/1b/Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son_-_Google_Art_Project.jpg/1920px-Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son_-_Google_Art_Project.jpg', img2: '/img/1/1b/Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son_-_Google_Art_Project.jpg',
-      pf: { x: 0.58, y: 0.15, z: 2.6 }, bg: { x: 0.55, y: 0.4, z: 1 },
+      pf: { x: 0.644, y: 0.18, z: 3.2 }, bg: { x: 0.55, y: 0.4, z: 1 },
       kw: {light:  2, nature:  2, joy:  1, tender:  1, nostalgia:  1},
     },
   ];
@@ -83,7 +83,7 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
     g.font = '400 ' + W * .03 + 'px ' + SANS; g.globalAlpha = .9; g.fillText('yummyclassic.co.kr', W * .045, H * .14 + W * .038 * 1.3 + W * .03); g.globalAlpha = 1;
     // song, top centre
     g.textAlign = 'center'; g.shadowBlur = W * .01;
-    if (T.song) { g.font = '400 ' + W * .036 + 'px ' + SANS; g.fillText('♪ ' + T.song, W / 2, H * .205 + W * .036); }
+    if (T.song) { g.font = '400 ' + W * .036 + 'px ' + SANS; g.fillText('♪ ' + T.song, W / 2, H * .235 + W * .036); }
     // quote + source, centre
     g.shadowBlur = W * .012;
     const cl = W * .054; g.font = '700 ' + cl + 'px ' + SERIF;
@@ -135,7 +135,7 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
   .psa-bg{inset:0;background-repeat:no-repeat}
   .psa-pf{left:50%;top:65%;width:28%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:40%;background-repeat:no-repeat;box-shadow:0 2px 10px rgba(0,0,0,.35)}
   .psa-wm{left:4.5%;top:14%;color:#fff;line-height:1.3;text-shadow:0 0 1cqw rgba(0,0,0,.6)}.psa-wm b{display:block;font-size:3.8cqw}.psa-wm span{font-size:3cqw;opacity:.9}
-  .psa-song{left:7%;right:7%;top:20.5%;text-align:center;color:#fff;font-size:3.6cqw;text-shadow:0 0 .8cqw rgba(0,0,0,.7)}
+  .psa-song{left:7%;right:7%;top:23.5%;text-align:center;color:#fff;font-size:3.6cqw;text-shadow:0 0 .8cqw rgba(0,0,0,.7)}
   .psa-q{left:7%;right:7%;top:42%;transform:translateY(-50%);text-align:center;color:#fff;text-shadow:0 0 .8cqw rgba(0,0,0,.65)}
   .psa-q b{display:block;font-family:var(--serif-cjk),serif;font-size:5.4cqw;line-height:1.35;text-wrap:balance}.psa-q span{display:block;font-size:2.7cqw;margin-top:1cqw;opacity:.85}
   .psa-picks{display:grid;gap:6px}
