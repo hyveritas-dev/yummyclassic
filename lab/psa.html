@@ -37,10 +37,9 @@
   .song:empty::before { content: none; }
   .cap .cs { font-size: 3.6cqw; margin-top: 1.6cqw; opacity: .95; }
   /* corner watermark: top-left sits just under Kakao's close button, bottom-right just above the button row */
-  /* corner badge in the brand wine so friends notice it; fixed top-left, just under Kakao's close button */
-  .wm { position: absolute; padding: 1.6cqw 3cqw; border-radius: 2.2cqw; background: rgba(124,29,53,.92); color: #fff; line-height: 1.3;
-        border: .35cqw solid rgba(226,176,74,.9); box-shadow: 0 .8cqw 2.4cqw rgba(0,0,0,.45); pointer-events: none; }
-  .wm b { display: block; font-size: 3.8cqw; letter-spacing: .01em; } .wm span { font-size: 3cqw; }
+  /* watermark: fixed top-left, just under Kakao's close button; plain text with a soft shadow so it reads without a box */
+  .wm { position: absolute; color: rgba(255,255,255,.92); line-height: 1.3; text-shadow: 0 0 1cqw rgba(0,0,0,.55), 0 .2cqw .6cqw rgba(0,0,0,.4); pointer-events: none; }
+  .wm b { display: block; font-size: 3.8cqw; letter-spacing: .01em; } .wm span { font-size: 3cqw; opacity: .9; }
   .wm.tl { left: 4.5%; top: 9%; text-align: left; } .wm.br { right: 4.5%; bottom: 14%; text-align: right; }
   .txt select, .txt input[type=text] { width: 100%; font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
   .txt .row { display: grid; grid-template-columns: 1fr; gap: 4px; font-size: .88rem; margin-bottom: 10px; }
@@ -154,10 +153,8 @@ function cornerMark(g, W, H, pos) {
   g.font = '400 ' + f2 + 'px ' + WM_FONT; const w2 = g.measureText(t2).width;
   const bw = Math.max(w1, w2) + padX * 2, bh = f1 * 1.3 + f2 * 1.3 + padY * 2;
   const x = pos === 'br' ? W * .955 - bw : W * .045, y = pos === 'br' ? H * .86 - bh : H * .09;
-  g.shadowColor = 'rgba(0,0,0,.45)'; g.shadowBlur = W * .024; g.shadowOffsetY = W * .008;
-  g.fillStyle = 'rgba(124,29,53,.92)'; g.beginPath(); g.roundRect(x, y, bw, bh, W * .022); g.fill();
-  g.shadowColor = 'transparent'; g.lineWidth = W * .0035; g.strokeStyle = 'rgba(226,176,74,.9)'; g.stroke();
-  g.fillStyle = '#fff'; g.textAlign = pos === 'br' ? 'right' : 'left';
+  g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = W * .012;
+  g.fillStyle = 'rgba(255,255,255,.92)'; g.textAlign = pos === 'br' ? 'right' : 'left';
   const tx = pos === 'br' ? x + bw - padX : x + padX;
   g.font = '700 ' + f1 + 'px ' + WM_FONT; g.fillText(t1, tx, y + padY + f1 * 1.0);
   g.font = '400 ' + f2 + 'px ' + WM_FONT; g.fillText(t2, tx, y + padY + f1 * 1.3 + f2 * 1.0);
