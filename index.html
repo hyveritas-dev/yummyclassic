@@ -1013,9 +1013,12 @@
     gtag('js', new Date());
     gtag('config', 'G-MFFJHXYMYQ');
     // 방문자 행동 기록: track('이름', {값}) — 실패해도 사이트 동작에는 영향 없음
+    // elapsed_sec: 들어온 뒤 몇 초, step_sec: 직전 기록부터 몇 초 (단계별 걸린 시간)
+    let lastT = performance.now();
     window.track = function (name, params) {
       try {
-        const p = Object.assign({ site_lang: document.documentElement.lang || '', device: matchMedia('(max-width: 639px)').matches ? 'mobile' : 'pc' }, params || {});
+        const now = performance.now(), step = Math.round((now - lastT) / 1000); lastT = now;
+        const p = Object.assign({ site_lang: document.documentElement.lang || '', device: matchMedia('(max-width: 639px)').matches ? 'mobile' : 'pc', elapsed_sec: Math.round(now / 1000), step_sec: step }, params || {});
         gtag('event', name, p);
       } catch (e) {}
     };

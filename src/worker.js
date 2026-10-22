@@ -410,8 +410,14 @@ export default {
     const fb = url.pathname.match(/^\/fb(\d{1,3})\/?$/);
     if (fb) return Response.redirect(`${url.origin}/?lang=en&utm_source=facebook&utm_medium=group&utm_campaign=fb${fb[1]}`, 302);
     // channel links: /ig (Instagram profile), /igs (Instagram story), /blog (Naver blog), /yt (YouTube), /k (KakaoTalk to friends)
-    const ch = CHANNEL_LINKS[url.pathname.replace(/\/$/, '')];
-    if (ch) return Response.redirect(`${url.origin}/?${ch}`, 302);
+    // with a content name: /ig/monet, /blog/1021, /yt/debussy … → utm_content = monet, 1021, debussy
+    const cm = url.pathname.match(/^(\/[a-z]+)(?:\/([^/]{1,60}))?\/?$/);
+    const ch = cm && CHANNEL_LINKS[cm[1]];
+    if (ch) {
+      let name = ''; try { name = cm[2] ? decodeURIComponent(cm[2]) : ''; } catch (e) {}
+      name = name.replace(/[^\p{L}\p{N}_-]/gu, '').slice(0, 40);
+      return Response.redirect(`${url.origin}/?${ch}${name ? '&utm_content=' + encodeURIComponent(name) : ''}`, 302);
+    }
     if (url.pathname === '/api/intl-concerts') return intlConcerts(request, env, ctx, url);
     if (url.pathname === '/api/translate') return translate(request, env, ctx, url);
     if (url.pathname === '/api/stat') return stat(request, env, ctx, url);
