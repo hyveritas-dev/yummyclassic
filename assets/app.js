@@ -2449,18 +2449,66 @@
       box.hidden = false;
     }
 
-    // ---------- Composer taste map (like music maps): you in the middle, matched composers close, stretch picks further out ----------
+    // ---------- Today's Tasting: side (painters), dessert (novels), pairing (concerts) under the composer map ----------
+    // novels to read alongside each composer: [author ko, title ko, author en, title en, author ja, title ja] (sheet 냠냠클래식_추천데이터 > 작곡가 J:O)
+    const NOVELS = {
+      bach: ['존 버니언', '천로역정', 'John Bunyan', 'The Pilgrim’s Progress', 'ジョン・バニヤン', '天路歴程', 'bunyan'],
+      handel: ['조너선 스위프트', '걸리버 여행기', 'Jonathan Swift', 'Gulliver’s Travels', 'ジョナサン・スウィフト', 'ガリヴァー旅行記', 'swift'],
+      vivaldi: ['대니얼 디포', '로빈슨 크루소', 'Daniel Defoe', 'Robinson Crusoe', 'ダニエル・デフォー', 'ロビンソン・クルーソー', 'defoe'],
+      purcell: ['라파예트 부인', '클레브 공작부인', 'Madame de La Fayette', 'The Princess of Clèves', 'ラファイエット夫人', 'クレーヴの奥方', 'lafayette'],
+      scarlatti: ['미겔 데 세르반테스', '돈키호테', 'Miguel de Cervantes', 'Don Quixote', 'ミゲル・デ・セルバンテス', 'ドン・キホーテ', 'cervantes'],
+      mozart: ['요한 볼프강 폰 괴테', '젊은 베르테르의 슬픔', 'Johann Wolfgang von Goethe', 'The Sorrows of Young Werther', 'ヨハン・ヴォルフガング・フォン・ゲーテ', '若きウェルテルの悩み', 'goethe'],
+      beethoven: ['레프 톨스토이', '크로이처 소나타', 'Leo Tolstoy', 'The Kreutzer Sonata', 'レフ・トルストイ', 'クロイツェル・ソナタ', 'tolstoy'],
+      haydn: ['로렌스 스턴', '트리스트럼 섄디', 'Laurence Sterne', 'Tristram Shandy', 'ローレンス・スターン', 'トリストラム・シャンディ', 'sterne'],
+      gluck: ['장 자크 루소', '신엘로이즈', 'Jean-Jacques Rousseau', 'Julie, or the New Heloise', 'ジャン＝ジャック・ルソー', '新エロイーズ', 'rousseau'],
+      boccherini: ['제인 오스틴', '오만과 편견', 'Jane Austen', 'Pride and Prejudice', 'ジェーン・オースティン', '高慢と偏見', 'austen'],
+      clementi: ['제인 오스틴', '이성과 감성', 'Jane Austen', 'Sense and Sensibility', 'ジェーン・オースティン', '分別と多感', 'austen'],
+      chopin: ['조르주 상드', '사랑의 요정', 'George Sand', 'Little Fadette', 'ジョルジュ・サンド', '愛の妖精', 'sand'],
+      schubert: ['노발리스', '푸른 꽃', 'Novalis', 'Heinrich von Ofterdingen', 'ノヴァーリス', '青い花', 'novalis'],
+      liszt: ['빅토르 위고', '노트르담 드 파리', 'Victor Hugo', 'The Hunchback of Notre-Dame', 'ヴィクトル・ユゴー', 'ノートル＝ダム・ド・パリ', 'hugo'],
+      tchaikovsky: ['알렉산드르 푸시킨', '예브게니 오네긴', 'Alexander Pushkin', 'Eugene Onegin', 'アレクサンドル・プーシキン', 'エヴゲーニイ・オネーギン', 'pushkin'],
+      wagner: ['토마스 만', '부덴브로크가의 사람들', 'Thomas Mann', 'Buddenbrooks', 'トーマス・マン', 'ブッデンブローク家の人びと', 'mann'],
+      brahms: ['테오도어 슈토름', '호수', 'Theodor Storm', 'Immensee', 'テオドール・シュトルム', 'みずうみ', 'storm'],
+      mendelssohn: ['월터 스콧', '아이반호', 'Walter Scott', 'Ivanhoe', 'ウォルター・スコット', 'アイヴァンホー', 'scott'],
+      schumann: ['E.T.A. 호프만', '수고양이 무어의 인생관', 'E.T.A. Hoffmann', 'The Life and Opinions of the Tomcat Murr', 'E・T・A・ホフマン', '牡猫ムルの人生観', 'hoffmann'],
+      rossini: ['알렉상드르 뒤마', '삼총사', 'Alexandre Dumas', 'The Three Musketeers', 'アレクサンドル・デュマ', '三銃士', 'dumas'],
+      verdi: ['알렉상드르 뒤마 피스', '춘희', 'Alexandre Dumas fils', 'The Lady of the Camellias', 'アレクサンドル・デュマ・フィス', '椿姫', 'dumasfils'],
+      puccini: ['앙리 뮈르제', '보헤미안 생활의 정경', 'Henri Murger', 'Scenes of Bohemian Life', 'アンリ・ミュルジェール', 'ボヘミアン生活の情景', 'murger'],
+      bizet: ['프로스페르 메리메', '카르멘', 'Prosper Mérimée', 'Carmen', 'プロスペル・メリメ', 'カルメン', 'merimee'],
+      leoncavallo: ['조반니 베르가', '말라볼리아가의 사람들', 'Giovanni Verga', 'The House by the Medlar Tree', 'ジョヴァンニ・ヴェルガ', 'マラヴォリア家の人々', 'verga'],
+      massenet: ['아베 프레보', '마농 레스코', 'Abbé Prévost', 'Manon Lescaut', 'アベ・プレヴォー', 'マノン・レスコー', 'prevost'],
+      mascagni: ['조반니 베르가', '말라볼리아가의 사람들', 'Giovanni Verga', 'The House by the Medlar Tree', 'ジョヴァンニ・ヴェルガ', 'マラヴォリア家の人々', 'verga'],
+      pleyel: ['제인 오스틴', '에마', 'Jane Austen', 'Emma', 'ジェーン・オースティン', 'エマ', 'austen'],
+      glinka: ['알렉산드르 푸시킨', '대위의 딸', 'Alexander Pushkin', 'The Captain’s Daughter', 'アレクサンドル・プーシキン', '大尉の娘', 'pushkin'],
+      smetana: ['보제나 넴초바', '할머니', 'Božena Němcová', 'The Grandmother', 'ボジェナ・ニェムツォヴァー', 'おばあさん', 'nemcova'],
+      dvorak: ['윌라 캐더', '나의 안토니아', 'Willa Cather', 'My Ántonia', 'ウィラ・キャザー', '私のアントニーア', 'cather'],
+      grieg: ['비에른스티에르네 비에른손', '양지바른 언덕의 소녀', 'Bjørnstjerne Bjørnson', 'Synnøve Solbakken', 'ビョルンスティエルネ・ビョルンソン', '日向丘の少女', 'bjornson'],
+      rachmaninoff: ['안톤 체호프', '개를 데리고 다니는 부인', 'Anton Chekhov', 'The Lady with the Dog', 'アントン・チェーホフ', '犬を連れた奥さん', 'chekhov'],
+      debussy: ['마르셀 프루스트', '스완네 집 쪽으로', 'Marcel Proust', 'Swann’s Way', 'マルセル・プルースト', 'スワン家のほうへ', 'proust'],
+      ravel: ['알랭푸르니에', '대장 몬느', 'Alain-Fournier', 'Le Grand Meaulnes', 'アラン＝フルニエ', 'グラン・モーヌ', 'fournier'],
+      pachelbel: ['존 버니언', '천로역정', 'John Bunyan', 'The Pilgrim’s Progress', 'ジョン・バニヤン', '天路歴程', 'bunyan'],
+      offenbach: ['E.T.A. 호프만', '모래 사나이', 'E.T.A. Hoffmann', 'The Sandman', 'E・T・A・ホフマン', '砂男', 'hoffmann'],
+      mahler: ['토마스 만', '베네치아에서의 죽음', 'Thomas Mann', 'Death in Venice', 'トーマス・マン', 'ヴェニスに死す', 'mann'],
+    };
+    // novelists' portraits (Wikimedia Commons, public domain)
+    const AUTHOR_IMG = {"bunyan": "John_Bunyan_by_Thomas_Sadler_1684.jpg", "swift": "Jonathan_Swift_by_Charles_Jervas.jpg", "defoe": "Daniel_Defoe_Kneller_Style.jpg", "lafayette": "Madame_de_Lafayette,_PA07840.jpg", "cervantes": "Cervantes_Jáuregui.jpg", "goethe": "Goethe_(Stieler_1828).jpg", "tolstoy": "Leo_Tolstoy_1908_Portrait_(3x4_cropped).jpg", "sterne": "Laurence_Sterne_by_Sir_Joshua_Reynolds.jpg", "rousseau": "Maurice_Quentin_de_La_Tour_-_Portrait_of_Jean-Jacques_Rousseau_-_adjusted.jpg", "austen": "CassandraAusten-JaneAusten(c.1810)_hires.jpg", "sand": "George_Sand_by_Nadar,_1864.jpg", "novalis": "Novalis-1.jpg", "hugo": "Victor_Hugo_by_Étienne_Carjat_1876_-_full.jpg", "pushkin": "Orest_Kiprensky_-_Портрет_поэта_А.С.Пушкина_-_Google_Art_Project.jpg", "mann": "Thomas_Mann_1929.jpg", "storm": "Theodor_Storm_(1817-1888).jpg", "scott": "Sir_Thomas_Lawrence_(1769-1830)_-_Sir_Walter_Scott_(1771-1832)_-_RCIN_400644_-_Royal_Collection.jpg", "hoffmann": "E._T._A._Hoffmann,_autorretrato.jpg", "dumas": "Nadar_-_Alexander_Dumas_père_(1802-1870)_-_Google_Art_Project_2.jpg", "dumasfils": "Alexandre_Dumas_fils.jpg", "murger": "Henri_Mürger_by_Nadar,_1857.png", "merimee": "Prosper_Mérimée.jpg", "verga": "Portrait_of_Giovanni_Verga.jpg", "prevost": "Schmidt_Prevost.jpg", "nemcova": "Bozena_Nemcova.jpg", "cather": "Cather_Van_Vechten.jpg", "bjornson": "Portrett_av_Bjørnstjerne_Bjørnson,_1909_-_no-nb_digifoto_20150129_00043_bldsa_BB0791_-_Restoration.jpg", "chekhov": "Anton_Chekhov_1889.jpg", "proust": "Otto_Wegener_Proust_vers_1895_bis.jpg", "fournier": "Alain-Fournier,_full_portrait,_1905.jpg"};
+    const TASTE_T = {
+      ko: { app: '전채', main: '메인 요리', chef: '셰프의 한 접시', dessert: '디저트', top: '오늘의 메인', walk: '식후 산책', walkGo: '오늘 어울리는 공연 보러 가기 ↓', with: '{c}와 함께', note: '접시를 누르면 대표곡이 나와요. 점선 접시는 다른 시대에서 한 걸음 넓혀 볼 셰프의 한 접시예요.' },
+      en: { app: 'Appetizer', main: 'Main Course', chef: 'Chef’s Special', dessert: 'Dessert', top: 'Today’s main', walk: 'After-dinner stroll', walkGo: 'See concerts that suit today ↓', with: 'with {c}', note: 'Tap a plate to hear their pieces. Dashed plates are the Chef’s Special: a step into the other style.' },
+      ja: { app: '前菜', main: 'メイン', chef: 'シェフのひと皿', dessert: 'デザート', top: '今日のメイン', walk: '食後の散歩', walkGo: '今日に合う公演を見る ↓', with: '{c}と一緒に', note: 'お皿を押すと代表曲が出ます。点線のお皿は、もう一方の時代から一歩広げるシェフのひと皿です。' },
+    };
+    function renderTasting() { const b = document.getElementById('tasting'); if (b) b.hidden = true; }
+    // ---------- Today's Tasting: a table seen from above. Appetizer (your paintings) · main (composers) · dessert (novels) · after-dinner stroll ----------
     function renderCmpMap() {
       const box = document.getElementById('cmp-map');
       if (!box) return;
       const sel = selected();
       if (!sel.length || !currentEra) { box.hidden = true; return; }
-      const t = I18N[lang], ko = isLocal();
+      const t = I18N[lang], T = TASTE_T[lang] || TASTE_T.en, ko = isLocal(), en = lang === 'en', ja = lang === 'ja';
       const nameOf = id => { const s = SHORT[id]; if (s) return s[ko ? 1 : 0]; for (const L of Object.values(COMPOSERS)) { const n = L.find(x => x[2] === id); if (n) return n[ko ? 1 : 0]; } return id; };
-      // taste match: this style's composers, ranked by how well their pieces fit the chosen paintings
-      // same order as the "top pick" box below, so the biggest name on the map is the top pick
+      // same order as the "top pick" box below, so the big plate is the top pick
       const fit = composerRank().slice(0, 5);
-      // taste stretch: the other style's composers that share the most keywords with the chosen paintings
+      // chef's special: the other style's composers sharing the most keywords with the chosen paintings
       const other = currentEra === 'classic' ? 'romantic' : 'classic';
       let grow = [];
       try {
@@ -2468,208 +2516,62 @@
         sel.forEach(p => { const P = mine[p.id]; if (P) Object.keys(P.v).forEach(k => pt.add(k)); });
         E.items.forEach(x => Object.keys(x.v || x.t || {}).forEach(k => { if (pt.has(k)) (sh[x.c] = sh[x.c] || new Set()).add(k); }));
         grow = (COMPOSERS[other] || []).map(n => n[2]).filter(id => id && WORKS[id] && sh[id] && !fit.includes(id))
-          .sort((a, b) => sh[b].size - sh[a].size).slice(0, 3);
+          .sort((a, b) => sh[b].size - sh[a].size).slice(0, 2);
       } catch (e) { grow = []; }
-      if (fit.length < 2) { box.hidden = true; return; }
+      if (!fit.length) { box.hidden = true; return; }
       box.innerHTML = '';
-      const stage = document.createElement('div'); stage.className = 'cm-stage';
-      const svgNS = 'http://www.w3.org/2000/svg';
-      const svg = document.createElementNS(svgNS, 'svg');
-      svg.setAttribute('viewBox', '0 0 100 100'); svg.setAttribute('preserveAspectRatio', 'none'); svg.setAttribute('aria-hidden', 'true');
-      stage.appendChild(svg);
-      const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-      const narrow = (box.clientWidth || window.innerWidth) < 640;
-      const place = (id, x, y, kind, rank) => {
-        x = clamp(x, narrow ? 19 : 14, narrow ? 81 : 86); y = clamp(y, 8, 92);
-        const ln = document.createElementNS(svgNS, 'line');
-        ln.setAttribute('x1', 50); ln.setAttribute('y1', 50); ln.setAttribute('x2', x); ln.setAttribute('y2', y);
-        ln.setAttribute('class', 'cm-ln ' + kind); ln.setAttribute('vector-effect', 'non-scaling-stroke');
-        svg.appendChild(ln);
-        const b = document.createElement('button'); b.type = 'button';
-        b.className = 'cm-node ' + kind + (kind === 'fit' && rank === 0 ? ' top' : '');
-        b.style.left = x + '%'; b.style.top = y + '%';
-        b.textContent = nameOf(id);
-        b.setAttribute('aria-label', nameOf(id) + ' · ' + (kind === 'fit' ? t.mapFit : t.mapGrow));
-        b.addEventListener('click', () => { track('composer_map', { composer: id, kind }); openComposer(id); });
-        stage.appendChild(b);
+      const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+      // one plate: a dish (picture or letter), a name and a small line under it
+      const plate = (opt) => {
+        const b = el(opt.onClick ? 'button' : 'div', 'pl ' + (opt.cls || ''));
+        if (opt.onClick) { b.type = 'button'; b.addEventListener('click', opt.onClick); }
+        const dish = el('span', 'dish'), food = el('span', 'food', opt.letter || '');
+        dish.appendChild(food);
+        if (opt.img) { const im = document.createElement('img'); im.alt = ''; im.loading = 'lazy'; im.decoding = 'async'; im.referrerPolicy = 'no-referrer'; food.textContent = ''; food.appendChild(im); im.addEventListener('imgfail', () => { im.remove(); food.textContent = opt.letter || ''; }); setImgSrc(im, opt.img, opt.w || 200); }
+        else if (opt.portrait) putPortrait(food, opt.portrait, opt.name, opt.w || 200);
+        b.append(dish, el('span', 'pl-nm', opt.name));
+        if (opt.sub) b.appendChild(el('span', 'pl-sub', opt.sub));
+        if (opt.tag) b.appendChild(el('span', 'pl-tag', opt.tag));
+        return b;
       };
-      // closer = better: the top pick sits nearest the centre
-      const nf = fit.length, start = -Math.PI / 2;
-      fit.forEach((id, i) => {
-        const a = start + i * (2 * Math.PI / nf), r = (narrow ? 0.29 : 0.27) + 0.06 * (i / Math.max(1, nf - 1));
-        place(id, 50 + Math.cos(a) * r * 100, 50 + Math.sin(a) * r * (narrow ? 118 : 120), 'fit', i);
-      });
-      grow.forEach((id, i) => {
-        const a = start + (i + 0.5) * (2 * Math.PI / nf) + (nf % 2 ? 0 : 0.35), r = 0.42;
-        place(id, 50 + Math.cos(a) * r * 100, 50 + Math.sin(a) * r * 102, 'grow', i);
-      });
-      const me = document.createElement('div'); me.className = 'cm-me';
-      const mk = document.createElement('span'); mk.className = 'k'; mk.textContent = t.mapMe;
-      const mt = document.createElement('span'); mt.className = 'nm'; { const T = TYPES[dominantMood(sel)]; mt.textContent = T ? (ko ? T[1] : T[0]) : ''; }
-      me.append(mk, mt);
-      stage.appendChild(me);
-      const legend = document.createElement('ul'); legend.className = 'cm-legend';
-      const key = (cls, label, desc) => { const li = document.createElement('li'); li.className = cls; const c = document.createElement('span'); c.className = 'chip'; c.textContent = label; const d = document.createElement('span'); d.className = 'd'; d.textContent = desc; li.append(c, d); legend.appendChild(li); };
-      key('fit', t.mapFit, t.mapFitD);
-      if (grow.length) key('grow', t.mapGrow, t.mapGrowD);
-      const note = document.createElement('p'); note.className = 'cm-note'; note.textContent = t.mapNote;
-      box.append(stage, legend, note);
-      box.hidden = false;
-      // keep every name clear of the centre circle and of the names placed before it
-      try {
-        const S = stage.getBoundingClientRect(); if (!S.width) return;
-        const nodes = [...stage.querySelectorAll('.cm-node')], pad = 6, fixed = [me.getBoundingClientRect()];
-        const hit = (A, B) => A.left < B.right + pad && B.left < A.right + pad && A.top < B.bottom + pad && B.top < A.bottom + pad;
-        const free = R => !fixed.some(F => hit(R, F)) && R.left >= S.left && R.right <= S.right && R.top >= S.top && R.bottom <= S.bottom;
-        const set = (n, x, y) => { n.style.left = x + '%'; n.style.top = y + '%'; return n.getBoundingClientRect(); };
-        nodes.forEach((n, i) => {
-          const x0 = parseFloat(n.style.left), y0 = parseFloat(n.style.top);
-          let R = n.getBoundingClientRect();
-          if (!free(R)) {
-            const ang = Math.atan2(y0 - 50, x0 - 50), rad = Math.hypot(x0 - 50, y0 - 50);
-            let done = false;
-            for (const k of [1, 1.12, 0.9, 1.24, 0.8, 1.36]) {
-              for (const dA of [0, 12, -12, 24, -24, 36, -36, 50, -50, 65, -65]) {
-                const A = ang + dA * Math.PI / 180, x = 50 + Math.cos(A) * rad * k, y = 50 + Math.sin(A) * rad * k;
-                R = set(n, x, y);
-                if (free(R)) { done = true; break; }
-              }
-              if (done) break;
-            }
-            if (!done) R = set(n, x0, y0);
-            const ln = svg.children[i]; ln.setAttribute('x2', parseFloat(n.style.left)); ln.setAttribute('y2', parseFloat(n.style.top));
-          }
-          fixed.push(R);
-        });
-      } catch (e) {}
-    }
-
-
-    // ---------- Today's Tasting: side (painters), dessert (novels), pairing (concerts) under the composer map ----------
-    // novels to read alongside each composer: [author ko, title ko, author en, title en, author ja, title ja] (sheet 냠냠클래식_추천데이터 > 작곡가 J:O)
-    const NOVELS = {
-      bach: ['존 버니언', '천로역정', 'John Bunyan', 'The Pilgrim’s Progress', 'ジョン・バニヤン', '天路歴程'],
-      handel: ['조너선 스위프트', '걸리버 여행기', 'Jonathan Swift', 'Gulliver’s Travels', 'ジョナサン・スウィフト', 'ガリヴァー旅行記'],
-      vivaldi: ['대니얼 디포', '로빈슨 크루소', 'Daniel Defoe', 'Robinson Crusoe', 'ダニエル・デフォー', 'ロビンソン・クルーソー'],
-      purcell: ['라파예트 부인', '클레브 공작부인', 'Madame de La Fayette', 'The Princess of Clèves', 'ラファイエット夫人', 'クレーヴの奥方'],
-      scarlatti: ['미겔 데 세르반테스', '돈키호테', 'Miguel de Cervantes', 'Don Quixote', 'ミゲル・デ・セルバンテス', 'ドン・キホーテ'],
-      mozart: ['요한 볼프강 폰 괴테', '젊은 베르테르의 슬픔', 'Johann Wolfgang von Goethe', 'The Sorrows of Young Werther', 'ヨハン・ヴォルフガング・フォン・ゲーテ', '若きウェルテルの悩み'],
-      beethoven: ['레프 톨스토이', '크로이처 소나타', 'Leo Tolstoy', 'The Kreutzer Sonata', 'レフ・トルストイ', 'クロイツェル・ソナタ'],
-      haydn: ['로렌스 스턴', '트리스트럼 섄디', 'Laurence Sterne', 'Tristram Shandy', 'ローレンス・スターン', 'トリストラム・シャンディ'],
-      gluck: ['장 자크 루소', '신엘로이즈', 'Jean-Jacques Rousseau', 'Julie, or the New Heloise', 'ジャン＝ジャック・ルソー', '新エロイーズ'],
-      boccherini: ['제인 오스틴', '오만과 편견', 'Jane Austen', 'Pride and Prejudice', 'ジェーン・オースティン', '高慢と偏見'],
-      clementi: ['제인 오스틴', '이성과 감성', 'Jane Austen', 'Sense and Sensibility', 'ジェーン・オースティン', '分別と多感'],
-      chopin: ['조르주 상드', '사랑의 요정', 'George Sand', 'Little Fadette', 'ジョルジュ・サンド', '愛の妖精'],
-      schubert: ['노발리스', '푸른 꽃', 'Novalis', 'Heinrich von Ofterdingen', 'ノヴァーリス', '青い花'],
-      liszt: ['빅토르 위고', '노트르담 드 파리', 'Victor Hugo', 'The Hunchback of Notre-Dame', 'ヴィクトル・ユゴー', 'ノートル＝ダム・ド・パリ'],
-      tchaikovsky: ['알렉산드르 푸시킨', '예브게니 오네긴', 'Alexander Pushkin', 'Eugene Onegin', 'アレクサンドル・プーシキン', 'エヴゲーニイ・オネーギン'],
-      wagner: ['토마스 만', '부덴브로크가의 사람들', 'Thomas Mann', 'Buddenbrooks', 'トーマス・マン', 'ブッデンブローク家の人びと'],
-      brahms: ['테오도어 슈토름', '호수', 'Theodor Storm', 'Immensee', 'テオドール・シュトルム', 'みずうみ'],
-      mendelssohn: ['월터 스콧', '아이반호', 'Walter Scott', 'Ivanhoe', 'ウォルター・スコット', 'アイヴァンホー'],
-      schumann: ['E.T.A. 호프만', '수고양이 무어의 인생관', 'E.T.A. Hoffmann', 'The Life and Opinions of the Tomcat Murr', 'E・T・A・ホフマン', '牡猫ムルの人生観'],
-      rossini: ['알렉상드르 뒤마', '삼총사', 'Alexandre Dumas', 'The Three Musketeers', 'アレクサンドル・デュマ', '三銃士'],
-      verdi: ['알렉상드르 뒤마 피스', '춘희', 'Alexandre Dumas fils', 'The Lady of the Camellias', 'アレクサンドル・デュマ・フィス', '椿姫'],
-      puccini: ['앙리 뮈르제', '보헤미안 생활의 정경', 'Henri Murger', 'Scenes of Bohemian Life', 'アンリ・ミュルジェール', 'ボヘミアン生活の情景'],
-      bizet: ['프로스페르 메리메', '카르멘', 'Prosper Mérimée', 'Carmen', 'プロスペル・メリメ', 'カルメン'],
-      leoncavallo: ['조반니 베르가', '말라볼리아가의 사람들', 'Giovanni Verga', 'The House by the Medlar Tree', 'ジョヴァンニ・ヴェルガ', 'マラヴォリア家の人々'],
-      massenet: ['아베 프레보', '마농 레스코', 'Abbé Prévost', 'Manon Lescaut', 'アベ・プレヴォー', 'マノン・レスコー'],
-      mascagni: ['조반니 베르가', '말라볼리아가의 사람들', 'Giovanni Verga', 'The House by the Medlar Tree', 'ジョヴァンニ・ヴェルガ', 'マラヴォリア家の人々'],
-      pleyel: ['제인 오스틴', '에마', 'Jane Austen', 'Emma', 'ジェーン・オースティン', 'エマ'],
-      glinka: ['알렉산드르 푸시킨', '대위의 딸', 'Alexander Pushkin', 'The Captain’s Daughter', 'アレクサンドル・プーシキン', '大尉の娘'],
-      smetana: ['보제나 넴초바', '할머니', 'Božena Němcová', 'The Grandmother', 'ボジェナ・ニェムツォヴァー', 'おばあさん'],
-      dvorak: ['윌라 캐더', '나의 안토니아', 'Willa Cather', 'My Ántonia', 'ウィラ・キャザー', '私のアントニーア'],
-      grieg: ['비에른스티에르네 비에른손', '양지바른 언덕의 소녀', 'Bjørnstjerne Bjørnson', 'Synnøve Solbakken', 'ビョルンスティエルネ・ビョルンソン', '日向丘の少女'],
-      rachmaninoff: ['안톤 체호프', '개를 데리고 다니는 부인', 'Anton Chekhov', 'The Lady with the Dog', 'アントン・チェーホフ', '犬を連れた奥さん'],
-      debussy: ['마르셀 프루스트', '스완네 집 쪽으로', 'Marcel Proust', 'Swann’s Way', 'マルセル・プルースト', 'スワン家のほうへ'],
-      ravel: ['알랭푸르니에', '대장 몬느', 'Alain-Fournier', 'Le Grand Meaulnes', 'アラン＝フルニエ', 'グラン・モーヌ'],
-      pachelbel: ['존 버니언', '천로역정', 'John Bunyan', 'The Pilgrim’s Progress', 'ジョン・バニヤン', '天路歴程'],
-      offenbach: ['E.T.A. 호프만', '모래 사나이', 'E.T.A. Hoffmann', 'The Sandman', 'E・T・A・ホフマン', '砂男'],
-      mahler: ['토마스 만', '베네치아에서의 죽음', 'Thomas Mann', 'Death in Venice', 'トーマス・マン', 'ヴェニスに死す'],
-    };
-    const TASTE_T = {
-      ko: { side: '곁들임', sideD: '내가 고른 그림의 화가', dessert: '디저트', dessertD: '같이 읽을 소설', pair: '페어링', pairD: '어울리는 공연', with: '{c}와 함께', go: '아래 공연 보기 ↓' },
-      en: { side: 'On the Side', sideD: 'Painters you picked', dessert: 'Dessert', dessertD: 'Novels to read alongside', pair: 'Pairing', pairD: 'Concerts to match', with: 'with {c}', go: 'See concerts below ↓' },
-      ja: { side: 'つけあわせ', sideD: '選んだ絵の画家', dessert: 'デザート', dessertD: '一緒に読みたい小説', pair: 'ペアリング', pairD: '合わせたい公演', with: '{c}と一緒に', go: '下の公演を見る ↓' },
-    };
-    let tastingFit = [];
-    function renderTasting() {
-      const box = document.getElementById('tasting');
-      if (!box) return;
-      const sel = selected();
-      if (!sel.length || !currentEra) { box.hidden = true; return; }
-      const T = TASTE_T[lang] || TASTE_T.en, ko = isLocal(), en = lang === 'en';
-      const nameOf = id => { const s = SHORT[id]; return s ? s[ko ? 1 : 0] : id; };
-      // composers on the table, best first (same ranking as the map)
-      tastingFit = composerRank();
-      box.innerHTML = '';
-      const plate = (cls, k, d, items) => {
-        if (!items.length) return;
-        const art = document.createElement('section'); art.className = 'ts-plate ' + cls;
-        const h = document.createElement('p'); h.className = 'ts-k'; h.textContent = k;
-        const hd = document.createElement('p'); hd.className = 'ts-d'; hd.textContent = d;
-        const ul = document.createElement('ul'); ul.className = 'ts-list';
-        items.forEach(x => ul.appendChild(x));
-        art.append(h, hd, ul); box.appendChild(art);
-      };
-      const row = (lead, main, sub, onClick) => {
-        const li = document.createElement('li');
-        const el = document.createElement(onClick ? 'button' : 'div'); el.className = 'ts-item';
-        if (onClick) { el.type = 'button'; el.addEventListener('click', onClick); }
-        if (lead) el.appendChild(lead);
-        const tx = document.createElement('span'); tx.className = 'ts-tx';
-        const m = document.createElement('span'); m.className = 'ts-m'; m.textContent = main;
-        const s2 = document.createElement('span'); s2.className = 'ts-s'; s2.textContent = sub;
-        tx.append(m, s2); el.appendChild(tx); li.appendChild(el); return li;
-      };
-      // side: painters of the paintings you picked (two different painters)
-      const seenP = new Set(), side = [];
-      sel.forEach(p => {
-        const who = ko ? p.byKo : p.byEn;
-        if (!who || seenP.has(who) || side.length >= 2) return; seenP.add(who);
-        const pic = document.createElement('span'); pic.className = 'ts-pic';
-        const im = document.createElement('img'); im.alt = ''; im.loading = 'lazy'; im.decoding = 'async'; im.referrerPolicy = 'no-referrer';
-        try { setImgSrc(im, p.f, 160); } catch (e) {}
-        pic.appendChild(im);
-        side.push(row(pic, who, '〈' + (ko ? p.ko : p.en) + '〉'));
-      });
+      const course = (cls, label, kids) => { const c = el('div', 'tb-course ' + cls); c.appendChild(el('p', 'tb-k', label)); const r = el('div', 'tb-row'); kids.forEach(k => r.appendChild(k)); c.appendChild(r); return c; };
+      const openC = (id, kind) => () => { try { track('composer_map', { composer: id, kind }); } catch (e) {} openComposer(id); };
+      // guest card: your taste today
+      const guest = el('div', 'tb-guest');
+      guest.append(el('span', 'k', t.mapMe), el('span', 'nm', (() => { const TT = TYPES[dominantMood(sel)]; return TT ? (ko ? TT[1] : TT[0]) : ''; })()));
+      // appetizer: the paintings you picked (two)
+      const app = sel.slice(0, 2).map(p => plate({ cls: 'art', img: p.f, w: 240, letter: '🖼', name: ko ? p.ko : p.en, sub: ko ? p.byKo : p.byEn }));
+      // main: the top composer on the big plate with fork and knife, the rest on small plates, chef's specials dashed
+      const fork = '<svg viewBox="0 0 24 120" aria-hidden="true"><path d="M5 4v30M12 4v30M19 4v30M4 34c0 9 16 9 16 0M12 42v74" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>';
+      const knife = '<svg viewBox="0 0 24 120" aria-hidden="true"><path d="M12 116V58M12 58c8-6 9-30 1-54-6 12-7 40-1 54z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      const setting = el('div', 'tb-setting');
+      const f1 = el('span', 'cut'); f1.innerHTML = fork; const k1 = el('span', 'cut'); k1.innerHTML = knife;
+      setting.append(f1, plate({ cls: 'big', portrait: fit[0], w: 330, letter: nameOf(fit[0]).charAt(0), name: nameOf(fit[0]), tag: T.top, onClick: openC(fit[0], 'fit') }), k1);
+      const sides = fit.slice(1).map(id => plate({ cls: 'sm', portrait: id, w: 160, letter: nameOf(id).charAt(0), name: nameOf(id), onClick: openC(id, 'fit') }))
+        .concat(grow.map(id => plate({ cls: 'sm chef', portrait: id, w: 160, letter: nameOf(id).charAt(0), name: nameOf(id), sub: T.chef, onClick: openC(id, 'grow') })));
+      const mainC = el('div', 'tb-course main'); mainC.appendChild(el('p', 'tb-k', T.main)); mainC.appendChild(setting);
+      const sr = el('div', 'tb-row sides'); sides.forEach(x => sr.appendChild(x)); mainC.appendChild(sr);
       // dessert: novels paired with your top composers (two different novelists)
-      const seenN = new Set(), dessert = [];
-      tastingFit.forEach(id => {
-        const n = NOVELS[id]; if (!n || dessert.length >= 2) return;
-        const key = n[0] + n[1]; if (seenN.has(n[0]) || seenN.has(key)) return; seenN.add(n[0]); seenN.add(key);
-        const ic = document.createElement('span'); ic.className = 'ts-ic'; ic.textContent = '✎';
-        const ja = lang === 'ja', ti = en ? n[3] : ja ? (n[5] || n[3]) : n[1], au = en ? n[2] : ja ? (n[4] || n[2]) : n[0];
-        dessert.push(row(ic, (en ? '' : '『') + ti + (en ? '' : '』'), au + ' · ' + T.with.replace('{c}', nameOf(id))));
+      const seenN = new Set(), des = [];
+      composerRank().forEach(id => {
+        const n = NOVELS[id]; if (!n || des.length >= 2 || seenN.has(n[0])) return; seenN.add(n[0]);
+        const ti = en ? n[3] : ja ? (n[5] || n[3]) : n[1], au = en ? n[2] : ja ? (n[4] || n[2]) : n[0], cn = nameOf(id);
+        const w = ko ? cn + (hasJong(cn) ? '과' : '와') + ' 함께' : T.with.replace('{c}', cn);
+        des.push(plate({ cls: 'book', img: AUTHOR_IMG[n[6]], w: 200, letter: '📖', name: (en ? '' : '『') + ti + (en ? '' : '』'), sub: au + ' · ' + w }));
       });
-      // pairing: the two best-matched concerts from the list below (Korea on the Korean page, global otherwise)
-      const pair = [], goEv = () => { const ev = document.getElementById('events'); if (ev) ev.scrollIntoView({ behavior: 'smooth', block: 'start' }); try { track('tasting_pairing', {}); } catch (e) {} };
-      try {
-        if (evScope() === 'kr' && evData) {
-          const today0 = isoDay(0);
-          const live = evData.filter(e => !e.end || e.end >= today0);
-          let ranked = rankEvents(live.filter(e => e.kind === 'concert'), todayProfile(), 2);
-          if (!ranked.length) ranked = rankEvents(live.filter(e => e.kind === 'exhibition'), todayProfile(), 2);
-          ranked.slice(0, 2).forEach(r => {
-            const e = r.e, tr = lang === 'ko' ? '' : (lang === 'ja' ? e.titleJa : e.titleEn) || '';
-            const md = d => d ? d.slice(5).replace('-', '.') : '';
-            const ic = document.createElement('span'); ic.className = 'ts-ic'; ic.textContent = e.kind === 'exhibition' ? '◫' : '♪';
-            const where = Array.isArray(e.place) ? e.place[lang === 'ja' ? 2 : lang === 'ko' ? 1 : 0] : (e.place || '');
-            pair.push(row(ic, tr || e.title, [e.start === e.end ? md(e.start) : md(e.start) + ' – ' + md(e.end), where].filter(Boolean).join(' · '), goEv));
-          });
-        } else if (evScope() !== 'kr') {
-          const st = intlCache[intlCountry];
-          if (st && st.items && st.items.length) {
-            st.items.slice().sort((a, b) => ((b.cat !== 'crossover') - (a.cat !== 'crossover')) || ((b.pop || 0) - (a.pop || 0))).slice(0, 2).forEach(e => {
-              const ic = document.createElement('span'); ic.className = 'ts-ic'; ic.textContent = '♪';
-              pair.push(row(ic, e.title, [e.date ? e.date.replace(/-/g, '.') : '', e.venue, e.city].filter(Boolean).join(' · '), goEv));
-            });
-          }
-        }
-      } catch (e) {}
-      plate('side', T.side, T.sideD, side);
-      plate('dessert', T.dessert, T.dessertD, dessert);
-      plate('pair', T.pair, T.pairD, pair);
-      box.hidden = !box.children.length;
+      const cloth = el('div', 'tb-cloth');
+      cloth.appendChild(guest);
+      const grid = el('div', 'tb-grid');
+      grid.append(course('app', T.app, app), mainC);
+      if (des.length) grid.appendChild(course('dessert', T.dessert, des));
+      cloth.appendChild(grid);
+      // after-dinner stroll: one line down to tonight's concerts
+      const walk = el('button', 'tb-walk'); walk.type = 'button';
+      walk.append(el('span', 'k', T.walk), el('span', 'go', T.walkGo));
+      walk.addEventListener('click', () => { try { track('tasting_walk', {}); } catch (e) {} const ev = document.getElementById('events'); if (ev) ev.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+      cloth.appendChild(walk);
+      box.append(cloth, el('p', 'cm-note', T.note));
+      box.hidden = false;
     }
 
     function renderResult() {
