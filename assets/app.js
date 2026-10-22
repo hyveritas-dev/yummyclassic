@@ -4529,6 +4529,8 @@
       const q = new URLSearchParams();
       q.set('e', currentEra); q.set('p', [...picks].join(',')); q.set('a', q1Votes.map(e => e[0]).join('')); q.set('lang', lang);
       { const sel = selected(); if (sel.length) q.set('t', dominantMood(sel)); }
+      // visit tag so GA4 counts friends who open a shared result separately from direct visits
+      q.set('utm_source', 'share'); q.set('utm_medium', 'referral');
       return shareBase() + '?' + q.toString();
     }
     function tasteSummary() {
@@ -4554,7 +4556,8 @@
       const url = tasteUrl();
       box.value = shortNow(url);
       shorten(url).then(su => { if (box.value === url) box.value = su; });
-      try { history.replaceState(null, '', location.pathname + url.slice(url.indexOf('?'))); } catch (e) {}
+      // the visitor's own address bar keeps the result but not the share tag
+      try { history.replaceState(null, '', location.pathname + url.slice(url.indexOf('?')).replace(/&utm_source=share&utm_medium=referral/, '')); } catch (e) {}
     }
     // every share action answers with a message that floats at the bottom of the screen, wherever the button was
     function toast(msg, good) {
@@ -4969,6 +4972,7 @@
     function vsUrl() {
       const q = new URLSearchParams();
       q.set('vm', myMood()); q.set('ve', currentEra || 'classic'); q.set('vp', [...picks].join(',')); q.set('lang', lang);
+      q.set('utm_source', 'share'); q.set('utm_medium', 'referral');
       return shareBase() + '?' + q.toString();
     }
     function groupVec(ids) { const v = {}; ids.forEach(id => { const g = groupFor(id); if (g) v[g.en] = (v[g.en] || 0) + 1; }); return v; }

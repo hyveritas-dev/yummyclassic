@@ -395,12 +395,23 @@ async function paintingImage(request, ctx, url) {
   return out;
 }
 
+const CHANNEL_LINKS = {
+  '/ig': 'utm_source=instagram&utm_medium=social&utm_campaign=profile',
+  '/igs': 'utm_source=instagram&utm_medium=social&utm_campaign=story',
+  '/blog': 'utm_source=naver_blog&utm_medium=blog',
+  '/yt': 'utm_source=youtube&utm_medium=video',
+  '/k': 'utm_source=kakao&utm_medium=friend',
+};
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     // short promo links: /fb1, /fb2 … → English page with visit tags (utm_campaign = fb1, fb2 …)
     const fb = url.pathname.match(/^\/fb(\d{1,3})\/?$/);
     if (fb) return Response.redirect(`${url.origin}/?lang=en&utm_source=facebook&utm_medium=group&utm_campaign=fb${fb[1]}`, 302);
+    // channel links: /ig (Instagram profile), /igs (Instagram story), /blog (Naver blog), /yt (YouTube), /k (KakaoTalk to friends)
+    const ch = CHANNEL_LINKS[url.pathname.replace(/\/$/, '')];
+    if (ch) return Response.redirect(`${url.origin}/?${ch}`, 302);
     if (url.pathname === '/api/intl-concerts') return intlConcerts(request, env, ctx, url);
     if (url.pathname === '/api/translate') return translate(request, env, ctx, url);
     if (url.pathname === '/api/stat') return stat(request, env, ctx, url);
