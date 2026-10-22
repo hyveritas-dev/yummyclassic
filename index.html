@@ -844,6 +844,12 @@
     .vs-invite .btn-match .yc-badge { width: 36px; height: 36px; }
     .vs-invite .btn-match .yc-badge .yc-ic { width: 24px; height: 24px; }
 
+    /* what the result gives: small tags under the Q1 subtitle */
+    .perks { margin: .7rem auto 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .35rem .4rem; max-width: 36rem; }
+    .perks span { font-size: 11.5px; line-height: 1; padding: .38rem .6rem; border-radius: 999px; color: rgba(244,233,208,.85);
+      background: rgba(255,255,255,.07); border: 1px solid rgba(244,233,208,.18); white-space: nowrap; }
+    @media (min-width: 640px) { .perks { margin-top: 1rem; } .perks span { font-size: 13px; padding: .45rem .75rem; } }
+
     /* ===== Start screen: fits one screen (PC and phone); only the test is hidden while it shows ===== */
     #intro { display: none; }
     html.intro-on #intro { display: flex; }
@@ -1094,6 +1100,7 @@
         <div class="text-center max-w-3xl mx-auto">
           <h2 class="hero-q reveal d1 font-serif text-[2.1rem] sm:text-6xl lg:text-[4.4rem] font-semibold leading-[1.1] sm:leading-[1.05] tracking-[-0.015em]" data-i18n-html="h1">Which one<br /> holds your gaze?</h2>
           <p class="reveal d2 mt-4 sm:mt-8 text-[13px] sm:text-lg text-white/60 leading-relaxed" data-i18n-html="sub">There's no right answer. Trust the one you looked at first.<br />No headphones, no search terms. The paintings read your taste first.</p>
+          <p class="reveal d2 perks" data-i18n-html="perks"></p>
         </div>
 
         <!-- Step label: sets expectations (steps + time) -->
@@ -1395,7 +1402,7 @@
   })();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=810b0bd2"></script>
+  <script defer src="/assets/app.js?v=bb3a5b8d"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {
