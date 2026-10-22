@@ -974,9 +974,8 @@
       ul.innerHTML = '';
       const cnt = {};
       buildRecommendation().forEach(r => { cnt[r.cid] = (cnt[r.cid] || 0) + 1; });
-      const sc = composerScores(), sh = composerShared(), shN = id => (sh[id] ? sh[id].size : 0);
-      const list = [...(COMPOSERS[currentEra] || [])].filter(n => n[2] && WORKS[n[2]])
-        .sort((x, y) => (shN(y[2]) - shN(x[2])) || ((sc[y[2]] || 0) - (sc[x[2]] || 0)));
+      const sh = composerShared(), shN = id => (sh[id] ? sh[id].size : 0);
+      const list = composerRank(true).map(id => (COMPOSERS[currentEra] || []).find(n => n[2] === id));
       const topBox = document.getElementById('cmp-top');
       if (topBox && list.length && shN(list[0][2])) {
         const tid = list[0][2], tnm = (SHORT[tid] || [list[0][0], list[0][1]])[ko ? 1 : 0];
@@ -1355,6 +1354,13 @@
       return out.map(r => ({ cid: r.x.c, en: r.x.en, ko: r.x.ko, yt: r.x.yt, who: r.x.who, via: r.via, why: r.why, src: r.x.s, score: r.s }));
     }
     // Composer ranking: the best three matches per composer, summed over the chosen paintings
+    // One ranking for the whole result page (map, top pick, composer cards, tasting):
+    // most keywords shared with the chosen paintings first, then piece-fit score
+    function composerRank(all) {
+      const sc = composerScores(), sh = composerShared(), shN = id => (sh[id] ? sh[id].size : 0);
+      return (COMPOSERS[currentEra] || []).map(n => n[2]).filter(id => id && WORKS[id] && (all || shN(id) > 0 || (sc[id] || 0) > 0))
+        .sort((a, b) => (shN(b) - shN(a)) || ((sc[b] || 0) - (sc[a] || 0)));
+    }
     function composerScores() {
       const sel = selected(), sc = {};
       sel.forEach(p => {
@@ -2452,9 +2458,8 @@
       const t = I18N[lang], ko = isLocal();
       const nameOf = id => { const s = SHORT[id]; if (s) return s[ko ? 1 : 0]; for (const L of Object.values(COMPOSERS)) { const n = L.find(x => x[2] === id); if (n) return n[ko ? 1 : 0]; } return id; };
       // taste match: this style's composers, ranked by how well their pieces fit the chosen paintings
-      const sc = composerScores();
-      const fit = (COMPOSERS[currentEra] || []).map(n => n[2]).filter(id => id && WORKS[id] && sc[id] > 0)
-        .sort((a, b) => sc[b] - sc[a]).slice(0, 5);
+      // same order as the "top pick" box below, so the biggest name on the map is the top pick
+      const fit = composerRank().slice(0, 5);
       // taste stretch: the other style's composers that share the most keywords with the chosen paintings
       const other = currentEra === 'classic' ? 'romantic' : 'classic';
       let grow = [];
@@ -2541,45 +2546,45 @@
 
 
     // ---------- Today's Tasting: side (painters), dessert (novels), pairing (concerts) under the composer map ----------
-    // novels to read alongside each composer: [author ko, title ko, author en, title en] (sheet 냠냠클래식_추천데이터 > 작곡가 J:M)
+    // novels to read alongside each composer: [author ko, title ko, author en, title en, author ja, title ja] (sheet 냠냠클래식_추천데이터 > 작곡가 J:O)
     const NOVELS = {
-      bach: ['존 버니언', '천로역정', 'John Bunyan', 'The Pilgrim’s Progress'],
-      handel: ['조너선 스위프트', '걸리버 여행기', 'Jonathan Swift', 'Gulliver’s Travels'],
-      vivaldi: ['대니얼 디포', '로빈슨 크루소', 'Daniel Defoe', 'Robinson Crusoe'],
-      purcell: ['라파예트 부인', '클레브 공작부인', 'Madame de La Fayette', 'The Princess of Clèves'],
-      scarlatti: ['미겔 데 세르반테스', '돈키호테', 'Miguel de Cervantes', 'Don Quixote'],
-      mozart: ['요한 볼프강 폰 괴테', '젊은 베르테르의 슬픔', 'Johann Wolfgang von Goethe', 'The Sorrows of Young Werther'],
-      beethoven: ['레프 톨스토이', '크로이처 소나타', 'Leo Tolstoy', 'The Kreutzer Sonata'],
-      haydn: ['로렌스 스턴', '트리스트럼 섄디', 'Laurence Sterne', 'Tristram Shandy'],
-      gluck: ['장 자크 루소', '신엘로이즈', 'Jean-Jacques Rousseau', 'Julie, or the New Heloise'],
-      boccherini: ['제인 오스틴', '오만과 편견', 'Jane Austen', 'Pride and Prejudice'],
-      clementi: ['제인 오스틴', '이성과 감성', 'Jane Austen', 'Sense and Sensibility'],
-      chopin: ['조르주 상드', '사랑의 요정', 'George Sand', 'Little Fadette'],
-      schubert: ['노발리스', '푸른 꽃', 'Novalis', 'Heinrich von Ofterdingen'],
-      liszt: ['빅토르 위고', '노트르담 드 파리', 'Victor Hugo', 'The Hunchback of Notre-Dame'],
-      tchaikovsky: ['알렉산드르 푸시킨', '예브게니 오네긴', 'Alexander Pushkin', 'Eugene Onegin'],
-      wagner: ['토마스 만', '부덴브로크가의 사람들', 'Thomas Mann', 'Buddenbrooks'],
-      brahms: ['테오도어 슈토름', '호수', 'Theodor Storm', 'Immensee'],
-      mendelssohn: ['월터 스콧', '아이반호', 'Walter Scott', 'Ivanhoe'],
-      schumann: ['E.T.A. 호프만', '수고양이 무어의 인생관', 'E.T.A. Hoffmann', 'The Life and Opinions of the Tomcat Murr'],
-      rossini: ['알렉상드르 뒤마', '삼총사', 'Alexandre Dumas', 'The Three Musketeers'],
-      verdi: ['알렉상드르 뒤마 피스', '춘희', 'Alexandre Dumas fils', 'The Lady of the Camellias'],
-      puccini: ['앙리 뮈르제', '보헤미안 생활의 정경', 'Henri Murger', 'Scenes of Bohemian Life'],
-      bizet: ['프로스페르 메리메', '카르멘', 'Prosper Mérimée', 'Carmen'],
-      leoncavallo: ['조반니 베르가', '말라볼리아가의 사람들', 'Giovanni Verga', 'The House by the Medlar Tree'],
-      massenet: ['아베 프레보', '마농 레스코', 'Abbé Prévost', 'Manon Lescaut'],
-      mascagni: ['조반니 베르가', '말라볼리아가의 사람들', 'Giovanni Verga', 'The House by the Medlar Tree'],
-      pleyel: ['제인 오스틴', '에마', 'Jane Austen', 'Emma'],
-      glinka: ['알렉산드르 푸시킨', '대위의 딸', 'Alexander Pushkin', 'The Captain’s Daughter'],
-      smetana: ['보제나 넴초바', '할머니', 'Božena Němcová', 'The Grandmother'],
-      dvorak: ['윌라 캐더', '나의 안토니아', 'Willa Cather', 'My Ántonia'],
-      grieg: ['비에른스티에르네 비에른손', '양지바른 언덕의 소녀', 'Bjørnstjerne Bjørnson', 'Synnøve Solbakken'],
-      rachmaninoff: ['안톤 체호프', '개를 데리고 다니는 부인', 'Anton Chekhov', 'The Lady with the Dog'],
-      debussy: ['마르셀 프루스트', '스완네 집 쪽으로', 'Marcel Proust', 'Swann’s Way'],
-      ravel: ['알랭푸르니에', '대장 몬느', 'Alain-Fournier', 'Le Grand Meaulnes'],
-      pachelbel: ['존 버니언', '천로역정', 'John Bunyan', 'The Pilgrim’s Progress'],
-      offenbach: ['E.T.A. 호프만', '모래 사나이', 'E.T.A. Hoffmann', 'The Sandman'],
-      mahler: ['토마스 만', '베네치아에서의 죽음', 'Thomas Mann', 'Death in Venice'],
+      bach: ['존 버니언', '천로역정', 'John Bunyan', 'The Pilgrim’s Progress', 'ジョン・バニヤン', '天路歴程'],
+      handel: ['조너선 스위프트', '걸리버 여행기', 'Jonathan Swift', 'Gulliver’s Travels', 'ジョナサン・スウィフト', 'ガリヴァー旅行記'],
+      vivaldi: ['대니얼 디포', '로빈슨 크루소', 'Daniel Defoe', 'Robinson Crusoe', 'ダニエル・デフォー', 'ロビンソン・クルーソー'],
+      purcell: ['라파예트 부인', '클레브 공작부인', 'Madame de La Fayette', 'The Princess of Clèves', 'ラファイエット夫人', 'クレーヴの奥方'],
+      scarlatti: ['미겔 데 세르반테스', '돈키호테', 'Miguel de Cervantes', 'Don Quixote', 'ミゲル・デ・セルバンテス', 'ドン・キホーテ'],
+      mozart: ['요한 볼프강 폰 괴테', '젊은 베르테르의 슬픔', 'Johann Wolfgang von Goethe', 'The Sorrows of Young Werther', 'ヨハン・ヴォルフガング・フォン・ゲーテ', '若きウェルテルの悩み'],
+      beethoven: ['레프 톨스토이', '크로이처 소나타', 'Leo Tolstoy', 'The Kreutzer Sonata', 'レフ・トルストイ', 'クロイツェル・ソナタ'],
+      haydn: ['로렌스 스턴', '트리스트럼 섄디', 'Laurence Sterne', 'Tristram Shandy', 'ローレンス・スターン', 'トリストラム・シャンディ'],
+      gluck: ['장 자크 루소', '신엘로이즈', 'Jean-Jacques Rousseau', 'Julie, or the New Heloise', 'ジャン＝ジャック・ルソー', '新エロイーズ'],
+      boccherini: ['제인 오스틴', '오만과 편견', 'Jane Austen', 'Pride and Prejudice', 'ジェーン・オースティン', '高慢と偏見'],
+      clementi: ['제인 오스틴', '이성과 감성', 'Jane Austen', 'Sense and Sensibility', 'ジェーン・オースティン', '分別と多感'],
+      chopin: ['조르주 상드', '사랑의 요정', 'George Sand', 'Little Fadette', 'ジョルジュ・サンド', '愛の妖精'],
+      schubert: ['노발리스', '푸른 꽃', 'Novalis', 'Heinrich von Ofterdingen', 'ノヴァーリス', '青い花'],
+      liszt: ['빅토르 위고', '노트르담 드 파리', 'Victor Hugo', 'The Hunchback of Notre-Dame', 'ヴィクトル・ユゴー', 'ノートル＝ダム・ド・パリ'],
+      tchaikovsky: ['알렉산드르 푸시킨', '예브게니 오네긴', 'Alexander Pushkin', 'Eugene Onegin', 'アレクサンドル・プーシキン', 'エヴゲーニイ・オネーギン'],
+      wagner: ['토마스 만', '부덴브로크가의 사람들', 'Thomas Mann', 'Buddenbrooks', 'トーマス・マン', 'ブッデンブローク家の人びと'],
+      brahms: ['테오도어 슈토름', '호수', 'Theodor Storm', 'Immensee', 'テオドール・シュトルム', 'みずうみ'],
+      mendelssohn: ['월터 스콧', '아이반호', 'Walter Scott', 'Ivanhoe', 'ウォルター・スコット', 'アイヴァンホー'],
+      schumann: ['E.T.A. 호프만', '수고양이 무어의 인생관', 'E.T.A. Hoffmann', 'The Life and Opinions of the Tomcat Murr', 'E・T・A・ホフマン', '牡猫ムルの人生観'],
+      rossini: ['알렉상드르 뒤마', '삼총사', 'Alexandre Dumas', 'The Three Musketeers', 'アレクサンドル・デュマ', '三銃士'],
+      verdi: ['알렉상드르 뒤마 피스', '춘희', 'Alexandre Dumas fils', 'The Lady of the Camellias', 'アレクサンドル・デュマ・フィス', '椿姫'],
+      puccini: ['앙리 뮈르제', '보헤미안 생활의 정경', 'Henri Murger', 'Scenes of Bohemian Life', 'アンリ・ミュルジェール', 'ボヘミアン生活の情景'],
+      bizet: ['프로스페르 메리메', '카르멘', 'Prosper Mérimée', 'Carmen', 'プロスペル・メリメ', 'カルメン'],
+      leoncavallo: ['조반니 베르가', '말라볼리아가의 사람들', 'Giovanni Verga', 'The House by the Medlar Tree', 'ジョヴァンニ・ヴェルガ', 'マラヴォリア家の人々'],
+      massenet: ['아베 프레보', '마농 레스코', 'Abbé Prévost', 'Manon Lescaut', 'アベ・プレヴォー', 'マノン・レスコー'],
+      mascagni: ['조반니 베르가', '말라볼리아가의 사람들', 'Giovanni Verga', 'The House by the Medlar Tree', 'ジョヴァンニ・ヴェルガ', 'マラヴォリア家の人々'],
+      pleyel: ['제인 오스틴', '에마', 'Jane Austen', 'Emma', 'ジェーン・オースティン', 'エマ'],
+      glinka: ['알렉산드르 푸시킨', '대위의 딸', 'Alexander Pushkin', 'The Captain’s Daughter', 'アレクサンドル・プーシキン', '大尉の娘'],
+      smetana: ['보제나 넴초바', '할머니', 'Božena Němcová', 'The Grandmother', 'ボジェナ・ニェムツォヴァー', 'おばあさん'],
+      dvorak: ['윌라 캐더', '나의 안토니아', 'Willa Cather', 'My Ántonia', 'ウィラ・キャザー', '私のアントニーア'],
+      grieg: ['비에른스티에르네 비에른손', '양지바른 언덕의 소녀', 'Bjørnstjerne Bjørnson', 'Synnøve Solbakken', 'ビョルンスティエルネ・ビョルンソン', '日向丘の少女'],
+      rachmaninoff: ['안톤 체호프', '개를 데리고 다니는 부인', 'Anton Chekhov', 'The Lady with the Dog', 'アントン・チェーホフ', '犬を連れた奥さん'],
+      debussy: ['마르셀 프루스트', '스완네 집 쪽으로', 'Marcel Proust', 'Swann’s Way', 'マルセル・プルースト', 'スワン家のほうへ'],
+      ravel: ['알랭푸르니에', '대장 몬느', 'Alain-Fournier', 'Le Grand Meaulnes', 'アラン＝フルニエ', 'グラン・モーヌ'],
+      pachelbel: ['존 버니언', '천로역정', 'John Bunyan', 'The Pilgrim’s Progress', 'ジョン・バニヤン', '天路歴程'],
+      offenbach: ['E.T.A. 호프만', '모래 사나이', 'E.T.A. Hoffmann', 'The Sandman', 'E・T・A・ホフマン', '砂男'],
+      mahler: ['토마스 만', '베네치아에서의 죽음', 'Thomas Mann', 'Death in Venice', 'トーマス・マン', 'ヴェニスに死す'],
     };
     const TASTE_T = {
       ko: { side: '곁들임', sideD: '내가 고른 그림의 화가', dessert: '디저트', dessertD: '같이 읽을 소설', pair: '페어링', pairD: '어울리는 공연', with: '{c}와 함께', go: '아래 공연 보기 ↓' },
@@ -2595,8 +2600,7 @@
       const T = TASTE_T[lang] || TASTE_T.en, ko = isLocal(), en = lang === 'en';
       const nameOf = id => { const s = SHORT[id]; return s ? s[ko ? 1 : 0] : id; };
       // composers on the table, best first (same ranking as the map)
-      const sc = composerScores();
-      tastingFit = (COMPOSERS[currentEra] || []).map(n => n[2]).filter(id => id && sc[id] > 0).sort((a, b) => sc[b] - sc[a]);
+      tastingFit = composerRank();
       box.innerHTML = '';
       const plate = (cls, k, d, items) => {
         if (!items.length) return;
@@ -2634,7 +2638,8 @@
         const n = NOVELS[id]; if (!n || dessert.length >= 2) return;
         const key = n[0] + n[1]; if (seenN.has(n[0]) || seenN.has(key)) return; seenN.add(n[0]); seenN.add(key);
         const ic = document.createElement('span'); ic.className = 'ts-ic'; ic.textContent = '✎';
-        dessert.push(row(ic, (en ? '' : '『') + (en ? n[3] : n[1]) + (en ? '' : '』'), (en ? n[2] : n[0]) + ' · ' + T.with.replace('{c}', nameOf(id))));
+        const ja = lang === 'ja', ti = en ? n[3] : ja ? (n[5] || n[3]) : n[1], au = en ? n[2] : ja ? (n[4] || n[2]) : n[0];
+        dessert.push(row(ic, (en ? '' : '『') + ti + (en ? '' : '』'), au + ' · ' + T.with.replace('{c}', nameOf(id))));
       });
       // pairing: the two best-matched concerts from the list below (Korea on the Korean page, global otherwise)
       const pair = [], goEv = () => { const ev = document.getElementById('events'); if (ev) ev.scrollIntoView({ behavior: 'smooth', block: 'start' }); try { track('tasting_pairing', {}); } catch (e) {} };
