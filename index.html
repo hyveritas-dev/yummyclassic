@@ -987,6 +987,11 @@
     .story.story-in li:nth-child(5) { animation-delay: 1.55s; } .story.story-in li:nth-child(n+6) { animation-delay: 1.9s; }
     @keyframes storyIn { to { opacity: 1; transform: none; } }
     @media (prefers-reduced-motion: reduce) { .story.story-in li { animation: none; opacity: 1; transform: none; } }
+    /* 첫 화면: 진짜 그림이 오기 전 자리 표시 */
+    .card.skel { background: linear-gradient(100deg, rgba(255,255,255,.04) 30%, rgba(255,255,255,.10) 50%, rgba(255,255,255,.04) 70%) 0 0 / 300% 100%; border-radius: 1rem; animation: skel 1.4s linear infinite; cursor: default; }
+    @keyframes skel { to { background-position: -150% 0; } }
+    @media (prefers-reduced-motion: reduce) { .card.skel { animation: none; } }
+    .q1-proof { margin-top: .5rem; text-align: center; font-size: .95rem; color: #F4D9A8; }
   </style>
   <script>
     // Start screen: shown to first-time direct/search visitors; skipped for SNS links, shared result links and reloads mid-test
@@ -996,7 +1001,8 @@
         const skipParam = ['utm_source', 'utm_medium', 'utm_campaign', 'fbclid', 'igshid', 'e', 'vm', 'pr', 'go'].some(k => q.has(k));
         const sns = /instagram\.com|facebook\.com|fb\.me|threads\.net|blog\.naver\.com|band\.us|kakao|t\.co\/|linkedin\.com/i.test(ref);
         const started = sessionStorage.getItem('yc-started') === '1';
-        if (!skipParam && !sns && !started && location.hash !== '#choose') {
+        const INTRO_ON = false; // 2026-10-23: 소개 화면 없이 첫 화면 = Q1 (다시 켜려면 true)
+        if (INTRO_ON && !skipParam && !sns && !started && location.hash !== '#choose') {
           document.documentElement.classList.add('intro-on');
           const l = document.createElement('link'); l.rel = 'preload'; l.as = 'image'; l.setAttribute('fetchpriority', 'high'); l.referrerPolicy = 'no-referrer';
           l.setAttribute('imagesrcset', '/img/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/500px-Monet_-_Impression%2C_Sunrise.jpg 500w, /img/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/960px-Monet_-_Impression%2C_Sunrise.jpg 960w'); l.setAttribute('imagesizes', '(max-width: 700px) 92vw, 560px'); document.head.appendChild(l);
@@ -1106,11 +1112,51 @@
         <!-- Step label: sets expectations (steps + time) -->
         <p class="reveal d3 q-label mt-2 text-center text-2xl sm:text-4xl leading-tight tracking-tight" data-i18n-html="q1">Q1. Which painting draws you in?</p>
         <p id="q1-step" class="reveal d3 mt-2 text-center text-xs sm:text-sm text-white/55 tracking-wide"></p>
+        <p id="q1-proof" class="q1-proof" hidden></p>
         <p id="vs-banner" class="vs-banner" hidden></p>
 
         <!-- Choice cards -->
         <div id="pair" class="grid-pair reveal d3 mt-4 sm:mt-5 grid grid-cols-2 gap-3 sm:gap-5 lg:gap-7" aria-live="polite">
+          <article class="card skel h-[46vh] min-h-[280px] max-h-[460px] sm:max-h-none sm:h-[540px] lg:h-[640px]" aria-hidden="true"></article>
+          <article class="card skel h-[46vh] min-h-[280px] max-h-[460px] sm:max-h-none sm:h-[540px] lg:h-[640px]" aria-hidden="true"></article>
         </div>
+        <script>
+          // 첫 화면을 app.js(큰 파일)보다 먼저 보여 주기: 언어 문구·그림 자리·참여 인원
+          (function () {
+            try {
+              var T = {
+                ko: { h1: '오늘은 어떤 그림에<br /> 끌리나요?', sub: '끌리는 그림을 몇 번만 고르면, 내 취향 클래식 10곡을 바로 들려 드려요. 약 20초.', perks: '<span>맞춤 클래식 10곡</span><span>어울리는 화가·소설</span><span>이번 주 음악회·전시</span>', q1: '<b>Q1</b>둘 중 오늘 더 끌리는 그림은?', hint: '오래 고민하지 마세요. 첫인상이 가장 솔직해요.' },
+                en: { h1: 'Which painting<br /> draws you today?', sub: 'Pick a few paintings you’re drawn to and get 10 classical pieces for your taste, ready to play. About 20 seconds.', perks: '<span>10 pieces for you</span><span>Painters & novels to match</span><span>Concerts & exhibitions</span>', q1: '<b>Q1</b>Which painting draws you more today?', hint: "Don't overthink it. First impressions are the most honest." },
+                ja: { h1: '今日は、どの絵に<br />惹かれますか?', sub: '惹かれる絵を何回か選ぶだけで、あなた好みのクラシック10曲をすぐに聴けます。約20秒。', perks: '<span>あなたに合う10曲</span><span>合う画家・小説</span><span>コンサート・展示</span>', q1: '<b>Q1</b>今日はどちらの絵に惹かれますか?', hint: '深く考えないで。第一印象がいちばん正直です。' }
+              };
+              var L = new URLSearchParams(location.search).get('lang');
+              if (!T[L]) { try { L = localStorage.getItem('vo-lang'); } catch (e) {} }
+              if (!T[L]) L = (navigator.language || '').slice(0, 2);
+              if (!T[L]) L = 'en';
+              window.__ycLang = L;
+              document.documentElement.lang = L;
+              var t = T[L], root = document.getElementById('choose');
+              [['h1', 'h1'], ['sub', 'sub'], ['perks', 'perks'], ['q1', 'q1']].forEach(function (k) {
+                var el = root.querySelector('[data-i18n-html="' + k[0] + '"]'); if (el) el.innerHTML = t[k[1]];
+              });
+              var hint = root.querySelector('[data-i18n="hint"]'); if (hint) hint.textContent = t.hint;
+              root.querySelectorAll('.hero-band .reveal').forEach(function (el) { el.classList.add('in'); });
+              track('shell_view');
+              // 참여 인원(사회적 증거): app.js가 늦게 와도 먼저 보여 줌
+              window.__ycStatP = fetch('/api/stat').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+              window.__ycProof = function (d, lang) {
+                var el = document.getElementById('q1-proof');
+                if (!el || !d || typeof d.all !== 'number' || d.all < 30) return;
+                var n = d.all.toLocaleString(lang === 'ko' ? 'ko-KR' : lang === 'ja' ? 'ja-JP' : 'en-US');
+                el.textContent = lang === 'ko' ? '지금까지 ' + n + '명이 그림으로 클래식을 골랐어요'
+                  : lang === 'ja' ? 'これまで' + n + '人が絵でクラシックを選びました'
+                  : n + ' people have found their classical through a painting';
+                el.hidden = false;
+              };
+              window.__ycStatP.then(function (d) { window.__ycStat = d; window.__ycProof(d, L); });
+            } catch (e) {}
+          })();
+        </script>
         <img id="src-apotheosis" hidden alt="" loading="lazy" src="assets/apotheosis.jpg" />
 
         <p class="mt-7 text-center text-xs text-white/40 flex items-center justify-center gap-2">
@@ -1405,7 +1451,7 @@
   })();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=bb3a5b8d"></script>
+  <script defer src="/assets/app.js?v=877ceb47"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {

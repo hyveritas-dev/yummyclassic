@@ -262,7 +262,7 @@
       eyebrow: 'Today · 오늘의 클래식',
       h1: '오늘은 어떤 그림에<br /> 끌리나요?',
       sub: '끌리는 그림을 몇 번만 고르면, 내 취향 클래식 10곡을 바로 들려 드려요. 약 20초.',
-      perks: '<span>맞춤 클래식 10곡</span><span>어울리는 화가·소설</span><span>이번 주 음악회·전시</span><span>명화 카톡 프사</span>',
+      perks: '<span>맞춤 클래식 10곡</span><span>어울리는 화가·소설</span><span>이번 주 음악회·전시</span>',
       q1: '<b>Q1</b>둘 중 오늘 더 끌리는 그림은?',
       r2Title: '<b>Q2</b>이 중에 오늘 더 오래 보고 싶은 그림은?',
       r2Go: '오늘의 클래식 메뉴 보기 ↓',
@@ -2753,6 +2753,7 @@
       const t = I18N[lang];
       document.documentElement.lang = lang;
       document.title = t.title;
+      if (window.__ycProof && window.__ycStat) window.__ycProof(window.__ycStat, lang);
       const meta = document.querySelector('meta[name="description"]');
       if (meta) meta.setAttribute('content', t.metaDesc);
 
@@ -4422,6 +4423,9 @@
       if (c === r) return q1Votes[q1Votes.length - 1];   // 2 : 2 → the latest pick breaks the tie
       return c > r ? 'classic' : 'romantic';
     }
+    // 그림쌍 키: 주제 영문명을 소문자-하이픈으로 (예: napoleon-crossing-the-alps)
+    const q1Key = P => String(P.theme[0] || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    window.__ycQ1Keys = () => ARCH.concat(FIG).map(P => ({ key: q1Key(P), ko: P.theme[1], kind: P.kind, a: P.classic.f, b: P.romantic.f }));
     function dealQ1() {
       // per kind, one pair per subject group (so two church-interior or two Napoleon pairs never meet in one visit);
       // then building and figure questions alternate, starting with either kind
@@ -4431,7 +4435,14 @@
       };
       const a = dealKind(ARCH), f = dealKind(FIG), [x, y] = Math.random() < 0.5 ? [a, f] : [f, a], order = [];
       for (let i = 0; i < Q1_PER; i++) order.push(x[i], y[i]);
-      q1 = order.map(P => sample([{ era: 'classic', d: P.classic, theme: P.theme, kind: P.kind }, { era: 'romantic', d: P.romantic, theme: P.theme, kind: P.kind }], 2));
+      // SNS 게시물에서 이어서 하기: ?q1=<그림쌍 키>면 그 쌍을 첫 문제로 (A=고전, B=낭만 고정)
+      let linked = null;
+      try { const k = new URLSearchParams(location.search).get('q1'); if (k && !dealQ1.used) { linked = ARCH.concat(FIG).find(P => q1Key(P) === k) || null; dealQ1.used = true; } } catch (e) {}
+      if (linked) { const j = order.findIndex(P => P.kind === linked.kind); order.splice(j >= 0 ? j : 0, 1); order.unshift(linked); }
+      q1 = order.map(P => P === linked
+        ? [{ era: 'classic', d: P.classic, theme: P.theme, kind: P.kind }, { era: 'romantic', d: P.romantic, theme: P.theme, kind: P.kind }]
+        : sample([{ era: 'classic', d: P.classic, theme: P.theme, kind: P.kind }, { era: 'romantic', d: P.romantic, theme: P.theme, kind: P.kind }], 2));
+      if (linked) track('q1_linked', { pair: q1Key(linked) });
       q1Votes = []; q1Idx = 0; q1Lock = false;
       pairDirty = true;
     }
@@ -5208,6 +5219,8 @@
     applyLang(readSavedLang());
     renderLanding();
     restoreFromUrl();
+    track('app_ready');
+    if (!restored && !VS && !PAIR) track('q1_view');
     // Start screen: example painting, then the button (or any link to the test) opens Q1
     (function () {
       const root = document.documentElement, img = document.getElementById('intro-img');
