@@ -215,11 +215,11 @@
     Object.assign(I18N.ja, {"logoSub": "ヤミークラシック", "cmpTopKicker": "Top pick for you", "cmpTopTpl": "いちばんのおすすめ作曲家は{n}です", "cmpTopWhy": "選んだ絵とキーワードが{c}個重なります: {t}", "cmpTopGo": "この作曲家のおすすめ曲を見る →", "cmpTopBadge": "★ いちばんのおすすめ", "cmpShared": "重なるキーワード {c}個", "cmpOpera": "オペラ作曲家のおすすめ({n}人)", "r2First": "最初のページに戻る", "h1": "あなたのクラシック音楽の<br />好みを見つけます。", "sub": "惹かれる絵を選んでみてください", "pairSwap": "よくわからない… 別の絵で選んでみます", "r2Sub": "3ページ合わせて24点の絵をすべて見てから、惹かれる絵を4点以上選んでください。絵にマウスを重ねると大きく見られます(スマホは長押し)。", "r2Swap": "次のページへ", "r2SeeAll": "いいですね! ほかのページも見てください({n}/{t})— そのあとメニューが開きます", "r2Go": "私のクラシック・メニュー(好み)を見る ↓", "igShareNow": "画像3枚を共有する →", "igTapAgain": "画像の準備ができました。下のボタンをもう一度押して共有してください。", "igSaveHint": "画像を押すと1枚ずつ保存できます(スマホは長押しで保存)", "imgFail": "画像を作れませんでした。もう一度押してください。", "r2Eyebrow": "", "cdSubLinked": "Your tastes · あなたの好み", "cdBadge": "Yummy Classic おすすめ", "cmpTitle": "作曲家ごとに、あなたの好みに合う曲もおすすめします", "cmpSub": "", "shareImage": "画像3枚を保存 · Instagram用", "shareInsta": "3枚の画像をInstagramのカルーセル投稿やストーリーズにまとめて載せてください。", "ig1Kicker": "MY CLASSICAL TASTE TEST", "ig1Title": "私はこの絵に惹かれました", "ig1Tease": "この絵から見えた私の音楽の好みは? →", "ig2Kicker": "私の音楽の好みは", "ig2Picks": "選んだ絵", "ig3Kicker": "MY CLASSICAL MENU", "ig3Cta": "あなたのクラシックはどんな味?", "ig3Sub": "絵を2枚、約20秒でわかります"});
     // Type chemistry (best / opposite type) and the composer taste map
     Object.assign(I18N.en, { chemBest: 'In harmony with you', chemFar: 'Needs a little tuning with you',
-      mapMe: 'Your taste', mapFit: 'Taste match', mapGrow: 'Taste stretch', mapFitD: 'Fits the paintings you chose. Closer to the centre = stronger match.', mapGrowD: 'From the other style — a step further to explore.', mapNote: 'Tap a name to hear their pieces.' });
+      mapMe: 'Your taste', mapFit: 'Main Course', mapGrow: 'Chef’s Special', mapFitD: 'Composers that fit your paintings (taste match). Closer to the centre = stronger match.', mapGrowD: 'From the other style, a step further to explore (taste stretch).', mapNote: 'Tap a name to hear their pieces.' });
     Object.assign(I18N.ko, { chemBest: '나와 화음이 맞는 유형', chemFar: '나와 조율이 필요한 유형',
-      mapMe: '나의 취향', mapFit: '취향 맞춤', mapGrow: '취향 확장', mapFitD: '내 그림과 잘 맞는 작곡가. 가운데에 가까울수록 더 잘 맞아요.', mapGrowD: '다른 시대에서 한 걸음 넓혀 들어 볼 작곡가.', mapNote: '이름을 누르면 대표곡이 나와요.' });
+      mapMe: '나의 취향', mapFit: '메인 요리', mapGrow: '셰프의 한 접시', mapFitD: '내 그림과 잘 맞는 작곡가(취향 맞춤). 가운데에 가까울수록 더 잘 맞아요.', mapGrowD: '다른 시대에서 한 걸음 넓혀 들어 볼 작곡가(취향 확장).', mapNote: '이름을 누르면 대표곡이 나와요.' });
     Object.assign(I18N.ja, { chemBest: '和音が合うタイプ', chemFar: '調律が必要なタイプ',
-      mapMe: 'あなたの好み', mapFit: '好みにぴったり', mapGrow: '好みを広げる', mapFitD: '選んだ絵によく合う作曲家。中心に近いほどぴったり。', mapGrowD: 'もう一方の時代から、一歩広げて聴く作曲家。', mapNote: '名前を押すと代表曲が出ます。' });
+      mapMe: 'あなたの好み', mapFit: 'メイン', mapGrow: 'シェフのひと皿', mapFitD: '選んだ絵によく合う作曲家（好みにぴったり）。中心に近いほどぴったり。', mapGrowD: 'もう一方の時代から、一歩広げて聴く作曲家（好みを広げる）。', mapNote: '名前を押すと代表曲が出ます。' });
     Object.assign(I18N.en, {"r2Need": "Pick {n} more (at least 4 of 24)"});
     Object.assign(I18N.ko, {"r2Need": "{n}점 더 골라 주세요 (24점 중 최소 4점)"});
     Object.assign(I18N.ja, {"r2Need": "あと{n}点選んでください(24点中4点以上)"});
@@ -243,7 +243,7 @@
       todayTitle: 'Painting of the day', todayLead: 'If today’s painting draws you in, you might like this music too.',
       finalTitle: 'What does today’s<br />classical taste like?', finalCta: 'Find today’s classical',
       cdSubLinked: 'Matches for today',
-      cmpTitle: 'Composers picked through your paintings',
+      cmpTitle: 'A Table Set by Your Paintings',
       plTitle: 'Today’s Classical Menu',
       shareEyebrow: 'Share today’s classical',
       shareSub: 'Your result travels as a link. Whoever opens it sees the same card and menu.',
@@ -273,7 +273,7 @@
       todayTitle: '오늘의 그림', todayLead: '오늘의 그림에 끌렸다면, 이 음악도 마음에 들지도 몰라요.',
       finalTitle: '오늘의 클래식은<br />어떤 맛일까요?', finalCta: '오늘의 클래식 찾기',
       cdSubLinked: 'Matches for today · 오늘의 어울림',
-      cmpTitle: '그림으로 고른 작곡가',
+      cmpTitle: '그림으로 차린 나의 취향 한 상',
       plTitle: '오늘의 클래식 메뉴',
       shareEyebrow: 'Share today’s classical',
       shareSub: '결과를 링크로 보낼 수 있어요. 링크를 연 친구에게도 같은 카드와 메뉴가 보여요.',
@@ -303,7 +303,7 @@
       todayTitle: '今日の一枚', todayLead: '今日の一枚に惹かれたなら、この音楽も気に入るかもしれません。',
       finalTitle: '今日のクラシックは<br />どんな味?', finalCta: '今日のクラシックを探す',
       cdSubLinked: 'Matches for today · 今日の相性',
-      cmpTitle: '絵で選んだ作曲家',
+      cmpTitle: '絵で整えた、わたしの好みの食卓',
       plTitle: '今日のクラシック・メニュー',
       shareEyebrow: 'Share today’s classical',
       shareSub: 'この結果をリンクで送れます。開いた人には同じカードとメニューが表示されます。',
@@ -2246,6 +2246,7 @@
       tg.hidden = hiddenCount === 0;
       tg.textContent = evOpen ? t.evLess : t.evMore.replace('{n}', hiddenCount);
       tg.setAttribute('aria-expanded', String(evOpen));
+      if (currentEra) { try { renderTasting(); } catch (e) {} }
     }
     document.getElementById('ev-toggle').addEventListener('click', () => { evOpen = !evOpen; renderEvents(); });
 
@@ -2322,6 +2323,7 @@
         body.append(nm, sb, ch); li.append(lead, body); ul.appendChild(li);
       });
       if (st.items.length > 6 && !isPeek('intl')) { more.hidden = false; more.textContent = intlAll ? t.evLess : t.evMore.replace('{n}', st.items.length - 6); }
+      try { renderTasting(); } catch (e) {}
     }
     document.getElementById('intl-more').addEventListener('click', () => { intlAll = !intlAll; renderIntl(); });
     document.querySelectorAll('#intl-sorts [data-sort]').forEach(b => b.addEventListener('click', () => {
@@ -2537,6 +2539,134 @@
       } catch (e) {}
     }
 
+
+    // ---------- Today's Tasting: side (painters), dessert (novels), pairing (concerts) under the composer map ----------
+    // novels to read alongside each composer: [author ko, title ko, author en, title en] (sheet 냠냠클래식_추천데이터 > 작곡가 J:M)
+    const NOVELS = {
+      bach: ['존 버니언', '천로역정', 'John Bunyan', 'The Pilgrim’s Progress'],
+      handel: ['조너선 스위프트', '걸리버 여행기', 'Jonathan Swift', 'Gulliver’s Travels'],
+      vivaldi: ['대니얼 디포', '로빈슨 크루소', 'Daniel Defoe', 'Robinson Crusoe'],
+      purcell: ['라파예트 부인', '클레브 공작부인', 'Madame de La Fayette', 'The Princess of Clèves'],
+      scarlatti: ['미겔 데 세르반테스', '돈키호테', 'Miguel de Cervantes', 'Don Quixote'],
+      mozart: ['요한 볼프강 폰 괴테', '젊은 베르테르의 슬픔', 'Johann Wolfgang von Goethe', 'The Sorrows of Young Werther'],
+      beethoven: ['레프 톨스토이', '크로이처 소나타', 'Leo Tolstoy', 'The Kreutzer Sonata'],
+      haydn: ['로렌스 스턴', '트리스트럼 섄디', 'Laurence Sterne', 'Tristram Shandy'],
+      gluck: ['장 자크 루소', '신엘로이즈', 'Jean-Jacques Rousseau', 'Julie, or the New Heloise'],
+      boccherini: ['제인 오스틴', '오만과 편견', 'Jane Austen', 'Pride and Prejudice'],
+      clementi: ['제인 오스틴', '이성과 감성', 'Jane Austen', 'Sense and Sensibility'],
+      chopin: ['조르주 상드', '사랑의 요정', 'George Sand', 'Little Fadette'],
+      schubert: ['노발리스', '푸른 꽃', 'Novalis', 'Heinrich von Ofterdingen'],
+      liszt: ['빅토르 위고', '노트르담 드 파리', 'Victor Hugo', 'The Hunchback of Notre-Dame'],
+      tchaikovsky: ['알렉산드르 푸시킨', '예브게니 오네긴', 'Alexander Pushkin', 'Eugene Onegin'],
+      wagner: ['토마스 만', '부덴브로크가의 사람들', 'Thomas Mann', 'Buddenbrooks'],
+      brahms: ['테오도어 슈토름', '호수', 'Theodor Storm', 'Immensee'],
+      mendelssohn: ['월터 스콧', '아이반호', 'Walter Scott', 'Ivanhoe'],
+      schumann: ['E.T.A. 호프만', '수고양이 무어의 인생관', 'E.T.A. Hoffmann', 'The Life and Opinions of the Tomcat Murr'],
+      rossini: ['알렉상드르 뒤마', '삼총사', 'Alexandre Dumas', 'The Three Musketeers'],
+      verdi: ['알렉상드르 뒤마 피스', '춘희', 'Alexandre Dumas fils', 'The Lady of the Camellias'],
+      puccini: ['앙리 뮈르제', '보헤미안 생활의 정경', 'Henri Murger', 'Scenes of Bohemian Life'],
+      bizet: ['프로스페르 메리메', '카르멘', 'Prosper Mérimée', 'Carmen'],
+      leoncavallo: ['조반니 베르가', '말라볼리아가의 사람들', 'Giovanni Verga', 'The House by the Medlar Tree'],
+      massenet: ['아베 프레보', '마농 레스코', 'Abbé Prévost', 'Manon Lescaut'],
+      mascagni: ['조반니 베르가', '말라볼리아가의 사람들', 'Giovanni Verga', 'The House by the Medlar Tree'],
+      pleyel: ['제인 오스틴', '에마', 'Jane Austen', 'Emma'],
+      glinka: ['알렉산드르 푸시킨', '대위의 딸', 'Alexander Pushkin', 'The Captain’s Daughter'],
+      smetana: ['보제나 넴초바', '할머니', 'Božena Němcová', 'The Grandmother'],
+      dvorak: ['윌라 캐더', '나의 안토니아', 'Willa Cather', 'My Ántonia'],
+      grieg: ['비에른스티에르네 비에른손', '양지바른 언덕의 소녀', 'Bjørnstjerne Bjørnson', 'Synnøve Solbakken'],
+      rachmaninoff: ['안톤 체호프', '개를 데리고 다니는 부인', 'Anton Chekhov', 'The Lady with the Dog'],
+      debussy: ['마르셀 프루스트', '스완네 집 쪽으로', 'Marcel Proust', 'Swann’s Way'],
+      ravel: ['알랭푸르니에', '대장 몬느', 'Alain-Fournier', 'Le Grand Meaulnes'],
+      pachelbel: ['존 버니언', '천로역정', 'John Bunyan', 'The Pilgrim’s Progress'],
+      offenbach: ['E.T.A. 호프만', '모래 사나이', 'E.T.A. Hoffmann', 'The Sandman'],
+      mahler: ['토마스 만', '베네치아에서의 죽음', 'Thomas Mann', 'Death in Venice'],
+    };
+    const TASTE_T = {
+      ko: { side: '곁들임', sideD: '내가 고른 그림의 화가', dessert: '디저트', dessertD: '같이 읽을 소설', pair: '페어링', pairD: '어울리는 공연', with: '{c}와 함께', go: '아래 공연 보기 ↓' },
+      en: { side: 'On the Side', sideD: 'Painters you picked', dessert: 'Dessert', dessertD: 'Novels to read alongside', pair: 'Pairing', pairD: 'Concerts to match', with: 'with {c}', go: 'See concerts below ↓' },
+      ja: { side: 'つけあわせ', sideD: '選んだ絵の画家', dessert: 'デザート', dessertD: '一緒に読みたい小説', pair: 'ペアリング', pairD: '合わせたい公演', with: '{c}と一緒に', go: '下の公演を見る ↓' },
+    };
+    let tastingFit = [];
+    function renderTasting() {
+      const box = document.getElementById('tasting');
+      if (!box) return;
+      const sel = selected();
+      if (!sel.length || !currentEra) { box.hidden = true; return; }
+      const T = TASTE_T[lang] || TASTE_T.en, ko = isLocal(), en = lang === 'en';
+      const nameOf = id => { const s = SHORT[id]; return s ? s[ko ? 1 : 0] : id; };
+      // composers on the table, best first (same ranking as the map)
+      const sc = composerScores();
+      tastingFit = (COMPOSERS[currentEra] || []).map(n => n[2]).filter(id => id && sc[id] > 0).sort((a, b) => sc[b] - sc[a]);
+      box.innerHTML = '';
+      const plate = (cls, k, d, items) => {
+        if (!items.length) return;
+        const art = document.createElement('section'); art.className = 'ts-plate ' + cls;
+        const h = document.createElement('p'); h.className = 'ts-k'; h.textContent = k;
+        const hd = document.createElement('p'); hd.className = 'ts-d'; hd.textContent = d;
+        const ul = document.createElement('ul'); ul.className = 'ts-list';
+        items.forEach(x => ul.appendChild(x));
+        art.append(h, hd, ul); box.appendChild(art);
+      };
+      const row = (lead, main, sub, onClick) => {
+        const li = document.createElement('li');
+        const el = document.createElement(onClick ? 'button' : 'div'); el.className = 'ts-item';
+        if (onClick) { el.type = 'button'; el.addEventListener('click', onClick); }
+        if (lead) el.appendChild(lead);
+        const tx = document.createElement('span'); tx.className = 'ts-tx';
+        const m = document.createElement('span'); m.className = 'ts-m'; m.textContent = main;
+        const s2 = document.createElement('span'); s2.className = 'ts-s'; s2.textContent = sub;
+        tx.append(m, s2); el.appendChild(tx); li.appendChild(el); return li;
+      };
+      // side: painters of the paintings you picked (two different painters)
+      const seenP = new Set(), side = [];
+      sel.forEach(p => {
+        const who = ko ? p.byKo : p.byEn;
+        if (!who || seenP.has(who) || side.length >= 2) return; seenP.add(who);
+        const pic = document.createElement('span'); pic.className = 'ts-pic';
+        const im = document.createElement('img'); im.alt = ''; im.loading = 'lazy'; im.decoding = 'async'; im.referrerPolicy = 'no-referrer';
+        try { setImgSrc(im, p.f, 160); } catch (e) {}
+        pic.appendChild(im);
+        side.push(row(pic, who, '〈' + (ko ? p.ko : p.en) + '〉'));
+      });
+      // dessert: novels paired with your top composers (two different novelists)
+      const seenN = new Set(), dessert = [];
+      tastingFit.forEach(id => {
+        const n = NOVELS[id]; if (!n || dessert.length >= 2) return;
+        const key = n[0] + n[1]; if (seenN.has(n[0]) || seenN.has(key)) return; seenN.add(n[0]); seenN.add(key);
+        const ic = document.createElement('span'); ic.className = 'ts-ic'; ic.textContent = '✎';
+        dessert.push(row(ic, (en ? '' : '『') + (en ? n[3] : n[1]) + (en ? '' : '』'), (en ? n[2] : n[0]) + ' · ' + T.with.replace('{c}', nameOf(id))));
+      });
+      // pairing: the two best-matched concerts from the list below (Korea on the Korean page, global otherwise)
+      const pair = [], goEv = () => { const ev = document.getElementById('events'); if (ev) ev.scrollIntoView({ behavior: 'smooth', block: 'start' }); try { track('tasting_pairing', {}); } catch (e) {} };
+      try {
+        if (evScope() === 'kr' && evData) {
+          const today0 = isoDay(0);
+          const live = evData.filter(e => !e.end || e.end >= today0);
+          let ranked = rankEvents(live.filter(e => e.kind === 'concert'), todayProfile(), 2);
+          if (!ranked.length) ranked = rankEvents(live.filter(e => e.kind === 'exhibition'), todayProfile(), 2);
+          ranked.slice(0, 2).forEach(r => {
+            const e = r.e, tr = lang === 'ko' ? '' : (lang === 'ja' ? e.titleJa : e.titleEn) || '';
+            const md = d => d ? d.slice(5).replace('-', '.') : '';
+            const ic = document.createElement('span'); ic.className = 'ts-ic'; ic.textContent = e.kind === 'exhibition' ? '◫' : '♪';
+            const where = Array.isArray(e.place) ? e.place[lang === 'ja' ? 2 : lang === 'ko' ? 1 : 0] : (e.place || '');
+            pair.push(row(ic, tr || e.title, [e.start === e.end ? md(e.start) : md(e.start) + ' – ' + md(e.end), where].filter(Boolean).join(' · '), goEv));
+          });
+        } else if (evScope() !== 'kr') {
+          const st = intlCache[intlCountry];
+          if (st && st.items && st.items.length) {
+            st.items.slice().sort((a, b) => ((b.cat !== 'crossover') - (a.cat !== 'crossover')) || ((b.pop || 0) - (a.pop || 0))).slice(0, 2).forEach(e => {
+              const ic = document.createElement('span'); ic.className = 'ts-ic'; ic.textContent = '♪';
+              pair.push(row(ic, e.title, [e.date ? e.date.replace(/-/g, '.') : '', e.venue, e.city].filter(Boolean).join(' · '), goEv));
+            });
+          }
+        }
+      } catch (e) {}
+      plate('side', T.side, T.sideD, side);
+      plate('dessert', T.dessert, T.dessertD, dessert);
+      plate('pair', T.pair, T.pairD, pair);
+      box.hidden = !box.children.length;
+    }
+
     function renderResult() {
       if (!currentEra) return;
       const t = I18N[lang], ko = isLocal();
@@ -2659,6 +2789,7 @@
       renderComposers();
       renderComposerDetail();
       renderCmpMap();
+      try { renderTasting(); } catch (e) {}
       renderChem();
       if (typeof renderExtras === 'function') renderExtras();
     }
