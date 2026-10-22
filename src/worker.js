@@ -396,8 +396,8 @@ async function paintingImage(request, ctx, url) {
 }
 
 const CHANNEL_LINKS = {
-  '/ig': 'utm_source=instagram&utm_medium=social&utm_campaign=profile',
-  '/igs': 'utm_source=instagram&utm_medium=social&utm_campaign=story',
+  '/ig': 'utm_source=ig&utm_medium=social&utm_campaign=profile',
+  '/igs': 'utm_source=ig&utm_medium=social&utm_campaign=story',
   '/blog': 'utm_source=naver_blog&utm_medium=blog',
   '/yt': 'utm_source=youtube&utm_medium=video',
   '/k': 'utm_source=kakao&utm_medium=friend',
