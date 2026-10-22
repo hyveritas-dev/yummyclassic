@@ -1027,8 +1027,8 @@
     .tb-k::before, .tb-k::after { content: ""; flex: 0 1 2.2rem; height: 1px; background: rgba(122,20,40,.35); }
     .tb-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem .8rem; }
     @media (min-width: 900px) { .tb-course.app .tb-row, .tb-course.dessert .tb-row { flex-direction: column; align-items: center; } }
-    .tb-setting { display: flex; align-items: center; justify-content: center; gap: .9rem; }
-    .tb-setting .cut { width: 18px; color: rgba(122,20,40,.45); flex: none; }
+    .tb-setting { display: flex; align-items: flex-start; justify-content: center; gap: 1.6rem; }
+    .tb-setting .cut { width: 18px; margin-top: 55px; color: rgba(122,20,40,.55); flex: none; }
     .tb-setting .cut svg { width: 18px; height: 110px; display: block; }
     .tb-row.sides { margin-top: 1.1rem; }
     .pl { display: flex; flex-direction: column; align-items: center; gap: .3rem; max-width: 10rem; background: none; border: 0; padding: 0; color: inherit; text-align: center; }
@@ -1059,7 +1059,8 @@
       .pl.big .dish { width: 168px; height: 168px; }
       .pl.sm .dish { width: 76px; height: 76px; }
       .pl { max-width: 8.5rem; }
-      .tb-setting { gap: .5rem; }
+      .tb-setting { gap: .8rem; }
+      .tb-setting .cut { margin-top: 41px; }
       .tb-setting .cut svg { height: 86px; }
     }
   </style>
