@@ -450,6 +450,8 @@
     @keyframes drift { 0%,100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-12px) rotate(4deg); } }
     footer.site { background: var(--wine-deep); color: rgba(244,233,208,.7); }
     footer.site .logo, footer.site .logo .wm { color: var(--vanilla); } footer.site .logo .sub { color: var(--apricot); }
+    footer.site .footer-cards { background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; opacity: .8; }
+    footer.site .footer-cards:hover { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
     footer.site .footer-contact a { color: var(--vanilla); text-decoration: underline; text-underline-offset: 3px; }
     footer.site .footer-sns { display: inline-flex; gap: 10px; margin-bottom: 4px; }
     footer.site .footer-sns a { display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px 6px 9px; border-radius: 999px; background: #fff; color: #2A1A1E; text-decoration: none; font-weight: 700; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .2s ease, box-shadow .2s ease; }
@@ -1503,6 +1505,7 @@
           <a href="https://www.instagram.com/yummy.classic/" target="_blank" rel="noopener" aria-label="Instagram yummy.classic"><span class="ic ic-ig" aria-hidden="true"></span>Instagram</a>
         </span>
         <a href="/classical/" class="footer-guide" data-i18n="footerGuide">Composers &amp; taste types</a>
+        <button type="button" id="footer-cards" class="footer-cards" data-i18n="footerCards">Just for fun: draw a painting card ♪</button>
         <span id="footer-art" data-i18n="footerArt">Artworks: J.-A.-D. Ingres (1827), C. D. Friedrich (1822) · Public Domain</span>
         <span class="footer-contact"><span data-i18n="footerContact">Partnership inquiries</span> · <a id="footer-mail" data-u="contact" data-d="yummyclassic.co.kr">contact [at] yummyclassic.co.kr</a></span>
       </span>
@@ -1525,9 +1528,10 @@
     // a new test run hides it again until the new pieces have been seen
     new MutationObserver(function(){if(!res.classList.contains('open')){seen=false;sync();}}).observe(res,{attributes:true,attributeFilter:['class']});
   })();</script>
+  <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=92fcebe1"></script>
+  <script defer src="/assets/app.js?v=95f31b02"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {
