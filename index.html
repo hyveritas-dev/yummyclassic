@@ -923,6 +923,16 @@
     .r-after-share .r-pct { margin: 0 0 .75rem; font-size: 1rem; text-align: left; }
     .r-after-share .chem-row { grid-template-columns: 1fr; gap: .75rem; }
     .story-dl { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .story-row { display: flex; align-items: center; justify-content: center; gap: 1.25rem; }
+    .story-use { min-width: 0; max-width: 11rem; }
+    .story-use-t { margin: 0 0 .9rem; font-family: 'Inter', var(--sans-cjk), sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .12em; color: var(--apricot-deep); }
+    .story-use ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--wine); }
+    .story-use li { padding: .7rem 0; border-bottom: 1px solid var(--line); font-family: var(--serif-cjk), var(--serif-latin), serif; font-size: 1.05rem; font-weight: 700; line-height: 1.3; color: var(--wine-deep); letter-spacing: -.01em; }
+    html[lang="ko"] .story-use { word-break: keep-all; }
+    @media (max-width: 420px) { .story-row .story-card { width: 170px; } .story-row { gap: 1rem; } }
+    /* 왼쪽(유형 궁합 등)이 비어 있으면 이미지를 가운데로 */
+    .r-after-share:not(:has(.r-type-side > :not([hidden]))) { grid-template-columns: 1fr !important; max-width: 32rem; }
+    .r-after-share:not(:has(.r-type-side > :not([hidden]))) .r-type-side { display: none; }
     .story-card { position: relative; width: 210px; aspect-ratio: 9 / 16; border: 0; padding: 0; border-radius: 18px; overflow: hidden; cursor: pointer;
       background: linear-gradient(160deg, #7A0F2A, #2A1A1E); box-shadow: 0 18px 40px rgba(42,8,16,.35), 0 4px 10px rgba(42,8,16,.2); transition: transform .25s ease, box-shadow .25s ease; }
     .story-card:hover { transform: translateY(-3px); box-shadow: 0 24px 48px rgba(42,8,16,.4), 0 6px 14px rgba(42,8,16,.22); }
@@ -1456,10 +1466,16 @@
                   <div class="r-actions" hidden><button type="button" id="vs-top" class="btn btn-primary btn-match"><span class="yc-badge"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg></span><span data-i18n="vsTop">Check your painting match with a friend</span></button></div>
                 </div>
                 <div class="story-dl">
+                  <div class="story-row">
                   <button type="button" id="story-top" class="story-card" aria-label="Save image">
                     <img id="story-prev" alt="" hidden />
                     <span class="story-wait" aria-hidden="true">♪</span>
                   </button>
+                  <div class="story-use">
+                    <p class="story-use-t" data-i18n="storyUseT">Great for</p>
+                    <ul><li data-i18n="storyUse1">KakaoTalk profile</li><li data-i18n="storyUse2">Instagram story</li></ul>
+                  </div>
+                  </div>
                   <button type="button" id="story-save" class="story-save"><span class="story-icons"><svg class="ig-glyph kt-glyph" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6.5" fill="#FEE500"/><path d="M12 5.6c-4.1 0-7.4 2.6-7.4 5.8 0 2.1 1.4 3.9 3.5 4.9l-.8 2.9c-.1.3.2.5.4.3l3.4-2.3c.3 0 .6.1.9.1 4.1 0 7.4-2.6 7.4-5.8S16.1 5.6 12 5.6z" fill="#3C1E1E"/></svg><svg class="ig-glyph" viewBox="0 0 24 24" aria-hidden="true"><defs><radialGradient id="igG" cx="30%" cy="107%" r="150%"><stop offset="0" stop-color="#fdf497"/><stop offset=".05" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".6" stop-color="#d6249f"/><stop offset=".9" stop-color="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6.5" fill="url(#igG)"/><rect x="5" y="5" width="14" height="14" rx="4.2" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.3" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="16.4" cy="7.6" r="1.05" fill="#fff"/></svg></span><span class="story-txt"><b data-i18n="storyTop">Save for KakaoTalk &amp; Instagram story</b><small data-i18n="storyNote">Your type on a masterpiece · 9:16</small></span></button>
                 </div>
               </div>
