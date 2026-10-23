@@ -230,8 +230,8 @@
       metaDesc: 'Pick the painting that draws you today, and today’s classical music finds you.',
       navCta: 'Find today’s classical →', navMap: 'Era map', navToday: 'Painting of the day',
       eyebrow: 'Today · Art × Classical',
-      h1: 'Which painting<br /> draws you today?',
-      sub: 'Pick a few paintings you’re drawn to and get 10 classical pieces for your taste, ready to play. About 20 seconds.',
+      h1: 'Pick 5 paintings,<br /> get your 10 classical pieces',
+      sub: 'No right answers. Just go with what draws you; your music is ready to play in about 20 seconds.',
       perks: '<span>10 pieces for you</span><span>Painters & novels to match</span><span>Concerts & exhibitions</span>',
       q1: '<b>Q1</b>Which painting draws you more today?',
       r2Title: '<b>Q2</b>Which ones would you look at longer today?',
@@ -260,8 +260,8 @@
       metaDesc: '오늘 마음이 가는 그림을 고르면, 오늘의 클래식이 찾아옵니다.',
       navCta: '오늘의 클래식 찾기 →', navMap: '사조 지도', navToday: '오늘의 그림',
       eyebrow: 'Today · 오늘의 클래식',
-      h1: '오늘은 어떤 그림에<br /> 끌리나요?',
-      sub: '끌리는 그림을 몇 번만 고르면, 내 취향 클래식 10곡을 바로 들려 드려요. 약 20초.',
+      h1: '그림 5번 고르면,<br /> 나만의 클래식 10곡',
+      sub: '정답은 없어요. 끌리는 쪽만 고르면 약 20초 뒤 바로 들려 드려요.',
       perks: '<span>맞춤 클래식 10곡</span><span>어울리는 화가·소설</span><span>이번 주 음악회·전시</span>',
       q1: '<b>Q1</b>둘 중 오늘 더 끌리는 그림은?',
       r2Title: '<b>Q2</b>이 중에 오늘 더 오래 보고 싶은 그림은?',
@@ -290,8 +290,8 @@
       metaDesc: '今日心が向かう絵を選ぶと、今日のクラシックが届きます。',
       navCta: '今日のクラシックを探す →', navMap: '流派マップ', navToday: '今日の一枚',
       eyebrow: 'Today · 今日のクラシック',
-      h1: '今日は、どの絵に<br />惹かれますか?',
-      sub: '惹かれる絵を何回か選ぶだけで、あなた好みのクラシック10曲をすぐに聴けます。約20秒。',
+      h1: '絵を5回選べば、<br />あなただけのクラシック10曲',
+      sub: '正解はありません。惹かれる方を選ぶだけで、約20秒後にすぐ聴けます。',
       perks: '<span>あなたに合う10曲</span><span>合う画家・小説</span><span>コンサート・展示</span>',
       q1: '<b>Q1</b>今日はどちらの絵に惹かれますか?',
       r2Title: '<b>Q2</b>この中で、今日もっと長く見ていたい絵は?',
@@ -319,51 +319,51 @@
     Object.assign(I18N.en, {
       r2Title: '<b>Q2</b>Round by round, just one painting',
       r2Sub: 'Three rounds of four paintings. In each round, pick the one that draws you most today. Hover over a painting to see it large (on a phone, press and hold).',
-      rRound: 'Round {n} / {t}', rPickOne: 'Just one of these', rCount: '{n} of {t} picked',
+      rRound: '{n} / {t}', rPickOne: 'Just one of these', rCount: '{n} of {t} picked',
       rPrev: '← Previous round', r2Back: 'Start over',
       rDone: 'Today’s {n} paintings are in!', rDoneSub: 'Tap a painting or a dot to change that round.',
       kMix: 'Today’s mix', mixLean: 'Today leans toward “{g}”.',
       kEra: 'Classic or Romantic', eraLine: 'Classic {c} · Romantic {r}, across all {n} of your picks (buildings, figures and paintings), so today’s music leans {era}.', eraName: { classic: 'classic', romantic: 'romantic' },
-      q1Step: '{kind} {n} of {t} · {theme}', q1KindArch: 'Building', q1KindFig: 'Figure',
+      q1Step: '{n} / {t} · {kind} · {theme}', q1KindArch: 'Building', q1KindFig: 'Figure',
     });
     Object.assign(I18N.ko, {
       r2Title: '<b>Q2</b>라운드마다, 끌리는 한 장만',
       r2Sub: '4점씩 3라운드예요. 라운드마다 오늘 더 끌리는 그림 한 장만 골라 주세요. 그림에 마우스를 올리면 크게 보여요 (휴대폰은 길게 누르기).',
-      rRound: 'Round {n} / {t}', rPickOne: '이 중 한 장만', rCount: '{t}라운드 중 {n}라운드 완료',
+      rRound: '{n} / {t}', rPickOne: '이 중 한 장만', rCount: '{t}라운드 중 {n}라운드 완료',
       rPrev: '← 이전 라운드', r2Back: '처음으로',
       rDone: '오늘의 그림 {n}점이 모였어요!', rDoneSub: '그림이나 위의 점을 누르면 그 라운드를 다시 고를 수 있어요.',
       kMix: '오늘의 분포', mixLean: '오늘은 ‘{g}’ 쪽으로 기울었어요.',
       kEra: '고전과 낭만', eraLine: '고전 {c} · 낭만 {r}. 건축·인물 그림과 명화를 더한 {n}번의 선택으로, 오늘은 {era} 쪽 음악을 골랐어요.', eraName: { classic: '고전', romantic: '낭만' },
-      q1Step: '{kind} {n} / {t} · {theme}', q1KindArch: '건축 그림', q1KindFig: '인물 그림',
+      q1Step: '{n} / {t} · {kind} · {theme}', q1KindArch: '건축 그림', q1KindFig: '인물 그림',
     });
     Object.assign(I18N.ja, {
       r2Title: '<b>Q2</b>ラウンドごとに、惹かれる1枚だけ',
       r2Sub: '4枚ずつ3ラウンドです。各ラウンドで、今日いちばん惹かれる絵を1枚だけ選んでください。絵にマウスを重ねると大きく見られます(スマホは長押し)。',
-      rRound: 'Round {n} / {t}', rPickOne: 'この中から1枚だけ', rCount: '{t}ラウンド中{n}ラウンド完了',
+      rRound: '{n} / {t}', rPickOne: 'この中から1枚だけ', rCount: '{t}ラウンド中{n}ラウンド完了',
       rPrev: '← 前のラウンド', r2Back: '最初へ',
       rDone: '今日の{n}枚がそろいました!', rDoneSub: '絵か上の点を押すと、そのラウンドを選び直せます。',
       kMix: '今日のバランス', mixLean: '今日は「{g}」寄りです。',
       kEra: '古典とロマン', eraLine: '古典 {c}・ロマン {r}。建築画・人物画と名画、計{n}回の選択から、今日は{era}寄りの音楽を選びました。', eraName: { classic: '古典', romantic: 'ロマン' },
-      q1Step: '{kind} {n} / {t} · {theme}', q1KindArch: '建築画', q1KindFig: '人物画',
+      q1Step: '{n} / {t} · {kind} · {theme}', q1KindArch: '建築画', q1KindFig: '人物画',
     });
     // ---- Start screen ----
     Object.assign(I18N.en, {
       introKicker: 'Today’s classical, chosen by a painting', introH1: 'The painting you choose<br />recommends today’s<br />classical piece',
-      introSub: 'Pick a few paintings and get 10 classical pieces for your taste in about 20 seconds.', introCta: 'Start choosing',
+      introSub: 'Pick 5 paintings and get your 10 classical pieces in about 20 seconds.', introCta: 'Start choosing',
       introMeta: 'About 20 sec · No sign-up · No wrong answers', introExLabel: 'Your result looks like this', introExKick: 'Today’s classical',
       introExPiece: 'Debussy, “Clair de lune”', introExWhy: 'For a day you chose Monet’s Impression, Sunrise',
       introPlayAria: 'Play the sample piece', introPlayMsg: 'This is a sample. Pick a few paintings and in 20 seconds you can play the piece chosen for you.', introPlayGo: 'Start now →',
     });
     Object.assign(I18N.ko, {
       introKicker: '그림으로 고르는 오늘의 클래식', introH1: '당신이 선택한 그림이<br />오늘의 클래식을<br />추천해 줍니다',
-      introSub: '끌리는 그림을 몇 번만 고르면, 20초 안에 내 취향 클래식 10곡이 나와요.', introCta: '그림 고르러 가기',
+      introSub: '그림 5번만 고르면, 20초 안에 나만의 클래식 10곡이 나와요.', introCta: '그림 고르러 가기',
       introMeta: '약 20초 · 회원가입 없음 · 정답 없음', introExLabel: '결과는 이렇게 나와요', introExKick: '오늘의 클래식',
       introExPiece: '드뷔시 「달빛」', introExWhy: '모네 〈인상, 해돋이〉를 고른 날',
       introPlayAria: '예시 곡 재생', introPlayMsg: '이건 예시예요. 그림 몇 장만 고르면, 20초 뒤 나에게 맞는 추천곡을 바로 들을 수 있어요.', introPlayGo: '지금 시작 →',
     });
     Object.assign(I18N.ja, {
       introKicker: '絵で選ぶ、今日のクラシック', introH1: 'あなたが選んだ絵が<br />今日のクラシックを<br />おすすめします',
-      introSub: '絵を何枚か選ぶだけで、約20秒であなた好みのクラシック10曲が届きます。', introCta: '絵を選びに行く',
+      introSub: '絵を5回選ぶだけで、約20秒であなただけのクラシック10曲が届きます。', introCta: '絵を選びに行く',
       introMeta: '約20秒 · 会員登録なし · 正解なし', introExLabel: '結果はこんなふうに届きます', introExKick: '今日のクラシック',
       introExPiece: 'ドビュッシー「月の光」', introExWhy: 'モネ《印象・日の出》を選んだ日に',
       introPlayAria: 'サンプル曲を再生', introPlayMsg: 'これはサンプルです。絵を何枚か選ぶだけで、20秒後にあなたへのおすすめ曲をすぐ聴けます。', introPlayGo: '今すぐ始める →',
@@ -3838,7 +3838,7 @@
         head.innerHTML = '';
         if (roundIdx >= 0 && !restored) {
           const k = document.createElement('span'); k.className = 'rr-k';
-          k.textContent = t.rRound.replace('{n}', roundIdx + 1).replace('{t}', total);
+          k.textContent = t.rRound.replace('{n}', Q1_N + roundIdx + 1).replace('{t}', Q1_N + total);
           const s = document.createElement('span'); s.className = 'rr-s'; s.textContent = t.rPickOne;
           head.append(k, s);
         }
@@ -4452,6 +4452,7 @@
     ARCH.forEach(P => { P.kind = 'arch'; }); FIG.forEach(P => { P.kind = 'fig'; });
     const Q1_PER = 1;   // questions per kind: 1 building + 1 figure, PC and phones alike (PC was 2 + 2 until 2026-10-19)
     const Q1_N = Q1_PER * 2;
+    const PICKS_N = Q1_N + ROUNDS;   // 첫 화면 약속 "그림 5번" = Q1 2 + Q2 3. 진행 표시는 이 전체 기준
     const AL = a => Array.isArray(a) ? a[lang === 'ja' ? 2 : lang === 'ko' ? 1 : 0] : a;   // [en, ko, ja] → current language
     let q1 = [], pairDirty = true, q1Votes = [], q1Idx = 0, q1Lock = false;
     // Q1 alone only gives a first lean; the final style also counts the six Q2 picks (see finalEra)
@@ -4531,7 +4532,7 @@
         names.push(by + ' (' + y + ')');
       });
       const st = document.getElementById('q1-step');
-      if (st && cur[0]) st.textContent = (t.q1Step || '{n} / {t}').replace('{n}', q1Idx + 1).replace('{t}', Q1_N).replace('{theme}', AL(cur[0].theme))
+      if (st && cur[0]) st.textContent = (t.q1Step || '{n} / {t}').replace('{n}', q1Idx + 1).replace('{t}', PICKS_N).replace('{theme}', AL(cur[0].theme))
         .replace('{kind}', cur[0].kind === 'fig' ? t.q1KindFig : t.q1KindArch);
       document.getElementById('footer-art').textContent = t.artTpl
         .replace('{a}', names[0] || '').replace('{b}', names[1] || '');
@@ -5120,6 +5121,7 @@
       if (!ready() || restored || !m || !d || d.all < STAT_MIN) { el.hidden = true; return; }
       const p = Math.max(1, Math.round(((d.m && d.m[m]) || 1) / d.all * 100));
       el.textContent = I18N[lang].pctLine.replace('{p}', p).replace('{n}', d.all.toLocaleString(lang === 'ko' ? 'ko-KR' : lang === 'ja' ? 'ja-JP' : 'en-US'));
+      if (d.all < 1000) el.textContent = el.textContent.split(' · ')[0];   // 1,000명 전에는 참여 인원 숨김
       el.hidden = false;
     }
     function onComplete() {

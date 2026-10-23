@@ -1196,9 +1196,9 @@
           (function () {
             try {
               var T = {
-                ko: { h1: '오늘은 어떤 그림에<br /> 끌리나요?', sub: '끌리는 그림을 몇 번만 고르면, 내 취향 클래식 10곡을 바로 들려 드려요. 약 20초.', perks: '<span>맞춤 클래식 10곡</span><span>어울리는 화가·소설</span><span>이번 주 음악회·전시</span>', q1: '<b>Q1</b>둘 중 오늘 더 끌리는 그림은?', hint: '오래 고민하지 마세요. 첫인상이 가장 솔직해요.' },
-                en: { h1: 'Which painting<br /> draws you today?', sub: 'Pick a few paintings you’re drawn to and get 10 classical pieces for your taste, ready to play. About 20 seconds.', perks: '<span>10 pieces for you</span><span>Painters & novels to match</span><span>Concerts & exhibitions</span>', q1: '<b>Q1</b>Which painting draws you more today?', hint: "Don't overthink it. First impressions are the most honest." },
-                ja: { h1: '今日は、どの絵に<br />惹かれますか?', sub: '惹かれる絵を何回か選ぶだけで、あなた好みのクラシック10曲をすぐに聴けます。約20秒。', perks: '<span>あなたに合う10曲</span><span>合う画家・小説</span><span>コンサート・展示</span>', q1: '<b>Q1</b>今日はどちらの絵に惹かれますか?', hint: '深く考えないで。第一印象がいちばん正直です。' }
+                ko: { h1: '그림 5번 고르면,<br /> 나만의 클래식 10곡', sub: '정답은 없어요. 끌리는 쪽만 고르면 약 20초 뒤 바로 들려 드려요.', perks: '<span>맞춤 클래식 10곡</span><span>어울리는 화가·소설</span><span>이번 주 음악회·전시</span>', q1: '<b>Q1</b>둘 중 오늘 더 끌리는 그림은?', hint: '오래 고민하지 마세요. 첫인상이 가장 솔직해요.' },
+                en: { h1: 'Pick 5 paintings,<br /> get your 10 classical pieces', sub: 'No right answers. Just go with what draws you; your music is ready to play in about 20 seconds.', perks: '<span>10 pieces for you</span><span>Painters & novels to match</span><span>Concerts & exhibitions</span>', q1: '<b>Q1</b>Which painting draws you more today?', hint: "Don't overthink it. First impressions are the most honest." },
+                ja: { h1: '絵を5回選べば、<br />あなただけのクラシック10曲', sub: '正解はありません。惹かれる方を選ぶだけで、約20秒後にすぐ聴けます。', perks: '<span>あなたに合う10曲</span><span>合う画家・小説</span><span>コンサート・展示</span>', q1: '<b>Q1</b>今日はどちらの絵に惹かれますか?', hint: '深く考えないで。第一印象がいちばん正直です。' }
               };
               var L = new URLSearchParams(location.search).get('lang');
               if (!T[L]) { try { L = localStorage.getItem('vo-lang'); } catch (e) {} }
@@ -1217,7 +1217,7 @@
               window.__ycStatP = fetch('/api/stat').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
               window.__ycProof = function (d, lang) {
                 var el = document.getElementById('q1-proof');
-                if (!el || !d || typeof d.all !== 'number' || d.all < 30) return;
+                if (!el || !d || typeof d.all !== 'number' || d.all < 1000) return;   // 1,000명 전에는 숫자가 작아 오히려 역효과라 숨김
                 var n = d.all.toLocaleString(lang === 'ko' ? 'ko-KR' : lang === 'ja' ? 'ja-JP' : 'en-US');
                 el.textContent = lang === 'ko' ? '지금까지 ' + n + '명이 그림으로 클래식을 골랐어요'
                   : lang === 'ja' ? 'これまで' + n + '人が絵でクラシックを選びました'
@@ -1527,7 +1527,7 @@
   })();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=cf1c0fcc"></script>
+  <script defer src="/assets/app.js?v=6842fb7c"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {
