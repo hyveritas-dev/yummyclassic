@@ -4936,7 +4936,7 @@
       fbPhYes: '어떤 점이 맞았는지 한 줄 남겨 주세요 (선택)', fbPhNo: '어떤 점이 달랐는지 한 줄 남겨 주세요 (선택)',
       fbSend: '보내기', fbThanks: '고마워요! 남겨 주신 의견으로 더 잘 맞게 고칠게요.', fbThanksVote: '고마워요!', fbAdd: '한 줄 더 남기기',
       pctLine: '나와 같은 유형은 전체의 {p}% · 지금까지 {n}명이 해봤어요',
-      vsTop: '소중한 사람과 냠냠클래식 궁합 확인하기', storyTop: '인스타스토리&카카오톡프사배경\n다운로드',
+      vsTop: '소중한 사람과 냠냠클래식 궁합 확인하기', storyTop: '카톡 배경 · 인스타 스토리 이미지 받기', storyNote: '나의 유형이 담긴 명화 한 장 (9:16)',
       vsInviteT: '소중한 사람과 나, 냠냠클래식 궁합은 몇%일까요?', vsInviteS: '링크를 받은 분이 그림을 고르면, 두 분의 냠냠클래식 궁합이 바로 나와요.',
       vsSend: '냠냠클래식 궁합 확인 링크 보내기', vsShareText: '소중한 사람과 나, 냠냠클래식 궁합은 몇%일까요? 그림 몇 장만 골라 주세요.',
       vsBanner: '‘{t}’ 유형의 소중한 분이 당신과의 냠냠클래식 궁합을 궁금해해요', vsBannerSub: '그림 몇 장만 고르면, 두 분의 냠냠클래식 궁합이 바로 나와요.\n오늘 당신의 마음은 어떤 그림에 머물까요?',
@@ -4960,7 +4960,7 @@
       fbPhYes: 'What felt right? One line (optional)', fbPhNo: 'What felt off? One line (optional)',
       fbSend: 'Send', fbThanks: 'Thank you! We’ll use this to make the result fit better.', fbThanksVote: 'Thanks!', fbAdd: 'Add a line',
       pctLine: '{p}% of people share your type · {n} people so far',
-      vsTop: 'Check your taste chemistry with someone special', storyTop: 'Post to Instagram Story',
+      vsTop: 'Check your taste chemistry with someone special', storyTop: 'Save for KakaoTalk & Instagram story', storyNote: 'Your type on a masterpiece (9:16)',
       vsInviteT: 'You and someone special: what % harmony do your paintings show?', vsInviteS: 'When they pick their paintings, you’ll both see your harmony and its rate.',
       vsSend: 'Send a harmony-test link', vsShareText: 'You and me: what % harmony do our paintings show? Pick a few paintings.',
       vsBanner: 'Someone special (“{t}”) is curious about your harmony', vsBannerSub: 'Pick a few paintings and see your harmony rate right away.\nWhich painting will hold your eye today?',
@@ -4984,7 +4984,7 @@
       fbPhYes: 'どこが合っていたか一言どうぞ(任意)', fbPhNo: 'どこがちがったか一言どうぞ(任意)',
       fbSend: '送る', fbThanks: 'ありがとうございます!いただいた声で、もっと合うように直します。', fbThanksVote: 'ありがとう!', fbAdd: '一言そえる',
       pctLine: '同じタイプは全体の{p}% · これまで{n}人が参加',
-      vsTop: '大切な人との好みの相性をチェック', storyTop: 'Instagramのストーリーに載せる',
+      vsTop: '大切な人との好みの相性をチェック', storyTop: 'カカオトーク背景・インスタのストーリー用に保存', storyNote: 'あなたのタイプを添えた名画（9:16）',
       vsInviteT: '大切な人と私、絵でわかる和音は何%?', vsInviteS: 'リンクを受け取った方が絵を選ぶと、ふたりの和音と和音率が出ます。',
       vsSend: '和音を測るリンクを送る', vsShareText: '大切な人と私、絵でわかる和音は何%?絵を数枚選んでください。',
       vsBanner: '「{t}」タイプの大切な方が、あなたとの和音を知りたがっています', vsBannerSub: '絵を数枚選ぶだけで、ふたりの和音率がすぐにわかります。\n今日、あなたの心はどの絵にとまるでしょう?',
@@ -5174,54 +5174,56 @@
       });
     })();
 
-    // 9:16 story image: type, the painting that defined it, three pieces, and the match hook
+    // 9:16 masterpiece background for KakaoTalk (profile background) and Instagram story: the painting that defined
+    // the type fills the frame; the type name and the site sit top-left, below Kakao's close button and Instagram's top bar
+    // (the same spot as the 명화 프사 watermark), so the lower part stays clear for Kakao's profile and Instagram's reply bar.
     const storyCache = { key: '', file: null, p: null };
     async function storyImage() {
       try { await document.fonts.ready; } catch (e) {}
       const S = tasteSummary(), sel = S.sel, t = I18N[lang], L = isLocal();
-      const E = ERAS[S.ek], mood = dominantMood(sel), T = TYPES[mood];
+      const mood = dominantMood(sel), T = TYPES[mood];
       const hero = sel.find(x => x.m === mood) || sel[0];
       const serif = (lang === 'ja' ? '"Noto Serif JP"' : lang === 'en' ? '"Noto Serif", "Noto Serif KR"' : '"Noto Serif KR"') + ', "Playfair Display", Georgia, serif';
       const sans = (lang === 'ja' ? '"Noto Sans JP"' : '"Pretendard Variable", Pretendard') + ', Inter, sans-serif';
-      const W = 1080, H = 1920, P = 48, IN = 110;
-      const im = await loadPainting(hero.f);
+      const W = 1080, H = 1920, X = W * .055;
+      let im = null;
+      for (const u of uploadUrls(hero.f, 1920)) { im = await loadCors(u); if (im) break; }
       const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
-      g.fillStyle = '#7A0F2A'; g.fillRect(0, 0, W, H);
-      g.fillStyle = '#F4E9D0'; rr(g, P, P, W - P * 2, H - P * 2, 22); g.fill();
-      g.fillStyle = E.c; g.fillRect(P + 22, P, W - P * 2 - 44, 12);
-      g.textBaseline = 'alphabetic'; g.textAlign = 'left';
-      g.fillStyle = '#7A0F2A'; g.font = '400 40px "DM Serif Display", "Playfair Display", Georgia, serif'; g.fillText('Yummy Classic', IN, 175);
-      g.fillStyle = '#C95C26'; g.font = '700 32px ' + sans; g.fillText(t.storyKick, IN, 262);
-      g.fillStyle = E.text; g.font = '800 92px "Playfair Display", serif'; g.fillText(E.en, IN - 4, 372);
-      g.fillStyle = '#4D0A1A'; g.font = '700 70px ' + serif;
-      const tl = wrapLines(g, L ? T[1] : T[0], W - IN * 2, 2);
-      tl.forEach((l, i) => g.fillText(l, IN, 472 + i * 86));
-      const top = 472 + tl.length * 86 - 20, ah = 680;
-      drawCover(g, im, IN, top, W - IN * 2, ah);
-      g.fillStyle = 'rgba(42,26,30,.7)'; g.font = '600 28px ' + sans;
-      g.fillText(wrapLines(g, (L ? hero.ko : hero.en) + ' · ' + (L ? hero.byKo : hero.byEn), W - IN * 2, 1)[0] || '', IN, top + ah + 48);
-      let y = top + ah + 120;
-      g.fillStyle = '#C95C26'; g.font = '700 28px ' + sans; g.fillText(t.storyListen, IN, y); y += 58;
-      buildRecommendation().slice(0, 3).forEach((r, i) => {
-        if (y > H - 330) return;
-        g.fillStyle = '#C95C26'; g.font = 'italic 700 40px "Playfair Display", serif'; g.fillText(String(i + 1), IN, y);
-        g.fillStyle = '#2A1A1E'; g.font = '700 34px ' + serif;
-        g.fillText(wrapLines(g, L ? r.ko : r.en, W - IN * 2 - 64, 1)[0] || '', IN + 60, y);
-        g.fillStyle = 'rgba(42,26,30,.6)'; g.font = '500 26px ' + sans;
-        g.fillText((SHORT[r.cid] || ['', ''])[L ? 1 : 0], IN + 60, y + 38); y += 96;
-      });
-      const by = H - P - 230; g.fillStyle = '#7A0F2A'; rr(g, IN - 30, by, W - (IN - 30) * 2, 170, 18); g.fill();
-      g.fillStyle = '#F4E9D0'; g.font = '700 42px ' + serif; g.fillText(wrapLines(g, t.storyCta, W - IN * 2, 1)[0], IN, by + 70);
-      g.fillStyle = '#F3A77B'; g.font = '800 54px Inter, sans-serif'; g.fillText(SITE, IN, by + 138);
+      g.fillStyle = '#3B0A14'; g.fillRect(0, 0, W, H);
+      if (im) {
+        const r = Math.max(W / im.width, H / im.height), iw = im.width * r, ih = im.height * r;
+        try { g.drawImage(im, (W - iw) / 2, (H - ih) / 2, iw, ih); } catch (e) {}
+      }
+      // soft shade at the top so the words read on any painting
+      const sh = g.createLinearGradient(0, 0, 0, H * .46);
+      sh.addColorStop(0, 'rgba(20,6,10,.62)'); sh.addColorStop(.55, 'rgba(20,6,10,.32)'); sh.addColorStop(1, 'rgba(20,6,10,0)');
+      g.fillStyle = sh; g.fillRect(0, 0, W, H * .46);
+      g.textAlign = 'left'; g.textBaseline = 'alphabetic';
+      g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = 14;
+      let y = H * .14 + 34;
+      g.fillStyle = '#F3C9A0'; g.font = '700 34px ' + sans; g.fillText(t.storyKick, X, y);
+      y += 30;
+      g.fillStyle = '#FFFFFF'; g.font = '700 84px ' + serif;
+      wrapLines(g, L ? T[1] : T[0], W - X * 2, 2).forEach(l => { y += 100; g.fillText(l, X, y); });
+      y += 84;
+      g.font = '700 36px ' + sans; g.fillText(L ? '♪ 냠냠클래식' : '♪ Yummy Classic', X, y);
+      y += 46;
+      g.globalAlpha = .9; g.font = '500 30px ' + sans; g.fillText(SITE, X, y); g.globalAlpha = 1;
       return new Promise(res => { try { c.toBlob(b => res(b), 'image/png'); } catch (e) { res(null); } });
+    }
+    function showStoryPreview(f) {
+      const im = document.getElementById('story-prev'); if (!im) return;
+      if (im._url) { URL.revokeObjectURL(im._url); im._url = null; }
+      if (!f) { im.hidden = true; im.removeAttribute('src'); return; }
+      im._url = URL.createObjectURL(f); im.src = im._url; im.hidden = false;
     }
     function prepareStory() {
       const k = shareKey(); if (!k || !ready()) return Promise.resolve(null);
       if (storyCache.key === k && storyCache.p) return storyCache.p;
-      storyCache.key = k; storyCache.file = null;
+      storyCache.key = k; storyCache.file = null; showStoryPreview(null);
       storyCache.p = storyImage().then(b => {
-        const f = b ? new File([b], 'yummy-classic-story.png', { type: 'image/png' }) : null;
-        if (storyCache.key === k) storyCache.file = f;
+        const f = b ? new File([b], 'yummy-classic-background.png', { type: 'image/png' }) : null;
+        if (storyCache.key === k) { storyCache.file = f; showStoryPreview(f); }
         if (!f && storyCache.key === k) storyCache.p = null;
         return f;
       }).catch(() => { if (storyCache.key === k) storyCache.p = null; return null; });
@@ -5248,10 +5250,12 @@
       const vt = document.getElementById('vs-top'); if (vt) vt.hidden = true;   // match invite kept out of the result's first screen (share section only)
       const ask = document.getElementById('r-ask'); if (ask) ask.hidden = true;
       const fb = document.getElementById('fb'); if (fb) fb.hidden = !!restored;
+      if (ready()) setTimeout(() => { try { prepareStory(); } catch (e) {} }, 1200);   // fills the 9:16 preview under the share section
     }
     document.getElementById('vs-top').addEventListener('click', sendVs);
     document.getElementById('vs-send').addEventListener('click', sendVs);
     document.getElementById('story-top').addEventListener('click', shareStory);
+    document.getElementById('story-save').addEventListener('click', shareStory);
     if (VS) track('match_link_open', { friend_type: VS.m });
 
     // ---------- 6) Init ----------

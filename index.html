@@ -781,11 +781,7 @@
     .fb-box .fb-q { font-size: 1rem; }
     .fb-btn { cursor: pointer; transition: transform .12s, border-color .12s; }
     .fb-btn:hover { border-color: var(--wine); } .fb-btn:active { transform: scale(.96); }
-    .r-actions .btn-match, .r-actions .btn-story { min-width: 0; white-space: normal; word-break: keep-all; font-size: 1.12rem; font-weight: 700; line-height: 1.35; letter-spacing: -.01em; }
-    .btn-story { flex-direction: column; gap: .45rem; padding: .85rem 1rem .8rem; }
-    .btn-story [data-i18n] { white-space: pre-line; }
-    .btn-story .story-icons { display: flex; gap: .6rem; justify-content: center; }
-    .btn-story .ig-glyph { width: 44px; height: 44px; flex: none; }
+    .r-actions .btn-match { min-width: 0; white-space: normal; word-break: keep-all; font-size: 1.12rem; font-weight: 700; line-height: 1.35; letter-spacing: -.01em; }
     .fb-add { margin-left: .25rem; font-size: .82rem; font-weight: 600; color: var(--wine); text-decoration: underline; text-underline-offset: 3px; background: none; border: 0; padding: 0; cursor: pointer; }
     .fb-row { display: flex; justify-content: center; gap: .5rem; margin-top: .65rem; }
     .fb-btn { padding: .5rem 1.05rem; border: 1px solid var(--line-strong); border-radius: var(--r); background: var(--paper); color: var(--ink); font-weight: 600; font-size: .9rem; }
@@ -921,19 +917,40 @@
       #r2-grid .tile .frame img { padding: 4px; }
     }
     /* Type chemistry: best and opposite type under the taste card */
-    .type-chem { margin: 1.5rem auto 0; max-width: 46rem; text-align: left; }
+    .type-chem { margin: 0; text-align: left; }
+    /* 나의 유형 + 명화 배경 이미지 (친구에게 전달하기 아래, 부가 요소) */
+    .r-after-share { max-width: 60rem; margin-left: auto; margin-right: auto; display: grid; gap: 1.5rem; align-items: center; }
+    .r-after-share .r-pct { margin: 0 0 .75rem; font-size: 1rem; text-align: left; }
+    .r-after-share .chem-row { grid-template-columns: 1fr; gap: .75rem; }
+    .story-dl { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .story-card { position: relative; width: 210px; aspect-ratio: 9 / 16; border: 0; padding: 0; border-radius: 18px; overflow: hidden; cursor: pointer;
+      background: linear-gradient(160deg, #7A0F2A, #2A1A1E); box-shadow: 0 18px 40px rgba(42,8,16,.35), 0 4px 10px rgba(42,8,16,.2); transition: transform .25s ease, box-shadow .25s ease; }
+    .story-card:hover { transform: translateY(-3px); box-shadow: 0 24px 48px rgba(42,8,16,.4), 0 6px 14px rgba(42,8,16,.22); }
+    .story-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .story-card .story-wait { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: rgba(244,233,208,.6); font-size: 2rem; animation: storyPulse 1.4s ease-in-out infinite; }
+    .story-card img:not([hidden]) + .story-wait { display: none; }
+    @keyframes storyPulse { 50% { opacity: .35; } }
+    .story-save { display: flex; align-items: center; gap: .8rem; width: 100%; max-width: 22rem; padding: .7rem 1rem; border-radius: var(--r-lg); background: var(--paper); border: 1px solid var(--line); cursor: pointer; text-align: left; color: var(--ink); transition: border-color .2s, transform .2s; }
+    .story-save:hover { border-color: var(--wine); transform: translateY(-1px); }
+    .story-save .story-icons { display: flex; gap: .4rem; flex: none; }
+    .story-save .ig-glyph { width: 36px; height: 36px; flex: none; }
+    .story-save .story-txt { display: flex; flex-direction: column; min-width: 0; }
+    .story-save b { font-size: 1rem; font-weight: 700; line-height: 1.35; }
+    .story-save small { font-size: .8rem; color: var(--muted); margin-top: .1rem; }
+    html[lang="ko"] .story-save b, html[lang="ko"] .story-save small { word-break: keep-all; }
+    @media (min-width: 768px) { .r-after-share { grid-template-columns: minmax(0, 1fr) 22rem; gap: 2.5rem; } }
     .chem-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
-    .chem-card { display: flex; gap: .8rem; align-items: center; padding: .8rem; border-radius: var(--r-lg); background: var(--paper); border: 1px solid var(--line); }
+    .chem-card { display: flex; gap: 1rem; align-items: center; padding: .75rem .9rem; border-radius: var(--r-lg); background: var(--paper); border: 1px solid var(--line); }
     .chem-card.chem-far { background: transparent; border-style: dashed; }
-    .chem-pic { flex: 0 0 64px; width: 64px; height: 64px; border-radius: var(--r); overflow: hidden; background: var(--paper-2); }
+    .chem-pic { flex: 0 0 84px; width: 84px; height: 84px; border-radius: var(--r); overflow: hidden; background: var(--paper-2); }
     .chem-pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .chem-txt { min-width: 0; }
-    .chem-k { font-family: 'Inter', var(--sans-cjk), sans-serif; font-size: .68rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--era-text, var(--wine)); }
+    .chem-k { font-family: 'Inter', var(--sans-cjk), sans-serif; font-size: .82rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--era-text, var(--wine)); }
     .chem-far .chem-k { color: var(--apricot-deep); }
-    .chem-nm { font-family: var(--serif-cjk), var(--serif-latin), serif; font-weight: 700; font-size: 1.02rem; line-height: 1.35; color: var(--ink); margin-top: .1rem; }
-    .chem-ln { font-size: .8rem; line-height: 1.5; color: var(--muted); margin-top: .2rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .chem-nm { font-family: var(--serif-cjk), var(--serif-latin), serif; font-weight: 700; font-size: 1.3rem; line-height: 1.3; color: var(--ink); margin-top: .15rem; }
+    .chem-ln { font-size: .98rem; line-height: 1.5; color: var(--muted); margin-top: .2rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     html[lang="ko"] .chem-nm, html[lang="ko"] .chem-ln { word-break: keep-all; }
-    @media (max-width: 639px) { .chem-row { grid-template-columns: 1fr; } }
+    @media (max-width: 639px) { .chem-row { grid-template-columns: 1fr; } .chem-pic { flex-basis: 64px; width: 64px; height: 64px; } .chem-nm { font-size: 1.12rem; } .chem-ln { font-size: .88rem; } }
 
     /* Composer taste map: you in the middle, matches close, stretch picks further out */
     .cmp-map { margin: 2rem auto 0; max-width: 54rem; }
@@ -1350,20 +1367,6 @@
                   </div>
                   <ol id="cd-list" class="mt-8 grid md:grid-cols-2 md:gap-x-12"></ol>
                 </div>
-                <!-- 유형 카드·프사 다운로드: 큐레이션(한 상) 아래 -->
-                <div class="r-after-tasting text-center max-w-5xl mx-auto mt-14">
-                <p id="r-pct" class="r-pct" hidden></p>
-                <div id="type-chem" class="type-chem" hidden></div>
-                <div class="r-under">
-                <div class="r-left">
-                <p id="r-ask" class="r-ask" data-i18n="vsInviteT" hidden>You and someone special: what % harmony do your paintings show?</p>
-                <div class="r-actions">
-                  <button type="button" id="vs-top" class="btn btn-primary btn-match"><span class="yc-badge"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg></span><span data-i18n="vsTop">Check your painting match with a friend</span></button>
-                  <button type="button" id="story-top" class="btn btn-ghost btn-story"><span class="story-icons"><svg class="ig-glyph" viewBox="0 0 24 24" aria-hidden="true"><defs><radialGradient id="igG" cx="30%" cy="107%" r="150%"><stop offset="0" stop-color="#fdf497"/><stop offset=".05" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".6" stop-color="#d6249f"/><stop offset=".9" stop-color="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6.5" fill="url(#igG)"/><rect x="5" y="5" width="14" height="14" rx="4.2" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.3" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="16.4" cy="7.6" r="1.05" fill="#fff"/></svg><svg class="ig-glyph kt-glyph" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6.5" fill="#FEE500"/><path d="M12 5.6c-4.1 0-7.4 2.6-7.4 5.8 0 2.1 1.4 3.9 3.5 4.9l-.8 2.9c-.1.3.2.5.4.3l3.4-2.3c.3 0 .6.1.9.1 4.1 0 7.4-2.6 7.4-5.8S16.1 5.6 12 5.6z" fill="#3C1E1E"/></svg></span><span data-i18n="storyTop">Post to your story</span></button>
-                </div>
-                </div>
-                </div>
-                </div>
               </div>
 
               <!-- Today's concerts & exhibitions (public data: KOPIS + Korea Culture Information Service) -->
@@ -1443,6 +1446,22 @@
                 <div id="yc-toast" class="yc-toast" role="status" aria-live="polite"></div>
                 <button type="button" id="sh-go" class="btn btn-primary sh-go" hidden data-i18n="igShareNow">Share the 3 images</button>
                 <div id="sh-preview" class="sh-preview" hidden></div>
+              </div>
+              <!-- 나의 유형·명화 배경 이미지: 친구에게 전달하기 아래 (부가 요소) -->
+              <div class="r-after-share mt-10">
+                <div class="r-type-side">
+                  <p id="r-pct" class="r-pct" hidden></p>
+                  <div id="type-chem" class="type-chem" hidden></div>
+                  <p id="r-ask" class="r-ask" data-i18n="vsInviteT" hidden>You and someone special: what % harmony do your paintings show?</p>
+                  <div class="r-actions" hidden><button type="button" id="vs-top" class="btn btn-primary btn-match"><span class="yc-badge"><svg class="yc-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="6.3"/><circle cx="12" cy="12" r="2"/><g transform="translate(3.6 5.6) rotate(-8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g><g transform="translate(20.4 5.6) rotate(8)"><path d="M-1.6 0v3.2M0 0v3.2M1.6 0v3.2M-1.6 3.2c0 1.8 3.2 1.8 3.2 0M0 4.6V12"/></g></svg></span><span data-i18n="vsTop">Check your painting match with a friend</span></button></div>
+                </div>
+                <div class="story-dl">
+                  <button type="button" id="story-top" class="story-card" aria-label="Save image">
+                    <img id="story-prev" alt="" hidden />
+                    <span class="story-wait" aria-hidden="true">♪</span>
+                  </button>
+                  <button type="button" id="story-save" class="story-save"><span class="story-icons"><svg class="ig-glyph kt-glyph" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6.5" fill="#FEE500"/><path d="M12 5.6c-4.1 0-7.4 2.6-7.4 5.8 0 2.1 1.4 3.9 3.5 4.9l-.8 2.9c-.1.3.2.5.4.3l3.4-2.3c.3 0 .6.1.9.1 4.1 0 7.4-2.6 7.4-5.8S16.1 5.6 12 5.6z" fill="#3C1E1E"/></svg><svg class="ig-glyph" viewBox="0 0 24 24" aria-hidden="true"><defs><radialGradient id="igG" cx="30%" cy="107%" r="150%"><stop offset="0" stop-color="#fdf497"/><stop offset=".05" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".6" stop-color="#d6249f"/><stop offset=".9" stop-color="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6.5" fill="url(#igG)"/><rect x="5" y="5" width="14" height="14" rx="4.2" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.3" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="16.4" cy="7.6" r="1.05" fill="#fff"/></svg></span><span class="story-txt"><b data-i18n="storyTop">Save for KakaoTalk &amp; Instagram story</b><small data-i18n="storyNote">Your type on a masterpiece · 9:16</small></span></button>
+                </div>
               </div>
 
               <!-- More for today (pilot): painters and classic novels matched by the chosen paintings' keywords -->
@@ -1531,7 +1550,7 @@
   <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=95f31b02"></script>
+  <script defer src="/assets/app.js?v=cd66ecde"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {
