@@ -964,7 +964,7 @@
       .r-after-share:not(:has(.r-type-side > :not([hidden]))) { max-width: 60rem; }
       .r-after-share:not(:has(.r-type-side > :not([hidden]))) .story-dl { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "save card"; align-items: center; gap: 2.5rem; }
       .r-after-share:not(:has(.r-type-side > :not([hidden]))) .story-row { grid-area: card; }
-      .r-after-share:not(:has(.r-type-side > :not([hidden]))) .story-save { grid-area: save; justify-self: end; max-width: 17rem; }
+      .r-after-share:not(:has(.r-type-side > :not([hidden]))) .story-saves { grid-area: save; justify-self: end; }
     }
     .story-card { position: relative; width: 210px; aspect-ratio: 9 / 16; border: 0; padding: 0; border-radius: 18px; overflow: hidden; cursor: pointer;
       background: linear-gradient(160deg, #7A0F2A, #2A1A1E); box-shadow: 0 18px 40px rgba(42,8,16,.35), 0 4px 10px rgba(42,8,16,.2); transition: transform .25s ease, box-shadow .25s ease; }
@@ -991,14 +991,19 @@
     .kt-acts span { display: flex; flex-direction: column; align-items: center; gap: 3px; }
     .kt-acts svg { width: 15px; height: 15px; }
     .kt-acts i { font-style: normal; font-size: 8.5px; opacity: .9; }
-    .story-save { display: flex; align-items: center; gap: .8rem; width: 100%; max-width: 22rem; padding: .7rem 1rem; border-radius: var(--r-lg); background: var(--paper); border: 1px solid var(--line); cursor: pointer; text-align: left; color: var(--ink); transition: border-color .2s, transform .2s; }
-    .story-save:hover { border-color: var(--wine); transform: translateY(-1px); }
-    .story-save .story-icons { display: flex; flex-direction: column; gap: .35rem; flex: none; }
-    .story-save .ig-glyph { width: 30px; height: 30px; flex: none; }
-    .story-save .story-txt { display: flex; flex-direction: column; min-width: 0; }
-    .story-save b { font-size: 1rem; font-weight: 700; line-height: 1.35; }
-    .story-save small { font-size: .9rem; font-weight: 700; color: var(--wine); margin-top: .3rem; }
-    html[lang="ko"] .story-save b, html[lang="ko"] .story-save small { word-break: keep-all; }
+    .story-saves { display: flex; flex-direction: column; gap: .6rem; width: 100%; max-width: 17rem; }
+    .story-saves-t { margin: 0 0 .2rem .3rem; font-family: var(--serif-cjk), var(--serif-latin), serif; font-size: .92rem; color: var(--wine-deep); }
+    .story-save { display: flex; align-items: center; gap: .75rem; width: 100%; padding: .45rem 1rem .45rem .45rem; border-radius: 999px; background: transparent; border: 1px solid rgba(122,15,42,.28); color: var(--wine-deep); cursor: pointer; text-align: left; transition: background .2s, border-color .2s, transform .2s; }
+    .story-save:hover { background: rgba(122,15,42,.05); border-color: var(--wine); transform: translateY(-1px); }
+    .story-save:focus-visible { outline: 2px solid var(--wine); outline-offset: 2px; }
+    .ss-ic { width: 34px; height: 34px; flex: none; border-radius: 50%; display: grid; place-items: center; }
+    .ss-ic svg { width: 20px; height: 20px; }
+    .ss-kt { background: #FEE500; }
+    .ss-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+    .story-save b { flex: 1; min-width: 0; font-size: .95rem; font-weight: 600; line-height: 1.3; }
+    .story-save .ss-go { width: 17px; height: 17px; flex: none; opacity: .55; transition: opacity .2s, transform .2s; }
+    .story-save:hover .ss-go { opacity: 1; transform: translateY(1px); }
+    html[lang="ko"] .story-saves { word-break: keep-all; }
     @media (min-width: 768px) { .r-after-share { grid-template-columns: minmax(0, 1fr) 22rem; gap: 2.5rem; } }
     .chem-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
     .chem-card { display: flex; gap: 1rem; align-items: center; padding: .75rem .9rem; border-radius: var(--r-lg); background: var(--paper); border: 1px solid var(--line); }
@@ -1544,7 +1549,11 @@
                   <figcaption><b data-i18n="storyUse2">Instagram story</b><span data-i18n="storyCap2">Same 9:16 image + link sticker</span></figcaption>
                   </figure>
                   </div>
-                  <button type="button" id="story-save" class="story-save"><span class="story-icons"><svg class="ig-glyph kt-glyph" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6.5" fill="#FEE500"/><path d="M12 5.6c-4.1 0-7.4 2.6-7.4 5.8 0 2.1 1.4 3.9 3.5 4.9l-.8 2.9c-.1.3.2.5.4.3l3.4-2.3c.3 0 .6.1.9.1 4.1 0 7.4-2.6 7.4-5.8S16.1 5.6 12 5.6z" fill="#3C1E1E"/></svg><svg class="ig-glyph" viewBox="0 0 24 24" aria-hidden="true"><defs><radialGradient id="igG" cx="30%" cy="107%" r="150%"><stop offset="0" stop-color="#fdf497"/><stop offset=".05" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".6" stop-color="#d6249f"/><stop offset=".9" stop-color="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6.5" fill="url(#igG)"/><rect x="5" y="5" width="14" height="14" rx="4.2" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.3" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="16.4" cy="7.6" r="1.05" fill="#fff"/></svg></span><span class="story-txt"><b data-i18n="storyTop">Save for KakaoTalk &amp; Instagram story</b><small data-i18n="storyNote">Your type on a masterpiece · 9:16</small></span></button>
+                  <div class="story-saves">
+                    <p class="story-saves-t" data-i18n="storyNote">Your type on a masterpiece · 9:16</p>
+                    <button type="button" id="story-save" class="story-save"><span class="ss-ic ss-kt" aria-hidden="true"><svg viewBox="2.6 3.2 18.8 18.8"><path d="M12 5.6c-4.1 0-7.4 2.6-7.4 5.8 0 2.1 1.4 3.9 3.5 4.9l-.8 2.9c-.1.3.2.5.4.3l3.4-2.3c.3 0 .6.1.9.1 4.1 0 7.4-2.6 7.4-5.8S16.1 5.6 12 5.6z" fill="#3C1E1E"/></svg></span><b data-i18n="saveKt">Save for KakaoTalk</b><svg class="ss-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg></button>
+                    <button type="button" id="story-save-ig" class="story-save"><span class="ss-ic ss-ig" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9"><rect x="5.5" y="5.5" width="13" height="13" rx="4"/><circle cx="12" cy="12" r="3.1"/><circle cx="15.9" cy="8.1" r=".6" fill="#fff"/></svg></span><b data-i18n="saveIg">Save for Instagram story</b><svg class="ss-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg></button>
+                  </div>
                 </div>
               </div>
 
@@ -1634,7 +1643,7 @@
   <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=10250542d"></script>
+  <script defer src="/assets/app.js?v=10250545e"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {
