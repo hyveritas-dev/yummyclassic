@@ -5201,9 +5201,8 @@
       try { const km = document.getElementById('kt-msg'); if (km) km.textContent = (t.ktMsg || '{t}').replace('{t}', L ? T[1] : T[0]); } catch (e) {}
       g.textAlign = 'left'; g.textBaseline = 'alphabetic';
       g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = 14;
-      let y = H * .14 + 34;
-      g.fillStyle = '#F3C9A0'; g.font = '700 34px ' + sans; g.fillText(t.storyKick, X, y);
-      y += 30;
+      // image = painting + phrase (type name) + Yummy Classic / site address only
+      let y = H * .14;
       g.fillStyle = '#FFFFFF'; g.font = '700 84px ' + serif;
       wrapLines(g, L ? T[1] : T[0], W - X * 2, 2).forEach(l => { y += 100; g.fillText(l, X, y); });
       y += 84;
