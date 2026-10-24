@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#F4E9D0" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="naver-site-verification" content="9e97a58753fde6bf47e473bc37f967f8e51d74cf" />
-  <title>Yummy Classic — Today’s classical, picked by a painting</title>
-  <meta name="description" content="Pick the painting that draws you today, and today’s classical music finds you." />
+  <title>냠냠클래식 — 오늘 끌리는 그림으로 고르는 오늘의 클래식</title>
+  <meta name="description" content="오늘 마음이 가는 그림을 고르면, 오늘의 클래식이 찾아옵니다. 그림 5번 고르고 20초 만에 나만의 클래식 10곡을 추천받으세요." />
+  <link rel="canonical" href="https://yummyclassic.co.kr/" />
+  <meta property="og:site_name" content="냠냠클래식" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:url" content="https://yummyclassic.co.kr/" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Yummy Classic — Today’s classical, picked by a painting" />
-  <meta property="og:description" content="Pick a painting before you hear a note. The one that draws you today picks today’s classical." />
-  <meta property="og:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg?width=1200" />
+  <meta property="og:title" content="냠냠클래식 — 오늘 끌리는 그림으로 고르는 오늘의 클래식" />
+  <meta property="og:description" content="음악을 듣기 전에 그림부터 골라 보세요. 오늘 끌리는 그림이 오늘의 클래식을 골라 줍니다." />
+  <meta property="og:image" content="https://yummyclassic.co.kr/og/match-ko.png" />
   <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"냠냠클래식","alternateName":["Yummy Classic","yummyclassic"],"url":"https://yummyclassic.co.kr/","inLanguage":"ko-KR","description":"오늘 끌리는 그림으로 고르는 오늘의 클래식"}</script>
 
   <link rel="preconnect" href="https://yummy-events.hyveritas.workers.dev" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
@@ -1205,7 +1210,7 @@
       <div class="intro-in">
         <div class="intro-copy">
           <p class="intro-kick" data-i18n="introKicker">Today’s classical, chosen by a painting</p>
-          <h1 id="intro-h" class="intro-h font-serif" data-i18n-html="introH1">The painting you choose<br />recommends today’s classical piece</h1>
+          <h1 id="intro-h" class="intro-h font-serif" data-i18n-html="introH1">당신이 선택한 그림이<br />오늘의 클래식을<br />추천해 줍니다</h1>
           <p class="intro-sub" data-i18n="introSub">Pick a few paintings and get one piece for your mood in about 20 seconds.</p>
           <div class="intro-act">
             <button type="button" id="intro-go" class="btn btn-primary intro-cta" data-i18n="introCta">Start choosing</button>
@@ -1235,13 +1240,13 @@
 
         <div class="hero-band">
         <div class="text-center max-w-3xl mx-auto">
-          <h2 class="hero-q reveal d1 font-serif text-[2.1rem] sm:text-6xl lg:text-[4.4rem] font-semibold leading-[1.1] sm:leading-[1.05] tracking-[-0.015em]" data-i18n-html="h1">Which one<br /> holds your gaze?</h2>
-          <p class="reveal d2 mt-4 sm:mt-8 text-[13px] sm:text-lg text-white/60 leading-relaxed" data-i18n-html="sub">There's no right answer. Trust the one you looked at first.<br />No headphones, no search terms. The paintings read your taste first.</p>
+          <h2 class="hero-q reveal d1 font-serif text-[2.1rem] sm:text-6xl lg:text-[4.4rem] font-semibold leading-[1.1] sm:leading-[1.05] tracking-[-0.015em]" data-i18n-html="h1">그림 5번 고르면,<br /> 나만의 클래식 10곡</h2>
+          <p class="reveal d2 mt-4 sm:mt-8 text-[13px] sm:text-lg text-white/60 leading-relaxed" data-i18n-html="sub">정답은 없어요. 끌리는 쪽만 고르면 약 20초 뒤 바로 들려 드려요.</p>
           <p class="reveal d2 perks" data-i18n-html="perks"></p>
         </div>
 
         <!-- Step label: sets expectations (steps + time) -->
-        <p class="reveal d3 q-label mt-2 text-center text-2xl sm:text-4xl leading-tight tracking-tight" data-i18n-html="q1">Q1. Which painting draws you in?</p>
+        <p class="reveal d3 q-label mt-2 text-center text-2xl sm:text-4xl leading-tight tracking-tight" data-i18n-html="q1"><b>Q1</b>둘 중 오늘 더 끌리는 그림은?</p>
         <p id="q1-step" class="reveal d3 mt-2 text-center text-xs sm:text-sm text-white/55 tracking-wide"></p>
         <p id="q1-proof" class="q1-proof" hidden></p>
         <p id="vs-banner" class="vs-banner" hidden></p>
@@ -1292,7 +1297,7 @@
 
         <p class="mt-7 text-center text-xs text-white/40 flex items-center justify-center gap-2">
           <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-200/70 pulse-dot"></span>
-          <span data-i18n="hint">Don't overthink it. First impressions are the most honest.</span>
+          <span data-i18n="hint">오래 고민하지 마세요. 첫인상이 가장 솔직해요.</span>
         </p>
         <div class="mt-4 flex justify-center">
           <button id="pair-swap" type="button" class="btn btn-ghost pair-swap-big"></button>
