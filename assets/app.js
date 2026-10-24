@@ -5256,6 +5256,13 @@
     document.getElementById('vs-top').addEventListener('click', sendVs);
     document.getElementById('vs-send').addEventListener('click', sendVs);
     document.getElementById('story-top').addEventListener('click', shareStory);
+    // 미리보기 전환: '이렇게 쓰면 좋아요' 목록으로 카톡 프로필 / 인스타 스토리 화면을 바꿔 보여 준다 (처음엔 몇 번 자동 전환)
+    try {
+      const card = document.getElementById('story-top'), bs = [...document.querySelectorAll('.story-use-b')];
+      let auto = matchMedia('(prefers-reduced-motion: reduce)').matches ? null : setInterval(() => setMode(card.dataset.mode === 'ig' ? 'kt' : 'ig'), 3500), n = 0;
+      function setMode(m) { card.dataset.mode = m; bs.forEach(x => x.setAttribute('aria-pressed', String(x.dataset.mode === m))); if (auto && ++n >= 6) { clearInterval(auto); auto = null; } }
+      bs.forEach(x => x.addEventListener('click', () => { if (auto) { clearInterval(auto); auto = null; } setMode(x.dataset.mode); }));
+    } catch (e) {}
     document.getElementById('story-save').addEventListener('click', shareStory);
     if (VS) track('match_link_open', { friend_type: VS.m });
 

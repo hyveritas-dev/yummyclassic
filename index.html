@@ -939,6 +939,26 @@
     .story-use ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--wine); }
     .story-use li { padding: .7rem 0; border-bottom: 1px solid var(--line); font-family: var(--serif-cjk), var(--serif-latin), serif; font-size: 1.05rem; font-weight: 700; line-height: 1.3; color: var(--wine-deep); letter-spacing: -.01em; }
     html[lang="ko"] .story-use { word-break: keep-all; }
+    .story-use-b { all: unset; box-sizing: border-box; display: block; width: 100%; cursor: pointer; opacity: .45; transition: opacity .2s; }
+    .story-use-b[aria-pressed="true"], .story-use-b:hover { opacity: 1; }
+    .story-use-b:focus-visible { outline: 2px solid var(--apricot-deep); outline-offset: 3px; }
+    .story-use-b[aria-pressed="true"]::after { content: ' ›'; color: var(--apricot-deep); }
+    /* 미리보기: 인스타 스토리에 올린 화면처럼 (오른쪽 목록으로 전환) */
+    .ig-ui { position: absolute; inset: 0; pointer-events: none; display: none; flex-direction: column; color: #fff; font-family: var(--sans-cjk), sans-serif; }
+    .story-card[data-mode="ig"] .kt-ui { display: none; }
+    .story-card[data-mode="ig"] img:not([hidden]) ~ .ig-ui { display: flex; }
+    .ig-bars { display: flex; gap: 3px; padding: 8px 8px 0; }
+    .ig-bars i { flex: 1; height: 2px; border-radius: 1px; background: rgba(255,255,255,.45); }
+    .ig-bars i:first-child { background: #fff; }
+    .ig-head { display: flex; align-items: center; gap: 5px; padding: 7px 8px; font-size: 9.5px; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+    .ig-head b { font-weight: 700; }
+    .ig-head svg { width: 13px; height: 13px; margin-left: auto; filter: drop-shadow(0 1px 2px rgba(0,0,0,.5)); }
+    .ig-av { width: 18px; height: 18px; border-radius: 50%; background: #7A0F2A; border: 1.5px solid #fff; }
+    .ig-link { margin: auto auto 12px; display: flex; align-items: center; gap: 4px; padding: 5px 9px; border-radius: 7px; background: #fff; color: #1d5fa6; font-size: 9px; font-weight: 700; letter-spacing: .02em; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+    .ig-link svg { width: 11px; height: 11px; }
+    .ig-foot { display: flex; align-items: center; gap: 9px; padding: 0 9px 11px; }
+    .ig-input { flex: 1; height: 24px; border-radius: 12px; border: 1px solid rgba(255,255,255,.75); }
+    .ig-foot svg { width: 15px; height: 15px; }
     @media (max-width: 420px) { .story-row .story-card { width: 170px; } .story-row { gap: 1rem; } }
     /* 왼쪽(유형 궁합 등)이 비어 있으면 이미지를 가운데로 */
     .r-after-share:not(:has(.r-type-side > :not([hidden]))) { grid-template-columns: 1fr !important; max-width: 32rem; }
@@ -1512,10 +1532,16 @@
                       <span class="kt-me"><span class="kt-av"><svg  viewBox="-10 -10 260 260" aria-hidden="true"><circle cx="120" cy="120" r="110" fill="#2A1A1E"/><circle cx="120" cy="120" r="97" fill="none" stroke="#F4E9D0" stroke-opacity=".5" stroke-width="3"/><circle cx="120" cy="120" r="78" fill="none" stroke="#F4E9D0" stroke-opacity=".16" stroke-width="2.5"/><circle cx="120" cy="120" r="34" fill="#F4E9D0"/><circle cx="120" cy="120" r="5" fill="#2A1A1E"/><g class="pick" transform="translate(120 120) rotate(-135) scale(0.62) translate(-48 10)" fill="#E8753D"><rect x="22" y="6" width="9" height="62" rx="4.5"/><rect x="43.5" y="6" width="9" height="62" rx="4.5"/><rect x="65" y="6" width="9" height="62" rx="4.5"/><path d="M22 60 H74 C 74 88, 60 98, 53 102 V 196 H 43 V 102 C 36 98, 22 88, 22 60 Z"/><ellipse cx="32" cy="208" rx="22" ry="16" transform="rotate(-22 32 208)"/></g></svg></span><b data-i18n="ktMe">냠냠클래식</b><em id="kt-msg" class="kt-msg"></em><small class="kt-url">yummyclassic.co.kr</small></span>
                       <span class="kt-acts"><span><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M12 4.5c-4.7 0-8.5 3-8.5 6.6 0 2.3 1.6 4.4 4 5.5l-.9 3.4 3.9-2.6c.5.1 1 .1 1.5.1 4.7 0 8.5-3 8.5-6.4S16.7 4.5 12 4.5z"/></svg><i data-i18n="ktChat">나와의 채팅</i></span><span><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg><i data-i18n="ktEdit">프로필 편집</i></span></span>
                     </span>
+                    <span class="ig-ui" aria-hidden="true">
+                      <span class="ig-bars"><i></i><i></i></span>
+                      <span class="ig-head"><span class="ig-av"></span><b data-i18n="ktMe">냠냠클래식</b><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+                      <span class="ig-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>YUMMYCLASSIC.CO.KR</span>
+                      <span class="ig-foot"><span class="ig-input"></span><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10C19.5 15.4 12 20 12 20z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"><path d="M21 3 3 10.5l7 2.5 2.5 7z"/><path d="M21 3 10 13"/></svg></span>
+                    </span>
                   </button>
                   <div class="story-use">
                     <p class="story-use-t" data-i18n="storyUseT">Great for</p>
-                    <ul><li data-i18n="storyUse1">KakaoTalk profile</li><li data-i18n="storyUse2">Instagram story</li></ul>
+                    <ul><li><button type="button" class="story-use-b" data-mode="kt" aria-pressed="true" data-i18n="storyUse1">KakaoTalk profile</button></li><li><button type="button" class="story-use-b" data-mode="ig" aria-pressed="false" data-i18n="storyUse2">Instagram story</button></li></ul>
                   </div>
                   </div>
                   <button type="button" id="story-save" class="story-save"><span class="story-icons"><svg class="ig-glyph kt-glyph" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6.5" fill="#FEE500"/><path d="M12 5.6c-4.1 0-7.4 2.6-7.4 5.8 0 2.1 1.4 3.9 3.5 4.9l-.8 2.9c-.1.3.2.5.4.3l3.4-2.3c.3 0 .6.1.9.1 4.1 0 7.4-2.6 7.4-5.8S16.1 5.6 12 5.6z" fill="#3C1E1E"/></svg><svg class="ig-glyph" viewBox="0 0 24 24" aria-hidden="true"><defs><radialGradient id="igG" cx="30%" cy="107%" r="150%"><stop offset="0" stop-color="#fdf497"/><stop offset=".05" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".6" stop-color="#d6249f"/><stop offset=".9" stop-color="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6.5" fill="url(#igG)"/><rect x="5" y="5" width="14" height="14" rx="4.2" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.3" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="16.4" cy="7.6" r="1.05" fill="#fff"/></svg></span><span class="story-txt"><b data-i18n="storyTop">Save for KakaoTalk &amp; Instagram story</b><small data-i18n="storyNote">Your type on a masterpiece · 9:16</small></span></button>
@@ -1608,7 +1634,7 @@
   <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=10250536a"></script>
+  <script defer src="/assets/app.js?v=10250539b"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {
