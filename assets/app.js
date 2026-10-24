@@ -4653,7 +4653,7 @@
       clearTimeout(btn._flash); btn._flash = setTimeout(() => btn.classList.remove('is-done'), 2600);
     }
     document.addEventListener('click', e => {
-      const b = e.target.closest && e.target.closest('.sh-btn, .btn-match, #sh-copy, #story-top, .fb-btn');
+      const b = e.target.closest && e.target.closest('.sh-btn, .btn-match, #sh-copy, #story-top, #story-ig, .fb-btn');
       if (!b) return;
       b.classList.remove('tap-pop'); void b.offsetWidth; b.classList.add('tap-pop');
     }, true);
@@ -4936,7 +4936,7 @@
       fbPhYes: '어떤 점이 맞았는지 한 줄 남겨 주세요 (선택)', fbPhNo: '어떤 점이 달랐는지 한 줄 남겨 주세요 (선택)',
       fbSend: '보내기', fbThanks: '고마워요! 남겨 주신 의견으로 더 잘 맞게 고칠게요.', fbThanksVote: '고마워요!', fbAdd: '한 줄 더 남기기',
       pctLine: '나와 같은 유형은 전체의 {p}% · 지금까지 {n}명이 해봤어요',
-      vsTop: '소중한 사람과 냠냠클래식 궁합 확인하기', storyTop: '카카오톡 프로필 사진 배경 / 인스타 스토리 이미지 활용', ktMe: '냠냠클래식', ktMsg: '그림으로 고른 오늘의 나\n{t}', ktChat: '나와의 채팅', ktEdit: '프로필 편집', storyNote: '나의 유형이 담긴 명화 한 장 (9:16)', storyUseT: '이렇게 쓰면 좋아요', storyUse1: '카톡 프사·배경', storyUse2: '인스타 스토리',
+      vsTop: '소중한 사람과 냠냠클래식 궁합 확인하기', storyTop: '카카오톡 프로필 사진 배경 / 인스타 스토리 이미지 활용', ktMe: '냠냠클래식', ktMsg: '그림으로 고른 오늘의 나\n{t}', ktChat: '나와의 채팅', ktEdit: '프로필 편집', storyNote: '나의 유형이 담긴 명화 한 장 (9:16)', storyUseT: '이렇게 쓰면 좋아요', storyUse1: '카톡 프사·배경', storyUse2: '인스타 스토리', storyCap1: '프로필 원 + 9:16 배경', storyCap2: '같은 9:16 이미지 + 링크 스티커',
       vsInviteT: '소중한 사람과 나, 냠냠클래식 궁합은 몇%일까요?', vsInviteS: '링크를 받은 분이 그림을 고르면, 두 분의 냠냠클래식 궁합이 바로 나와요.',
       vsSend: '냠냠클래식 궁합 확인 링크 보내기', vsShareText: '소중한 사람과 나, 냠냠클래식 궁합은 몇%일까요? 그림 몇 장만 골라 주세요.',
       vsBanner: '‘{t}’ 유형의 소중한 분이 당신과의 냠냠클래식 궁합을 궁금해해요', vsBannerSub: '그림 몇 장만 고르면, 두 분의 냠냠클래식 궁합이 바로 나와요.\n오늘 당신의 마음은 어떤 그림에 머물까요?',
@@ -4960,7 +4960,7 @@
       fbPhYes: 'What felt right? One line (optional)', fbPhNo: 'What felt off? One line (optional)',
       fbSend: 'Send', fbThanks: 'Thank you! We’ll use this to make the result fit better.', fbThanksVote: 'Thanks!', fbAdd: 'Add a line',
       pctLine: '{p}% of people share your type · {n} people so far',
-      vsTop: 'Check your taste chemistry with someone special', storyTop: 'Use as KakaoTalk profile background / Instagram story', ktMe: 'Yummy Classic', ktMsg: 'Today my paintings say\n{t}', ktChat: 'My Chatroom', ktEdit: 'Edit Profile', storyNote: 'Your type on a masterpiece (9:16)', storyUseT: 'Great for', storyUse1: 'KakaoTalk profile', storyUse2: 'Instagram story',
+      vsTop: 'Check your taste chemistry with someone special', storyTop: 'Use as KakaoTalk profile background / Instagram story', ktMe: 'Yummy Classic', ktMsg: 'Today my paintings say\n{t}', ktChat: 'My Chatroom', ktEdit: 'Edit Profile', storyNote: 'Your type on a masterpiece (9:16)', storyUseT: 'Great for', storyUse1: 'KakaoTalk profile', storyUse2: 'Instagram story', storyCap1: 'Profile circle + 9:16 background', storyCap2: 'Same 9:16 image + link sticker',
       vsInviteT: 'You and someone special: what % harmony do your paintings show?', vsInviteS: 'When they pick their paintings, you’ll both see your harmony and its rate.',
       vsSend: 'Send a harmony-test link', vsShareText: 'You and me: what % harmony do our paintings show? Pick a few paintings.',
       vsBanner: 'Someone special (“{t}”) is curious about your harmony', vsBannerSub: 'Pick a few paintings and see your harmony rate right away.\nWhich painting will hold your eye today?',
@@ -4984,7 +4984,7 @@
       fbPhYes: 'どこが合っていたか一言どうぞ(任意)', fbPhNo: 'どこがちがったか一言どうぞ(任意)',
       fbSend: '送る', fbThanks: 'ありがとうございます!いただいた声で、もっと合うように直します。', fbThanksVote: 'ありがとう!', fbAdd: '一言そえる',
       pctLine: '同じタイプは全体の{p}% · これまで{n}人が参加',
-      vsTop: '大切な人との好みの相性をチェック', storyTop: 'カカオトークのプロフィール背景・インスタのストーリーに', ktMe: 'Yummy Classic', ktMsg: '絵で選んだ今日のわたし\n{t}', ktChat: '自分とのチャット', ktEdit: 'プロフィール編集', storyNote: 'あなたのタイプを添えた名画（9:16）', storyUseT: 'こんな使い方に', storyUse1: 'カカオトークのプロフィール', storyUse2: 'インスタのストーリー',
+      vsTop: '大切な人との好みの相性をチェック', storyTop: 'カカオトークのプロフィール背景・インスタのストーリーに', ktMe: 'Yummy Classic', ktMsg: '絵で選んだ今日のわたし\n{t}', ktChat: '自分とのチャット', ktEdit: 'プロフィール編集', storyNote: 'あなたのタイプを添えた名画（9:16）', storyUseT: 'こんな使い方に', storyUse1: 'カカオトークのプロフィール', storyUse2: 'インスタのストーリー', storyCap1: 'プロフィール円＋9:16背景', storyCap2: '同じ9:16画像＋リンクスタンプ',
       vsInviteT: '大切な人と私、絵でわかる和音は何%?', vsInviteS: 'リンクを受け取った方が絵を選ぶと、ふたりの和音と和音率が出ます。',
       vsSend: '和音を測るリンクを送る', vsShareText: '大切な人と私、絵でわかる和音は何%?絵を数枚選んでください。',
       vsBanner: '「{t}」タイプの大切な方が、あなたとの和音を知りたがっています', vsBannerSub: '絵を数枚選ぶだけで、ふたりの和音率がすぐにわかります。\n今日、あなたの心はどの絵にとまるでしょう?',
@@ -5215,8 +5215,10 @@
     function showStoryPreview(f) {
       const im = document.getElementById('story-prev'); if (!im) return;
       if (im._url) { URL.revokeObjectURL(im._url); im._url = null; }
-      if (!f) { im.hidden = true; im.removeAttribute('src'); return; }
+      const ig = document.getElementById('story-prev-ig');
+      if (!f) { im.hidden = true; im.removeAttribute('src'); if (ig) { ig.hidden = true; ig.removeAttribute('src'); } return; }
       im._url = URL.createObjectURL(f); im.src = im._url; im.hidden = false;
+      if (ig) { ig.src = im._url; ig.hidden = false; }
     }
     function prepareStory() {
       const k = shareKey(); if (!k || !ready()) return Promise.resolve(null);
@@ -5256,13 +5258,7 @@
     document.getElementById('vs-top').addEventListener('click', sendVs);
     document.getElementById('vs-send').addEventListener('click', sendVs);
     document.getElementById('story-top').addEventListener('click', shareStory);
-    // 미리보기 전환: '이렇게 쓰면 좋아요' 목록으로 카톡 프로필 / 인스타 스토리 화면을 바꿔 보여 준다 (처음엔 몇 번 자동 전환)
-    try {
-      const card = document.getElementById('story-top'), bs = [...document.querySelectorAll('.story-use-b')];
-      let auto = matchMedia('(prefers-reduced-motion: reduce)').matches ? null : setInterval(() => setMode(card.dataset.mode === 'ig' ? 'kt' : 'ig'), 3500), n = 0;
-      function setMode(m) { card.dataset.mode = m; bs.forEach(x => x.setAttribute('aria-pressed', String(x.dataset.mode === m))); if (auto && ++n >= 6) { clearInterval(auto); auto = null; } }
-      bs.forEach(x => x.addEventListener('click', () => { if (auto) { clearInterval(auto); auto = null; } setMode(x.dataset.mode); }));
-    } catch (e) {}
+    { const ig = document.getElementById('story-ig'); if (ig) ig.addEventListener('click', shareStory); }
     document.getElementById('story-save').addEventListener('click', shareStory);
     if (VS) track('match_link_open', { friend_type: VS.m });
 
