@@ -1641,7 +1641,7 @@
       const ctx = { song: (SHORT[r.cid] || ['', ''])[1] + ' 「' + title + '」', kw, mine };
       box.hidden = false;
       if (window.YC_PSA) return window.YC_PSA.mount(box, ctx);
-      const s = document.createElement('script'); s.src = '/assets/psa.js?v=58250373'; s.onload = () => window.YC_PSA && window.YC_PSA.mount(box, ctx);
+      const s = document.createElement('script'); s.src = '/assets/psa.js?v=10250536'; s.onload = () => window.YC_PSA && window.YC_PSA.mount(box, ctx);
       document.head.append(s);
     }
 

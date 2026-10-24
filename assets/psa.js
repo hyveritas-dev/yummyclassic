@@ -81,11 +81,8 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
     // watermark, top-left: below Kakao's close button and below Instagram story's avatar/name bar (the same image serves both)
     g.textAlign = 'left'; g.font = '700 ' + W * .038 + 'px ' + SANS; g.fillText('♪ 냠냠클래식', W * .045, H * .14 + W * .038);
     g.font = '400 ' + W * .03 + 'px ' + SANS; g.globalAlpha = .9; g.fillText('yummyclassic.co.kr', W * .045, H * .14 + W * .038 * 1.3 + W * .03); g.globalAlpha = 1;
-    // song, top centre
-    g.textAlign = 'center'; g.shadowBlur = W * .01;
-    if (T.song) { g.font = '400 ' + W * .036 + 'px ' + SANS; g.fillText('♪ ' + T.song, W / 2, H * .235 + W * .036); }
-    // quote + source, centre
-    g.shadowBlur = W * .012;
+    // quote + source, centre (image = painting + quote + site address only)
+    g.textAlign = 'center'; g.shadowBlur = W * .012;
     const cl = W * .054; g.font = '700 ' + cl + 'px ' + SERIF;
     const lines = T.line ? wrap(g, T.line, W * .86) : [];
     const by = T.by ? '— ' + T.by : '', byS = W * .027;
@@ -135,7 +132,6 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
   .psa-bg{inset:0;background-repeat:no-repeat}
   .psa-pf{left:50%;top:65%;width:28%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:40%;background-repeat:no-repeat;box-shadow:0 2px 10px rgba(0,0,0,.35)}
   .psa-wm{left:4.5%;top:14%;color:#fff;line-height:1.3;text-shadow:0 0 1cqw rgba(0,0,0,.6)}.psa-wm b{display:block;font-size:3.8cqw}.psa-wm span{font-size:3cqw;opacity:.9}
-  .psa-song{left:7%;right:7%;top:23.5%;text-align:center;color:#fff;font-size:3.6cqw;text-shadow:0 0 .8cqw rgba(0,0,0,.7)}
   .psa-q{left:7%;right:7%;top:42%;transform:translateY(-50%);text-align:center;color:#fff;text-shadow:0 0 .8cqw rgba(0,0,0,.65)}
   .psa-q b{display:block;font-family:var(--serif-cjk),serif;font-size:5.4cqw;line-height:1.35;text-wrap:balance}.psa-q span{display:block;font-size:2.7cqw;margin-top:1cqw;opacity:.85}
   .psa-picks{display:grid;gap:6px}
@@ -181,7 +177,7 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
       const card = document.createElement('article'); card.className = 'psa-card';
       card.innerHTML = `<div><h4></h4><p class="idea"></p></div>
         <div class="psa-phone"><div class="psa-bg"></div><div class="psa-wm"><b>♪ 냠냠클래식</b><span>yummyclassic.co.kr</span></div>
-          <div class="psa-song"></div><div class="psa-q"><b></b><span></span></div><div class="psa-pf"></div></div>
+          <div class="psa-q"><b></b><span></span></div><div class="psa-pf"></div></div>
         <div class="psa-adj"><span>프로필 <button type="button" class="psa-z" data-z="pf,-1" aria-label="프로필 사진 작게">−</button><button type="button" class="psa-z" data-z="pf,1" aria-label="프로필 사진 크게">＋</button></span>
           <span>배경 <button type="button" class="psa-z" data-z="bg,-1" aria-label="배경 사진 작게">−</button><button type="button" class="psa-z" data-z="bg,1" aria-label="배경 사진 크게">＋</button></span>
           <button type="button" class="psa-more" data-reset>처음 위치로</button></div>
@@ -200,7 +196,6 @@ const WQUOTES = [{"line": "별을 바라보면 언제나 꿈을 꾸게 된다", 
       const bgEl = card.querySelector('.psa-bg'), pfEl = card.querySelector('.psa-pf'), picks = card.querySelector('.psa-picks');
       function draw() {
         cssCrop(bgEl, im, S.bg, PF_CX, PF_CY); cssCrop(pfEl, im, S.pf);
-        card.querySelector('.psa-song').textContent = T.song ? '♪ ' + T.song : '';
         card.querySelector('.psa-q b').textContent = T.line; card.querySelector('.psa-q span').textContent = T.by ? '— ' + T.by : '';
       }
       function renderPicks() {
