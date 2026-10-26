@@ -195,6 +195,7 @@
     #result { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 1s var(--ease), opacity 1s ease; opacity: 0; }
     #result.open { grid-template-rows: 1fr; opacity: 1; }
     #result > div { overflow: hidden; }
+    html.rt-on #result > div { overflow: clip; }   /* clip (not hidden) keeps the result tab bar sticky */
     @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
     .pulse-dot { animation: pulse 2.4s ease-in-out infinite; }
     @keyframes pulse { 0%,100% { opacity: .4; } 50% { opacity: 1; } }
@@ -1755,7 +1756,7 @@
   <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=10261030a"></script>
+  <script defer src="/assets/app.js?v=10261040a"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {
