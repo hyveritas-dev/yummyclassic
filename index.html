@@ -1259,7 +1259,8 @@
         const started = sessionStorage.getItem('yc-started') === '1';
         const INTRO_ON = false; // 2026-10-23: 소개 화면 없이 첫 화면 = Q1 (다시 켜려면 true)
         // 2026-10-26: a returning visitor who finished the test opens on "today's menu" (no sign-up, kept on this device)
-        const dailySkip = ['e', 'vm', 'pr', 'go', 'q1'].some(k => q.has(k));
+        // links a friend sent (shared result, match, Q1, and early 'today's menu' links without ?td) open what was sent, not my own menu
+        const dailySkip = ['e', 'vm', 'pr', 'go', 'q1'].some(k => q.has(k)) || (/^(daily|share)$/.test(q.get('utm_source') || '') && !q.has('td'));
         let me = null; try { me = localStorage.getItem('yc-me'); } catch (e) {}
         // a friend's "today's piece" link (?td=…) opens the same painting and piece
         if (q.has('td') && !dailySkip) { document.documentElement.classList.add('daily-on'); return; }
