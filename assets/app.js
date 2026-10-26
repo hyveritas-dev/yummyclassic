@@ -4009,6 +4009,7 @@
       r2Grid.appendChild(box);
     }
     function choose(id) {
+      if (roundPicks.every(x => !x)) track('q2_start');   // funnel: first painting picked in Q2
       track('round_pick', { round_no: roundIdx + 1, round_total: rounds.length, painting: id, changed: roundPicks[roundIdx] ? 1 : 0 });
       roundPicks[roundIdx] = id;
       syncPicks();
@@ -4529,11 +4530,22 @@
         img.addEventListener('imgfail', () => { img.style.visibility = 'hidden'; });
         img.fetchPriority = 'high';
         setImgSrc(img, d.f, Q1W());
+        if (q1Idx === 0) img.addEventListener('load', q1SeenCheck);   // funnel: the first pair actually showed up
         card.querySelector('.media').style.setProperty('--bg', 'url("' + THUMB(d.f, Q1W()) + '")');   // blurred copy fills the gaps around the whole painting (phones)
         pair.appendChild(card); cards.push(card);
       });
       pairDirty = false;
       prefetchQ1();
+    }
+    // q1_seen: both paintings of the first Q1 pair have loaded on a visible test screen (q1_view only means the page opened)
+    let q1SeenSent = false;
+    function q1SeenCheck() {
+      if (q1SeenSent || q1Idx !== 0 || restored) return;
+      if (!cards.length || !cards.every(c => { const im = c.querySelector('img.photo'); return im && im.complete && im.naturalWidth > 0; })) return;
+      const root = document.documentElement;
+      if (root.classList.contains('daily-on') || root.classList.contains('intro-on')) return;
+      q1SeenSent = true;
+      track('q1_seen', { load_ms: Math.round(performance.now()) });
     }
     function renderPair() {
       if (!q1.length) dealQ1();
@@ -4577,7 +4589,7 @@
         if (q1Votes.length < Q1_N) {
           pair.classList.add('swapping');
           setTimeout(() => { q1Idx++; pairDirty = true; renderPair(); pair.classList.remove('has-pick', 'swapping'); q1Lock = false; }, 240);
-        } else { q1Lock = false; pick(q1Era(), card); }
+        } else { q1Lock = false; track('q2_view'); pick(q1Era(), card); }
       }, 380);
     }
     function balanceAll() { preloaded.clear(); Object.keys(roundsCache).forEach(k => delete roundsCache[k]); }
