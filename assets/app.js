@@ -2809,6 +2809,7 @@
       if (typeof renderTiles === 'function') renderTiles();
       updateProgress();
       try { if (typeof renderDaily === 'function') renderDaily(); } catch (e) {}
+      try { rtPaint(); } catch (e) {}
       try { localStorage.setItem('vo-lang', lang); } catch (e) {}
     }
 
@@ -3896,7 +3897,7 @@
     function syncResult() {
       if (ready()) {
         if (!restored) currentEra = finalEra(); renderResult(); result.classList.add('open');
-        if (!syncResult.done) { syncResult.done = true; track(restored ? (OWN_LAST ? 'own_result_open' : 'shared_result_open') : 'test_complete', { era: currentEra, picks: picks.size, type: dominantMood(selected()) }); if (!restored) saveDailyMe(); onComplete(); if (!restored) unlockGuide(); }
+        if (!syncResult.done) { syncResult.done = true; track(restored ? (OWN_LAST ? 'own_result_open' : 'shared_result_open') : 'test_complete', { era: currentEra, picks: picks.size, type: dominantMood(selected()) }); if (!restored) saveDailyMe(); try { rtOnResult(); } catch (e) {} onComplete(); if (!restored) unlockGuide(); }
       }
       else result.classList.remove('open');
       updateCount();
@@ -4104,6 +4105,7 @@
       pair.classList.remove('has-pick');
       result.classList.remove('open');
       { const td = document.getElementById('today'); if (td) td.hidden = true; }
+      try { rtReset(); } catch (e) {}
       round2.classList.add('hidden');
       r2Grid.innerHTML = '';
       updateProgress();
@@ -5253,7 +5255,7 @@
       if (ta) ta.placeholder = I18N[lang][fbVote < 0 ? 'fbPhNo' : 'fbPhYes'];
       const vt = document.getElementById('vs-top'); if (vt) vt.hidden = true;   // match invite kept out of the result's first screen (share section only)
       const ask = document.getElementById('r-ask'); if (ask) ask.hidden = true;
-      const fb = document.getElementById('fb'); if (fb) fb.hidden = !!restored;
+      const fb = document.getElementById('fb'); if (fb) fb.hidden = !!restored && !OWN_LAST;
       if (ready()) setTimeout(() => { try { prepareStory(); } catch (e) {} }, 1200);   // fills the 9:16 preview under the share section
     }
     document.getElementById('vs-top').addEventListener('click', sendVs);
@@ -5399,12 +5401,140 @@
       });
     }
 
+    // ---------- Result tabs (2026-10-26, preview: ?tabs=1) ----------
+    // The result opens in three courses. Tab 1 ends at the feedback box; reaching it unlocks tab 2 (my taste table);
+    // reaching the end of tab 2 unlocks tab 3 (today's concerts & exhibitions). Locked tabs stay visible, greyed out.
+    Object.assign(I18N.ko, {
+      rtTab1: '오늘의 메뉴', rtTab2: '나의 취향 한 상', rtTab3: '오늘의 공연·전시',
+      rtLock2: '‘이 결과, 나랑 맞나요?’까지 내려오면 열려요', rtLock3: '‘나의 취향 한 상’을 끝까지 보면 열려요',
+      rtToast: '퀘스트 달성! ‘{t}’ 탭이 열렸어요', rtNext: '다음 코스 · {t}', rtNextLocked: '조금만 더 내려오면 다음 코스가 열려요',
+    });
+    Object.assign(I18N.en, {
+      rtTab1: 'Today’s menu', rtTab2: 'My taste table', rtTab3: 'Concerts & exhibitions',
+      rtLock2: 'Opens when you scroll down to “Does this result feel like you?”', rtLock3: 'Opens when you reach the end of “My taste table”',
+      rtToast: 'Quest complete! “{t}” is now open', rtNext: 'Next course · {t}', rtNextLocked: 'Scroll a little more to open the next course',
+    });
+    Object.assign(I18N.ja, {
+      rtTab1: '今日のメニュー', rtTab2: '私の好みの一膳', rtTab3: '今日の公演・展示',
+      rtLock2: '「この結果、私に合ってる?」まで進むと開きます', rtLock3: '「私の好みの一膳」を最後まで見ると開きます',
+      rtToast: 'クエスト達成!「{t}」タブが開きました', rtNext: '次のコース · {t}', rtNextLocked: 'もう少し進むと次のコースが開きます',
+    });
+    const RT_ON = (() => {
+      try {
+        const v = new URLSearchParams(location.search).get('tabs');
+        if (v === '0') sessionStorage.removeItem('yc-rt-on'); else if (v !== null) sessionStorage.setItem('yc-rt-on', '1');
+        return sessionStorage.getItem('yc-rt-on') === '1';
+      } catch (e) { return false; }
+    })();
+    const RT = { lv: 1, cur: 1, key: '', bar: null, anchor: null, next: {} };
+    const rtName = n => I18N[lang]['rtTab' + n];
+    function rtSetup() {
+      if (!RT_ON || RT.bar) return;
+      const root = document.documentElement, sheet = document.querySelector('#result .sheet');
+      if (!sheet) return;
+      root.classList.add('rt-on'); root.dataset.rt = '1';
+      const kids = [...sheet.children];
+      const head = kids[0], pieces = document.getElementById('pieces'), share = document.getElementById('share');
+      const psa = document.getElementById('psa'), events = document.getElementById('events');
+      const cmp = kids.find(c => c.querySelector('[data-i18n="cmpTitle"]'));
+      const after = sheet.querySelector('.r-after-share'), more = document.getElementById('more'), read = document.getElementById('read-wrap');
+      const today = document.getElementById('today');
+      // "Send to a friend" moves up, right above today's classical menu
+      const cue = head.querySelector('.go-pieces');
+      if (share) { share.classList.add('rt-share'); head.insertBefore(share, cue || null); }
+      // tab 3 reads: concerts & exhibitions, then the images to save
+      if (psa && after) after.after(psa);
+      [[head, 1], [pieces, 1], [cmp, 2], [more, 2], [read, 2], [events, 3], [after, 3], [psa, 3], [today, 3]].forEach(([el, n]) => { if (el) el.dataset.rtab = n; });
+      // the tab bar sits at the top of the result and sticks under the header
+      RT.anchor = document.createElement('div'); RT.anchor.className = 'rt-anchor';
+      const bar = RT.bar = document.createElement('div'); bar.className = 'rt-bar'; bar.setAttribute('role', 'tablist');
+      [1, 2, 3].forEach(n => {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'rt-tab'; b.dataset.tab = n; b.setAttribute('role', 'tab');
+        b.innerHTML = '<span class="rt-n"></span><span class="rt-t"></span>';
+        b.addEventListener('click', () => {
+          if (n > RT.lv) { rtToast(I18N[lang]['rtLock' + n], true); b.classList.remove('rt-shake'); void b.offsetWidth; b.classList.add('rt-shake'); track('tab_locked_tap', { tab: n }); return; }
+          rtGo(n, true); track('tab_open', { tab: n });
+        });
+        bar.appendChild(b);
+      });
+      sheet.insertBefore(RT.anchor, head); sheet.insertBefore(bar, head);
+      // "next course" at the end of tabs 1 and 2
+      [[1, pieces], [2, read || more || cmp]].forEach(([n, last]) => {
+        if (!last) return;
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'rt-next'; b.dataset.rtab = n;
+        b.addEventListener('click', () => { if (RT.lv > n) { rtGo(n + 1, true); track('tab_next', { tab: n + 1 }); } });
+        last.after(b); RT.next[n] = b;
+      });
+      // quests: the feedback box opens tab 2, the end of tab 2 opens tab 3
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(es => es.forEach(e => {
+          if (!e.isIntersecting || !document.getElementById('result').classList.contains('open') || Date.now() < (RT.quiet || 0)) return;
+          if ((e.target.id === 'fb' || e.target === RT.next[1]) && RT.cur === 1) rtUnlock(2);
+          if (e.target === RT.next[2] && RT.cur === 2) rtUnlock(3);
+        }), { threshold: 0.4 });
+        const fb = document.getElementById('fb'); if (fb) io.observe(fb);
+        if (RT.next[1]) io.observe(RT.next[1]);
+        if (RT.next[2]) io.observe(RT.next[2]);
+      }
+      // the after-dinner stroll at the end of the taste table leads straight to tab 3
+      document.addEventListener('click', e => { if (e.target.closest && e.target.closest('.tb-walk')) { rtUnlock(3); rtGo(3, false); } }, true);
+      const place = () => { const h = document.querySelector('header'); const fixed = h && getComputedStyle(h).position === 'fixed'; root.style.setProperty('--rt-top', (fixed ? Math.max(0, h.getBoundingClientRect().bottom) : 0) + 'px'); };
+      place(); addEventListener('resize', place, { passive: true });
+      rtPaint();
+    }
+    function rtPaint() {
+      if (!RT.bar) return;
+      RT.bar.querySelectorAll('.rt-tab').forEach(b => {
+        const n = +b.dataset.tab, open = n <= RT.lv;
+        b.classList.toggle('on', n === RT.cur); b.classList.toggle('locked', !open);
+        b.setAttribute('aria-selected', String(n === RT.cur)); b.setAttribute('aria-disabled', String(!open));
+        b.title = open ? '' : I18N[lang]['rtLock' + n];
+        b.querySelector('.rt-n').textContent = open ? n : '';
+        b.querySelector('.rt-t').textContent = rtName(n);
+      });
+      Object.entries(RT.next).forEach(([n, b]) => {
+        n = +n; const open = RT.lv > n;
+        b.classList.toggle('locked', !open); b.disabled = !open;
+        b.textContent = open ? I18N[lang].rtNext.replace('{t}', rtName(n + 1)) + ' →' : I18N[lang].rtNextLocked;
+      });
+    }
+    function rtGo(n, scroll) {
+      if (!RT.bar || n > RT.lv) return;
+      if (activeLi && !activeLi.closest('[data-rtab="' + n + '"]')) stopPlayer();
+      RT.cur = n; document.documentElement.dataset.rt = String(n); rtPaint();
+      if (scroll) { const y = RT.anchor.getBoundingClientRect().top + scrollY - (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rt-top')) || 0) - 8; RT.quiet = Date.now() + 700; scrollTo({ top: y, behavior: 'auto' }); }
+    }
+    function rtSave() { try { localStorage.setItem('yc-rt', JSON.stringify({ k: RT.key, lv: RT.lv })); } catch (e) {} }
+    function rtUnlock(n) {
+      if (!RT.bar || n <= RT.lv) return;
+      RT.lv = n; rtSave(); rtPaint();
+      const b = RT.bar.querySelector('[data-tab="' + n + '"]');
+      if (b) { b.classList.remove('rt-pop'); void b.offsetWidth; b.classList.add('rt-pop'); }
+      rtToast(I18N[lang].rtToast.replace('{t}', rtName(n)));
+      track('tab_unlock', { tab: n });
+    }
+    function rtToast(msg, lock) {
+      const t = document.createElement('div'); t.className = 'guide-toast rt-toast' + (lock ? ' lock' : ''); t.setAttribute('role', 'status'); t.textContent = msg;
+      document.querySelectorAll('.rt-toast').forEach(x => x.remove());
+      document.body.appendChild(t);
+      setTimeout(() => t.classList.add('out'), lock ? 2600 : 3800); setTimeout(() => t.remove(), lock ? 3200 : 4400);
+    }
+    // a new result starts at tab 1 with only tab 1 open; the same result opened again keeps what was unlocked
+    function rtOnResult() {
+      if (!RT.bar) return;
+      RT.key = currentEra + ':' + [...picks].sort().join(',');
+      let lv = 1; try { const s = JSON.parse(localStorage.getItem('yc-rt') || 'null'); if (s && s.k === RT.key) lv = Math.min(3, Math.max(1, s.lv | 0)); } catch (e) {}
+      RT.lv = lv; rtSave(); rtGo(1, false);
+    }
+    function rtReset() { if (!RT.bar) return; RT.lv = 1; RT.cur = 1; document.documentElement.dataset.rt = '1'; rtPaint(); }
+
     // ---------- 6) Init ----------
     balanceAll(); dealQ1();
     // start fetching today's concerts & exhibitions now, so they are ready by the time the result opens
     (window.requestIdleCallback || (f => setTimeout(f, 1500)))(() => loadEvents());
     applyLang(readSavedLang());
     renderLanding();
+    try { rtSetup(); } catch (e) {}
     restoreFromUrl();
     initDaily();
     track('app_ready');

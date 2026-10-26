@@ -860,6 +860,40 @@
 
     /* ===== Start screen: fits one screen (PC and phone); only the test is hidden while it shows ===== */
     #intro { display: none; }
+    /* Result tabs (2026-10-26, preview: ?tabs=1) */
+    html.rt-on[data-rt="1"] [data-rtab]:not([data-rtab="1"]),
+    html.rt-on[data-rt="2"] [data-rtab]:not([data-rtab="2"]),
+    html.rt-on[data-rt="3"] [data-rtab]:not([data-rtab="3"]) { display: none !important; }
+    .rt-anchor { height: 0; }
+    .rt-bar { position: sticky; top: var(--rt-top, 0px); z-index: 40; display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem;
+      margin: -1rem -.4rem 1.5rem; padding: .55rem .4rem; background: var(--vanilla); border-bottom: 1px solid var(--line); }
+    .rt-tab { display: flex; align-items: center; justify-content: center; gap: .35rem; min-height: 2.9rem; padding: .35rem .4rem; cursor: pointer;
+      border-radius: var(--r); border: 1.5px solid var(--apricot); background: var(--paper); color: var(--wine);
+      font: inherit; font-size: .8rem; font-weight: 700; line-height: 1.25; word-break: keep-all; text-align: center; transition: background .25s, color .25s, opacity .25s, filter .25s; }
+    .rt-tab .rt-n { flex: none; display: grid; place-items: center; width: 1.3rem; height: 1.3rem; border-radius: 50%; background: var(--apricot); color: var(--wine-deep); font-size: .72rem; font-weight: 800; }
+    .rt-tab.on { background: var(--wine); border-color: var(--wine); color: var(--vanilla); }
+    .rt-tab.on .rt-n { background: var(--vanilla); color: var(--wine); }
+    .rt-tab.locked { cursor: not-allowed; background: rgba(42,26,30,.06); border: 1.5px dashed rgba(42,26,30,.28); color: rgba(42,26,30,.45); filter: grayscale(1); }
+    .rt-tab.locked .rt-n { background: rgba(42,26,30,.14); color: rgba(42,26,30,.55); }
+    .rt-tab.locked .rt-n::before { content: ''; width: .62rem; height: .62rem; background: currentColor;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M17 9h-1V7a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2zm-7-2a2 2 0 0 1 4 0v2h-4z'/%3E%3C/svg%3E") center / contain no-repeat;
+              mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M17 9h-1V7a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2zm-7-2a2 2 0 0 1 4 0v2h-4z'/%3E%3C/svg%3E") center / contain no-repeat; }
+    .rt-tab.rt-pop { animation: rtPop .7s var(--ease); }
+    .rt-tab.rt-shake { animation: rtShake .4s ease; }
+    @keyframes rtPop { 0% { transform: scale(.92); box-shadow: 0 0 0 0 rgba(232,117,61,.7); } 45% { transform: scale(1.06); box-shadow: 0 0 0 8px rgba(232,117,61,.25); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(232,117,61,0); } }
+    @keyframes rtShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+    .rt-next { display: flex; align-items: center; justify-content: center; width: 100%; max-width: 30rem; min-height: 3.3rem; margin: 2.5rem auto 0; padding: .6rem 1rem;
+      border: 0; border-radius: var(--r); background: var(--apricot); color: var(--wine-deep); font: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; word-break: keep-all; }
+    .rt-next:hover { background: var(--apricot-deep); color: #fff; }
+    .rt-next.locked { cursor: default; background: rgba(42,26,30,.07); color: rgba(42,26,30,.5); font-weight: 600; font-size: .9rem; }
+    .rt-share { margin-top: 3rem !important; }
+    .rt-toast.lock::before { content: '🔒 '; }
+    @media (min-width: 640px) {
+      .rt-bar { margin: -1.5rem -1rem 2rem; padding: .7rem 1rem; gap: .6rem; }
+      .rt-tab { font-size: .95rem; min-height: 3.2rem; }
+    }
+    @media (max-width: 639px) { .rt-bar { margin-top: -.6rem; } }
+    @media (prefers-reduced-motion: reduce) { .rt-tab.rt-pop, .rt-tab.rt-shake { animation: none; } }
     /* Today's menu for returning visitors (2026-10-26) */
     #daily { display: none; }
     html.daily-on #daily { display: flex; }
@@ -1721,7 +1755,7 @@
   <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=10260100a"></script>
+  <script defer src="/assets/app.js?v=10261030a"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {
