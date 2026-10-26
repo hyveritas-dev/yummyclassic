@@ -2495,9 +2495,9 @@
     // novelists' portraits (Wikimedia Commons, public domain)
     const AUTHOR_IMG = {"bunyan": "John_Bunyan_by_Thomas_Sadler_1684.jpg", "swift": "Jonathan_Swift_by_Charles_Jervas.jpg", "defoe": "Daniel_Defoe_Kneller_Style.jpg", "lafayette": "Madame_de_Lafayette,_PA07840.jpg", "cervantes": "Cervantes_Jáuregui.jpg", "goethe": "Goethe_(Stieler_1828).jpg", "tolstoy": "Leo_Tolstoy_1908_Portrait_(3x4_cropped).jpg", "sterne": "Laurence_Sterne_by_Sir_Joshua_Reynolds.jpg", "rousseau": "Maurice_Quentin_de_La_Tour_-_Portrait_of_Jean-Jacques_Rousseau_-_adjusted.jpg", "austen": "CassandraAusten-JaneAusten(c.1810)_hires.jpg", "sand": "George_Sand_by_Nadar,_1864.jpg", "novalis": "Novalis-1.jpg", "hugo": "Victor_Hugo_by_Étienne_Carjat_1876_-_full.jpg", "pushkin": "Orest_Kiprensky_-_Портрет_поэта_А.С.Пушкина_-_Google_Art_Project.jpg", "mann": "Thomas_Mann_1929.jpg", "storm": "Theodor_Storm_(1817-1888).jpg", "scott": "Sir_Thomas_Lawrence_(1769-1830)_-_Sir_Walter_Scott_(1771-1832)_-_RCIN_400644_-_Royal_Collection.jpg", "hoffmann": "E._T._A._Hoffmann,_autorretrato.jpg", "dumas": "Nadar_-_Alexander_Dumas_père_(1802-1870)_-_Google_Art_Project_2.jpg", "dumasfils": "Alexandre_Dumas_fils.jpg", "murger": "Henri_Mürger_by_Nadar,_1857.png", "merimee": "Prosper_Mérimée.jpg", "verga": "Portrait_of_Giovanni_Verga.jpg", "prevost": "Schmidt_Prevost.jpg", "nemcova": "Bozena_Nemcova.jpg", "cather": "Cather_Van_Vechten.jpg", "bjornson": "Portrett_av_Bjørnstjerne_Bjørnson,_1909_-_no-nb_digifoto_20150129_00043_bldsa_BB0791_-_Restoration.jpg", "chekhov": "Anton_Chekhov_1889.jpg", "proust": "Otto_Wegener_Proust_vers_1895_bis.jpg", "fournier": "Alain-Fournier,_full_portrait,_1905.jpg"};
     const TASTE_T = {
-      ko: { app: '애피타이저', main: '메인 요리', chef: '셰프의 한 접시', dessert: '디저트', top: '오늘의 메인', walk: '식후 산책', walkGo: '오늘 어울리는 공연 보러 가기 ↓', with: '{c}와 함께', note: '접시를 누르면 대표곡이 나와요. 점선 접시는 다른 시대에서 한 걸음 넓혀 볼 셰프의 한 접시예요.' },
-      en: { app: 'Appetizer', main: 'Main Course', chef: 'Chef’s Special', dessert: 'Dessert', top: 'Today’s main', walk: 'After-dinner stroll', walkGo: 'See concerts that suit today ↓', with: 'with {c}', note: 'Tap a plate to hear their pieces. Dashed plates are the Chef’s Special: a step into the other style.' },
-      ja: { app: '前菜', main: 'メイン', chef: 'シェフのひと皿', dessert: 'デザート', top: '今日のメイン', walk: '食後の散歩', walkGo: '今日に合う公演を見る ↓', with: '{c}と一緒に', note: 'お皿を押すと代表曲が出ます。点線のお皿は、もう一方の時代から一歩広げるシェフのひと皿です。' },
+      ko: { app: '애피타이저', main: '메인 요리', chef: '셰프의 한 접시', dessert: '디저트', top: '오늘의 메인', walk: '식후 산책', walkGo: '오늘 어울리는 공연 보러 가기 →', with: '{c}와 함께', note: '접시를 누르면 대표곡이 나와요. 점선 접시는 다른 시대에서 한 걸음 넓혀 볼 셰프의 한 접시예요.' },
+      en: { app: 'Appetizer', main: 'Main Course', chef: 'Chef’s Special', dessert: 'Dessert', top: 'Today’s main', walk: 'After-dinner stroll', walkGo: 'See concerts that suit today →', with: 'with {c}', note: 'Tap a plate to hear their pieces. Dashed plates are the Chef’s Special: a step into the other style.' },
+      ja: { app: '前菜', main: 'メイン', chef: 'シェフのひと皿', dessert: 'デザート', top: '今日のメイン', walk: '食後の散歩', walkGo: '今日に合う公演を見る →', with: '{c}と一緒に', note: 'お皿を押すと代表曲が出ます。点線のお皿は、もう一方の時代から一歩広げるシェフのひと皿です。' },
     };
     function renderTasting() { const b = document.getElementById('tasting'); if (b) b.hidden = true; }
     // ---------- Today's Tasting: a table seen from above. Appetizer (your paintings) · main (composers) · dessert (novels) · after-dinner stroll ----------
@@ -2536,7 +2536,12 @@
         if (opt.tag) b.appendChild(el('span', 'pl-tag', opt.tag));
         return b;
       };
-      const course = (cls, label, kids) => { const c = el('div', 'tb-course ' + cls); c.appendChild(el('p', 'tb-k', label)); const r = el('div', 'tb-row'); kids.forEach(k => r.appendChild(k)); c.appendChild(r); return c; };
+      const ICON = {
+        app: '<svg viewBox="0 0 64 48" aria-hidden="true"><ellipse cx="32" cy="36" rx="28" ry="8" fill="#FBF5E6" stroke="#7A0F2A" stroke-width="2.2"/><ellipse cx="32" cy="34" rx="18" ry="4.5" fill="none" stroke="#7A0F2A" stroke-opacity=".35" stroke-width="1.6"/><path d="M20 33c1-8 6-13 12-13s11 5 12 13z" fill="#8DA167"/><path d="M24 30c2-5 6-7 8-7M33 23c3 0 7 3 8 7" fill="none" stroke="#5E7343" stroke-width="1.6" stroke-linecap="round"/><circle cx="27" cy="27" r="3.2" fill="#E8753D"/><circle cx="37.5" cy="26" r="2.6" fill="#C0392B"/><circle cx="32" cy="22.5" r="2.2" fill="#F4C95D"/></svg>',
+        dessert: '<svg viewBox="0 0 64 48" aria-hidden="true"><ellipse cx="32" cy="40" rx="27" ry="6" fill="#FBF5E6" stroke="#7A0F2A" stroke-width="2.2"/><path d="M14 36V24l34-10v22z" fill="#F4E1C1" stroke="#7A0F2A" stroke-width="2" stroke-linejoin="round"/><path d="M14 28l34-9" stroke="#E8753D" stroke-width="3"/><path d="M14 24l34-10" stroke="#7A0F2A" stroke-width="2"/><path d="M48 14c-5-3-10-2-13 1" fill="none" stroke="#FBF5E6" stroke-width="3" stroke-linecap="round"/><circle cx="44" cy="10" r="4" fill="#C0392B"/><path d="M44 6c1-3 3-4 5-4" fill="none" stroke="#5E7343" stroke-width="1.6" stroke-linecap="round"/></svg>',
+      };
+      const course = (cls, label, kids) => { const c = el('div', 'tb-course ' + cls);
+        if (ICON[cls]) { const k = el('p', 'tb-k tb-ic'); k.title = label; k.innerHTML = ICON[cls]; k.appendChild(el('span', 'sr-only', label)); c.appendChild(k); } else c.appendChild(el('p', 'tb-k', label)); const r = el('div', 'tb-row'); kids.forEach(k => r.appendChild(k)); c.appendChild(r); return c; };
       const openC = (id, kind) => () => { try { track('composer_map', { composer: id, kind }); } catch (e) {} openComposer(id); };
       // guest card: your taste today
       const guest = el('div', 'tb-guest');
@@ -2551,8 +2556,10 @@
       setting.append(f1, plate({ cls: 'big', portrait: fit[0], w: 330, letter: nameOf(fit[0]).charAt(0), name: nameOf(fit[0]), tag: T.top, onClick: openC(fit[0], 'fit') }), k1);
       const sides = fit.slice(1).map(id => plate({ cls: 'sm', portrait: id, w: 160, letter: nameOf(id).charAt(0), name: nameOf(id), onClick: openC(id, 'fit') }))
         .concat(grow.map(id => plate({ cls: 'sm chef', portrait: id, w: 160, letter: nameOf(id).charAt(0), name: nameOf(id), sub: T.chef, onClick: openC(id, 'grow') })));
-      const mainC = el('div', 'tb-course main'); mainC.appendChild(el('p', 'tb-k', T.main)); mainC.appendChild(setting);
-      const sr = el('div', 'tb-row sides'); sides.forEach(x => sr.appendChild(x)); mainC.appendChild(sr);
+      const mainC = el('div', 'tb-course main'); mainC.appendChild(el('p', 'tb-k', T.main));
+      const sr = el('div', 'tb-row sides'); sides.forEach(x => sr.appendChild(x));
+      if (sides.length) mainC.appendChild(sr);
+      mainC.appendChild(setting);
       // dessert: novels paired with your top composers (two different novelists)
       const seenN = new Set(), des = [];
       composerRank().forEach(id => {
@@ -2569,10 +2576,15 @@
       cloth.appendChild(grid);
       // after-dinner stroll: one line down to tonight's concerts
       const walk = el('button', 'tb-walk'); walk.type = 'button';
-      walk.append(el('span', 'k', T.walk), el('span', 'go', T.walkGo));
+      const wPic = el('span', 'w-pic'), wIm = document.createElement('img');
+      wIm.alt = ''; wIm.loading = 'lazy'; wIm.decoding = 'async'; wIm.referrerPolicy = 'no-referrer'; wPic.appendChild(wIm);
+      setImgSrc(wIm, 'Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son.jpg', 240, null, () => { wPic.classList.add('none'); });
+      const wTx = el('span', 'w-tx'); wTx.append(el('span', 'k', T.walk), el('span', 'go', T.walkGo));
+      walk.append(wPic, wTx);
+      walk.title = ko ? '클로드 모네, 파라솔을 든 여인 (1875)' : 'Claude Monet, Woman with a Parasol (1875)';
       walk.addEventListener('click', () => { try { track('tasting_walk', {}); } catch (e) {} const ev = document.getElementById('events'); if (ev) ev.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-      cloth.appendChild(walk);
-      box.append(cloth, el('p', 'cm-note', T.note));
+      const foot = el('div', 'tb-foot'); foot.append(el('p', 'cm-note', T.note), walk);
+      box.append(cloth, foot);
       box.hidden = false;
     }
 

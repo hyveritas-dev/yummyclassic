@@ -1218,10 +1218,26 @@
     .pl-sub { font-size: .78rem; line-height: 1.35; color: var(--muted); word-break: keep-all; }
     .pl.chef .pl-sub { color: var(--apricot-deep); font-weight: 600; }
     .pl-tag { font-size: .72rem; font-weight: 700; letter-spacing: .04em; padding: .2rem .6rem; border-radius: 999px; background: var(--wine); color: var(--vanilla); }
-    .tb-walk { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .4rem .9rem; width: 100%; margin-top: 1.4rem; padding: .9rem 1rem; border-radius: 14px; background: rgba(255,253,248,.85); border: 1px dashed rgba(122,20,40,.35); color: var(--wine-deep); cursor: pointer; }
-    .tb-walk:hover, .tb-walk:focus-visible { border-color: var(--apricot-deep); background: #FFF6EA; }
-    .tb-walk .k { font-family: var(--serif-cjk), var(--serif-latin), serif; font-weight: 700; font-size: 1.05rem; }
-    .tb-walk .go { font-size: .95rem; font-weight: 600; color: var(--apricot-deep); }
+    .tb-foot { display: flex; flex-direction: column; align-items: flex-end; gap: .9rem; margin-top: 1.1rem; }
+    .tb-foot .cm-note { align-self: stretch; margin: 0; }
+    .tb-walk { display: flex; align-items: center; gap: .9rem; width: 100%; max-width: 24rem; padding: .7rem .9rem .7rem .7rem; text-align: left; cursor: pointer;
+      border-radius: 14px; background: #FFFDF8; border: 1px solid rgba(122,20,40,.22); box-shadow: 0 14px 28px -18px rgba(77,10,26,.45); color: var(--wine-deep); transition: border-color .2s, transform .2s, box-shadow .2s; }
+    .tb-walk:hover, .tb-walk:focus-visible { border-color: var(--apricot-deep); transform: translateY(-2px); box-shadow: 0 18px 32px -18px rgba(77,10,26,.55); }
+    .tb-walk .w-pic { flex: none; width: 76px; height: 76px; border-radius: 10px; overflow: hidden; background: #EADCBB; }
+    .tb-walk .w-pic img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }
+    .tb-walk .w-pic.none { display: none; }
+    .tb-walk .w-tx { display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
+    .tb-walk .k { font-family: var(--serif-cjk), var(--serif-latin), serif; font-weight: 700; font-size: 1.08rem; }
+    .tb-walk .go { font-size: .9rem; font-weight: 700; color: var(--apricot-deep); word-break: keep-all; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .tb-ic { margin-bottom: .6rem; }
+    .tb-ic svg { width: 84px; height: 63px; display: block; flex: none; }
+    .tb-ic::before, .tb-ic::after { align-self: center; }
+    @media (min-width: 900px) {
+      .tb-foot { flex-direction: row; align-items: center; justify-content: space-between; gap: 1.5rem; }
+      .tb-foot .cm-note { align-self: center; flex: 1 1 auto; text-align: left; }
+      .tb-walk { flex: none; width: 24rem; }
+    }
     @media (max-width: 639px) {
       .tb-cloth { padding: 1.2rem .7rem 1rem; border-radius: 20px; }
       .pl .dish { width: 92px; height: 92px; }
@@ -1761,7 +1777,7 @@
   <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=10261040b"></script>
+  <script defer src="/assets/app.js?v=10261050a"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {
