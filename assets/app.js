@@ -5272,23 +5272,29 @@
     Object.assign(I18N.ko, {
       dailyKick: '{d} · 오늘의 메뉴', dailyH: '‘{t}’\u2060의<br />오늘의 클래식 메뉴',
       dailySub: '오늘의 그림 한 점과 클래식 한 곡을 차렸어요. 그림을 보며 들어 보세요.',
-      dailyTaste: '오늘의 맛 · {m}', dailyShare: '오늘의 메뉴 공유하기', dailyRetest: '새 그림으로 다시\u00a0테스트',
+      dailyTaste: '오늘의 맛 · {m}', dailyShare: '친구에게 오늘의 곡 보내기', dailyRetest: '새 그림으로 다시\u00a0테스트',
       dailyLast: '지난 결과 다시 보기', dailyNote: '내일은 다른 그림과 곡이 차려져요 · {n}번째 메뉴',
-      dailyShareText: '오늘 나의 클래식 메뉴: {p} × {s}\n그림 몇 장으로 고르는 오늘의 클래식, 냠냠클래식', dailyCopied: '링크를 복사했어요',
+      dailyFrKick: '{d} · 친구가 보낸 오늘의 곡', dailyFrH: '친구가 보낸<br />오늘의 클래식', dailyFrHT: '‘{t}’ 친구가 보낸<br />오늘의 클래식',
+      dailyFrSub: '친구가 오늘 고른 그림과 곡이에요. 들어 보고, 나는 어떤 그림에 끌리는지 골라 보세요.', dailyFrTry: '나도 그림 골라 보기 →', dailyFrNote: '그림 몇 장만 고르면 20초 만에 나만의 클래식 10곡이 나와요',
+      dailyShareText: '오늘 내가 듣는 클래식: {p} × {s}\n같이 들어 보고, 너도 끌리는 그림 골라 봐 — 냠냠클래식', dailyCopied: '링크를 복사했어요',
     });
     Object.assign(I18N.en, {
       dailyKick: '{d} · Today’s menu', dailyH: 'Today’s classical menu<br />for ‘{t}’',
       dailySub: 'One painting and one piece, set for you today. Listen while you look.',
-      dailyTaste: 'Today’s flavour · {m}', dailyShare: 'Share today’s menu', dailyRetest: 'Take the test again',
+      dailyTaste: 'Today’s flavour · {m}', dailyShare: 'Send today’s piece to a friend', dailyRetest: 'Take the test again',
       dailyLast: 'See my last result', dailyNote: 'Tomorrow brings a new painting and piece · menu no. {n}',
-      dailyShareText: 'My classical menu today: {p} × {s}\nToday’s classical, chosen by a painting — Yummy Classic', dailyCopied: 'Link copied',
+      dailyFrKick: '{d} · Sent by a friend', dailyFrH: 'Today’s classical,<br />sent by a friend', dailyFrHT: 'Today’s classical, sent by<br />a ‘{t}’ friend',
+      dailyFrSub: 'This is the painting and piece your friend chose today. Have a listen, then see which paintings draw you.', dailyFrTry: 'Pick my own paintings →', dailyFrNote: 'Pick a few paintings and get ten classical pieces of your own in about 20 seconds',
+      dailyShareText: 'What I’m listening to today: {p} × {s}\nHave a listen, then pick the paintings that draw you — Yummy Classic', dailyCopied: 'Link copied',
     });
     Object.assign(I18N.ja, {
       dailyKick: '{d} · 今日のメニュー', dailyH: '「{t}」\u2060の<br />今日のクラシック・メニュー',
       dailySub: '今日の絵一枚とクラシック一曲をご用意しました。絵を見ながら聴いてみてください。',
-      dailyTaste: '今日の味わい · {m}', dailyShare: '今日のメニューを共有', dailyRetest: '新しい絵でもう一度テスト',
+      dailyTaste: '今日の味わい · {m}', dailyShare: '今日の曲を友だちに送る', dailyRetest: '新しい絵でもう一度テスト',
       dailyLast: '前回の結果を見る', dailyNote: '明日は別の絵と曲が届きます · {n}回目のメニュー',
-      dailyShareText: '今日の私のクラシック・メニュー: {p} × {s}\n絵で選ぶ今日のクラシック、ヤミークラシック', dailyCopied: 'リンクをコピーしました',
+      dailyFrKick: '{d} · 友だちから届いた今日の曲', dailyFrH: '友だちから届いた<br />今日のクラシック', dailyFrHT: '「{t}」の友だちから届いた<br />今日のクラシック',
+      dailyFrSub: '友だちが今日選んだ絵と曲です。聴いてみて、あなたはどの絵に惹かれるか選んでみてください。', dailyFrTry: '私も絵を選んでみる →', dailyFrNote: '絵を数枚選ぶだけで、約20秒で自分だけのクラシック10曲が見つかります',
+      dailyShareText: '今日私が聴いているクラシック: {p} × {s}\n一緒に聴いて、あなたも惹かれる絵を選んでみて — ヤミークラシック', dailyCopied: 'リンクをコピーしました',
     });
     const DAILY_KEY = 'yc-me', DAILY_DAYS = 'yc-days';
     function dailyMe() {
@@ -5334,17 +5340,29 @@
       } catch (e) { return 1; }
     }
     let dailyNow = null;
+    const DAILY_FR = (() => {
+      try {
+        const q = new URLSearchParams(location.search), pid = q.get('td'), yt = q.get('tx'), tt = q.get('tt');
+        if (!pid) return null;
+        const p = pById(pid); if (!p) return null;
+        const k = Object.keys(SETS).find(e => SETS[e].includes(p));
+        const x = CAT.find(c => c.yt && c.yt === yt) || ((rankFor(k, p.id).find(r => r.x.yt) || {}).x) || CAT.find(c => c.yt);
+        return { p, k, x, t: TYPES[tt] ? tt : '' };
+      } catch (e) { return null; }
+    })();
     function renderDaily() {
       if (!document.documentElement.classList.contains('daily-on')) return;
-      const me = dailyMe(); if (!me) { document.documentElement.classList.remove('daily-on'); return; }
+      const fr = DAILY_FR, me = fr ? null : dailyMe();
+      if (!fr && !me) { document.documentElement.classList.remove('daily-on'); return; }
       const t = I18N[lang], ko = isLocal(), day = dailyDay();
-      const { p, x } = dailyPick(me, day);
-      const T = TYPES[me.t], n = dailyCount(day);
-      dailyNow = { p, x, me };
+      const { p, x } = fr || dailyPick(me, day);
+      const T = TYPES[fr ? fr.t : me.t], n = fr ? 0 : dailyCount(day);
+      dailyNow = { p, x, me: me || { t: fr.t } };
       const date = new Date().toLocaleDateString(lang === 'ja' ? 'ja-JP' : ko ? 'ko-KR' : 'en-GB', { month: 'long', day: 'numeric', weekday: 'long' });
-      document.getElementById('daily-kick').textContent = t.dailyKick.replace('{d}', date);
-      document.getElementById('daily-h').innerHTML = t.dailyH.replace('{t}', ko ? T[1] : T[0]);
-      document.getElementById('daily-sub').textContent = t.dailySub;
+      document.documentElement.classList.toggle('daily-fr', !!fr);
+      document.getElementById('daily-kick').textContent = (fr ? t.dailyFrKick : t.dailyKick).replace('{d}', date);
+      document.getElementById('daily-h').innerHTML = fr ? (T ? t.dailyFrHT.replace('{t}', ko ? T[1] : T[0]) : t.dailyFrH) : t.dailyH.replace('{t}', ko ? T[1] : T[0]);
+      document.getElementById('daily-sub').textContent = fr ? t.dailyFrSub : t.dailySub;
       const img = document.getElementById('daily-img');
       img.style.visibility = 'visible';
       setImgSrc(img, p.f, MOBILE ? 500 : 960, null, () => { img.style.visibility = 'hidden'; });
@@ -5365,11 +5383,18 @@
       b.textContent = '▶ ' + t.plPlay;
       b.addEventListener('click', () => { if (activeLi !== li) track('daily_play', { type: me.t, painting: p.id }); openPlayer(li, r); });
       li.append(body, b);
-      document.getElementById('daily-share').textContent = t.dailyShare;
+      document.getElementById('daily-share').textContent = fr ? t.dailyFrTry : t.dailyShare;
       document.getElementById('daily-retest').textContent = t.dailyRetest;
       document.getElementById('daily-last').textContent = t.dailyLast;
-      document.getElementById('daily-note').textContent = t.dailyNote.replace('{n}', n);
-      if (!renderDaily.seen) { renderDaily.seen = true; track('daily_view', { type: me.t, painting: p.id, visit_n: n }); }
+      document.getElementById('daily-note').textContent = fr ? t.dailyFrNote : t.dailyNote.replace('{n}', n);
+      if (!renderDaily.seen) { renderDaily.seen = true; track(fr ? 'daily_friend_open' : 'daily_view', { type: dailyNow.me.t || '', painting: p.id, visit_n: n }); }
+    }
+    function dailyStartTest() {
+      stopPlayer();
+      document.documentElement.classList.remove('daily-on', 'daily-fr');
+      try { sessionStorage.setItem('yc-started', '1'); } catch (e) {}
+      if (DAILY_FR) { try { history.replaceState(null, '', location.pathname + '?lang=' + lang); } catch (e) {} track('q1_view'); }
+      scrollTo(0, 0);
     }
     function initDaily() {
       const root = document.documentElement;
@@ -5380,7 +5405,9 @@
       document.getElementById('daily-share').addEventListener('click', async e => {
         const btn = e.currentTarget, t = I18N[lang], ko = isLocal();
         if (!dailyNow) return;
-        const url = location.origin + '/?utm_source=daily&utm_medium=share';
+        if (DAILY_FR) { track('daily_friend_try', { painting: dailyNow.p.id }); dailyStartTest(); return; }
+        const q = new URLSearchParams({ td: dailyNow.p.id, tx: dailyNow.x.yt || '', tt: dailyNow.me.t || '', lang, utm_source: 'daily', utm_medium: 'share' });
+        const url = location.origin + '/?' + q.toString();
         const text = t.dailyShareText.replace('{p}', ko ? dailyNow.p.ko : dailyNow.p.en).replace('{s}', (SHORT[dailyNow.x.c] || ['', ''])[ko ? 1 : 0] || (ko ? dailyNow.x.ko : dailyNow.x.en));
         track('daily_share', { type: dailyNow.me.t, painting: dailyNow.p.id });
         if (navigator.share) { try { await navigator.share({ title: t.title, text, url }); return; } catch (err) { if (err && err.name === 'AbortError') return; } }
@@ -5388,10 +5415,7 @@
       });
       document.getElementById('daily-retest').addEventListener('click', () => {
         track('daily_retest', { type: (dailyNow && dailyNow.me.t) || '' });
-        stopPlayer();
-        root.classList.remove('daily-on');
-        try { sessionStorage.setItem('yc-started', '1'); } catch (e) {}
-        scrollTo(0, 0);
+        dailyStartTest();
       });
       document.getElementById('daily-last').addEventListener('click', () => {
         const me = dailyMe(); if (!me) return;

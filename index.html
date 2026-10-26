@@ -923,7 +923,8 @@
     #daily-li .pl-player { margin: .25rem 0 0; max-width: none; width: 100%; }
     #daily-li .pl-tools { flex-basis: 100%; }
     .daily-act { display: flex; flex-direction: column; align-items: stretch; gap: .6rem; }
-    .daily-act .btn-primary { min-height: 3.2rem; font-size: 1rem; }
+    .daily-act .btn-primary { min-height: 4rem; padding: .6rem 1rem; font-size: 1.12rem; font-weight: 800; letter-spacing: -.01em; word-break: keep-all; }
+    html.daily-fr .daily-more { display: none !important; }
     .daily-more { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
     .daily-more .btn { min-width: 0; min-height: 3.6rem; padding: .5rem .6rem; font-size: .93rem; font-weight: 700; line-height: 1.3; white-space: normal; word-break: keep-all; text-align: center; }
     .daily-note { margin: .2rem 0 0; text-align: center; font-size: .8rem; color: rgba(244,233,208,.66); }
@@ -933,7 +934,7 @@
       .daily-copy { grid-area: copy; align-self: end; gap: 1.1rem; }
       .daily-card { grid-area: card; padding: 1.1rem; gap: .9rem; }
       .daily-act { grid-area: act; align-items: flex-start; }
-      .daily-act .btn-primary { padding: 0 2.6rem; }
+      .daily-act .btn-primary { padding: 0 2.6rem; min-height: 4.2rem; font-size: 1.2rem; }
       .daily-act .btn-primary { width: 100%; max-width: 30rem; }
       .daily-more { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; width: 100%; max-width: 30rem; }
       .daily-more .btn { min-height: 3.6rem; font-size: 1rem; padding: .5rem 1rem; }
@@ -1244,6 +1245,8 @@
         // 2026-10-26: a returning visitor who finished the test opens on "today's menu" (no sign-up, kept on this device)
         const dailySkip = ['e', 'vm', 'pr', 'go', 'q1'].some(k => q.has(k));
         let me = null; try { me = localStorage.getItem('yc-me'); } catch (e) {}
+        // a friend's "today's piece" link (?td=…) opens the same painting and piece
+        if (q.has('td') && !dailySkip) { document.documentElement.classList.add('daily-on'); return; }
         if (me && !dailySkip && !started && location.hash !== '#choose') { document.documentElement.classList.add('daily-on'); return; }
         if (INTRO_ON && !skipParam && !sns && !started && location.hash !== '#choose') {
           document.documentElement.classList.add('intro-on');
@@ -1758,7 +1761,7 @@
   <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=10261030b"></script>
+  <script defer src="/assets/app.js?v=10261040b"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {
