@@ -5272,7 +5272,7 @@
     Object.assign(I18N.ko, {
       dailyKick: '{d} · 오늘의 메뉴', dailyH: '‘{t}’\u2060의<br />오늘의 클래식 메뉴',
       dailySub: '오늘의 그림 한 점과 클래식 한 곡을 차렸어요. 그림을 보며 들어 보세요.',
-      dailyTaste: '오늘의 맛 · {m}', dailyShare: '오늘의 메뉴 공유하기', dailyRetest: '새 그림으로 다시 테스트',
+      dailyTaste: '오늘의 맛 · {m}', dailyShare: '오늘의 메뉴 공유하기', dailyRetest: '새 그림으로 다시\u00a0테스트',
       dailyLast: '지난 결과 다시 보기', dailyNote: '내일은 다른 그림과 곡이 차려져요 · {n}번째 메뉴',
       dailyShareText: '오늘 나의 클래식 메뉴: {p} × {s}\n그림 몇 장으로 고르는 오늘의 클래식, 냠냠클래식', dailyCopied: '링크를 복사했어요',
     });
