@@ -860,6 +860,52 @@
 
     /* ===== Start screen: fits one screen (PC and phone); only the test is hidden while it shows ===== */
     #intro { display: none; }
+    /* Today's menu for returning visitors (2026-10-26) */
+    #daily { display: none; }
+    html.daily-on #daily { display: flex; }
+    html.daily-on main > :not(#daily), html.daily-on footer, html.daily-on .fixed.top-16 { display: none !important; }
+    .daily { position: relative; z-index: 10; min-height: 100vh; min-height: 100svh; box-sizing: border-box;
+      padding: calc(64px + 1rem) 1rem calc(1.5rem + env(safe-area-inset-bottom)); }
+    .daily-in { width: 100%; max-width: 72rem; margin: 0 auto; display: flex; flex-direction: column; gap: 1.1rem; }
+    .daily-copy { display: flex; flex-direction: column; gap: .6rem; }
+    .daily-kick { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .08em; color: #F3A77B; }
+    .daily-h { margin: 0; color: var(--vanilla); font-size: clamp(1.5rem, 6.6vw, 2.1rem); line-height: 1.3; letter-spacing: -.015em; word-break: keep-all; }
+    .daily-sub { margin: 0; font-size: .95rem; line-height: 1.6; color: rgba(244,233,208,.82); word-break: keep-all; }
+    .daily-card { margin: 0; display: flex; flex-direction: column; gap: .7rem; padding: .7rem; border-radius: var(--r-lg);
+      background: rgba(244,233,208,.06); border: 1px solid rgba(244,233,208,.16); }
+    .daily-pic { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--r); background: #2A070E; }
+    .daily-pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .daily-art { display: flex; flex-direction: column; gap: .15rem; padding: 0 .15rem; }
+    .daily-taste { font-size: .75rem; font-weight: 700; color: #F3A77B; }
+    .daily-title { font-size: 1.2rem; font-weight: 700; color: var(--vanilla); line-height: 1.3; }
+    .daily-by { font-size: .82rem; color: rgba(244,233,208,.7); }
+    #daily-li { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; list-style: none; padding: .75rem .15rem 0; border-top: 1px solid rgba(244,233,208,.14); }
+    .daily-list { margin: 0; padding: 0; list-style: none; }
+    .daily-song { min-width: 0; flex: 1 1 0; display: flex; flex-direction: column; gap: .15rem; }
+    .daily-song .nm { font-size: 1.05rem; line-height: 1.35; color: var(--vanilla); }
+    .daily-song .by { font-size: .8rem; color: rgba(244,233,208,.62); }
+    #daily-li .pl-player { margin: .25rem 0 0; max-width: none; width: 100%; }
+    #daily-li .pl-tools { flex-basis: 100%; }
+    .daily-act { display: flex; flex-direction: column; align-items: stretch; gap: .6rem; }
+    .daily-act .btn-primary { min-height: 3.2rem; font-size: 1rem; }
+    .daily-more { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+    .daily-more .btn { min-height: 2.8rem; font-size: .85rem; word-break: keep-all; }
+    .daily-note { margin: .2rem 0 0; text-align: center; font-size: .8rem; color: rgba(244,233,208,.66); }
+    @media (min-width: 900px) {
+      .daily { padding: calc(64px + 2.5rem) 2.5rem 2.5rem; align-items: center; }
+      .daily-in { display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: "copy card" "act card"; column-gap: clamp(2.5rem, 5vw, 5rem); row-gap: 1.6rem; align-items: start; }
+      .daily-copy { grid-area: copy; align-self: end; gap: 1.1rem; }
+      .daily-card { grid-area: card; padding: 1.1rem; gap: .9rem; }
+      .daily-act { grid-area: act; align-items: flex-start; }
+      .daily-act .btn-primary { padding: 0 2.6rem; }
+      .daily-more { display: flex; gap: .6rem; }
+      .daily-more .btn { padding: 0 1.2rem; }
+      .daily-kick { font-size: 14px; }
+      .daily-h { font-size: clamp(1.9rem, 2.7vw, 2.6rem); line-height: 1.28; }
+      .daily-sub { font-size: 1.1rem; max-width: 30rem; }
+      .daily-title { font-size: 1.45rem; }
+      .daily-note { text-align: left; }
+    }
     html.intro-on #intro { display: flex; }
     html.intro-on main > :not(#intro), html.intro-on footer, html.intro-on .fixed.top-16 { display: none !important; }
     .intro { position: relative; z-index: 10; height: 100vh; height: 100svh; box-sizing: border-box; overflow: hidden;
@@ -1158,6 +1204,10 @@
         const sns = /instagram\.com|facebook\.com|fb\.me|threads\.net|blog\.naver\.com|band\.us|kakao|t\.co\/|linkedin\.com/i.test(ref);
         const started = sessionStorage.getItem('yc-started') === '1';
         const INTRO_ON = false; // 2026-10-23: 소개 화면 없이 첫 화면 = Q1 (다시 켜려면 true)
+        // 2026-10-26: a returning visitor who finished the test opens on "today's menu" (no sign-up, kept on this device)
+        const dailySkip = ['e', 'vm', 'pr', 'go', 'q1'].some(k => q.has(k));
+        let me = null; try { me = localStorage.getItem('yc-me'); } catch (e) {}
+        if (me && !dailySkip && !started && location.hash !== '#choose') { document.documentElement.classList.add('daily-on'); return; }
         if (INTRO_ON && !skipParam && !sns && !started && location.hash !== '#choose') {
           document.documentElement.classList.add('intro-on');
           const l = document.createElement('link'); l.rel = 'preload'; l.as = 'image'; l.setAttribute('fetchpriority', 'high'); l.referrerPolicy = 'no-referrer';
@@ -1226,6 +1276,34 @@
   <main class="relative z-10">
 
     <!-- START SCREEN: one screen, PC and phone. Skipped for SNS / shared-link visitors (see the head script). -->
+    <!-- Today's menu: shown instead of the test to a visitor who finished it before on this device -->
+    <section id="daily" class="daily dark-band" aria-labelledby="daily-h">
+      <div class="daily-in">
+        <div class="daily-copy">
+          <p id="daily-kick" class="daily-kick"></p>
+          <h1 id="daily-h" class="daily-h font-serif"></h1>
+          <p id="daily-sub" class="daily-sub"></p>
+        </div>
+        <figure class="daily-card">
+          <div class="daily-pic"><img id="daily-img" alt="" referrerpolicy="no-referrer" fetchpriority="high" /></div>
+          <figcaption class="daily-art">
+            <span id="daily-taste" class="daily-taste"></span>
+            <span id="daily-title" class="daily-title font-serif"></span>
+            <span id="daily-by" class="daily-by"></span>
+          </figcaption>
+          <ul class="daily-list"><li id="daily-li"></li></ul>
+        </figure>
+        <div class="daily-act">
+          <button type="button" id="daily-share" class="btn btn-primary"></button>
+          <div class="daily-more">
+            <button type="button" id="daily-retest" class="btn btn-ghost"></button>
+            <button type="button" id="daily-last" class="btn btn-ghost"></button>
+          </div>
+          <p id="daily-note" class="daily-note"></p>
+        </div>
+      </div>
+    </section>
+
     <section id="intro" class="intro dark-band" aria-labelledby="intro-h">
       <div class="intro-in">
         <div class="intro-copy">
@@ -1643,7 +1721,7 @@
   <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=10250545e"></script>
+  <script defer src="/assets/app.js?v=10260100a"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {
