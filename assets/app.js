@@ -5458,8 +5458,8 @@
     const RT_ON = (() => {
       try {
         const v = new URLSearchParams(location.search).get('tabs');
-        if (v === '0') sessionStorage.removeItem('yc-rt-on'); else if (v !== null) sessionStorage.setItem('yc-rt-on', '1');
-        return sessionStorage.getItem('yc-rt-on') === '1';
+        if (v === '0') return false;
+        return true;   // 2026-10-26: on for everyone (?tabs=0 turns it off for one visit)
       } catch (e) { return false; }
     })();
     const RT = { lv: 1, cur: 1, key: '', bar: null, anchor: null, next: {} };
