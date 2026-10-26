@@ -4496,6 +4496,12 @@
       let linked = null;
       try { const k = new URLSearchParams(location.search).get('q1'); if (k && !dealQ1.used) { linked = ARCH.concat(FIG).find(P => q1Key(P) === k) || null; dealQ1.used = true; } } catch (e) {}
       if (linked) { const j = order.findIndex(P => P.kind === linked.kind); order.splice(j >= 0 ? j : 0, 1); order.unshift(linked); }
+      // 첫 방문의 첫 문제는 누구나 아는 그림으로 고정(다비드 vs 들라로슈 「알프스를 넘는 나폴레옹」) — 2026-10-27
+      if (!linked) {
+        let first = false; try { first = !localStorage.getItem('yc-first-q1'); localStorage.setItem('yc-first-q1', '1'); } catch (e) {}
+        const fixed = first && FIG[0];
+        if (fixed) { let j = order.findIndex(P => P.cat === fixed.cat); if (j < 0) j = order.findIndex(P => P.kind === fixed.kind); order.splice(j >= 0 ? j : 0, 1); order.unshift(fixed); }
+      }
       q1 = order.map(P => P === linked
         ? [{ era: 'classic', d: P.classic, theme: P.theme, kind: P.kind }, { era: 'romantic', d: P.romantic, theme: P.theme, kind: P.kind }]
         : sample([{ era: 'classic', d: P.classic, theme: P.theme, kind: P.kind }, { era: 'romantic', d: P.romantic, theme: P.theme, kind: P.kind }], 2));
@@ -4521,6 +4527,7 @@
         card.innerHTML = '<div class="media bg-a"><img class="photo" alt="" loading="eager" referrerpolicy="no-referrer" /></div>'
           + '<div class="veil"></div><div class="spot"></div>'
           + '<span class="absolute top-3 left-3 sm:top-8 sm:left-8 w-7 h-7 sm:w-9 sm:h-9 ab-badge text-xs sm:text-sm">' + 'AB'[i] + '</span>'
+          + '<span class="tap-hint" aria-hidden="true">' + ({ ko: '👆 눌러서 고르기', ja: '👆 タップで選ぶ' }[lang] || '👆 Tap to choose') + '</span>'
           + '<div class="absolute inset-x-0 bottom-0 p-3.5 sm:p-7 lg:p-10"><h2 class="font-serif text-[1.15rem] sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight"></h2>'
           + '<p class="mt-1.5 sm:mt-3 font-serif italic text-[11px] sm:text-base lg:text-lg ' + tone + '"></p>'
           + '<div class="cta mt-6 hidden sm:inline-flex items-center gap-2 text-sm font-medium text-amber-100"><span></span>'
@@ -4579,7 +4586,7 @@
         if (ready()) syncResult(); else currentEra = q1Era();
         return;
       }
-      q1Votes.push(c.era); mark();
+      q1Votes.push(c.era); mark(); pair.classList.add('tapped');
       if (q1Votes.length === 1) track('test_start');
       track('q1_answer', { q_no: q1Votes.length, q_total: Q1_N, era: c.era });
       pair.classList.add('has-pick');

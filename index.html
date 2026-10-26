@@ -189,6 +189,15 @@
     .spot { position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity .5s ease;
       background: radial-gradient(420px circle at var(--x,50%) var(--y,50%), rgba(255,236,200,.14), transparent 60%); }
     .card:hover .spot { opacity: 1; }
+    /* 2026-10-27: phones can't hover, so Q1 cards say they can be tapped until the first tap */
+    .tap-hint { display: none; }
+    @media (max-width: 639px) {
+      #pair:not(.tapped) .tap-hint { display: inline-flex; position: absolute; top: .6rem; right: .6rem; z-index: 3; align-items: center; padding: .3rem .65rem; border-radius: 999px; background: rgba(255,236,214,.94); color: #4D0A1A; font-size: 12px; font-weight: 600; box-shadow: 0 4px 14px rgba(0,0,0,.35); animation: tapPulse 1.8s ease-in-out infinite; }
+      #pair .card:nth-child(2) .tap-hint { animation-delay: .9s; }
+      #pair:not(.tapped) .card { box-shadow: 0 0 0 2px rgba(255,236,214,.35); }
+    }
+    @keyframes tapPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+    @media (prefers-reduced-motion: reduce) { .tap-hint { animation: none !important; } }
     .q-label { font-family: var(--serif-latin), var(--serif-cjk), serif; font-weight: 600; color: var(--wine-deep); }
     .q-label b { font-family: 'Inter', sans-serif; font-size: .7em; letter-spacing: .1em; color: var(--apricot-deep); margin-right: .5em; }
 
@@ -1763,7 +1772,7 @@
   <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=10270630a"></script>
+  <script defer src="/assets/app.js?v=10270700a"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {
