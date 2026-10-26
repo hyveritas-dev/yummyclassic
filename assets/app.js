@@ -2578,7 +2578,7 @@
       const walk = el('button', 'tb-walk'); walk.type = 'button';
       const wPic = el('span', 'w-pic'), wIm = document.createElement('img');
       wIm.alt = ''; wIm.loading = 'lazy'; wIm.decoding = 'async'; wIm.referrerPolicy = 'no-referrer'; wPic.appendChild(wIm);
-      setImgSrc(wIm, 'Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son.jpg', 240, null, () => { wPic.classList.add('none'); });
+      setImgSrc(wIm, 'Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son_-_Google_Art_Project.jpg', 240, null, () => { wPic.classList.add('none'); });
       const wTx = el('span', 'w-tx'); wTx.append(el('span', 'k', T.walk), el('span', 'go', T.walkGo));
       walk.append(wPic, wTx);
       walk.title = ko ? '클로드 모네, 파라솔을 든 여인 (1875)' : 'Claude Monet, Woman with a Parasol (1875)';
