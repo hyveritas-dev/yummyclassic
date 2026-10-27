@@ -4468,6 +4468,14 @@
           by: B('Claude Monet', '클로드 모네', 'クロード・モネ'), y: '1876' } },
     ];
     ARCH.forEach(P => { P.kind = 'arch'; }); FIG.forEach(P => { P.kind = 'fig'; });
+    // 첫 방문 첫 문제: 누구나 아는 명화 두 점(고전 쪽 vs 낭만 쪽) — 거부감 없이 첫 탭을 하게 (2026-10-28)
+    const FAMOUS = { cat: 'famous', kind: 'famous', theme: B('Two paintings everyone knows', '누구나 아는 명화', '誰もが知る名画'),
+      classic: { f: 'Johannes_Vermeer_-_Girl_with_a_Pearl_Earring_-_670_-_Mauritshuis.jpg', pos: '50% 30%',
+        t: B('Girl with a Pearl Earring', '진주 귀걸이를 한 소녀', '真珠の耳飾りの少女'),
+        by: B('Johannes Vermeer', '요하네스 베르메르', 'ヨハネス・フェルメール'), y: B('c. 1665', '1665년경', '1665年頃') },
+      romantic: { f: 'Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg', pos: '50% 50%',
+        t: B('The Starry Night', '별이 빛나는 밤', '星月夜'),
+        by: B('Vincent van Gogh', '빈센트 반 고흐', 'フィンセント・ファン・ゴッホ'), y: '1889' } };
     const Q1_PER = 1;   // questions per kind: 1 building + 1 figure, PC and phones alike (PC was 2 + 2 until 2026-10-19)
     const Q1_N = Q1_PER * 2;
     const PICKS_N = Q1_N + ROUNDS;   // 첫 화면 약속 "그림 5번" = Q1 2 + Q2 3. 진행 표시는 이 전체 기준
@@ -4496,11 +4504,10 @@
       let linked = null;
       try { const k = new URLSearchParams(location.search).get('q1'); if (k && !dealQ1.used) { linked = ARCH.concat(FIG).find(P => q1Key(P) === k) || null; dealQ1.used = true; } } catch (e) {}
       if (linked) { const j = order.findIndex(P => P.kind === linked.kind); order.splice(j >= 0 ? j : 0, 1); order.unshift(linked); }
-      // 첫 방문의 첫 문제는 누구나 아는 그림으로 고정(다비드 vs 들라로슈 「알프스를 넘는 나폴레옹」) — 2026-10-27
+      // 첫 방문의 첫 문제는 누구나 아는 명화 두 점으로 고정(FAMOUS: 베르메르 vs 고흐) — 2026-10-28
       if (!linked) {
         let first = false; try { first = !localStorage.getItem('yc-first-q1'); localStorage.setItem('yc-first-q1', '1'); } catch (e) {}
-        const fixed = first && FIG[0];
-        if (fixed) { let j = order.findIndex(P => P.cat === fixed.cat); if (j < 0) j = order.findIndex(P => P.kind === fixed.kind); order.splice(j >= 0 ? j : 0, 1); order.unshift(fixed); }
+        if (first) { const j = order.findIndex(P => P.kind === 'fig'); order.splice(j >= 0 ? j : 0, 1); order.unshift(FAMOUS); }
       }
       q1 = order.map(P => P === linked
         ? [{ era: 'classic', d: P.classic, theme: P.theme, kind: P.kind }, { era: 'romantic', d: P.romantic, theme: P.theme, kind: P.kind }]
@@ -4569,7 +4576,7 @@
       });
       const st = document.getElementById('q1-step');
       if (st && cur[0]) st.textContent = (t.q1Step || '{n} / {t}').replace('{n}', q1Idx + 1).replace('{t}', PICKS_N).replace('{theme}', AL(cur[0].theme))
-        .replace('{kind}', cur[0].kind === 'fig' ? t.q1KindFig : t.q1KindArch);
+        .replace(cur[0].kind === 'famous' ? ' · {kind}' : '{kind}', cur[0].kind === 'famous' ? '' : cur[0].kind === 'fig' ? t.q1KindFig : t.q1KindArch);
       document.getElementById('footer-art').textContent = t.artTpl
         .replace('{a}', names[0] || '').replace('{b}', names[1] || '');
       document.getElementById('pair-swap').textContent = '↻ ' + t.pairSwap;
