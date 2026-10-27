@@ -186,7 +186,7 @@
       resEyebrow: '당신의 음악 취향은', typeLead: '그중에서도 당신은',
       readEyebrow: 'Behind your picks', readTitle: '이 그림들에 끌린 이유',
       kGi: '당신의 취향', kSeung: '왜 그럴까', kJeon: '고른 그림', kGyeol: '클래식 메뉴',
-      gyeol: { classic: '그래서 이 결을 닮은 곡으로 첫 한입부터 디저트까지, 10곡짜리 클래식 메뉴를 차려 두었어요. 바로 아래에 있어요 ↓', romantic: '그래서 이 결을 닮은 곡으로 첫 한입부터 디저트까지, 10곡짜리 클래식 메뉴를 차려 두었어요. 바로 아래에 있어요 ↓' },
+      gyeol: { classic: '그래서 이 결을 닮은 10곡짜리 클래식 메뉴를 차렸어요 ↓', romantic: '그래서 이 결을 닮은 10곡짜리 클래식 메뉴를 차렸어요 ↓' },
       plTitle: '오늘의 클래식 메뉴', plSub: '고르신 그림과 겹치는 키워드로 열 곡을 감정선별로 묶었어요. ▶를 누르면 이 페이지에서 바로 들을 수 있어요.', flowKicker: 'YOUR EMOTIONAL LINE', flowSub: '곡을 들으면서, 그림으로 알게 된 내 마음의 결을 찾아보세요.',
       courseFirst: 'First bite · 첫 한입', courseDessert: 'Dessert · 디저트',
       belowCue: '당신의 클래식 메뉴가 바로 아래에 있어요',
@@ -2641,20 +2641,8 @@
         || [...new Set(sel.map(s => ko ? s.moodKo : s.moodEn))].slice(0, 3).join(' · ');
       const lines = [
         [t.kGi, ko ? T[3] : T[2]],
-        [t.kSeung, ko ? T[5] : T[4]],
         [t.kJeon, t.jeonTpl.replace('{t}', names).replace('{m}', moods)],
       ];
-      // taste mix: how many picks came from each feeling group (e.g. Calm 3 · Passion 2 · Dream 1)
-      const cnt = {};
-      sel.forEach(x => { const g = groupFor(x.id); if (g) { const nm = groupName(g); cnt[nm] = (cnt[nm] || 0) + 1; } });
-      const order = Object.entries(cnt).sort((a, b) => b[1] - a[1]);
-      if (order.length) {
-        const mix = order.map(([g, c]) => g + ' ' + c).join(' · ');
-        const lean = order.length > 1 && order[0][1] > order[1][1] ? ' ' + t.mixLean.replace('{g}', order[0][0]) : '';
-        lines.push([t.kMix, mix + lean]);
-      }
-      { const v = eraVotes();
-        if (v.n) lines.push([t.kEra, t.eraLine.replace('{c}', v.c).replace('{r}', v.r).replace('{n}', v.n).replace('{era}', t.eraName[currentEra])]); }
       lines.push([t.kGyeol, t.gyeol[currentEra], true]);
       const story = document.getElementById('r-story');
       story.innerHTML = '';
@@ -5511,9 +5499,8 @@
       const cmp = kids.find(c => c.querySelector('[data-i18n="cmpTitle"]'));
       const after = sheet.querySelector('.r-after-share'), more = document.getElementById('more'), read = document.getElementById('read-wrap');
       const today = document.getElementById('today');
-      // "Send to a friend" moves up, right above today's classical menu
-      const cue = head.querySelector('.go-pieces');
-      if (share) { share.classList.add('rt-share'); head.insertBefore(share, cue || null); }
+      // "Send to a friend" sits at the very bottom of tab 1 (below the menu)
+      if (share) { share.classList.add('rt-share'); share.dataset.rtab = 1; }
       // tab 3 reads: concerts & exhibitions, then the images to save
       if (psa && after) after.after(psa);
       [[head, 1], [pieces, 1], [cmp, 2], [more, 2], [read, 2], [events, 3], [after, 3], [psa, 3], [today, 3]].forEach(([el, n]) => { if (el) el.dataset.rtab = n; });
@@ -5537,6 +5524,7 @@
         b.addEventListener('click', () => { if (RT.lv > n) { rtGo(n + 1, true); track('tab_next', { tab: n + 1 }); } });
         last.after(b); RT.next[n] = b;
       });
+      if (share && RT.next[1]) RT.next[1].before(share); else if (share && pieces) pieces.after(share);
       // quests: the feedback box opens tab 2, the end of tab 2 opens tab 3
       if ('IntersectionObserver' in window) {
         const io = new IntersectionObserver(es => es.forEach(e => {
