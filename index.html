@@ -192,7 +192,7 @@
     /* 2026-10-27: phones can't hover, so Q1 cards say they can be tapped until the first tap */
     .tap-hint { display: none; }
     @media (max-width: 639px) {
-      #pair:not(.tapped) .tap-hint { display: inline-flex; position: absolute; top: .6rem; right: .6rem; z-index: 3; align-items: center; padding: .3rem .65rem; border-radius: 999px; background: rgba(255,236,214,.94); color: #4D0A1A; font-size: 12px; font-weight: 600; box-shadow: 0 4px 14px rgba(0,0,0,.35); animation: tapPulse 1.8s ease-in-out infinite; }
+      #pair:not(.tapped) .tap-hint { display: inline-flex; position: absolute; top: auto; bottom: 4.9rem; left: 50%; right: auto; translate: -50% 0; white-space: nowrap; z-index: 3; align-items: center; padding: .3rem .65rem; border-radius: 999px; background: rgba(255,236,214,.94); color: #4D0A1A; font-size: 12px; font-weight: 600; box-shadow: 0 4px 14px rgba(0,0,0,.35); animation: tapPulse 1.8s ease-in-out infinite; }
       #pair .card:nth-child(2) .tap-hint { animation-delay: .9s; }
       #pair:not(.tapped) .card { box-shadow: 0 0 0 2px rgba(255,236,214,.35); }
     }
@@ -746,15 +746,15 @@
     }
     /* ===== Phones (portrait): Q1 cards stacked top/bottom with the whole painting visible, Q2 uses the screen height ===== */
     @media (max-width: 639px) {
-      #pair { grid-template-columns: 1fr !important; gap: .6rem !important; }
-      #pair .card { height: clamp(210px, 38svh, 350px) !important; min-height: 0 !important; max-height: none !important; }
-      #pair .card .media { inset: 0 0 4.1rem 0; background: #2A070E; overflow: hidden; }
+      #pair { grid-template-columns: 1fr 1fr !important; gap: .5rem !important; }
+      #pair .card { height: var(--pair-h, clamp(210px, 38svh, 350px)) !important; min-height: 0 !important; max-height: none !important; }
+      #pair .card .media { inset: 0 0 4.4rem 0; background: #2A070E; overflow: hidden; }
       #pair .card .media::before { content: ""; position: absolute; inset: -12%; background: var(--bg) center / cover no-repeat; filter: blur(18px) brightness(.55) saturate(1.1); }
       #pair .card .photo { object-fit: contain !important; z-index: 1; transform: none; filter: none; padding: 3px; }
       #pair .card:hover .photo, #pair .card:focus-visible .photo { transform: none; filter: none; }
       #pair .card .veil, #pair .card .spot { display: none; }
-      #pair .card .absolute.bottom-0 { background: #2A070E; padding: .5rem .85rem .6rem !important; min-height: 4.1rem; display: flex; flex-direction: column; justify-content: center; }
-      #pair .card h2 { font-size: 1.05rem; line-height: 1.2; }
+      #pair .card .absolute.bottom-0 { background: #2A070E; padding: .4rem .6rem .45rem !important; min-height: 4.4rem; display: flex; flex-direction: column; justify-content: center; }
+      #pair .card h2 { font-size: .95rem; line-height: 1.2; word-break: keep-all; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
       #pair .card .absolute.bottom-0 p { margin-top: .15rem; font-size: 11px; }
       #pair .card .ab-badge { z-index: 2; }
 
@@ -1772,7 +1772,7 @@
   <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=10280500a"></script>
+  <script defer src="/assets/app.js?v=10280730a"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {

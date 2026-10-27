@@ -4561,7 +4561,17 @@
       q1SeenSent = true;
       track('q1_seen', { load_ms: Math.round(performance.now()) });
     }
+    // 2026-10-28: on phones A and B sit side by side and fit in the first screen (no scrolling to find B)
+    function fitPair() {
+      if (!matchMedia('(max-width: 639px)').matches) { pair.style.removeProperty('--pair-h'); return; }
+      const top = pair.getBoundingClientRect().top + scrollY;
+      const h = Math.floor(innerHeight - top - 14);   // A and B side by side, so one card height fills the rest of the screen
+      pair.style.setProperty('--pair-h', Math.max(240, Math.min(440, h)) + 'px');
+    }
+    let fitBound = false;
     function renderPair() {
+      if (!fitBound) { fitBound = true; addEventListener('resize', fitPair); (document.fonts && document.fonts.ready || Promise.resolve()).then(fitPair); setTimeout(fitPair, 600); }
+      requestAnimationFrame(fitPair);
       if (!q1.length) dealQ1();
       if (pairDirty) buildPair();
       const t = I18N[lang], cur = q1[q1Idx] || [], names = [];
