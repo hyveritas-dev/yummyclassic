@@ -4566,7 +4566,7 @@
       if (!matchMedia('(max-width: 639px)').matches) { pair.style.removeProperty('--pair-h'); return; }
       const top = pair.getBoundingClientRect().top + scrollY;
       const h = Math.floor(innerHeight - top - 14);   // A and B side by side, so one card height fills the rest of the screen
-      pair.style.setProperty('--pair-h', Math.max(240, Math.min(440, h)) + 'px');
+      pair.style.setProperty('--pair-h', Math.max(190, Math.min(440, h)) + 'px');
     }
     let fitBound = false;
     function renderPair() {
