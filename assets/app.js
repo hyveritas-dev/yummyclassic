@@ -1657,10 +1657,10 @@
       psaHook(recs);
       const q = x => lang === 'ja' ? '「' + x + '」' : idx ? '〈' + x + '〉' : '“' + x + '”';
       let i = 0;
-      groups.forEach(g => {
+      groups.forEach((g, gIdx) => {
         const G = (g.m && MOODG[g.m]) || MOODG_REST;
         const head = document.createElement('li');
-        head.className = 'grp-head';
+        head.className = 'grp-head grp-c' + (gIdx % 4);
         const k = document.createElement('span'); k.className = 'k';
         if (g.m) {
           const via0 = g.vias[0];
@@ -1748,13 +1748,13 @@
         const nm = groups.filter(g => g.m && MOODG[g.m]).map(g => L3(MOODG[g.m].n));
         const uniq = nm.filter((x, k) => nm.indexOf(x) === k);
         const x = uniq[0], y = uniq[1];
+        const pv = []; groups.forEach(g => g.vias.forEach(v => { const n = idx ? v.ko : v.en; if (n && !pv.includes(n)) pv.push(n); }));
+        const pn = pv.slice(0, 3).map(q).join(lang === 'ja' ? '・' : idx ? '·' : ', ');
         let line = '';
-        if (x) {
-          if (lang === 'ko') line = y ? '오늘의 감정선은 ' + x + '에서 ' + y + roKo(y) + ' 흐르고 있어요.' : '오늘의 감정선은 ' + x + ' 쪽에 닿아 있어요.';
-          else if (lang === 'ja') line = y ? '今日の感情の流れは、' + x + 'から' + y + 'へ向かっています。' : '今日の感情は、' + x + 'のそばにあります。';
-          else line = y ? 'Today’s emotional line runs from ' + x + ' to ' + y + '.' : 'Today’s emotional line rests close to ' + x + '.';
-        }
-        sub.textContent = line ? line + ' ' + t.plSub : t.plSub;
+        if (lang === 'ko') line = (pn ? '고른 그림: ' + pn + '. ' : '') + (x ? (y ? x + '에서 ' + y + roKo(y) + ' 흐르는 열 곡이에요.' : x + '에 닿은 열 곡이에요.') : '');
+        else if (lang === 'ja') line = (pn ? '選んだ絵: ' + pn + '。' : '') + (x ? (y ? x + 'から' + y + 'へ流れる10曲です。' : x + 'に寄り添う10曲です。') : '');
+        else line = (pn ? 'Your picks: ' + pn + '. ' : '') + (x ? (y ? 'Ten pieces flowing from ' + x + ' to ' + y + '.' : 'Ten pieces close to ' + x + '.') : '');
+        sub.textContent = line || t.plSub;
       }
     }
     // Psych-test style types: one per mood. [nameEn, nameKo, tasteEn, tasteKo, whyEn, whyKo]
@@ -2643,7 +2643,6 @@
         [t.kGi, ko ? T[3] : T[2]],
         [t.kJeon, t.jeonTpl.replace('{t}', names).replace('{m}', moods)],
       ];
-      lines.push([t.kGyeol, t.gyeol[currentEra], true]);
       const story = document.getElementById('r-story');
       story.innerHTML = '';
       // Wrapped-style reveal: the lines appear one by one, once per new result (not on a language switch)
