@@ -4478,11 +4478,17 @@
     // 그림쌍 키: 주제 영문명을 소문자-하이픈으로 (예: napoleon-crossing-the-alps)
     const q1Key = P => String(P.theme[0] || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     window.__ycQ1Keys = () => ARCH.concat(FIG).map(P => ({ key: q1Key(P), ko: P.theme[1], kind: P.kind, a: P.classic.f, b: P.romantic.f }));
+    // 2026-10-28: Q1 pairs show landscape with landscape and portrait with portrait.
+    // Pairs known to mix the two are left out; a pair found mixed when its images load is remembered and swapped out.
+    const Q1_MIXED = ['Canaletto-waltonbridge', 'Gerrit Berckheyde - The Market Place', 'Bellotto Cracow Suburb', 'Johann_Heinrich_Wilhelm_Tischbein', 'Jean-Auguste-Dominique Ingres - Autoportrait',
+      'Thomas_Gainsborough_-_Mr_and_Mrs_Andrews', 'Head_of_Christ_by_Rembrandt', 'Gainsborough - The Painters Daughters', 'Louise Elisabeth Vig', 'Thomas Gainsborough, Mrs. Richard Brinsley Sheridan'];
+    const q1BadSeen = (() => { try { return new Set(JSON.parse(localStorage.getItem('yc-q1-mixed') || '[]')); } catch (e) { return new Set(); } })();
+    const q1Mixed = P => P.kind !== 'famous' && (q1BadSeen.has(P.classic.f) || Q1_MIXED.some(k => P.classic.f.startsWith(k)));
     function dealQ1() {
       // per kind, one pair per subject group (so two church-interior or two Napoleon pairs never meet in one visit);
       // then building and figure questions alternate, starting with either kind
       const dealKind = POOL => {
-        const byCat = {}; POOL.forEach(P => (byCat[P.cat] = byCat[P.cat] || []).push(P));
+        const byCat = {}; POOL.filter(P => !q1Mixed(P)).forEach(P => (byCat[P.cat] = byCat[P.cat] || []).push(P));
         return sample(Object.keys(byCat), Q1_PER).map(c => sample(byCat[c], 1)[0]);
       };
       const a = dealKind(ARCH), f = dealKind(FIG), [x, y] = Math.random() < 0.5 ? [a, f] : [f, a], order = [];
@@ -4496,12 +4502,30 @@
         let first = false; try { first = !localStorage.getItem('yc-first-q1'); localStorage.setItem('yc-first-q1', '1'); } catch (e) {}
         if (first) { const j = order.findIndex(P => P.kind === 'fig'); order.splice(j >= 0 ? j : 0, 1); order.unshift(FAMOUS); }
       }
-      q1 = order.map(P => P === linked
-        ? [{ era: 'classic', d: P.classic, theme: P.theme, kind: P.kind }, { era: 'romantic', d: P.romantic, theme: P.theme, kind: P.kind }]
-        : sample([{ era: 'classic', d: P.classic, theme: P.theme, kind: P.kind }, { era: 'romantic', d: P.romantic, theme: P.theme, kind: P.kind }], 2));
+      q1 = order.map(P => q1Entry(P, P === linked));
       if (linked) track('q1_linked', { pair: q1Key(linked) });
       q1Votes = []; q1Idx = 0; q1Lock = false;
       pairDirty = true;
+    }
+    function q1Entry(P, fixed) {
+      const e = [{ era: 'classic', d: P.classic, theme: P.theme, kind: P.kind, P }, { era: 'romantic', d: P.romantic, theme: P.theme, kind: P.kind, P }];
+      return fixed ? e : sample(e, 2);
+    }
+    // both images of the current pair loaded: wide pairs stack on phones; a mixed pair is replaced by another of the same kind
+    function q1Orient() {
+      const ims = cards.map(c => c.querySelector('img.photo'));
+      if (ims.length !== 2 || !ims.every(im => im && im.complete && im.naturalWidth)) return;
+      const wide = ims.map(im => im.naturalWidth > im.naturalHeight * 1.05);
+      const cur = q1[q1Idx] || [], P = cur[0] && cur[0].P;
+      if (wide[0] !== wide[1] && P && P.kind !== 'famous' && q1Votes.length <= q1Idx && !q1Orient.swapped) {
+        q1BadSeen.add(P.classic.f); try { localStorage.setItem('yc-q1-mixed', JSON.stringify([...q1BadSeen])); } catch (e) {}
+        const used = new Set(q1.map(x => x[0] && x[0].P && x[0].P.cat));
+        const pool = (P.kind === 'fig' ? FIG : ARCH).filter(Q => !q1Mixed(Q) && !used.has(Q.cat));
+        if (pool.length) { q1Orient.swapped = true; q1[q1Idx] = q1Entry(sample(pool, 1)[0]); pairDirty = true; renderPair(); return; }
+      }
+      q1Orient.swapped = false;
+      pair.classList.toggle('pair-wide', wide[0] && wide[1]);
+      fitPair();
     }
     // Phones get 500px copies (about a quarter of the bytes of 960px); big screens keep 960px
     const Q1W = () => (Math.min(screen.width || innerWidth, innerWidth) < 700 ? 500 : 960);
@@ -4512,7 +4536,7 @@
       (window.requestIdleCallback || (f => setTimeout(f, 600)))(go);
     }
     function buildPair() {
-      pair.innerHTML = ''; cards = [];
+      pair.innerHTML = ''; cards = []; pair.classList.remove('pair-wide');
       (q1[q1Idx] || []).forEach((c, i) => {
         const d = c.d, card = document.createElement('article');
         card.className = 'card h-[46vh] min-h-[280px] max-h-[460px] sm:max-h-none sm:h-[540px] lg:h-[640px]';
@@ -4532,6 +4556,7 @@
         img.fetchPriority = 'high';
         setImgSrc(img, d.f, Q1W());
         if (q1Idx === 0) img.addEventListener('load', q1SeenCheck);   // funnel: the first pair actually showed up
+        img.addEventListener('load', q1Orient);
         card.querySelector('.media').style.setProperty('--bg', 'url("' + THUMB(d.f, Q1W()) + '")');   // blurred copy fills the gaps around the whole painting (phones)
         pair.appendChild(card); cards.push(card);
       });
@@ -4553,7 +4578,9 @@
       if (!matchMedia('(max-width: 639px)').matches) { pair.style.removeProperty('--pair-h'); return; }
       const top = pair.getBoundingClientRect().top + scrollY;
       const h = Math.floor(innerHeight - top - 14);   // A and B side by side, so one card height fills the rest of the screen
-      pair.style.setProperty('--pair-h', Math.max(190, Math.min(440, h)) + 'px');
+      // two landscape paintings stack top and bottom, each taking half the space
+      const wideH = pair.classList.contains('pair-wide') ? Math.floor((h - 12) / 2) : h;
+      pair.style.setProperty('--pair-h', Math.max(pair.classList.contains('pair-wide') ? 150 : 190, Math.min(440, wideH)) + 'px');
     }
     let fitBound = false;
     function renderPair() {
