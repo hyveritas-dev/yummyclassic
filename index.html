@@ -144,7 +144,7 @@
     .guide-toast { position: fixed; top: 4.6rem; left: 50%; transform: translate(-50%, 0); z-index: 60; max-width: calc(100vw - 32px);
       background: var(--wine-deep); color: var(--vanilla); font-size: .88rem; font-weight: 600; text-align: center;
       padding: .7rem 1.1rem; border-radius: 14px; box-shadow: 0 8px 28px rgba(42,26,30,.28); animation: ngToast .5s cubic-bezier(.2,1.4,.4,1) both; }
-    .guide-toast::before { content: '🏆 '; }
+    .guide-toast::before { content: '✨ '; }
     .guide-toast.out { opacity: 0; transform: translate(-50%, -8px); transition: opacity .5s ease, transform .5s ease; }
     @keyframes ngToast { from { opacity: 0; transform: translate(-50%, -14px) scale(.95); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
     /* Phones: the header is already full, so the menu floats bottom-right, stacked above the SNS dock (2 x 44px + gap + 16px) so it never covers the result tabs */
@@ -900,6 +900,11 @@
       border: 0; border-radius: var(--r); background: var(--apricot); color: var(--wine-deep); font: inherit; font-size: 1rem; font-weight: 800; cursor: pointer; word-break: keep-all; }
     .rt-next:hover { background: var(--apricot-deep); color: #fff; }
     .rt-next.locked { cursor: default; background: rgba(42,26,30,.07); color: rgba(42,26,30,.5); font-weight: 600; font-size: .9rem; }
+    /* 10-second glow on the opened tab and on the "next course" box (2026-11-02) */
+    @keyframes rtGlowBox { 0%, 100% { box-shadow: 0 0 0 0 rgba(232,117,61,.85), 0 0 0 rgba(215,163,61,0); } 50% { box-shadow: 0 0 0 5px rgba(232,117,61,.35), 0 0 22px 6px rgba(215,163,61,.65); } }
+    .rt-tab.rt-glow { animation: rtPop .7s var(--ease), rtGlowBox 1.25s ease-in-out .7s 8; }
+    .rt-next.rt-glow { animation: rtGlowBox 1.25s ease-in-out 8; outline: 3px solid var(--apricot-deep); outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) { .rt-tab.rt-glow, .rt-next.rt-glow { animation: none; box-shadow: 0 0 0 4px rgba(232,117,61,.45); } }
     .rt-share { margin-top: 3rem !important; }
     .rt-toast.lock::before { content: '🔒 '; }
     @media (min-width: 640px) {
@@ -1775,7 +1780,7 @@
   <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=10301040a"></script>
+  <script defer src="/assets/app.js?v=11021630a"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {
