@@ -5096,7 +5096,10 @@
     const myMood = () => { const sel = selected(); return sel.length ? dominantMood(sel) : ''; };
 
     // A friend's match link: ?vm=<type>&ve=<classic|romantic>&vp=<painting ids>
+    // 2026-11-03: 궁합(친구와 화음 확인) 기능 전체 숨김 — 다시 켤 때는 MATCH_ON = true 와 index.html 의 'match-off' 스타일 한 줄 삭제
+    const MATCH_ON = false;
     const VS = (() => {
+      if (!MATCH_ON) return null;
       try {
         const q = new URLSearchParams(location.search), m = q.get('vm');
         if (!m || !TYPES[m]) return null;
@@ -5105,7 +5108,7 @@
       } catch (e) { return null; }
     })();
     // pair link (화음 결과지): my result + the person I answered, so whoever opens it sees both and the 화음률
-    const PAIR = (() => { try { return new URLSearchParams(location.search).get('pr') === '1'; } catch (e) { return false; } })();
+    const PAIR = (() => { if (!MATCH_ON) return false; try { return new URLSearchParams(location.search).get('pr') === '1'; } catch (e) { return false; } })();
     function pairUrl() {
       const q = new URLSearchParams(tasteUrl().split('?')[1] || '');
       q.set('vm', VS.m); q.set('ve', VS.e); q.set('vp', VS.ids.join(',')); q.set('pr', '1');
