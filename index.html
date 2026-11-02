@@ -878,6 +878,19 @@
     html.rt-on[data-rt="2"] [data-rtab]:not([data-rtab="2"]),
     html.rt-on[data-rt="3"] [data-rtab]:not([data-rtab="3"]) { display: none !important; }
     html.rt-on #today { display: none !important; }
+    /* Pinned player (2026-11-03): the section holding the playing song stays in the page as a sticky slot under the
+       tab bar; everything in it is hidden except the player, so music keeps playing on tabs 2 and 3 */
+    html.rt-on.pl-pin body .rt-keep[data-rtab] { display: block !important; position: sticky; top: calc(var(--rt-top, 0px) + var(--rt-bar-h, 64px)); z-index: 39;
+      height: calc(2rem + 126px + .6rem); margin: 0 -.4rem .9rem !important; padding: 0 !important; overflow: hidden; border-radius: var(--r); background: var(--wine-deep); }
+    html.rt-on.pl-pin .rt-keep > * { visibility: hidden; }
+    html.rt-on.pl-pin .rt-keep :is(ol, ul, li, div):not(.pl-player):not(.pl-tools) { position: static !important; }
+    html.rt-on.pl-pin .rt-keep::before { content: "♪ " attr(data-pin-title); position: absolute; left: .7rem; right: .7rem; top: .45rem; z-index: 1;
+      color: var(--vanilla); font-size: .8rem; font-weight: 700; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    html.rt-on.pl-pin .rt-keep li.playing .pl-player, html.rt-on.pl-pin .rt-keep li.playing .pl-tools { visibility: visible; }
+    html.rt-on.pl-pin .rt-keep li.playing .pl-player:not(.big) { position: absolute; left: .7rem; top: 2rem; width: 224px; height: 126px; max-width: none; margin: 0; aspect-ratio: auto; z-index: 2; }
+    html.rt-on.pl-pin .rt-keep li.playing .pl-tools:not(.big) { position: absolute; left: calc(.7rem + 224px + .6rem); right: .7rem; top: 2rem; margin: 0; z-index: 2;
+      display: flex; flex-direction: column; align-items: stretch; gap: .4rem; }
+    html.rt-on.pl-pin .rt-keep li.playing .pl-tools:not(.big) .pl-tool { text-align: center; padding: .3rem .4rem; }
     .rt-anchor { height: 0; }
     .rt-bar { position: sticky; top: var(--rt-top, 0px); z-index: 40; display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem;
       margin: -1rem -.4rem 1.5rem; padding: .55rem .4rem; background: var(--vanilla); border-bottom: 1px solid var(--line); }
@@ -1780,7 +1793,7 @@
   <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=11021630a"></script>
+  <script defer src="/assets/app.js?v=11030410a"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {

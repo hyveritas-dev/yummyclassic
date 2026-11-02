@@ -1447,7 +1447,26 @@
     }
     document.getElementById('pl-backdrop').addEventListener('click', () => setZoom(false));
     document.addEventListener('keydown', e => { if (e.key === 'Escape') setZoom(false); });
+    // Pinned player: when the visitor leaves the tab of the song that is playing, that tab's section stays in the
+    // page as a sticky slot under the tab bar (see .rt-keep in index.html), so the iframe is never moved or reloaded.
+    let pinKeep = null;
+    function unpinPlayer() {
+      if (pinKeep) { pinKeep.classList.remove('rt-keep'); pinKeep.removeAttribute('data-pin-title'); pinKeep = null; }
+      document.documentElement.classList.remove('pl-pin');
+    }
+    function pinPlayer(barH) {
+      const S = activeLi && activeLi.isConnected ? activeLi.closest('[data-rtab]') : null;
+      if (!S) { stopPlayer(); return; }
+      unpinPlayer();
+      const tt = activeLi.querySelector('span.block.font-serif');
+      S.dataset.pinTitle = tt ? tt.textContent.trim() : '';
+      S.classList.add('rt-keep'); pinKeep = S;
+      const root = document.documentElement;
+      root.style.setProperty('--rt-bar-h', (barH || 64) + 'px');
+      root.classList.add('pl-pin');
+    }
     function stopPlayer() {
+      unpinPlayer();
       setZoom(false);
       if (activePlayer) { try { activePlayer.destroy(); } catch (e) { /* ignore */ } }
       if (activeLi) {
@@ -1515,7 +1534,9 @@
       li.classList.add('playing');
       activeLi = li;
       setBtn(li, true);
-      setTimeout(() => tools.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
+      // next song started while another tab is open (auto-advance): keep it pinned under the tab bar
+      try { if (RT.bar && !li.closest('[data-rtab="' + RT.cur + '"]')) pinPlayer(RT.bar.offsetHeight); } catch (e) { /* RT not ready */ }
+      setTimeout(() => { if (!document.documentElement.classList.contains('pl-pin')) tools.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 60);
       const build = () => {
         if (activeLi !== li) return;
         if (!(window.YT && window.YT.Player)) return unavailable(li, r);
@@ -5587,7 +5608,8 @@
     }
     function rtGo(n, scroll) {
       if (!RT.bar || n > RT.lv) return;
-      if (activeLi && !activeLi.closest('[data-rtab="' + n + '"]')) stopPlayer();
+      unpinPlayer();
+      if (activeLi && !activeLi.closest('[data-rtab="' + n + '"]')) pinPlayer(RT.bar.offsetHeight);
       RT.cur = n; document.documentElement.dataset.rt = String(n); rtPaint();
       if (scroll) { const y = RT.anchor.getBoundingClientRect().top + scrollY - (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rt-top')) || 0) - 8; RT.quiet = Date.now() + 700; scrollTo({ top: y, behavior: 'auto' }); }
     }
