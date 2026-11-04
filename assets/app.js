@@ -4600,8 +4600,13 @@
       const top = pair.getBoundingClientRect().top + scrollY;
       const h = Math.floor(innerHeight - top - 14);   // A and B side by side, so one card height fills the rest of the screen
       // two landscape paintings stack top and bottom, each taking half the space
-      const wideH = pair.classList.contains('pair-wide') ? Math.floor((h - 12) / 2) : h;
-      pair.style.setProperty('--pair-h', Math.max(pair.classList.contains('pair-wide') ? 150 : 190, Math.min(440, wideH)) + 'px');
+      // 2026-11-04: stacked landscape paintings were squeezed to fit one screen (picture area ~80px); size by width instead and let the page scroll
+      if (pair.classList.contains('pair-wide')) {
+        const w = pair.clientWidth || innerWidth;
+        pair.style.setProperty('--pair-h', Math.round(Math.min(w * 0.7, 320) + 70) + 'px');
+        return;
+      }
+      pair.style.setProperty('--pair-h', Math.max(190, Math.min(440, h)) + 'px');
     }
     let fitBound = false;
     function renderPair() {
