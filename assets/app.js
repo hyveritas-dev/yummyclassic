@@ -5207,7 +5207,9 @@
     // "같은 유형 N%": counted once per finished test, shown once enough people have taken it
     const STAT_MIN = 30;
     let statData = null;
-    function postJSON(u, body) { try { return fetch(u, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), keepalive: true }).catch(() => null); } catch (e) { return Promise.resolve(null); } }
+    // 내 기기(?noga=1로 표시한 브라우저)는 사이트 자체 집계(/api/stat, /api/fb)에서도 제외
+    const OWNER_DEVICE = (() => { try { return localStorage.getItem('noga') === '1'; } catch (e) { return false; } })();
+    function postJSON(u, body) { if (OWNER_DEVICE && /^\/api\/(stat|fb)$/.test(u)) return Promise.resolve(null); try { return fetch(u, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), keepalive: true }).catch(() => null); } catch (e) { return Promise.resolve(null); } }
     function loadStats() {
       return fetch('/api/stat').then(r => r.ok ? r.json() : null).then(d => { if (d && typeof d.all === 'number') statData = d; renderPct(); }).catch(() => {});
     }
