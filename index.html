@@ -956,9 +956,12 @@
     #daily-li .pl-tools { flex-basis: 100%; }
     .daily-act { display: flex; flex-direction: column; align-items: stretch; gap: .6rem; }
     .daily-act .btn-primary { min-height: 4rem; padding: .6rem 1rem; font-size: 1.12rem; font-weight: 800; letter-spacing: -.01em; word-break: keep-all; }
-    html.daily-fr .daily-more { display: none !important; }
-    .daily-more { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
-    .daily-more .btn { min-width: 0; min-height: 3.6rem; padding: .5rem .6rem; font-size: .93rem; font-weight: 700; line-height: 1.3; white-space: normal; word-break: keep-all; text-align: center; }
+    .daily-pick { min-width: 0; min-height: 3.6rem; padding: .5rem .8rem; font-size: .98rem; font-weight: 700; line-height: 1.3; white-space: normal; word-break: keep-all; text-align: center; }
+    .daily-links { display: flex; flex-wrap: wrap; justify-content: center; gap: .3rem 1.2rem; }
+    html.daily-fr .daily-links { display: none !important; }
+    .daily-link { background: none; border: 0; padding: .35rem .2rem; font: inherit; font-size: .85rem; color: rgba(244,233,208,.78); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+    .daily-link:hover { color: #F4E9D0; }
+    .daily-link[hidden] { display: none; }
     .daily-note { margin: .2rem 0 0; text-align: center; font-size: .8rem; color: rgba(244,233,208,.66); }
     @media (min-width: 900px) {
       .daily { padding: calc(64px + 2.5rem) 2.5rem 2.5rem; align-items: center; }
@@ -968,8 +971,8 @@
       .daily-act { grid-area: act; align-items: flex-start; }
       .daily-act .btn-primary { padding: 0 2.6rem; min-height: 4.2rem; font-size: 1.2rem; }
       .daily-act .btn-primary { width: 100%; max-width: 30rem; }
-      .daily-more { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; width: 100%; max-width: 30rem; }
-      .daily-more .btn { min-height: 3.6rem; font-size: 1rem; padding: .5rem 1rem; }
+      .daily-pick { width: 100%; max-width: 30rem; min-height: 3.6rem; font-size: 1rem; padding: .5rem 1rem; }
+      .daily-links { justify-content: flex-start; }
       .daily-kick { font-size: 14px; }
       .daily-h { font-size: clamp(1.9rem, 2.7vw, 2.6rem); line-height: 1.28; }
       .daily-sub { font-size: 1.1rem; max-width: 30rem; }
@@ -1384,10 +1387,11 @@
           <ul class="daily-list"><li id="daily-li"></li></ul>
         </figure>
         <div class="daily-act">
-          <button type="button" id="daily-share" class="btn btn-primary"></button>
-          <div class="daily-more">
-            <button type="button" id="daily-last" class="btn btn-ghost"></button>
-            <button type="button" id="daily-retest" class="btn btn-ghost"></button>
+          <button type="button" id="daily-listen" class="btn btn-primary"></button>
+          <button type="button" id="daily-retest" class="btn btn-ghost daily-pick"></button>
+          <div class="daily-links">
+            <button type="button" id="daily-last" class="daily-link"></button>
+            <button type="button" id="daily-share" class="daily-link" hidden></button>
           </div>
           <p id="daily-note" class="daily-note"></p>
         </div>

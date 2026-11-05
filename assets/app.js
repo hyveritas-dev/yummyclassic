@@ -5365,8 +5365,8 @@
     Object.assign(I18N.ko, {
       dailyKick: '{d} · 오늘의 메뉴', dailyH: '‘{t}’\u2060의<br />오늘의 클래식 메뉴',
       dailySub: '오늘의 그림 한 점과 클래식 한 곡을 차렸어요. 그림을 보며 들어 보세요.',
-      dailyTaste: '오늘의 맛 · {m}', dailyShare: '친구에게 오늘의 곡 보내기', dailyRetest: '새 그림으로 다시\u00a0테스트',
-      dailyLast: '내 클래식 추천곡 듣기', dailyNote: '내일은 다른 그림과 곡이 차려져요 · {n}번째 메뉴',
+      dailyTaste: '오늘의 맛 · {m}', dailyShare: '친구에게 오늘의 곡 보내기', dailyRetest: '사진 선택으로 오늘의 클래식 메뉴 받기', dailyListen: '▶ 오늘의 곡 듣기',
+      dailyLast: '지난번 내 추천곡 보기', dailyNote: '내일은 다른 그림과 곡이 차려져요 · {n}번째 메뉴',
       dailyFrKick: '{d} · 친구가 보낸 오늘의 곡', dailyFrH: '친구가 보낸<br />오늘의 클래식', dailyFrHT: '‘{t}’ 친구가 보낸<br />오늘의 클래식',
       dailyFrSub: '친구가 오늘 고른 그림과 곡이에요. 들어 보고, 나는 어떤 그림에 끌리는지 골라 보세요.', dailyFrTry: '나도 그림 골라 보기 →', dailyFrNote: '그림 몇 장만 고르면 20초 만에 나만의 클래식 10곡이 나와요',
       dailyShareText: '오늘 내가 듣는 클래식: {p} × {s}\n같이 들어 보고, 너도 끌리는 그림 골라 봐 — 냠냠클래식', dailyCopied: '링크를 복사했어요',
@@ -5374,8 +5374,9 @@
     Object.assign(I18N.en, {
       dailyKick: '{d} · Today’s menu', dailyH: 'Today’s classical menu<br />for ‘{t}’',
       dailySub: 'One painting and one piece, set for you today. Listen while you look.',
-      dailyTaste: 'Today’s flavour · {m}', dailyShare: 'Send today’s piece to a friend', dailyRetest: 'Take the test again',
-      dailyLast: 'Listen to my picks', dailyNote: 'Tomorrow brings a new painting and piece · menu no. {n}',
+      dailyTaste: 'Today’s flavour · {m}', dailyShare: 'Send today’s piece to a friend', dailyRetest: 'Pick paintings, get my classical menu',
+      dailyListen: '▶ Listen to today’s piece',
+      dailyLast: 'See my last picks', dailyNote: 'Tomorrow brings a new painting and piece · menu no. {n}',
       dailyFrKick: '{d} · Sent by a friend', dailyFrH: 'Today’s classical,<br />sent by a friend', dailyFrHT: 'Today’s classical, sent by<br />a ‘{t}’ friend',
       dailyFrSub: 'This is the painting and piece your friend chose today. Have a listen, then see which paintings draw you.', dailyFrTry: 'Pick my own paintings →', dailyFrNote: 'Pick a few paintings and get ten classical pieces of your own in about 20 seconds',
       dailyShareText: 'What I’m listening to today: {p} × {s}\nHave a listen, then pick the paintings that draw you — Yummy Classic', dailyCopied: 'Link copied',
@@ -5383,8 +5384,9 @@
     Object.assign(I18N.ja, {
       dailyKick: '{d} · 今日のメニュー', dailyH: '「{t}」\u2060の<br />今日のクラシック・メニュー',
       dailySub: '今日の絵一枚とクラシック一曲をご用意しました。絵を見ながら聴いてみてください。',
-      dailyTaste: '今日の味わい · {m}', dailyShare: '今日の曲を友だちに送る', dailyRetest: '新しい絵でもう一度テスト',
-      dailyLast: '私のおすすめ曲を聴きに行く', dailyNote: '明日は別の絵と曲が届きます · {n}回目のメニュー',
+      dailyTaste: '今日の味わい · {m}', dailyShare: '今日の曲を友だちに送る', dailyRetest: '絵を選んで今日のクラシック・メニューをもらう',
+      dailyListen: '▶ 今日の曲を聴く',
+      dailyLast: '前回のおすすめ曲を見る', dailyNote: '明日は別の絵と曲が届きます · {n}回目のメニュー',
       dailyFrKick: '{d} · 友だちから届いた今日の曲', dailyFrH: '友だちから届いた<br />今日のクラシック', dailyFrHT: '「{t}」の友だちから届いた<br />今日のクラシック',
       dailyFrSub: '友だちが今日選んだ絵と曲です。聴いてみて、あなたはどの絵に惹かれるか選んでみてください。', dailyFrTry: '私も絵を選んでみる →', dailyFrNote: '絵を数枚選ぶだけで、約20秒で自分だけのクラシック10曲が見つかります',
       dailyShareText: '今日私が聴いているクラシック: {p} × {s}\n一緒に聴いて、あなたも惹かれる絵を選んでみて — ヤミークラシック', dailyCopied: 'リンクをコピーしました',
@@ -5474,10 +5476,17 @@
       const b = document.createElement('button');
       b.type = 'button'; b.className = 'pl-btn shrink-0 border px-4 py-2 text-sm transition';
       b.textContent = '▶ ' + t.plPlay;
-      b.addEventListener('click', () => { if (activeLi !== li) track('daily_play', { type: me.t, painting: p.id }); openPlayer(li, r); });
+      b.addEventListener('click', () => {
+        if (activeLi !== li) track('daily_play', { type: dailyNow.me.t || '', painting: p.id });
+        openPlayer(li, r);
+        renderDaily.played = true;
+        document.getElementById('daily-share').hidden = DAILY_FR;   // share only appears once they have listened
+      });
       li.append(body, b);
-      document.getElementById('daily-share').textContent = fr ? t.dailyFrTry : t.dailyShare;
-      document.getElementById('daily-retest').textContent = t.dailyRetest;
+      document.getElementById('daily-listen').textContent = t.dailyListen;
+      document.getElementById('daily-retest').textContent = fr ? t.dailyFrTry : t.dailyRetest;
+      document.getElementById('daily-share').textContent = t.dailyShare;
+      document.getElementById('daily-share').hidden = fr || !renderDaily.played;
       document.getElementById('daily-last').textContent = t.dailyLast;
       document.getElementById('daily-note').textContent = fr ? t.dailyFrNote : t.dailyNote.replace('{n}', n);
       if (!renderDaily.seen) { renderDaily.seen = true; track(fr ? 'daily_friend_open' : 'daily_view', { type: dailyNow.me.t || '', painting: p.id, visit_n: n }); }
@@ -5495,10 +5504,16 @@
       if (!root.classList.contains('daily-on')) return;
       root.classList.remove('intro-on');
       renderDaily();
+      document.getElementById('daily-listen').addEventListener('click', () => {
+        const li = document.getElementById('daily-li'), pb = li.querySelector('.pl-btn');
+        if (!pb) return;
+        track('daily_listen_cta', { type: (dailyNow && dailyNow.me.t) || '' });
+        if (activeLi !== li) pb.click();
+        li.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
       document.getElementById('daily-share').addEventListener('click', async e => {
         const btn = e.currentTarget, t = I18N[lang], ko = isLocal();
         if (!dailyNow) return;
-        if (DAILY_FR) { track('daily_friend_try', { painting: dailyNow.p.id }); dailyStartTest(); return; }
         const q = new URLSearchParams({ td: dailyNow.p.id, tx: dailyNow.x.yt || '', tt: dailyNow.me.t || '', lang, utm_source: 'daily', utm_medium: 'share' });
         const url = location.origin + '/?' + q.toString();
         const text = t.dailyShareText.replace('{p}', ko ? dailyNow.p.ko : dailyNow.p.en).replace('{s}', (SHORT[dailyNow.x.c] || ['', ''])[ko ? 1 : 0] || (ko ? dailyNow.x.ko : dailyNow.x.en));
@@ -5507,7 +5522,8 @@
         if (await copyText(text + '\n' + url)) flashBtn(btn, t.dailyCopied);
       });
       document.getElementById('daily-retest').addEventListener('click', () => {
-        track('daily_retest', { type: (dailyNow && dailyNow.me.t) || '' });
+        if (DAILY_FR) track('daily_friend_try', { painting: dailyNow ? dailyNow.p.id : '' });
+        else track('daily_retest', { type: (dailyNow && dailyNow.me.t) || '' });
         dailyStartTest();
       });
       document.getElementById('daily-last').addEventListener('click', () => {
