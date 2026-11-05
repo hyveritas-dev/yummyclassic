@@ -1535,7 +1535,7 @@
       activeLi = li;
       setBtn(li, true);
       // next song started while another tab is open (auto-advance): keep it pinned under the tab bar
-      try { if (RT.bar && !li.closest('[data-rtab="' + RT.cur + '"]')) pinPlayer(RT.bar.offsetHeight); } catch (e) { /* RT not ready */ }
+      try { if (RT.bar && li.closest('[data-rtab]') && !li.closest('[data-rtab="' + RT.cur + '"]')) pinPlayer(RT.bar.offsetHeight); } catch (e) { /* RT not ready */ }
       setTimeout(() => { if (!document.documentElement.classList.contains('pl-pin')) tools.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 60);
       const build = () => {
         if (activeLi !== li) return;
