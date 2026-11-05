@@ -5366,7 +5366,7 @@
       dailyKick: '{d} · 오늘의 메뉴', dailyH: '‘{t}’\u2060의<br />오늘의 클래식 메뉴',
       dailySub: '오늘의 그림 한 점과 클래식 한 곡을 차렸어요. 그림을 보며 들어 보세요.',
       dailyTaste: '오늘의 맛 · {m}', dailyShare: '친구에게 오늘의 곡 보내기', dailyRetest: '새 그림으로 다시\u00a0테스트',
-      dailyLast: '내 추천곡 들으러 가기', dailyNote: '내일은 다른 그림과 곡이 차려져요 · {n}번째 메뉴',
+      dailyLast: '내 클래식 추천곡 듣기', dailyNote: '내일은 다른 그림과 곡이 차려져요 · {n}번째 메뉴',
       dailyFrKick: '{d} · 친구가 보낸 오늘의 곡', dailyFrH: '친구가 보낸<br />오늘의 클래식', dailyFrHT: '‘{t}’ 친구가 보낸<br />오늘의 클래식',
       dailyFrSub: '친구가 오늘 고른 그림과 곡이에요. 들어 보고, 나는 어떤 그림에 끌리는지 골라 보세요.', dailyFrTry: '나도 그림 골라 보기 →', dailyFrNote: '그림 몇 장만 고르면 20초 만에 나만의 클래식 10곡이 나와요',
       dailyShareText: '오늘 내가 듣는 클래식: {p} × {s}\n같이 들어 보고, 너도 끌리는 그림 골라 봐 — 냠냠클래식', dailyCopied: '링크를 복사했어요',
