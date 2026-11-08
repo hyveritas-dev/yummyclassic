@@ -13,7 +13,7 @@ const path = require('path');
 const crypto = require('crypto');
 
 const ROOT = path.join(__dirname, '..');
-const SITE = 'https://yummyclassic.co.kr';
+const SITE = 'https://www.yummyclassic.co.kr';
 const GA_ID = 'G-MFFJHXYMYQ';
 const src = fs.readFileSync(path.join(ROOT, 'assets/app.js'), 'utf8');
 

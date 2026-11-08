@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 Disallow: /test.html
 
-Sitemap: https://yummyclassic.co.kr/sitemap.xml
+Sitemap: https://www.yummyclassic.co.kr/sitemap.xml
