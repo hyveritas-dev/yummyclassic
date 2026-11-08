@@ -5531,6 +5531,7 @@
       document.getElementById('daily-share').textContent = t.dailyShare;
       document.getElementById('daily-share').hidden = fr || !renderDaily.played;
       document.getElementById('daily-last').textContent = t.dailyLast;
+      { const fo = document.getElementById('daily-follow'); fo.textContent = '매일 오늘의 그림 받기 (블로그 이웃)'; fo.hidden = !ko || !!fr; if (!fo._t) { fo._t = 1; fo.addEventListener('click', () => track('follow_click', { src: 'daily' })); } }
       { const run = fr ? 0 : dailyStreak(day); document.getElementById('daily-note').textContent = (fr ? t.dailyFrNote : t.dailyNote.replace('{n}', n)) + (run >= 2 ? ' · ' + mt('streak').replace('{n}', run) : ''); }
       if (!renderDaily.seen) { renderDaily.seen = true; track(fr ? 'daily_friend_open' : 'daily_view', { type: dailyNow.me.t || '', painting: p.id, visit_n: n }); }
     }
