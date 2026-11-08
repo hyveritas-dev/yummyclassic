@@ -2115,6 +2115,42 @@
       });
       return { tags, era, hook };
     }
+    // ---- 인기순 점수 (2026-11-09): 취향 점수가 아니라 "지금 많이 찾는 공연"을 위로 ----
+    // 유명 연주자·악단 + 전국 순회(같은 제목 여러 도시) + 큰 공연장 + 네이버 검색 관심도(/api/trend) + 곧 마감
+    const EV_STARS = /임윤찬|조성진|선우예권|김선욱|손열음|백건우|김봄소리|양인모|클라라\s*주미\s*강|문태국|이혁|정명훈|리처드\s*용재\s*오닐|최하영|박재홍|홍석원|금난새|사이먼\s*래틀|루돌프\s*부흐빈더|예핌\s*브론프만|막심\s*벤게로프|힐러리\s*한|조슈아\s*벨|랑랑|유자\s*왕|키릴\s*페트렌코|라두\s*루푸|다니엘\s*바렌보임|필라델피아\s*오케스트라|빈\s*필|베를린\s*필|로열\s*콘세르트허바우|런던\s*심포니|뉴욕\s*필|보스턴\s*심포니|시카고\s*심포니/;
+    const EV_HALLS = /롯데콘서트홀|예술의전당|세종문화회관|아트센터\s*인천|부산콘서트홀|LG아트센터|성남아트센터|통영국제음악당|대구콘서트하우스|광주문화예술회관/;
+    const EV_BLOCKBUSTER = /모네|반\s*고흐|고흐|르누아르|클림트|샤갈|피카소|마티스|드가|세잔|고갱|프리다|칸딘스키|뭉크|호크니|쿠사마|이우환|박수근|이중섭|김환기/;
+    const evBase = e => String(e.title || '').replace(/\[[^\]]*\]|\([^)]*\)/g, ' ').replace(/\s+/g, ' ').trim();
+    const EV_NAME_RE = /([가-힣]{2,4})\s*(?:피아노|바이올린|첼로|비올라|플루트|클라리넷|오보에|기타|성악|소프라노|테너|바리톤|리사이틀|독주회|듀오|트리오)|with\s+([가-힣]{2,4}(?:\s[가-힣]{1,4})?)/;
+    const EV_NOT_NAME = /연주자|베이스|국제|번째|피아니스|오케스트|슈베르트|시립|메이트|블루밍|트리아벨|던포드|정기|기획|특별|음악제|콘서트|클래식|심포니|필하모닉|합창|앙상블|챔버|어린이|가족|신년|송년|갈라/;
+    const evNameOf = e => { const m = EV_NAME_RE.exec(e.title || ''); const n = m ? (m[1] || m[2] || '').trim() : ''; return n && !EV_NOT_NAME.test(n) ? n : ''; };
+    let evTrend = (() => { try { const o = JSON.parse(localStorage.getItem('yc-trend-v1') || 'null'); return o && Date.now() - o.at < 6 * 36e5 ? o.scores : null; } catch (e) { return null; } })();
+    let evTrendAsked = !!evTrend;
+    function evTrendLoad(list) {
+      if (evTrendAsked) return; evTrendAsked = true;
+      const names = [...new Set(list.filter(e => e.kind === 'concert').map(evNameOf).filter(Boolean))].slice(0, 40);
+      if (!names.length) return;
+      fetch('/api/trend?names=' + encodeURIComponent(names.join(',')))
+        .then(r => r.ok ? r.json() : Promise.reject(r.status))
+        .then(j => { evTrend = j.scores || {}; try { localStorage.setItem('yc-trend-v1', JSON.stringify({ at: Date.now(), scores: evTrend })); } catch (e) {} if (currentEra) renderEvents(); })
+        .catch(() => { evTrend = {}; });   // 키가 없거나 실패해도 나머지 점수로 순위는 매긴다
+    }
+    function evPopMap(list) {
+      const today = isoDay(0), tour = {};
+      list.forEach(e => { const k = evBase(e); tour[k] = (tour[k] || 0) + 1; });
+      return e => {
+        const t = e.title || '', place = evAreaText(e);
+        let p = 0;
+        if (EV_STARS.test(t)) p += 40;
+        p += Math.min((tour[evBase(e)] || 1) - 1, 4) * 8;
+        if (EV_HALLS.test(place)) p += 10;
+        if (e.kind === 'exhibition' && EV_BLOCKBUSTER.test(t)) p += 25;
+        const nm = evNameOf(e);
+        if (evTrend && nm && evTrend[nm] != null) p += Math.min(60, evTrend[nm] * 0.6);
+        if (e.end && e.start <= today && (Date.parse(e.end) - Date.parse(today)) / 864e5 <= 7) p += 5;   // 곧 마감 가산점
+        return p;
+      };
+    }
     function rankEvents(list, prof, max) {
       max = max || 7;
       const today = isoDay(0);
@@ -2215,7 +2251,14 @@
       const trWant = new Set();
       cols.forEach(([kind, ul, emptyMsg], ci) => {
         ul.innerHTML = '';
-        let ranked = rankEvents(inRegion.filter(e => e.kind === kind), prof, 20);
+        const pool = inRegion.filter(e => e.kind === kind);
+        let ranked;
+        if (evSort === 'pop') {
+          // 인기순: 취향 순위 20개 안에서 고르지 않고 전체에서 인기 점수로 줄을 세운다. 취향 점수는 동점일 때만.
+          if (kind === 'concert') evTrendLoad(evData);
+          const popOf = evPopMap(evData);
+          ranked = rankEvents(pool, prof, 1e6).map(r => (r.pop = popOf(r.e), r)).sort((a, b) => (b.pop - a.pop) || (b.s - a.s)).slice(0, 20);
+        } else ranked = rankEvents(pool, prof, 20);
         // 가까운 날짜순: days until the run starts (0 if already on), then popularity
         if (evSort === 'date') {
           const gap = e => e.start > today0 ? (Date.parse(e.start) - Date.parse(today0)) / 864e5 : 0;

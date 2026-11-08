@@ -237,6 +237,47 @@ export class Store extends DurableObject {
     return this.sql.exec('SELECT * FROM fb WHERE ts >= ? ORDER BY id DESC LIMIT ?', since, limit).toArray();
   }
 }
+// 네이버 데이터랩 검색어 트렌드: 연주자 이름별 최근 30일 검색 관심도 (인기순 점수에 쓴다)
+// 비밀값 NAVER_CLIENT_ID / NAVER_CLIENT_SECRET 이 없으면 503 → 앱은 트렌드 없이 순위를 매긴다.
+// 데이터랩은 한 번에 그룹 5개까지, 값은 요청 안의 상대값(0~100)이라 모든 요청에 같은 기준 키워드를 넣어 맞춘다.
+const TREND_ANCHOR = '조성진';
+async function trend(request, env, ctx, url) {
+  if (!env.NAVER_CLIENT_ID || !env.NAVER_CLIENT_SECRET) return json({ error: 'no-key' }, 503);
+  const names = [...new Set((url.searchParams.get('names') || '').split(',').map(x => x.trim()).filter(x => /^[가-힣A-Za-z .&-]{2,20}$/.test(x) && x !== TREND_ANCHOR))].slice(0, 40);
+  if (!names.length) return json({ error: 'names' }, 400);
+  names.sort();
+  const cache = caches.default, key = new Request(url.origin + '/api/trend?n=' + encodeURIComponent(names.join('|')) + '&cv=1');
+  const hit = await cache.match(key);
+  if (hit) return hit;
+  const end = today(), start = new Date(Date.parse(end) - 29 * 864e5).toISOString().slice(0, 10);
+  const scores = {};
+  let anchorBase = 0;
+  for (let i = 0; i < names.length; i += 4) {
+    const chunk = names.slice(i, i + 4);
+    const groups = [TREND_ANCHOR].concat(chunk).map(n => ({ groupName: n, keywords: [n] }));
+    let j;
+    try {
+      const r = await fetch('https://openapi.naver.com/v1/datalab/search', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'X-Naver-Client-Id': env.NAVER_CLIENT_ID, 'X-Naver-Client-Secret': env.NAVER_CLIENT_SECRET },
+        body: JSON.stringify({ startDate: start, endDate: end, timeUnit: 'month', keywordGroups: groups }),
+      });
+      if (!r.ok) return json({ error: 'upstream', status: r.status }, 502);
+      j = await r.json();
+    } catch (e) { return json({ error: 'upstream' }, 502); }
+    const avg = g => { const d = g.data || []; return d.length ? d.reduce((a, x) => a + x.ratio, 0) / d.length : 0; };
+    const res = j.results || [];
+    const a = res.find(g => g.title === TREND_ANCHOR), aVal = a ? avg(a) : 0;
+    if (!anchorBase && aVal) anchorBase = aVal;
+    // 기준 키워드 값을 첫 요청 값에 맞춰 모든 묶음을 같은 눈금으로 환산
+    const k = aVal && anchorBase ? anchorBase / aVal : 1;
+    res.forEach(g => { if (g.title !== TREND_ANCHOR) scores[g.title] = Math.round(avg(g) * k * 10) / 10; });
+  }
+  const out = json({ updated: new Date().toISOString(), anchor: TREND_ANCHOR, scores }, 200, 6 * 3600);
+  ctx.waitUntil(cache.put(key, out.clone()));
+  return out;
+}
+
 const store = env => env.STORE.get(env.STORE.idFromName('main'));
 const today = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // KST day
 const clean = (x, n) => String(x == null ? '' : x).replace(/[\u0000-\u001f]/g, ' ').trim().slice(0, n);
@@ -422,6 +463,7 @@ export default {
       return Response.redirect(`${url.origin}/?${ch}${name ? '&utm_content=' + encodeURIComponent(name) : ''}`, 302);
     }
     if (url.pathname === '/api/intl-concerts') return intlConcerts(request, env, ctx, url);
+    if (url.pathname === '/api/trend') return trend(request, env, ctx, url);
     if (url.pathname === '/api/translate') return translate(request, env, ctx, url);
     if (url.pathname === '/api/stat') return stat(request, env, ctx, url);
     if (url.pathname === '/api/fb') return feedback(request, env, ctx, url);
