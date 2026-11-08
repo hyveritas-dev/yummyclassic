@@ -1666,6 +1666,56 @@
       document.head.append(s);
     }
 
+    // ---------- 비슷한 곡 (2026-11-09) ----------
+    // 곡마다 감정 태그(t)가 있다. 태그 벡터의 코사인 유사도로 3곡을 보여 준다:
+    // 가장 가까운 2곡(작곡가는 서로·원곡과 다르게) + 다른 시대(고전↔낭만)에서 가장 가까운 1곡. 이미 추천 목록에 있는 곡은 뺀다.
+    Object.assign(I18N.ko, { simBtn: '비슷한 곡 보기 ▾', simHide: '비슷한 곡 접기 ▴', simHead: '이 곡과 감정이 비슷한 곡', simOther: '다른 시대 · {e}' });
+    Object.assign(I18N.en, { simBtn: 'Similar pieces ▾', simHide: 'Hide similar ▴', simHead: 'Pieces with a similar feeling', simOther: 'Another era · {e}' });
+    Object.assign(I18N.ja, { simBtn: '似た曲を見る ▾', simHide: '閉じる ▴', simHead: 'この曲と感情が近い曲', simOther: '別の時代 · {e}' });
+    const SIM_ERA = { classic: ['고전', 'Classical', '古典派'], romantic: ['낭만', 'Romantic', 'ロマン派'] };
+    const simVec = x => x.t || {};
+    const simNorm = v => Math.sqrt(Object.values(v).reduce((s, w) => s + w * w, 0)) || 1;
+    function simCos(a, b) { let d = 0; for (const k in a) if (b[k]) d += a[k] * b[k]; return d / (simNorm(a) * simNorm(b)); }
+    const simWhy = (a, b) => Object.keys(a).filter(k => b[k]).sort((p, q) => a[q] * b[q] - a[p] * b[p]).slice(0, 2).map(tagLabel).join(' · ');
+    function similarPieces(me, skipEn) {
+      const a = simVec(me);
+      const ranked = CAT.filter(c => c.en !== me.en && c.yt && !(skipEn && skipEn.has(c.en)))
+        .map(c => ({ c, s: simCos(a, simVec(c)) })).filter(o => o.s > 0)
+        .sort((p, q) => q.s - p.s || (p.c.en < q.c.en ? -1 : 1));
+      const out = [], used = new Set([me.c]);
+      for (const o of ranked) { if (out.length >= 2) break; if (!used.has(o.c.c)) { out.push(o); used.add(o.c.c); } }
+      const other = ranked.find(o => o.c.e !== me.e && !out.includes(o) && !used.has(o.c.c));
+      if (other) out.push({ ...other, other: true });
+      return out;
+    }
+    function simPanel(r, shownEn) {
+      const me = CAT.find(c => c.en === r.en);
+      if (!me) return null;
+      const items = similarPieces(me, shownEn);
+      if (!items.length) return null;
+      const idx = isLocal() ? 1 : 0, t = I18N[lang];
+      const box = document.createElement('div');
+      box.className = 'sim-panel';
+      const h = document.createElement('p'); h.className = 'sim-h'; h.textContent = t.simHead;
+      box.appendChild(h);
+      items.forEach(o => {
+        const x = o.c, rr = { cid: x.c, en: x.en, ko: x.ko, yt: x.yt || '', who: x.who || '' };
+        const row = document.createElement('div'); row.className = 'sim-row'; row.dataset.yt = x.yt;
+        const body = document.createElement('div'); body.className = 'sim-body';
+        const nm = document.createElement('span'); nm.className = 'sim-nm font-serif'; nm.textContent = idx ? x.ko : x.en;
+        const by = document.createElement('span'); by.className = 'sim-by';
+        const why = o.other ? t.simOther.replace('{e}', L3(SIM_ERA[x.e] || [x.e, x.e, x.e])) : simWhy(simVec(me), simVec(x));
+        by.textContent = (SHORT[x.c] || ['', ''])[idx] + (why ? ' · ' + why : '');
+        body.append(nm, by);
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'pl-btn shrink-0 border px-3 py-1.5 text-xs transition'; b.textContent = '▶ ' + t.plPlay;
+        b.addEventListener('click', () => openPlayer(row, rr));
+        row.append(body, myHeart(rr, 'similar'), b);
+        box.appendChild(row);
+      });
+      return box;
+    }
+
     function renderPlaylist() {
       const idx = isLocal() ? 1 : 0;
       const t = I18N[lang];
@@ -1675,6 +1725,7 @@
       ol.innerHTML = '';
       loadYT();
       const recs = buildRecommendation(), groups = groupRecs(recs);
+      const shownEn = new Set(recs.map(r => r.en));
       psaHook(recs);
       const q = x => lang === 'ja' ? '「' + x + '」' : idx ? '〈' + x + '〉' : '“' + x + '”';
       let i = 0;
@@ -1739,6 +1790,24 @@
           who.className = 'mt-0.5 block text-xs text-amber-200/70';
           who.textContent = t.perfBy + ' ' + r.who;
           body.appendChild(who);
+        }
+
+        // "비슷한 곡 보기": 이 곡과 감정이 가까운 곡 3개를 아래에 펼친다 (바로 듣기·♡ 가능)
+        if (CAT.some(c => c.en === r.en)) {
+          const sb = document.createElement('button');
+          sb.type = 'button'; sb.className = 'sim-btn'; sb.textContent = t.simBtn; sb.setAttribute('aria-expanded', 'false');
+          sb.addEventListener('click', () => {
+            const open = li.querySelector(':scope > .sim-panel');
+            if (open) {
+              if (activeLi && open.contains(activeLi)) stopPlayer();
+              open.remove(); sb.textContent = t.simBtn; sb.setAttribute('aria-expanded', 'false'); return;
+            }
+            const p = simPanel(r, shownEn);
+            if (!p) return;
+            li.appendChild(p); sb.textContent = t.simHide; sb.setAttribute('aria-expanded', 'true');
+            track('similar_open', { piece: (r.en || '').slice(0, 80), n: p.querySelectorAll('.sim-row').length });
+          });
+          body.appendChild(sb);
         }
 
         let act;
