@@ -262,7 +262,7 @@ async function trend(request, env, ctx, url) {
         headers: { 'content-type': 'application/json', 'X-Naver-Client-Id': env.NAVER_CLIENT_ID, 'X-Naver-Client-Secret': env.NAVER_CLIENT_SECRET },
         body: JSON.stringify({ startDate: start, endDate: end, timeUnit: 'month', keywordGroups: groups }),
       });
-      if (!r.ok) return json({ error: 'upstream', status: r.status }, 502);
+      if (!r.ok) { let m = ''; try { m = (await r.text()).slice(0, 200); } catch (e) {} return json({ error: 'upstream', status: r.status, detail: m }, 502); }
       j = await r.json();
     } catch (e) { return json({ error: 'upstream' }, 502); }
     const avg = g => { const d = g.data || []; return d.length ? d.reduce((a, x) => a + x.ratio, 0) / d.length : 0; };
