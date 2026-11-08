@@ -1285,6 +1285,43 @@
       .tb-setting .cut { margin-top: 41px; }
       .tb-setting .cut svg { height: 86px; }
     }
+
+    /* 내 플레이리스트: ♡ 담기, 떠 있는 버튼, 목록 패널 */
+    .yc-heart { flex: none; width: 2.1rem; height: 2.1rem; display: inline-grid; place-items: center; align-self: center; border-radius: 50%; border: 1.5px solid var(--line-strong); background: transparent; color: var(--wine); font-size: 1.15rem; line-height: 1; cursor: pointer; transition: transform .18s var(--ease), background .18s, color .18s; }
+    .yc-heart:hover { background: rgba(232,117,61,.14); }
+    .yc-heart.on { background: var(--wine); border-color: var(--wine); color: var(--vanilla); animation: ycHeart .35s var(--ease); }
+    @keyframes ycHeart { 0% { transform: scale(.7); } 60% { transform: scale(1.22); } 100% { transform: scale(1); } }
+    .daily-list .yc-heart { margin-right: .5rem; }
+    .my-fab { position: fixed; z-index: 48; right: 14px; bottom: 16px; display: inline-flex; align-items: center; gap: .4rem; padding: .62rem .95rem; border-radius: 999px; border: 0; cursor: pointer; background: var(--wine); color: var(--vanilla); font-weight: 700; font-size: .95rem; box-shadow: 0 8px 22px rgba(60,10,20,.32); }
+    .my-fab[hidden] { display: none; }
+    .my-fab b { min-width: 1.4rem; height: 1.4rem; padding: 0 .3rem; display: inline-grid; place-items: center; border-radius: 999px; background: var(--apricot); color: var(--wine-deep); font-size: .8rem; }
+    .my-panel { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: 14px; background: rgba(42,8,16,.78); backdrop-filter: blur(3px); }
+    .my-panel[hidden] { display: none; }
+    html.my-open { overflow: hidden; }
+    .my-card { width: min(560px, 100%); max-height: calc(100dvh - 28px); overflow: auto; background: var(--paper); color: var(--ink); border-radius: 14px; padding: 1.1rem 1.1rem 1.2rem; }
+    .my-head { display: flex; align-items: center; gap: .5rem; }
+    .my-title { flex: 1; min-width: 0; font: 700 1.35rem/1.3 var(--serif-cjk, Georgia, serif); color: var(--wine-deep); background: transparent; border: 0; border-bottom: 1.5px dashed var(--line-strong); padding: .25rem 0; }
+    .my-x { border: 0; background: transparent; font-size: 1.2rem; cursor: pointer; color: var(--ink); padding: .3rem .5rem; }
+    .my-sub { margin: .5rem 0 .2rem; font-size: .85rem; color: var(--muted); }
+    .my-empty { margin: 1.2rem 0; text-align: center; color: var(--muted); }
+    .my-ol { list-style: none; margin: .4rem 0 0; padding: 0; }
+    .my-li { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .6rem; padding: .7rem 0; border-bottom: 1px solid var(--line); }
+    .my-n { width: 1.4rem; flex: none; font: italic 1.1rem Georgia, serif; color: var(--apricot-deep); }
+    .my-body { flex: 1; min-width: 0; }
+    .my-nm { display: block; font-weight: 700; line-height: 1.3; }
+    .my-by { display: block; font-size: .8rem; color: var(--muted); }
+    .my-ctl { display: flex; gap: .2rem; margin-left: auto; }
+    .my-mini { width: 1.9rem; height: 1.9rem; border-radius: 6px; border: 1px solid var(--line-strong); background: transparent; color: var(--wine); cursor: pointer; font-size: .8rem; }
+    .my-mini:disabled { opacity: .3; cursor: default; }
+    .my-find { font-size: .78rem; color: var(--apricot-deep); text-decoration: underline; }
+    .my-li .pl-player { margin-left: 0; max-width: none; }
+    .my-li .pl-tools { margin-left: 0; }
+    .my-tools { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+    .my-url { width: 100%; margin-top: .6rem; font-size: .8rem; padding: .45rem; border: 1px solid var(--line-strong); border-radius: 6px; background: #fff; }
+    .my-imp-t { font: 700 1.4rem/1.3 var(--serif-cjk, Georgia, serif); color: var(--wine-deep); }
+    .my-prev { margin: .6rem 0 0; padding-left: 1.2rem; font-size: .9rem; }
+    .my-prev li { margin: .15rem 0; }
+    @media (max-width: 639px) { .my-fab { bottom: 12px; right: 10px; } }
   </style>
   <script>
     // Start screen: shown to first-time direct/search visitors; skipped for SNS links, shared result links and reloads mid-test
@@ -1802,7 +1839,7 @@
   <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=11090500a"></script>
+  <script defer src="/assets/app.js?v=11090600a"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {

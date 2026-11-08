@@ -1089,7 +1089,7 @@
           act.href = searchUrl(r); act.target = '_blank'; act.rel = 'noopener noreferrer';
           act.textContent = t.plFind + ' ↗';
         }
-        li.append(n, body, act);
+        li.append(n, body, myHeart(r, 'composer'), act);
         list.appendChild(li);
       });
       const norm = x => x.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 22);
@@ -1756,7 +1756,7 @@
           act.href = searchUrl(r); act.target = '_blank'; act.rel = 'noopener noreferrer';
           act.textContent = t.plFind + ' ↗';
         }
-        li.append(num, body, act);
+        li.append(num, body, myHeart(r, 'result'), act);
         ol.appendChild(li);
         i++;
         });
@@ -2847,7 +2847,7 @@
       b.className = 'pl-btn shrink-0 border px-4 py-2 text-sm transition';
       b.textContent = '▶ ' + t.plPlay;
       b.addEventListener('click', () => openPlayer(li, r));
-      li.append(body, b);
+      li.append(body, myHeart(r, 'pick'), b);
     }
 
     function applyLang(next) {
@@ -5525,13 +5525,13 @@
         renderDaily.played = true;
         document.getElementById('daily-share').hidden = DAILY_FR;   // share only appears once they have listened
       });
-      li.append(body, b);
+      li.append(body, myHeart(r, 'daily'), b);
       document.getElementById('daily-listen').textContent = t.dailyListen;
       document.getElementById('daily-retest').textContent = fr ? t.dailyFrTry : t.dailyRetest;
       document.getElementById('daily-share').textContent = t.dailyShare;
       document.getElementById('daily-share').hidden = fr || !renderDaily.played;
       document.getElementById('daily-last').textContent = t.dailyLast;
-      document.getElementById('daily-note').textContent = fr ? t.dailyFrNote : t.dailyNote.replace('{n}', n);
+      { const run = fr ? 0 : dailyStreak(day); document.getElementById('daily-note').textContent = (fr ? t.dailyFrNote : t.dailyNote.replace('{n}', n)) + (run >= 2 ? ' · ' + mt('streak').replace('{n}', run) : ''); }
       if (!renderDaily.seen) { renderDaily.seen = true; track(fr ? 'daily_friend_open' : 'daily_view', { type: dailyNow.me.t || '', painting: p.id, visit_n: n }); }
     }
     function dailyStartTest() {
@@ -5714,6 +5714,259 @@
     }
     function rtReset() { if (!RT.bar) return; Object.values(RT.next).forEach(b => { b._glowDone = 0; b.classList.remove('rt-glow'); }); RT.lv = 1; RT.cur = 1; document.documentElement.dataset.rt = '1'; rtPaint(); }
 
+    // ---------- 내 플레이리스트 (2026-11-09) ----------
+    // ♡ 로 곡을 담아 이 기기(localStorage)에 보관한다. 로그인 없음.
+    // 기기를 옮기거나 친구에게 보낼 때는 목록 링크(?ml=키-키-키&mt=제목)를 쓴다. 링크로 들어오면 "합치기/바꾸기"를 물어본다.
+    // 곡 키 = 곡 제목(en)의 짧은 해시. 곡 풀(CAT)의 순서가 바뀌어도 링크가 깨지지 않는다.
+    const MY_KEY = 'yc-my-v1', MY_MAX = 100, STREAK_KEY = 'yc-streak';
+    const MYT = {
+      ko: { fab: '내 목록', add: '내 목록에 담았어요', rem: '목록에서 뺐어요', title: '나의 클래식 플레이리스트', name: '목록 이름', count: '{n}곡',
+        empty: '♡를 눌러 마음에 드는 곡을 담아 보세요. 담은 곡은 이 기기에 저장돼요.', where: '이 기기에만 저장돼요. 다른 기기로 옮기거나 친구에게 보내려면 링크를 복사하세요.',
+        link: '목록 링크 복사', linkDone: '링크를 복사했어요. 이 링크를 열면 다른 기기에서도 목록이 복원돼요.', linkFail: '복사하지 못했어요. 주소창의 링크를 길게 눌러 복사해 주세요.',
+        cover: '표지 이미지 만들기', coverMaking: '표지 이미지를 만드는 중이에요…', coverDone: '표지 이미지를 저장했어요', coverFail: '표지 이미지를 만들지 못했어요',
+        up: '위로', down: '아래로', del: '빼기', close: '닫기', heartAdd: '내 목록에 담기', heartDel: '내 목록에서 빼기',
+        impT: '보내 준 플레이리스트가 있어요', impSub: '{n}곡이 담겨 있어요', merge: '내 목록에 합치기', replace: '이 목록으로 바꾸기', merged: '{n}곡을 내 목록에 담았어요', replaced: '목록을 바꿨어요',
+        limit: '목록에는 최대 100곡까지 담을 수 있어요', saveFail: '이 브라우저에서는 저장이 안 돼요. 목록 링크로 보관해 주세요', streak: '연속 {n}일째', by: '연주' },
+      en: { fab: 'My list', add: 'Added to your list', rem: 'Removed from your list', title: 'My classical playlist', name: 'List name', count: '{n} pieces',
+        empty: 'Tap ♡ on any piece to add it here. Your list is kept on this device.', where: 'Saved on this device only. Copy the link to move it to another device or send it to a friend.',
+        link: 'Copy list link', linkDone: 'Link copied. Open it anywhere to restore this list.', linkFail: 'Couldn’t copy. Press and hold the address bar to copy the link.',
+        cover: 'Make cover image', coverMaking: 'Making your cover…', coverDone: 'Cover image saved', coverFail: 'Couldn’t make the cover image',
+        up: 'Up', down: 'Down', del: 'Remove', close: 'Close', heartAdd: 'Add to my list', heartDel: 'Remove from my list',
+        impT: 'Someone sent you a playlist', impSub: '{n} pieces inside', merge: 'Add to my list', replace: 'Replace my list with this', merged: '{n} pieces added to your list', replaced: 'List replaced',
+        limit: 'A list holds up to 100 pieces', saveFail: 'This browser can’t save. Keep your list with the list link', streak: 'day {n} in a row', by: 'Perf.' },
+      ja: { fab: 'マイリスト', add: 'マイリストに追加しました', rem: 'リストから外しました', title: '私のクラシックプレイリスト', name: 'リスト名', count: '{n}曲',
+        empty: '♡を押して気に入った曲を追加しましょう。リストはこの端末に保存されます。', where: 'この端末にのみ保存されます。別の端末への移行や友だちへの共有はリンクをコピーしてください。',
+        link: 'リストのリンクをコピー', linkDone: 'リンクをコピーしました。開くとリストが復元されます。', linkFail: 'コピーできませんでした。アドレスバーのリンクを長押ししてコピーしてください。',
+        cover: 'カバー画像を作る', coverMaking: 'カバー画像を作成中…', coverDone: 'カバー画像を保存しました', coverFail: 'カバー画像を作れませんでした',
+        up: '上へ', down: '下へ', del: '外す', close: '閉じる', heartAdd: 'マイリストに追加', heartDel: 'マイリストから外す',
+        impT: 'プレイリストが届きました', impSub: '{n}曲入っています', merge: 'マイリストに追加', replace: 'このリストに置き換える', merged: '{n}曲を追加しました', replaced: 'リストを置き換えました',
+        limit: 'リストは100曲までです', saveFail: 'このブラウザでは保存できません。リストのリンクで保管してください', streak: '{n}日連続', by: '演奏' },
+    };
+    const mt = k => (MYT[lang] || MYT.en)[k];
+    const myHash = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0; return h.toString(36); };
+    let MY_IDX = null;
+    const myIdx = () => { if (!MY_IDX) { MY_IDX = {}; CAT.forEach(x => { MY_IDX[myHash(x.en)] = x; }); } return MY_IDX; };
+    const myKeyOf = x => myHash(x.en);
+    function myLoad() {
+      try {
+        const o = JSON.parse(localStorage.getItem(MY_KEY) || 'null');
+        if (o && Array.isArray(o.l)) return { t: String(o.t || '').slice(0, 30), p: Array.isArray(o.p) ? o.p.slice(0, 3) : null, l: o.l.filter(e => e && typeof e.k === 'string').slice(0, MY_MAX) };
+      } catch (e) {}
+      return { t: '', p: null, l: [] };
+    }
+    let MY = myLoad();
+    function mySave() { try { localStorage.setItem(MY_KEY, JSON.stringify(MY)); return true; } catch (e) { return false; } }
+    const myItems = () => MY.l.map(e => ({ e, x: myIdx()[e.k] })).filter(o => o.x);
+    const myHas = x => MY.l.some(e => e.k === myKeyOf(x));
+    const myPieceR = x => ({ cid: x.c, en: x.en, ko: x.ko, yt: x.yt || '', who: x.who || '' });
+    function myRememberPaintings() {
+      try {
+        const s = selected();
+        if (s.length) MY.p = s.slice(0, 3).map(p => p.id);
+        else if (!MY.p) { const d = dailyMe(); if (d && d.p) MY.p = d.p.slice(0, 3); }
+      } catch (e) {}
+    }
+    function myAdd(x, src) {
+      if (myHas(x)) return;
+      if (MY.l.length >= MY_MAX) { toast(mt('limit')); return; }
+      MY.l.push({ k: myKeyOf(x), at: Date.now() });
+      myRememberPaintings();
+      if (!mySave()) toast(mt('saveFail')); else toast(mt('add'), true);
+      myChanged(); track('my_add', { src: src || '', piece: (x.en || '').slice(0, 80), n: MY.l.length });
+    }
+    function myRemove(k) {
+      MY.l = MY.l.filter(e => e.k !== k); mySave(); myChanged(); track('my_remove', { n: MY.l.length });
+    }
+    function myMove(k, d) {
+      const i = MY.l.findIndex(e => e.k === k), j = i + d;
+      if (i < 0 || j < 0 || j >= MY.l.length) return;
+      const t = MY.l[i]; MY.l[i] = MY.l[j]; MY.l[j] = t; mySave(); myChanged(); track('my_move');
+    }
+    function myHeart(x, src) {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'yc-heart'; b.dataset.k = myKeyOf(x);
+      b.addEventListener('click', e => { e.stopPropagation(); if (myHas(x)) { myRemove(myKeyOf(x)); toast(mt('rem')); } else myAdd(x, src); });
+      myPaintHeart(b);
+      return b;
+    }
+    function myPaintHeart(b) {
+      const on = MY.l.some(e => e.k === b.dataset.k);
+      b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on));
+      b.textContent = on ? '♥' : '♡';
+      const lb = mt(on ? 'heartDel' : 'heartAdd'); b.setAttribute('aria-label', lb); b.title = lb;
+    }
+    function myChanged() {
+      document.querySelectorAll('.yc-heart').forEach(myPaintHeart);
+      myPaintFab();
+      if (document.getElementById('my-panel') && !document.getElementById('my-panel').hidden) myRender();
+    }
+    // floating button: shows once the list has something in it
+    function myPaintFab() {
+      let f = document.getElementById('my-fab');
+      const n = myItems().length;
+      if (!f) {
+        f = document.createElement('button'); f.type = 'button'; f.id = 'my-fab'; f.className = 'my-fab';
+        f.innerHTML = '<span aria-hidden="true">♥</span><span class="t"></span><b></b>';
+        f.addEventListener('click', myOpen);
+        document.body.appendChild(f);
+      }
+      f.hidden = n === 0;
+      f.querySelector('.t').textContent = mt('fab'); f.querySelector('b').textContent = n;
+    }
+    function myEnsurePanel() {
+      let p = document.getElementById('my-panel');
+      if (p) return p;
+      p = document.createElement('div'); p.id = 'my-panel'; p.className = 'my-panel'; p.hidden = true;
+      p.setAttribute('role', 'dialog'); p.setAttribute('aria-modal', 'true');
+      p.innerHTML = '<div class="my-card">' +
+        '<div class="my-head"><input id="my-title" class="my-title" maxlength="30" autocomplete="off"><button type="button" id="my-close" class="my-x"></button></div>' +
+        '<p class="my-sub"><span id="my-count"></span> · <span id="my-where"></span></p>' +
+        '<p id="my-empty" class="my-empty" hidden></p>' +
+        '<ol id="my-ol" class="my-ol"></ol>' +
+        '<div class="my-tools"><button type="button" id="my-link" class="btn btn-primary btn-sm"></button><button type="button" id="my-cover" class="btn btn-ghost btn-sm"></button></div>' +
+        '<input id="my-url" class="my-url" readonly hidden></div>';
+      document.body.appendChild(p);
+      p.addEventListener('click', e => { if (e.target === p) myClose(); });
+      p.querySelector('#my-close').addEventListener('click', myClose);
+      p.querySelector('#my-title').addEventListener('input', e => { MY.t = e.target.value.slice(0, 30); mySave(); });
+      p.querySelector('#my-link').addEventListener('click', myCopyLink);
+      p.querySelector('#my-cover').addEventListener('click', myCover);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && !p.hidden && !document.fullscreenElement) myClose(); });
+      return p;
+    }
+    function myOpen() { const p = myEnsurePanel(); myRender(); p.hidden = false; document.documentElement.classList.add('my-open'); track('my_open', { n: MY.l.length }); }
+    function myClose() {
+      const p = document.getElementById('my-panel'); if (!p) return;
+      const ol = document.getElementById('my-ol'); if (activeLi && ol && ol.contains(activeLi)) stopPlayer();
+      p.hidden = true; document.documentElement.classList.remove('my-open');
+    }
+    function myRender() {
+      const p = myEnsurePanel(), ol = p.querySelector('#my-ol'), L = isLocal();
+      if (activeLi && ol.contains(activeLi)) stopPlayer();
+      ol.innerHTML = '';
+      const items = myItems();
+      const ti = p.querySelector('#my-title'); if (document.activeElement !== ti) ti.value = MY.t; ti.placeholder = mt('title'); ti.setAttribute('aria-label', mt('name'));
+      p.setAttribute('aria-label', mt('title'));
+      p.querySelector('#my-count').textContent = mt('count').replace('{n}', items.length);
+      p.querySelector('#my-where').textContent = mt('where');
+      p.querySelector('#my-close').textContent = '✕'; p.querySelector('#my-close').setAttribute('aria-label', mt('close'));
+      p.querySelector('#my-link').textContent = mt('link'); p.querySelector('#my-cover').textContent = mt('cover');
+      const em = p.querySelector('#my-empty'); em.hidden = items.length > 0; em.textContent = mt('empty');
+      p.querySelector('.my-tools').hidden = items.length === 0;
+      items.forEach(({ e, x }, i) => {
+        const r = myPieceR(x), li = document.createElement('li'); li.className = 'my-li'; if (r.yt) li.dataset.yt = r.yt;
+        const n = document.createElement('span'); n.className = 'my-n'; n.textContent = String(i + 1);
+        const body = document.createElement('div'); body.className = 'my-body';
+        const nm = document.createElement('span'); nm.className = 'my-nm'; nm.textContent = L ? r.ko : r.en;
+        const by = document.createElement('span'); by.className = 'my-by'; by.textContent = (SHORT[r.cid] || ['', ''])[L ? 1 : 0] + (r.who ? ' · ' + r.who : '');
+        body.append(nm, by);
+        const ctl = document.createElement('div'); ctl.className = 'my-ctl';
+        const mk = (txt, label, fn, dis) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'my-mini'; b.textContent = txt; b.setAttribute('aria-label', label); b.title = label; b.disabled = !!dis; b.addEventListener('click', fn); return b; };
+        ctl.append(mk('▲', mt('up'), () => myMove(e.k, -1), i === 0), mk('▼', mt('down'), () => myMove(e.k, 1), i === items.length - 1), mk('✕', mt('del'), () => myRemove(e.k)));
+        let act;
+        if (r.yt) {
+          act = document.createElement('button'); act.type = 'button'; act.className = 'pl-btn shrink-0 rounded-full border border-line px-3 py-1.5 text-xs';
+          act.textContent = '▶ ' + I18N[lang].plPlay; act.addEventListener('click', () => openPlayer(li, r));
+        } else {
+          act = document.createElement('a'); act.className = 'my-find'; act.href = searchUrl(r); act.target = '_blank'; act.rel = 'noopener noreferrer'; act.textContent = I18N[lang].plFind + ' ↗';
+        }
+        li.append(n, body, act, ctl); ol.appendChild(li);
+      });
+    }
+    // ---- 목록 링크 (백업·기기 이동·친구에게 보내기) ----
+    function myLinkUrl() {
+      const keys = myItems().map(o => o.e.k).join('-');
+      let u = location.origin + '/?ml=' + keys + '&lang=' + lang;
+      if (MY.t) u += '&mt=' + encodeURIComponent(MY.t);
+      return u + '&utm_source=mylist&utm_medium=share';
+    }
+    async function myCopyLink(e) {
+      const url = myLinkUrl(), ok = await copyText(url);
+      track('my_link', { n: myItems().length, ok: !!ok });
+      if (ok) { toast(mt('linkDone'), true); flashBtn(e && e.currentTarget, mt('linkDone').split('.')[0]); return; }
+      const box = document.getElementById('my-url'); box.hidden = false; box.value = url; box.focus(); box.select(); toast(mt('linkFail'));
+    }
+    function myBoot() {
+      myPaintFab();
+      let q; try { q = new URLSearchParams(location.search); } catch (e) { return; }
+      const ml = q.get('ml'); if (!ml) return;
+      const keys = [...new Set(ml.split('-').filter(k => /^[0-9a-z]{1,8}$/.test(k)))].filter(k => myIdx()[k]).slice(0, MY_MAX);
+      try { q.delete('ml'); q.delete('mt'); q.delete('utm_source'); q.delete('utm_medium'); const s = q.toString(); history.replaceState(null, '', location.pathname + (s ? '?' + s : '')); } catch (e) {}
+      if (!keys.length) return;
+      const title = (q.get('mt') || '').slice(0, 30);
+      const d = document.createElement('div'); d.className = 'my-panel'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true');
+      d.innerHTML = '<div class="my-card my-imp"><h3 class="my-imp-t"></h3><p class="my-sub"></p><ol class="my-prev"></ol><div class="my-tools"><button type="button" class="btn btn-primary btn-sm" data-a="merge"></button><button type="button" class="btn btn-ghost btn-sm" data-a="replace"></button><button type="button" class="btn btn-ghost btn-sm" data-a="close"></button></div></div>';
+      d.querySelector('.my-imp-t').textContent = title || mt('impT');
+      d.querySelector('.my-sub').textContent = (title ? mt('impT') + ' · ' : '') + mt('impSub').replace('{n}', keys.length);
+      const L = isLocal(); const pv = d.querySelector('.my-prev');
+      keys.slice(0, 5).forEach(k => { const x = myIdx()[k], li = document.createElement('li'); li.textContent = (L ? x.ko : x.en) + ' — ' + (SHORT[x.c] || ['', ''])[L ? 1 : 0]; pv.appendChild(li); });
+      if (keys.length > 5) { const li = document.createElement('li'); li.className = 'more'; li.textContent = '…'; pv.appendChild(li); }
+      d.querySelector('[data-a="merge"]').textContent = mt('merge'); d.querySelector('[data-a="replace"]').textContent = mt('replace'); d.querySelector('[data-a="close"]').textContent = mt('close');
+      const done = () => { d.remove(); myChanged(); };
+      d.addEventListener('click', e => {
+        const a = e.target.dataset && e.target.dataset.a;
+        if (e.target === d || a === 'close') { d.remove(); return; }
+        if (a === 'merge') { let n = 0; keys.forEach(k => { if (!MY.l.some(m => m.k === k) && MY.l.length < MY_MAX) { MY.l.push({ k, at: Date.now() }); n++; } }); if (!MY.t && title) MY.t = title; mySave(); toast(mt('merged').replace('{n}', n), true); track('my_import', { mode: 'merge', n }); done(); myOpen(); }
+        if (a === 'replace') { MY.l = keys.map(k => ({ k, at: Date.now() })); MY.t = title; mySave(); toast(mt('replaced'), true); track('my_import', { mode: 'replace', n: keys.length }); done(); myOpen(); }
+      });
+      document.body.appendChild(d);
+    }
+    // ---- 표지 이미지 (1080×1080): 고른 그림 + 목록 이름 + 앞쪽 곡들 ----
+    async function myCoverImage() {
+      try { await document.fonts.ready; } catch (e) {}
+      const L = isLocal(), items = myItems(), W = 1080, H = 1080, X = 72;
+      const serif = (lang === 'ja' ? '"Noto Serif JP"' : lang === 'en' ? '"Noto Serif", "Noto Serif KR"' : '"Noto Serif KR"') + ', "Playfair Display", Georgia, serif';
+      const sans = (lang === 'ja' ? '"Noto Sans JP"' : '"Pretendard Variable", Pretendard') + ', Inter, sans-serif';
+      let ids = (MY.p && MY.p.length ? MY.p : ((dailyMe() || {}).p || [])).slice(0, 3);
+      const ps = ids.map(id => pById(id)).filter(Boolean);
+      const imgs = await Promise.all(ps.map(p => loadPainting(p.f)));
+      const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
+      g.fillStyle = '#3B0A14'; g.fillRect(0, 0, W, H);
+      const bandH = 560, got = imgs.filter(Boolean);
+      if (got.length) {
+        const cw = W / got.length;
+        got.forEach((im, i) => {
+          const r = Math.max(cw / im.width, bandH / im.height), iw = im.width * r, ih = im.height * r;
+          g.save(); g.beginPath(); g.rect(i * cw, 0, cw, bandH); g.clip();
+          try { g.drawImage(im, i * cw + (cw - iw) / 2, (bandH - ih) / 2, iw, ih); } catch (e) {}
+          g.restore();
+          if (i) { g.fillStyle = '#3B0A14'; g.fillRect(i * cw - 3, 0, 6, bandH); }
+        });
+      } else {
+        const gr = g.createLinearGradient(0, 0, W, bandH); gr.addColorStop(0, '#7A0F2A'); gr.addColorStop(1, '#E8753D'); g.fillStyle = gr; g.fillRect(0, 0, W, bandH);
+      }
+      const sh = g.createLinearGradient(0, bandH - 180, 0, bandH); sh.addColorStop(0, 'rgba(59,10,20,0)'); sh.addColorStop(1, 'rgba(59,10,20,1)');
+      g.fillStyle = sh; g.fillRect(0, bandH - 180, W, 180);
+      g.textAlign = 'left'; g.textBaseline = 'alphabetic';
+      let y = bandH + 40;
+      g.fillStyle = '#F3A77B'; g.font = '700 30px ' + sans; g.fillText('♪ ' + (L ? '냠냠클래식' : 'Yummy Classic') + ' · ' + mt('count').replace('{n}', items.length), X, y);
+      y += 20; g.fillStyle = '#FFFFFF'; g.font = '700 70px ' + serif;
+      wrapLines(g, MY.t || mt('title'), W - X * 2, 2).forEach(l => { y += 82; g.fillText(l, X, y); });
+      y += 28; g.fillStyle = 'rgba(244,233,208,.85)'; g.font = '500 31px ' + sans;
+      const fit = (s, maxW) => { let t = s; while (t.length > 2 && g.measureText(t).width > maxW) t = t.slice(0, -1); return t === s ? s : t.trimEnd() + '…'; };
+      items.slice(0, 3).forEach(({ x }, i) => { if (y > H - 100) return; y += 44; g.fillText(fit((i + 1) + '  ' + (L ? x.ko : x.en), W - X * 2), X, y); });
+      g.fillStyle = 'rgba(244,233,208,.7)'; g.font = '500 28px ' + sans; g.textAlign = 'right'; g.fillText(SITE, W - X, H - 44);
+      return new Promise(res => { try { c.toBlob(b => res(b), 'image/png'); } catch (e) { res(null); } });
+    }
+    async function myCover(e) {
+      if (!myItems().length) return;
+      toast(mt('coverMaking'));
+      const b = await myCoverImage();
+      if (!b) { toast(mt('coverFail')); return; }
+      const f = new File([b], 'my-classical-playlist.png', { type: 'image/png' });
+      track('my_cover', { n: myItems().length });
+      if (isMobile() && navigator.canShare && navigator.canShare({ files: [f] })) { try { await navigator.share({ files: [f] }); return; } catch (err) { if (err && err.name === 'AbortError') return; } }
+      saveFile(f); toast(mt('coverDone'), true);
+    }
+    // ---- 연속 방문 (오늘의 곡 화면): 어제도 왔으면 +1, 하루 건너뛰면 1로 ----
+    function dailyStreak(day) {
+      try {
+        const s = JSON.parse(localStorage.getItem(STREAK_KEY) || 'null') || { last: -1, run: 0 };
+        if (s.last !== day) { s.run = s.last === day - 1 ? (s.run || 0) + 1 : 1; s.last = day; localStorage.setItem(STREAK_KEY, JSON.stringify(s)); }
+        return s.run || 1;
+      } catch (e) { return 1; }
+    }
+
     // ---------- 6) Init ----------
     balanceAll(); dealQ1();
     // start fetching today's concerts & exhibitions now, so they are ready by the time the result opens
@@ -5723,6 +5976,7 @@
     try { rtSetup(); } catch (e) {}
     restoreFromUrl();
     initDaily();
+    try { myBoot(); document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => setTimeout(myChanged, 60))); } catch (e) { /* my list is optional */ }
     track('app_ready');
     if (!restored && !VS && !PAIR && !document.documentElement.classList.contains('daily-on')) track('q1_view');
     // Start screen: example painting, then the button (or any link to the test) opens Q1
