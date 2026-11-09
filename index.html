@@ -493,6 +493,7 @@
     footer.site .footer-sns .ic { width: 20px; height: 20px; flex: 0 0 auto; -webkit-mask: var(--ic) center / contain no-repeat; mask: var(--ic) center / contain no-repeat; }
     footer.site .footer-sns .ic-yt { --ic: url(https://cdn.jsdelivr.net/npm/simple-icons@13/icons/youtube.svg); background: #FF0000; }
     footer.site .footer-sns .ic-ig { --ic: url(https://cdn.jsdelivr.net/npm/simple-icons@13/icons/instagram.svg); background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+    footer.site .footer-sns .ic-fb { --ic: url(https://cdn.jsdelivr.net/npm/simple-icons@13/icons/facebook.svg); background: #0866FF; }
     /* Floating SNS dock: appears only after the visitor has scrolled through the recommended pieces, so it never pulls people out of the test */
     .sns-dock { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 60; display: flex; flex-direction: column; gap: 10px; opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .35s ease, transform .35s ease; }
     .sns-dock.on { opacity: 1; transform: none; pointer-events: auto; }
@@ -501,6 +502,7 @@
     .sns-dock .ic { width: 26px; height: 26px; -webkit-mask: var(--ic) center / contain no-repeat; mask: var(--ic) center / contain no-repeat; }
     .sns-dock .ic-yt { --ic: url(https://cdn.jsdelivr.net/npm/simple-icons@13/icons/youtube.svg); background: #FF0000; }
     .sns-dock .ic-ig { --ic: url(https://cdn.jsdelivr.net/npm/simple-icons@13/icons/instagram.svg); background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+    .sns-dock .ic-fb { --ic: url(https://cdn.jsdelivr.net/npm/simple-icons@13/icons/facebook.svg); background: #0866FF; }
     @media (max-width: 520px) { .sns-dock { right: 12px; } .sns-dock a { width: 44px; height: 44px; } .sns-dock .ic { width: 24px; height: 24px; } }
 
 
@@ -1824,6 +1826,7 @@
         <span class="footer-sns">
           <a href="https://www.youtube.com/@%EB%83%A0%EB%83%A0%ED%81%B4%EB%9E%98%EC%8B%9D" target="_blank" rel="noopener" aria-label="YouTube 냠냠클래식"><span class="ic ic-yt" aria-hidden="true"></span>YouTube</a>
           <a href="https://www.instagram.com/yummy.classic/" target="_blank" rel="noopener" aria-label="Instagram yummy.classic"><span class="ic ic-ig" aria-hidden="true"></span>Instagram</a>
+          <a href="https://www.facebook.com/people/%EB%83%A0%EB%83%A0%ED%81%B4%EB%9E%98%EC%8B%9D/61551240852606/" target="_blank" rel="noopener" aria-label="Facebook 냠냠클래식"><span class="ic ic-fb" aria-hidden="true"></span>Facebook</a>
         </span>
         <a href="/classical/" class="footer-guide" data-i18n="footerGuide">Composers &amp; taste types</a>
         <button type="button" id="footer-cards" class="footer-cards" data-i18n="footerCards">Just for fun: draw a painting card ♪</button>
@@ -1835,6 +1838,7 @@
   <nav class="sns-dock" id="sns-dock" aria-label="SNS" aria-hidden="true">
     <a href="https://www.youtube.com/@%EB%83%A0%EB%83%A0%ED%81%B4%EB%9E%98%EC%8B%9D" target="_blank" rel="noopener" aria-label="YouTube 냠냠클래식" tabindex="-1"><span class="ic ic-yt" aria-hidden="true"></span></a>
     <a href="https://www.instagram.com/yummy.classic/" target="_blank" rel="noopener" aria-label="Instagram yummy.classic" tabindex="-1"><span class="ic ic-ig" aria-hidden="true"></span></a>
+    <a href="https://www.facebook.com/people/%EB%83%A0%EB%83%A0%ED%81%B4%EB%9E%98%EC%8B%9D/61551240852606/" target="_blank" rel="noopener" aria-label="Facebook 냠냠클래식" tabindex="-1"><span class="ic ic-fb" aria-hidden="true"></span></a>
   </nav>
   <script>(function(){
     var dock=document.getElementById('sns-dock'), list=document.getElementById('pl-list'), res=document.getElementById('result'), foot=document.querySelector('footer.site');
