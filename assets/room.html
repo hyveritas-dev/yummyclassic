@@ -99,6 +99,7 @@ footer#dock{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:
   main{flex-direction:column}
   #stage{flex:none;aspect-ratio:700/560;width:100%}
   #side{width:100%;border-left:0;border-top:1px solid var(--line)}
+  #ytw{order:2;border-bottom:0;border-top:1px solid var(--line)}
   #panel{height:340px;flex:none}
   #grid{grid-template-columns:repeat(4,1fr)}
   #hint{display:none}
@@ -491,9 +492,12 @@ D('turntable',{n:'턴테이블',cat:'audio',w:2,d:1,h:30,fixed:1,draw(c){
   c.disc(.75,.5,24,.38,'#8d8d95','#1c1c20');
   const[px,py]=c.S(.75,.5,25),R0=.34*HW*1.414,lp=Q.cur?lpOf(Q.cur):null;
   if(lp){
-    c.raw(`<g transform="translate(${r1(px)},${r1(py)}) scale(1,.5)"><g ${Q.playing?an('spin',2.4,'transform-origin:0 0'):''}><circle r="${r1(R0)}" fill="#141417" stroke="#000"/>`
-     +[.82,.66,.5].map(k=>`<circle r="${r1(R0*k)}" fill="none" stroke="#2c2c32" stroke-width="1"/>`).join('')
-     +`<circle r="${r1(R0*.36)}" fill="${lp.color}"/><line x1="${r1(R0*.45)}" y1="0" x2="${r1(R0*.95)}" y2="0" stroke="#ffffff55" stroke-width="2"/><circle cx="${r1(R0*.22)}" r="1.6" fill="#fff"/></g></g>`);
+    const RR=R0*.97,sec=(a0,a1)=>{const x0=RR*Math.cos(a0),y0=RR*Math.sin(a0),x1=RR*Math.cos(a1),y1=RR*Math.sin(a1);return `<path d="M0,0 L${r1(x0)},${r1(y0)} A${r1(RR)},${r1(RR)} 0 0 1 ${r1(x1)},${r1(y1)} Z" fill="${lg(lp.color,.35)}" opacity=".6"/>`},D2=Math.PI/180;
+    c.raw(`<g transform="translate(${r1(px)},${r1(py)}) scale(1,.5)"><g ${Q.playing?an('spin',1.6,'transform-origin:0 0'):''}><circle r="${r1(R0)}" fill="${dk(lp.color,.42)}" stroke="#000" stroke-width="1.4"/>`
+     +sec(0,38*D2)+sec(120*D2,158*D2)+sec(240*D2,278*D2)
+     +[.84,.7,.56].map(k=>`<circle r="${r1(R0*k)}" fill="none" stroke="#00000055" stroke-width="1"/>`).join('')
+     +`<circle r="${r1(R0*.36)}" fill="${lp.color}" stroke="#fff" stroke-width="1.4"/><circle r="${r1(R0*.25)}" fill="none" stroke="#ffffffaa" stroke-width="1" stroke-dasharray="3 3"/>`
+     +`<circle cx="${r1(R0*.8)}" cy="0" r="2.6" fill="#fff"/><circle r="1.8" fill="#18181b"/></g></g>`);
   }else c.raw(`<ellipse cx="${r1(px)}" cy="${r1(py)}" rx="${r1(R0*.95)}" ry="${r1(R0*.48)}" fill="#33333a" stroke="#000"/>`);
   c.raw(`<circle cx="${r1(px)}" cy="${r1(py)}" r="1.8" fill="#e8e8ec"/>`);
   const piv=c.S(1.72,.2,26),tip=Q.playing?c.S(1.0,.62,26):c.S(1.5,.72,26),mid=Q.playing?c.S(1.5,.18,28):c.S(1.72,.5,28);
@@ -1006,7 +1010,7 @@ function ytLoad(){const lp=YTS.lp,n=lp.yt.length;
   const id=lp.yt[YTS.i%n],url='https://www.youtube.com/watch?v='+id;
   $('#yta').href=url;$('#ytn').style.display=n>1?'':'none';$('#ytn').textContent='다른 영상 '+(YTS.i%n+1)+'/'+n;
   $('#ytbox').innerHTML='<iframe src="https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" title="'+lp.title.replace(/"/g,'')+'"></iframe>'}
-function ytStart(lp){YTS.lp=lp;YTS.i=0;tellParent({play:1});$('#ytt').textContent=lp.cn+' · '+lp.title;$('#ytw').classList.add('on');ytLoad()}
+function ytStart(lp){YTS.lp=lp;YTS.i=0;tellParent({play:1});$('#ytt').textContent=lp.cn+' · '+lp.title;$('#ytw').classList.add('on');ytLoad();if(matchMedia('(max-width:820px)').matches)setTimeout(()=>{try{$('#ytw').scrollIntoView({behavior:'smooth',block:'center'})}catch(e){}},120)}
 function stopAudio(){
   ytStop();
   if(AU.timer){clearInterval(AU.timer);AU.timer=null}
