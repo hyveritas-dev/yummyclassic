@@ -489,8 +489,8 @@ D('turntable',{n:'턴테이블',cat:'audio',w:2,d:1,h:30,fixed:1,draw(c){
   c.box(0,0,2,1,20,'#6a4326');c.fp(.1,.95,4,16,1,'#5a3920','#2e1a0e');c.fp(1.05,1.9,4,16,1,'#5a3920','#2e1a0e');
   c.ring(.52,1,10,2.4,'#d9b872','#4a3a1a');c.ring(1.48,1,10,2.4,'#d9b872','#4a3a1a');
   c.box(.05,.05,1.9,.9,4,'#2b2b30',20);
-  c.disc(.75,.5,24,.38,'#8d8d95','#1c1c20');
-  const[px,py]=c.S(.75,.5,25),R0=.34*HW*1.414,lp=Q.cur?lpOf(Q.cur):null;
+  c.disc(.78,.5,24,.44,'#8d8d95','#1c1c20');
+  const[px,py]=c.S(.78,.5,25),R0=.4*HW*1.414,lp=Q.cur?lpOf(Q.cur):null;
   if(lp){
     const RR=R0*.97,sec=(a0,a1)=>{const x0=RR*Math.cos(a0),y0=RR*Math.sin(a0),x1=RR*Math.cos(a1),y1=RR*Math.sin(a1);return `<path d="M0,0 L${r1(x0)},${r1(y0)} A${r1(RR)},${r1(RR)} 0 0 1 ${r1(x1)},${r1(y1)} Z" fill="${lg(lp.color,.35)}" opacity=".6"/>`},D2=Math.PI/180;
     c.raw(`<g transform="translate(${r1(px)},${r1(py)}) scale(1,.5)"><g ${Q.playing?an('spin',1.6,'transform-origin:0 0'):''}><circle r="${r1(R0)}" fill="${dk(lp.color,.42)}" stroke="#000" stroke-width="1.4"/>`
