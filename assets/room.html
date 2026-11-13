@@ -53,6 +53,8 @@ main{display:flex;min-height:0}
 #toast.on{opacity:1}
 #hint{position:absolute;left:12px;top:10px;font-size:12px;color:var(--mute);max-width:46%;line-height:1.5;pointer-events:none}
 #panel{flex:1;background:var(--panel);display:flex;flex-direction:column;min-height:0}
+#tip{display:none;margin:0;padding:9px 12px;font-size:12.5px;line-height:1.5;color:var(--mute);border-bottom:1px solid var(--line)}#tip b{color:var(--amber);font-weight:400}
+.card.pick{border-color:var(--amber);background:#42302a}
 #tabs{display:flex;flex-wrap:wrap;gap:4px;padding:10px;border-bottom:1px solid var(--line)}
 #tabs button{background:transparent;border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:12.5px}
 #tabs button.on{background:var(--wine);border-color:var(--wine)}
@@ -107,6 +109,13 @@ footer#dock{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:
   .grp>label{display:none}
   .btn,.seg button{white-space:nowrap}
 }
+@media (max-width:820px),(pointer:coarse){
+  #tip{display:block}
+  .btn,.seg button{min-height:42px;font-size:14.5px;padding-left:14px;padding-right:14px}
+  #dock{gap:10px}
+  #dock .btn{min-height:46px;font-size:15px;padding-left:18px;padding-right:18px}
+  #tabs button{padding:8px 13px;font-size:13.5px}
+}
 @media (max-width:520px){ #grid{grid-template-columns:repeat(3,1fr)} .lps{grid-template-columns:1fr} }
 @media (prefers-reduced-motion:reduce){ #room *{animation:none!important} }
 :focus-visible{outline:2px solid var(--amber);outline-offset:2px}
@@ -144,7 +153,7 @@ footer#dock{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:
       <div id="hint">서랍에서 아이템을 끌어다 놓거나 눌러서 추가하세요. 방 안의 아이템은 끌어서 옮기고, 선택하면 아래에서 돌리거나 뺄 수 있어요.</div>
       <div id="toast"></div>
     </section>
-    <div id="side"><div id="ytw"><div class="yth"><span id="ytt"></span><button id="ytn">다른 영상</button><a id="yta" target="_blank" rel="noopener">유튜브에서 열기</a><button id="ytx" aria-label="닫기">✕</button></div><div id="ytbox"><div id="ytp"></div></div></div><aside id="panel"><nav id="tabs"></nav><div id="grid"></div></aside></div>
+    <div id="side"><div id="ytw"><div class="yth"><span id="ytt"></span><button id="ytn">다른 영상</button><a id="yta" target="_blank" rel="noopener">유튜브에서 열기</a><button id="ytx" aria-label="닫기">✕</button></div><div id="ytbox"><div id="ytp"></div></div></div><aside id="panel"><p id="tip">가구 카드를 <b>두 번 터치</b>하면 방에 들어가요. 방 안의 가구는 손가락으로 <b>끌어서</b> 옮길 수 있어요.</p><nav id="tabs"></nav><div id="grid"></div></aside></div>
   </main>
   <footer id="dock"></footer>
 </div>
@@ -171,6 +180,7 @@ const range=(a,b,s)=>{const o=[];for(let v=a;v<b;v+=s)o.push(v);return o};
 const snap=(v,s)=>Math.round(v/s)*s;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const $=s=>document.querySelector(s);
+const COARSE=!!(window.matchMedia&&matchMedia('(pointer:coarse)').matches);
 const T0=performance.now();
 const tnow=()=>(performance.now()-T0)/1000;
 
@@ -236,7 +246,7 @@ let LPS=[
   {id:'debussy_ara',comp:'debussy',title:'아라베스크 1번',era:'인상주의',color:'#d19a6a',yt:['JCTQTp1PdnA','KFgaz7snX5Y','5bCeBMqG6Ts']},
   {id:'tchaikovsky',comp:'tchaikovsky',title:'꽃의 왈츠',era:'낭만',color:'#c4505c',yt:['1aR92yQUS7s','Kw0wLLVEMaA','QE7wA6SHHzI','NLnfP9XTn-k']}
 ];
-LPS.forEach(l=>{l.cn=l.cn});
+LPS.forEach(l=>{l.cn=COMP[l.comp].n});
 const lpOf=id=>LPS.find(l=>l.id===id);
 
 /* ================= 아이템 정의 ================= */
@@ -794,7 +804,7 @@ function selMark(){
   if(it.wall){const d=DEF[it.t],u0=it.side==='L'?it.u+d.ww:it.u,tr=it.side==='L'?`${WL} translate(${u0},${it.v}) scale(-1,1)`:`${WR} translate(${it.u},${it.v})`;
     return `<g transform="${tr}" pointer-events="none"><rect x="-1" y="-1" width="${d.ww+2}" height="${d.wh+2}" fill="${bad?'#e2655b33':'none'}" stroke="${col}" stroke-width="1.6" stroke-dasharray="4 3"/></g>`}
   const[w,dd]=ext(it),z=it.z||0,hp=P(it.x+w/2,it.y+dd/2,z+(DEF[it.t].h||40)),hx0=r1(hp[0]),hy0=r1(hp[1]-24);
-  const handle=DEF[it.t].wall?'':`<g data-act="rot" style="cursor:pointer"><circle cx="${hx0}" cy="${hy0}" r="13" fill="#e8b45a" stroke="#2a1a0c" stroke-width="1.4"/><text x="${hx0}" y="${hy0+5.5}" font-size="16" text-anchor="middle" fill="#2a1a0c" font-weight="700" font-family="Gowun Dodum,sans-serif">↻</text></g>`;
+  const HR=COARSE?30:13,handle=DEF[it.t].wall?'':`<g data-act="rot" style="cursor:pointer"><circle cx="${hx0}" cy="${hy0}" r="${HR+(COARSE?10:0)}" fill="transparent"/><circle cx="${hx0}" cy="${hy0}" r="${HR}" fill="#e8b45a" stroke="#2a1a0c" stroke-width="1.6"/><text x="${hx0}" y="${r1(hy0+HR*.42)}" font-size="${r1(HR*1.25)}" text-anchor="middle" fill="#2a1a0c" font-weight="700" font-family="Gowun Dodum,sans-serif">↻</text></g>`;
   return handle+`<polygon points="${pts([P(it.x,it.y,z),P(it.x+w,it.y,z),P(it.x+w,it.y+dd,z),P(it.x,it.y+dd,z)])}" fill="${bad?'#e2655b44':'#e8b45a18'}" stroke="${col}" stroke-width="1.6" stroke-dasharray="4 3" pointer-events="none"/>`;
 }
 const GRAD={warm:['#ffd98a',.7,'#ff9a3c'],fire:['#ffa04a',.8,'#ff5a1a'],moon:['#cfe0ff',.32,'#8fb0ff']};
@@ -833,10 +843,10 @@ let DRAG=null;
 svg.addEventListener('pointerdown',e=>{
   if(e.button>0)return;
   const act=e.target.closest('[data-act]');
-  if(act){e.preventDefault();const it0=state.items.find(i=>i.id===state.sel);if(it0)rotate(it0);return}
+  if(act){e.preventDefault();try{svg.setPointerCapture(e.pointerId)}catch(_){}const it0=state.items.find(i=>i.id===state.sel);if(it0)rotate(it0);return}
   const g=e.target.closest('[data-id]');
   if(!g){state.sel=null;render();return}
-  const id=g.getAttribute('data-id');state.sel=id;e.preventDefault();
+  const id=g.getAttribute('data-id');state.sel=id;e.preventDefault();try{svg.setPointerCapture(e.pointerId)}catch(_){}
   const it=id==='minimi'?null:state.items.find(i=>i.id===id);
   DRAG={kind:'move',id,x0:e.clientX,y0:e.clientY,moved:false,snap:it?JSON.parse(JSON.stringify(it)):JSON.stringify(state.mini),mini:id==='minimi',kids:[]};
   if(it&&!it.wall)DRAG.kids=state.items.filter(o=>o.parent===it.id).map(o=>({o,dx:o.x-it.x,dy:o.y-it.y}));
@@ -878,11 +888,15 @@ window.addEventListener('pointerup',e=>{
     if(it&&it._bad){Object.assign(it,D0.snap);D0.kids.forEach(k=>{k.o.x=it.x+k.dx;k.o.y=it.y+k.dy});toast('자리가 겹쳐서 원래 자리로 돌려놨어요')}
     if(it)delete it._bad;save();render();
   }else if(D0.kind==='pal'){
-    if(!D0.moved){addItem(D0.t);return}
+    if(!D0.moved){
+      if(D0.touch){if(TAP2!==D0.t){TAP2=D0.t;paintTap();toast('한 번 더 누르면 방에 들어가요');return}TAP2=null;paintTap()}
+      addItem(D0.t);return}
     if(D0.tmp){if(D0.tmp._bad){state.items=state.items.filter(i=>i!==D0.tmp);state.sel=null;toast('겹쳐서 놓을 수 없어요. 다른 곳에 놓아보세요')}
       else{delete D0.tmp.tmp;delete D0.tmp._bad;toast(DEF[D0.t].n+'을(를) 놓았어요')}save();render()}
   }
 });
+let TAP2=null;
+function paintTap(){document.querySelectorAll('#grid .card').forEach(c=>c.classList.toggle('pick',c.dataset.t===TAP2))}
 function tapItem(id){
   if(id==='minimi'){const l=['안녕하세요!','방이 마음에 들어요','음악 틀어주세요~','여기 앉아도 돼요?'];toast('미니미: '+l[Math.floor(Math.random()*l.length)]);return}
   const it=state.items.find(i=>i.id===id);if(!it)return;
