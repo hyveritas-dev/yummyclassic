@@ -1501,7 +1501,7 @@
     const CAN_EMBED = /^https?:$/.test(location.protocol);
     function openPlayer(li, r) {
       if (activeLi === li) { stopPlayer(); return; }
-      stopPlayer();
+      stopPlayer(); roomStop();
       track('play_music', { piece: (r.en || '').slice(0, 90), composer: r.cid || '', area: (li.closest('[id]') || {}).id || '' });
       if (!CAN_EMBED) {
         window.open('https://www.youtube.com/watch?v=' + r.yt, '_blank', 'noopener');
@@ -1727,6 +1727,7 @@
       const recs = buildRecommendation(), groups = groupRecs(recs);
       const shownEn = new Set(recs.map(r => r.en));
       psaHook(recs);
+      roomSync(recs);
       const q = x => lang === 'ja' ? '「' + x + '」' : idx ? '〈' + x + '〉' : '“' + x + '”';
       let i = 0;
       groups.forEach((g, gIdx) => {
@@ -2637,6 +2638,7 @@
     function renderCmpMap() {
       const box = document.getElementById('cmp-map');
       if (!box) return;
+      if (YC_ROOM_ON) { box.hidden = true; box.innerHTML = ''; return; }   // 2026-11: the composer "table" gave way to the miniroom (tab 2)
       const sel = selected();
       if (!sel.length || !currentEra) { box.hidden = true; return; }
       const t = I18N[lang], T = TASTE_T[lang] || TASTE_T.en, ko = isLocal(), en = lang === 'en', ja = lang === 'ja';
@@ -5647,22 +5649,54 @@
       });
     }
 
+    // ---------- Miniroom (tab 2, 2026-11) ----------
+    // /assets/room.html runs in an iframe (own CSS/JS, no clashes). It gets the recommended pieces as LPs for its shelf and plays them
+    // in its own right-hand YouTube window. Korean only for now; other languages keep the plain composer list.
+    const YC_ROOM_ON = true;
+    const ROOM = { ready: false, recs: null, loaded: false };
+    function roomEl() { return document.getElementById('yc-room'); }
+    function roomFrame() { return document.getElementById('yc-room-f'); }
+    function roomPost(m) { const f = roomFrame(); if (f && f.contentWindow) try { f.contentWindow.postMessage(m, location.origin); } catch (e) {} }
+    function roomCompName(cid) {
+      const s = SHORT[cid]; if (s) return s[1];
+      for (const L of Object.values(COMPOSERS)) { const n = L.find(x => x[2] === cid); if (n) return n[1]; }
+      return '';
+    }
+    function roomSync(recs) {
+      const box = roomEl(); if (!box) return;
+      const on = YC_ROOM_ON && isLocal() && recs && recs.length;
+      box.hidden = !on; box.dataset.rtab = on ? '2' : '';
+      if (!on) return;
+      ROOM.recs = recs.map(r => ({ cid: r.cid, en: r.en, ko: r.ko, yt: r.yt || '', who: r.who || '', cn: roomCompName(r.cid) }));
+      const f = roomFrame();
+      if (f && !ROOM.loaded) { ROOM.loaded = true; f.src = '/assets/room.html'; }
+      else if (ROOM.ready) roomPost({ yc: 'recs', recs: ROOM.recs });
+    }
+    function roomStop() { if (ROOM.ready) roomPost({ yc: 'stop' }); }
+    window.addEventListener('message', e => {
+      if (e.origin !== location.origin) return;
+      const f = roomFrame(), d = e.data;
+      if (!f || e.source !== f.contentWindow || !d || d.yc !== 'room') return;
+      if (d.ready) { ROOM.ready = true; if (ROOM.recs) roomPost({ yc: 'recs', recs: ROOM.recs }); }
+      if (d.play) { stopPlayer(); track('room_play', {}); }
+    });
+
     // ---------- Result tabs (2026-10-26, preview: ?tabs=1) ----------
     // The result opens in three courses. Tab 1 ends at the feedback box; reaching it unlocks tab 2 (my taste table);
     // reaching the end of tab 2 unlocks tab 3 (today's concerts & exhibitions). Locked tabs stay visible, greyed out.
     Object.assign(I18N.ko, {
-      rtTab1: '오늘의 메뉴', rtTab2: '나의 취향 한 상', rtTab3: '오늘의 공연·전시',
-      rtLock2: '‘이 결과, 나랑 맞나요?’까지 내려오면 열려요', rtLock3: '‘나의 취향 한 상’을 끝까지 보면 열려요',
+      rtTab1: '오늘의 메뉴', rtTab2: '나의 미니룸', rtTab3: '오늘의 공연·전시',
+      rtLock2: '‘이 결과, 나랑 맞나요?’까지 내려오면 열려요', rtLock3: '‘나의 미니룸’을 끝까지 보면 열려요',
       rtToast: '‘{t}’ 탭이 열렸어요! 눌러서 확인해 보세요', rtNext: '다음 코스 · {t}', rtNextLocked: '조금만 더 내려오면 ‘{t}’가 열려요',
     });
     Object.assign(I18N.en, {
-      rtTab1: 'Today’s menu', rtTab2: 'My taste table', rtTab3: 'Concerts & exhibitions',
-      rtLock2: 'Opens when you scroll down to “Does this result feel like you?”', rtLock3: 'Opens when you reach the end of “My taste table”',
+      rtTab1: 'Today’s menu', rtTab2: 'Composers for you', rtTab3: 'Concerts & exhibitions',
+      rtLock2: 'Opens when you scroll down to “Does this result feel like you?”', rtLock3: 'Opens when you reach the end of “Composers for you”',
       rtToast: '“{t}” is now open — tap to take a look', rtNext: 'Next course · {t}', rtNextLocked: 'Scroll a little more to open “{t}”',
     });
     Object.assign(I18N.ja, {
-      rtTab1: '今日のメニュー', rtTab2: '私の好みの一膳', rtTab3: '今日の公演・展示',
-      rtLock2: '「この結果、私に合ってる?」まで進むと開きます', rtLock3: '「私の好みの一膳」を最後まで見ると開きます',
+      rtTab1: '今日のメニュー', rtTab2: 'おすすめの作曲家', rtTab3: '今日の公演・展示',
+      rtLock2: '「この結果、私に合ってる?」まで進むと開きます', rtLock3: '「おすすめの作曲家」を最後まで見ると開きます',
       rtToast: '「{t}」タブが開きました。タップして見てみましょう', rtNext: '次のコース · {t}', rtNextLocked: 'もう少し進むと「{t}」が開きます',
     });
     const RT_ON = (() => {
@@ -5684,12 +5718,12 @@
       const psa = document.getElementById('psa'), events = document.getElementById('events');
       const cmp = kids.find(c => c.querySelector('[data-i18n="cmpTitle"]'));
       const after = sheet.querySelector('.r-after-share'), more = document.getElementById('more'), read = document.getElementById('read-wrap');
-      const today = document.getElementById('today');
+      const today = document.getElementById('today'), room = document.getElementById('yc-room');
       // "Send to a friend" sits at the very bottom of tab 1 (below the menu)
       if (share) { share.classList.add('rt-share'); share.dataset.rtab = 1; }
       // tab 3 reads: concerts & exhibitions, then the images to save
       if (psa && after) after.after(psa);
-      [[head, 1], [pieces, 1], [cmp, 2], [more, 2], [read, 2], [events, 3], [after, 3], [psa, 3], [today, 3]].forEach(([el, n]) => { if (el) el.dataset.rtab = n; });
+      [[head, 1], [pieces, 1], [room, 2], [cmp, 2], [more, 2], [read, 2], [events, 3], [after, 3], [psa, 3], [today, 3]].forEach(([el, n]) => { if (el) el.dataset.rtab = n; });
       // the tab bar sits at the top of the result and sticks under the header
       RT.anchor = document.createElement('div'); RT.anchor.className = 'rt-anchor';
       const bar = RT.bar = document.createElement('div'); bar.className = 'rt-bar'; bar.setAttribute('role', 'tablist');
@@ -5749,6 +5783,7 @@
       if (!RT.bar || n > RT.lv) return;
       unpinPlayer();
       if (activeLi && !activeLi.closest('[data-rtab="' + n + '"]')) pinPlayer(RT.bar.offsetHeight);
+      if (n !== 2) roomStop();
       RT.cur = n; document.documentElement.dataset.rt = String(n); rtPaint();
       if (scroll) { const y = RT.anchor.getBoundingClientRect().top + scrollY - (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rt-top')) || 0) - 8; RT.quiet = Date.now() + 700; scrollTo({ top: y, behavior: 'auto' }); }
     }
