@@ -83,7 +83,9 @@ footer#dock{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:
 .lp:hover:not(:disabled){border-color:var(--amber)}
 .lp.cur{border-color:var(--amber);background:#42302a}
 .lp:disabled{opacity:.45;cursor:not-allowed}
-.disc{width:44px;height:44px;border-radius:50%;flex:none;background:radial-gradient(circle,var(--c) 0 28%,#18181b 29% 100%);box-shadow:inset 0 0 0 3px #26262b}
+.disc{width:68px;height:68px;border-radius:50%;flex:none;display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.45))}
+.lp.cur .disc{animation:spin 7s linear infinite}
+.lpnow{display:inline-block;font-style:normal;margin-left:6px;padding:1px 6px;border-radius:999px;background:var(--amber);color:#2a1a10;font-size:10.5px;vertical-align:1px}
 .lp b{display:block;font-weight:400;font-size:14px}
 .lp small{color:var(--mute);font-size:12px}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
@@ -249,6 +251,60 @@ let LPS=[
 ];
 LPS.forEach(l=>{l.cn=COMP[l.comp].n});
 const lpOf=id=>LPS.find(l=>l.id===id);
+
+/* ---- 작곡가 얼굴 (LP 라벨용, 48x48, 코 = 24,28.5) ---- */
+const FACES={
+  bach:['wig','#ece8e0','','#2e2a36'],handel:['wig','#d9d2c4','','#7a2c2c'],vivaldi:['wig','#b5532a','','#3a2a2a'],purcell:['wig','#5a4030','','#4a3a55'],
+  scarlatti:['wig','#cfcac0','','#3a4a3a'],pachelbel:['wig','#c9c6c0','','#4a3a2a'],gluck:['tail','#e6e2d8','','#5a4a3a'],haydn:['tail','#f1eee6','','#3a4658'],
+  mozart:['tail','#f6f3ec','','#a83a3a'],clementi:['tail','#dcd8ce','','#2f3d4a'],beethoven:['wild','#5a4a40','','#2f4a3a'],
+  schubert:['curly','#4a3526','','#3a3440','g'],chopin:['side','#2a1f1a','','#24212a'],schumann:['side','#3a2a20','','#33302e'],liszt:['long','#e4e0d8','','#1f1f24'],
+  brahms:['side','#8f8a84','full','#2a2622'],tchaikovsky:['short','#d9d5cc','goatee','#2a2a32'],wagner:['side','#b9b4aa','chin','#3a2a3a','','beret'],
+  mendelssohn:['curly','#2a1f1a','','#263238'],verdi:['short','#cfcac2','full','#20201f'],bizet:['curly','#3a2a1e','full','#2b2b2b','g'],
+  rossini:['bald','#6a5a4a','','#3a2f2a'],mascagni:['side','#2a221c','','#26262b'],leoncavallo:['short','#2a221c','stache','#2b2622'],
+  massenet:['short','#8a857c','stache','#2a2a2e'],puccini:['short','#2a221c','stache','#30302e'],debussy:['short','#2b241f','goatee','#3b3a40'],
+  ravel:['short','#c9c5bc','','#2a2a30'],satie:['bald','#4a4038','goatee','#222226','g','bowler'],faure:['short','#e9e6de','stache','#2c2c30'],
+  dukas:['bald','#3a3028','full','#2a2826'],delius:['short','#5a4a3a','','#33302c'],respighi:['side','#2a221c','','#2a2a2e'],griffes:['short','#3a2e24','','#2e3038']
+};
+function face(k){
+  let T=FACES[k];
+  if(!T){let h=7;for(const ch of String(k||'x'))h=(h*31+ch.charCodeAt(0))>>>0;T=[['side','short','curly'][h%3],['#2a1f1a','#4a3526','#8a857c','#3a2a20'][(h>>3)%4],['','','stache','goatee'][(h>>6)%4],['#2a2a32','#33302e','#263238'][(h>>9)%3]]}
+  const[hs,hc,bd,coat,gl,hat]=T,ol='stroke="#00000040" stroke-width=".5"',sk='#f2d2b0';
+  let b='',f='';
+  if(hs==='wig'){b=`<g fill="${hc}" ${ol}><circle cx="15.5" cy="24" r="4.8"/><circle cx="15" cy="30.5" r="4.4"/><circle cx="15.5" cy="36.5" r="3.8"/><circle cx="32.5" cy="24" r="4.8"/><circle cx="33" cy="30.5" r="4.4"/><circle cx="32.5" cy="36.5" r="3.8"/></g>`;
+    f=`<ellipse cx="24" cy="17" rx="10.5" ry="6.4" fill="${hc}" ${ol}/><path d="M24,12 L24,19" stroke="#00000030" stroke-width=".7"/>`}
+  else if(hs==='tail'){b=`<path d="M31,20 Q41,24 38,37" stroke="${hc}" stroke-width="4" fill="none"/><rect x="35" y="34" width="5.4" height="3" fill="#222"/><g fill="${hc}" ${ol}><circle cx="15.6" cy="25.5" r="3.9"/><circle cx="32.4" cy="25.5" r="3.9"/></g>`;
+    f=`<ellipse cx="24" cy="17.4" rx="9.6" ry="6" fill="${hc}" ${ol}/>`}
+  else if(hs==='wild')f=`<path d="M14,27 L12,19 L16,20 L15,12 L20,16 L22,9 L26,15 L30,10 L31,16 L36,13 L34,21 L37,20 L34,28 Q24,16 14,27Z" fill="${hc}"/><path d="M18.4,23.4 l4.6,1.3 M29.6,23.4 l-4.6,1.3" stroke="#2a1f1a" stroke-width="1.2"/>`;
+  else if(hs==='long'){b=`<path d="M14,23 Q13,12 24,12 Q35,12 34,23 L35.5,38 L30,38 L30,24 L18,24 L18,38 L12.5,38Z" fill="${hc}" ${ol}/>`;f=`<path d="M16,25 Q15,14 24,14 Q33,14 32,25 Q28.5,18 24,18.4 Q19.5,18 16,25Z" fill="${hc}"/><path d="M24,14 L24,18.4" stroke="#00000030" stroke-width=".6"/>`}
+  else if(hs==='curly')f=`<g fill="${hc}"><circle cx="17.4" cy="19.5" r="4"/><circle cx="21.4" cy="16.4" r="4.2"/><circle cx="26.6" cy="16.4" r="4.2"/><circle cx="30.6" cy="19.5" r="4"/><circle cx="16" cy="24.5" r="3"/><circle cx="32" cy="24.5" r="3"/></g>`;
+  else if(hs==='bald')f=`<g fill="${hc}"><circle cx="16.4" cy="25" r="3"/><circle cx="31.6" cy="25" r="3"/></g><path d="M18.5,19.5 Q24,16.6 29.5,19.5" stroke="${hc}" stroke-width=".9" fill="none"/>`;
+  else if(hs==='short')f=`<path d="M16.4,24.5 Q15.6,15 24,15 Q32.4,15 31.6,24.5 Q28,18.6 20.4,19 Q17.6,19.8 16.4,24.5Z" fill="${hc}"/>`;
+  else f=`<path d="M16,26 Q15,13.4 24,13.4 Q33,13.4 32,26 Q29,18 21.4,19 Q18,20 16,26Z" fill="${hc}"/><rect x="15.4" y="23" width="2" height="6.4" fill="${hc}"/><rect x="30.6" y="23" width="2" height="6.4" fill="${hc}"/>`;
+  let s=`<path d="M6,48 L6,43 Q10,37.4 19,36.4 L29,36.4 Q38,37.4 42,43 L42,48 Z" fill="${coat}"/>`+b
+   +`<rect x="21.5" y="32" width="5" height="5.4" fill="#e8c4a0"/><path d="M20,36.4 L24,44 L28,36.4 Z" fill="#f4efe4"/><ellipse cx="24" cy="25.6" rx="7.6" ry="9" fill="${sk}"/>`+f
+   +`<circle cx="21" cy="25.4" r="1" fill="#2a2228"/><circle cx="27" cy="25.4" r="1" fill="#2a2228"/><circle cx="19" cy="29" r="1.5" fill="#e9a58c" opacity=".5"/><circle cx="29" cy="29" r="1.5" fill="#e9a58c" opacity=".5"/>`;
+  const bc=bd?(hs==='bald'||k==='brahms'?lg(hc,.12):hc):'';
+  if(bd==='full')s+=`<path d="M16.6,27 Q15.6,${k==='brahms'?44:40} 24,${k==='brahms'?45:41.5} Q32.4,${k==='brahms'?44:40} 31.4,27 Q30,31.4 24,30.6 Q18,31.4 16.6,27Z" fill="${bc}"/><path d="M21.6,32.6 Q24,33.8 26.4,32.6" stroke="#00000055" stroke-width=".8" fill="none"/>`;
+  else if(bd==='goatee')s+=`<ellipse cx="24" cy="33" rx="6.2" ry="4.6" fill="${bc}"/><path d="M21.4,31.8 Q24,33.2 26.6,31.8" stroke="#6a3a2a" stroke-width=".8" fill="none"/>`;
+  else if(bd==='chin')s+=`<path d="M16.6,26 Q16.4,37 24,37 Q31.6,37 31.4,26 L30,28 Q29.6,34.4 24,34.4 Q18.4,34.4 18,28Z" fill="${bc}"/><path d="M21.6,31.4 Q24,32.8 26.4,31.4" stroke="#8a4a3a" fill="none" stroke-width=".9"/>`;
+  else if(bd==='stache')s+=`<path d="M19,31 Q21.8,29 24,30.4 Q26.2,29 29,31 Q26.4,32.6 24,31.5 Q21.6,32.6 19,31Z" fill="${bc}"/>`;
+  else s+=`<path d="M21.6,31.4 Q24,33 26.4,31.4" stroke="#8a4a3a" fill="none" stroke-width=".9"/>`;
+  if(gl)s+=`<g fill="#ffffff22" stroke="#3a3028" stroke-width=".8"><circle cx="21" cy="25.4" r="2.7"/><circle cx="27" cy="25.4" r="2.7"/><path d="M23.7,25.2 L24.3,25.2" fill="none"/></g>`;
+  if(hat==='beret')s+=`<ellipse cx="23" cy="15.6" rx="11.4" ry="4.8" fill="#2a2030" ${ol}/><circle cx="23" cy="10.8" r="1.2" fill="#2a2030"/>`;
+  if(hat==='bowler')s+=`<path d="M17,18 Q17,8.6 24,8.6 Q31,8.6 31,18Z" fill="#1c1c20"/><rect x="12.6" y="17" width="22.8" height="2.4" rx="1.2" fill="#1c1c20"/>`;
+  return s;
+}
+/* LP 원반: 검은 판 + 소릿골 + 반사광 + 가운데 라벨(작곡가 얼굴), 코 자리에 축 구멍 */
+let lpSeq=0;
+function lpDisc(l,cls){
+  const id='lpc'+(++lpSeq);
+  return `<svg class="${cls||'disc'}" viewBox="-31 -31 62 62" aria-hidden="true"><defs><clipPath id="${id}"><circle r="20"/></clipPath></defs>`
+   +`<circle r="30" fill="#151517" stroke="#000" stroke-width="1"/>`
+   +[28.4,26.6,24.8,23,21.6].map(r=>`<circle r="${r}" fill="none" stroke="#ffffff${r>26||r<23?'26':'14'}" stroke-width=".7"/>`).join('')
+   +`<path d="M0,0 L-30,-8 A31,31 0 0 1 -22,-21Z M0,0 L30,8 A31,31 0 0 1 22,21Z" fill="#fff" opacity=".1"/>`
+   +`<circle r="20.4" fill="${l.color}" stroke="#f6efe0" stroke-width="1"/><g clip-path="url(#${id})"><g transform="translate(-26.4,-29.7) scale(1.1)">${face(l.comp)}</g></g>`
+   +`<circle r="20.4" fill="none" stroke="#00000055" stroke-width=".6"/><circle r="1.5" fill="#0c0c0e" stroke="#f6efe0" stroke-width=".5"/></svg>`;
+}
 
 /* ================= 아이템 정의 ================= */
 const DEF={};
@@ -496,7 +552,7 @@ D('turntable',{n:'턴테이블',cat:'audio',w:2,d:1,h:30,fixed:1,draw(c){
     c.raw(`<g transform="translate(${r1(px)},${r1(py)}) scale(1,.5)"><g ${Q.playing?an('spin',1.6,'transform-origin:0 0'):''}><circle r="${r1(R0)}" fill="${dk(lp.color,.42)}" stroke="#000" stroke-width="1.4"/>`
      +sec(0,38*D2)+sec(120*D2,158*D2)+sec(240*D2,278*D2)
      +[.84,.7,.56].map(k=>`<circle r="${r1(R0*k)}" fill="none" stroke="#00000055" stroke-width="1"/>`).join('')
-     +`<circle r="${r1(R0*.36)}" fill="${lp.color}" stroke="#fff" stroke-width="1.4"/><circle r="${r1(R0*.25)}" fill="none" stroke="#ffffffaa" stroke-width="1" stroke-dasharray="3 3"/>`
+     +`<clipPath id="ttlab"><circle r="${r1(R0*.5)}"/></clipPath><circle r="${r1(R0*.52)}" fill="${lp.color}" stroke="#fff" stroke-width="1.2"/><g clip-path="url(#ttlab)"><g transform="scale(${r1(R0*.5/20*1.1*1000)/1000}) translate(-24,-27)">${face(lp.comp)}</g></g>`
      +`<circle cx="${r1(R0*.8)}" cy="0" r="2.6" fill="#fff"/><circle r="1.8" fill="#18181b"/></g></g>`);
   }else c.raw(`<ellipse cx="${r1(px)}" cy="${r1(py)}" rx="${r1(R0*.95)}" ry="${r1(R0*.48)}" fill="#33333a" stroke="#000"/>`);
   c.raw(`<circle cx="${r1(px)}" cy="${r1(py)}" r="1.8" fill="#e8e8ec"/>`);
@@ -508,6 +564,17 @@ D('lpshelf',{n:'LP장',cat:'audio',w:2,d:.6,h:76,fixed:1,draw(c){
   const own=state.lps.filter(id=>id!==Q.cur).map(lpOf).filter(Boolean);
     own.forEach((l,i)=>{const row=i<8?0:1,k=i%8,z=row?8:42,x=.12+k*.22;
     c.fp(x,x+.17,z,z+26,.6,l.color,'#1a0f08');c.fp(x+.03,x+.05,z+3,z+23,.6,'rgba(255,255,255,.35)');c.ring(x+.085,.6,z+13,3,'#18181b')});
+  /* 장 위 진열 LP: 재킷에서 반쯤 나온 검은 판 — 한눈에 LP장으로 보이게 */
+  const top=own[0]||(Q.cur&&lpOf(Q.cur))||{color:'#9a3248'},tc=top.color;
+  c.ring(1.16,.34,74+15,14,'#151517','#000');c.ring(1.16,.34,74+15,10.5,'none','#ffffff30');c.ring(1.16,.34,74+15,7.5,'none','#ffffff22');c.ring(1.16,.34,74+15,5,tc,'#f6efe0');c.ring(1.16,.34,74+15,1,'#0c0c0e');
+  c.fp(.34,1.06,74,74+30,.36,tc,'#1a0f08');c.fp(.4,1.0,74+4,74+26,.36,'none','rgba(255,255,255,.4)');c.ring(.7,.36,74+15,8,dk(tc,.5),'rgba(255,255,255,.35)');c.ring(.7,.36,74+15,3,lg(tc,.3));
+  /* 이름표(놋쇠판) */
+  c.fp(.72,1.28,69,73.4,.6,'#d9b872','#6b4f1a');
+  /* 꼬리표: LP 바꾸기 */
+  if(!Q.preview&&c.vis){const[tx,ty]=c.S(1,.3,74+38);c.glow(1,.3,74+48,46,'warm');
+    c.raw(`<g transform="translate(${r1(tx)},${r1(ty)})"><g ${an('bob',1.8,'',0,'ease-in-out')}><path d="M-5,-1 L0,6 L5,-1Z" fill="#e8b45a" stroke="#2a1a10" stroke-width="1" stroke-linejoin="round"/><rect x="-37" y="-21" width="74" height="21" rx="10.5" fill="#e8b45a" stroke="#2a1a10" stroke-width="1"/><rect x="-5.6" y="-1.6" width="11.2" height="2.4" fill="#e8b45a"/>`
+     +`<circle cx="-25" cy="-10.5" r="7" fill="#151517"/><circle cx="-25" cy="-10.5" r="4.6" fill="none" stroke="#ffffff40" stroke-width=".6"/><circle cx="-25" cy="-10.5" r="2.6" fill="#9a3248"/><circle cx="-25" cy="-10.5" r=".7" fill="#fff"/>`
+     +`<text x="8" y="-6.2" font-size="11" text-anchor="middle" fill="#2a1a10" font-weight="700" font-family="Gowun Dodum,sans-serif">LP 바꾸기</text></g></g>`)}
   }});
 /* ================= 벽 아이템 ================= */
 function winView(x,y,w,h,pre){
@@ -624,33 +691,43 @@ const SKIN=['#f4cfa8','#e6b88c','#bf8a5e'],HAIR=['#2a1f1a','#6b4226','#c9a15a','
 let seq=1;const nid=()=>'i'+(seq++);
 const state={wall:'navy',floor:'darkwood',season:'autumn',night:false,items:[],mini:{x:3.5,y:3.5,hair:0,style:0,shirt:0,skin:0},lps:['beethoven'],cur:null,playing:false,sel:null,muted:false,tab:'seat'};
 {const d=new Date(),m=d.getMonth()+1,h=d.getHours();state.season=m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=11?'autumn':'winter';state.night=h>=19||h<6}
-const EMB=window.parent!==window,LIBKEY='nyamnyam-room-lib-v1',KEY='nyamnyam-miniroom-v1';
-function save(){try{localStorage.setItem(KEY,JSON.stringify({wall:state.wall,floor:state.floor,items:state.items.filter(i=>!i.tmp),mini:state.mini,lps:state.lps,cur:state.cur,seq}))}catch(e){}}
+let MIG=0;const EMB=window.parent!==window,LIBKEY='nyamnyam-room-lib-v1',KEY='nyamnyam-miniroom-v1';
+function save(){try{localStorage.setItem(KEY,JSON.stringify({wall:state.wall,floor:state.floor,items:state.items.filter(i=>!i.tmp),mini:state.mini,lps:state.lps,cur:state.cur,seq,sv:2}))}catch(e){}}
 function load(){try{const j=JSON.parse(localStorage.getItem(KEY)||'null');if(!j||!Array.isArray(j.items))return false;
-  state.wall=j.wall;state.floor=j.floor;state.items=j.items.filter(i=>DEF[i.t]);state.mini=Object.assign(state.mini,j.mini);state.cur=j.cur||null;seq=j.seq||seq+100;ensureFixed();return true}catch(e){return false}}
+  state.wall=j.wall;state.floor=j.floor;state.items=j.items.filter(i=>DEF[i.t]);state.mini=Object.assign(state.mini,j.mini);state.cur=j.cur||null;seq=j.seq||seq+100;ensureFixed();if((j.sv|0)<2)MIG=1;return true}catch(e){return false}}
 const ext=it=>{const d=DEF[it.t];return (it.f&1)?[d.d,d.w]:[d.w,d.d]};
 function mk(t,o){return Object.assign({id:nid(),t,x:0,y:0,f:0,z:0,parent:null},o)}
 function ensureFixed(){
   if(!state.items.some(i=>i.t==='turntable'))state.items.push(mk('turntable',{x:3,y:0}));
-  if(!state.items.some(i=>i.t==='lpshelf'))state.items.push(mk('lpshelf',{x:0,y:2,f:1}));
+  if(!state.items.some(i=>i.t==='lpshelf')){const s=mk('lpshelf',{x:1,y:0});state.items.push(s);shelfBeside()}
 }
 function wallItem(t,side,u,v){return {id:nid(),t,wall:1,side,u,v}}
+/* LP장을 턴테이블 바로 옆 빈자리로 (이미 붙어 있으면 그대로) */
+function shelfBeside(){
+  const tt=state.items.find(i=>i.t==='turntable'),sh=state.items.find(i=>i.t==='lpshelf');if(!tt||!sh)return false;
+  const[tw,td]=ext(tt),f=(tt.f|0)%2,o={x:sh.x,y:sh.y,f:sh.f};
+  const near=()=>{const[w,d]=ext(sh);return ov(sh.x,sh.y,w,d,tt.x-.3,tt.y-.3,tw+.6,td+.6)};
+  if(near()&&typeof resolve==='function'&&resolve(sh).ok)return true;
+  const cand=f?[[tt.x,tt.y+td],[tt.x,tt.y-2]]:[[tt.x+tw,tt.y],[tt.x-2,tt.y]];
+  for(const[x,y]of cand){sh.x=x;sh.y=y;sh.f=f;if(resolve(sh).ok)return true}
+  sh.x=o.x;sh.y=o.y;sh.f=o.f;return false;
+}
 
 /* ---- 처음 세팅 ---- */
 const PRESETS={
   baroque:{n:'바로크방',wall:'damask',floor:'darkwood',lps:['bach','bach_air','pachelbel','mozart','chopin','debussy'],mini:[4.5,4],list:()=>{
-    const a=[mk('lpshelf',{x:0,y:1,f:1}),mk('turntable',{x:3,y:0}),mk('rug_persian',{x:3,y:3.2}),mk('sofa_wine',{x:3,y:5.5}),
-      mk('floorlamp',{x:.15,y:.15}),mk('olive',{x:6.8,y:.5})];
+    const a=[mk('lpshelf',{x:1,y:0}),mk('turntable',{x:3,y:0}),mk('rug_persian',{x:3,y:3.2}),mk('sofa_wine',{x:3,y:5.5}),
+      mk('floorlamp',{x:.15,y:1.6}),mk('olive',{x:6.8,y:.5})];
     const tt=mk('teatable',{x:1.3,y:4.2});a.push(tt);
     a.push(mk('candelabra',{x:1.9,y:4.8,z:28,parent:tt.id}),mk('teacup',{x:1.5,y:4.5,z:28,parent:tt.id}));
     a.push(wallItem('window','R',180,40),wallItem('frame_bach','L',60,38),wallItem('clock','R',50,30),wallItem('moonlamp','L',220,50));return a}},
   classic:{n:'고전방',wall:'cream',floor:'wood',lps:['mozart','mozart_night','bach','beethoven','chopin_rain','debussy_ara'],mini:[5,4.4],list:()=>{
-    const a=[mk('lpshelf',{x:0,y:.5,f:1}),mk('piano',{x:0,y:3,f:1}),mk('stool_organ',{x:1.3,y:3.8}),mk('turntable',{x:3.5,y:0}),
+    const a=[mk('lpshelf',{x:1.5,y:0}),mk('piano',{x:0,y:3,f:1}),mk('stool_organ',{x:1.3,y:3.8}),mk('turntable',{x:3.5,y:0}),
       mk('rug_keys',{x:3.5,y:3.6}),mk('sofa_blue',{x:4,y:5.6}),mk('monstera',{x:7,y:3})];
     const dk=mk('desk',{x:6,y:0});a.push(dk,mk('desklamp',{x:6.2,y:.3,z:40,parent:dk.id}),mk('books',{x:7,y:.3,z:40,parent:dk.id}));
     a.push(wallItem('window','R',130,32),wallItem('frame_mozart','L',140,40),wallItem('clock','R',262,40),wallItem('calendar','L',20,40));return a}},
   romantic:{n:'낭만방',wall:'navy',floor:'darkwood',lps:['beethoven','beethoven_moon','chopin','chopin_rain','tchaikovsky','debussy'],mini:[3.6,3.6],list:()=>{
-    const a=[mk('lpshelf',{x:0,y:2,f:1}),mk('turntable',{x:2,y:0}),mk('fireplace',{x:5.3,y:0}),mk('rug_persian',{x:2.5,y:3}),mk('sofa_wine',{x:2.5,y:5.2}),
+    const a=[mk('lpshelf',{x:0,y:0}),mk('turntable',{x:2,y:0}),mk('fireplace',{x:5.3,y:0}),mk('rug_persian',{x:2.5,y:3}),mk('sofa_wine',{x:2.5,y:5.2}),
       mk('armchair',{x:1,y:4.6,f:1}),mk('floorlamp',{x:.2,y:4.5}),mk('monstera',{x:6.8,y:3})];
     const ns=mk('nightstand',{x:4.2,y:0});a.push(ns,mk('amp',{x:4.2,y:.2,z:30,parent:ns.id}));
     const fp=a.find(i=>i.t==='fireplace');a.push(mk('candelabra',{x:6,y:.2,z:92,parent:fp.id}),mk('vase',{x:5.5,y:.3,z:92,parent:fp.id}));
@@ -1058,8 +1135,8 @@ function unlockNext(){
 function openLP(){renderLP();$('#mLP').classList.add('on')}
 function renderLP(){
   const s=$('#sLP');
-  s.innerHTML=`<h2>LP장</h2><p>추천받은 곡이 LP로 꽂혀요. 눌러서 턴테이블에 올리면 오른쪽에서 영상이 재생돼요. 새 추천을 받으면 LP가 더 쌓여요.</p><div class="lps">`
-   +LPS.map(l=>{const own=state.lps.includes(l.id);return `<button class="lp ${state.cur===l.id?'cur':''}" data-l="${l.id}" ${own?'':'disabled'}><span class="disc" style="--c:${l.color}"></span><span><b>${l.cn}</b><small>${l.title}${l.who?' · '+l.who:''}</small></span></button>`}).join('')
+  s.innerHTML=`<h2>LP장 · LP 바꾸기</h2><p>추천받은 곡이 작곡가 얼굴 LP로 꽂혀요. 듣고 싶은 LP를 누르면 턴테이블에 올라가고 오른쪽에서 영상이 재생돼요. 새 추천을 받으면 LP가 더 쌓여요.</p><div class="lps">`
+   +LPS.map(l=>{const own=state.lps.includes(l.id);return `<button class="lp ${state.cur===l.id?'cur':''}" data-l="${l.id}" ${own?'':'disabled'}>${lpDisc(l)}<span><b>${l.cn}${state.cur===l.id?'<i class="lpnow">턴테이블 위</i>':''}</b><small>${l.title}${l.who?' · '+l.who:''}</small></span></button>`}).join('')
    +`</div><div class="foot"><button class="btn" id="lpOut" ${state.cur?'':'disabled'}>LP 빼기</button><button class="btn pri" id="lpX">닫기</button></div>`;
 }
 $('#sLP').addEventListener('click',e=>{
@@ -1124,6 +1201,7 @@ if(!load()){
   const p=PRESETS[k];state.wall=p.wall;state.floor=p.floor;state.items=p.list();state.lps=LPS.map(l=>l.id);state.mini={...state.mini,x:p.mini[0],y:p.mini[1]};
   hangNP(true,true);hangFrames();ensureFixed();
 }
+if(MIG){shelfBeside();save()}
 state.lps=LPS.map(l=>l.id);if(!state.cur||!lpOf(state.cur))state.cur=null;if(!state.cur&&LPS[0])state.cur=LPS[0].id;state.playing=false;
 syncHead();renderTabs();renderGrid();render();tellParent({ready:1});
 setInterval(()=>{if(!DRAG&&!document.querySelector('.modal.on'))render()},20000);
