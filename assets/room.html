@@ -654,14 +654,13 @@ Object.keys(COMP).forEach(k=>{const C=COMP[k];
 D('nowplaying',{n:'지금 듣는 곡 액자',cat:'frame',wall:1,ww:108,wh:46,draw(){
   const lp=Q.cur?lpOf(Q.cur):null,on=lp&&Q.playing,F='Helvetica Neue,Arial,Gowun Dodum,sans-serif';
   let t=R(0,0,108,46,'#17171a','stroke="#000" stroke-width="1"')+R(2.6,2.6,102.8,40.8,'#f4f3ef','stroke="#00000030" stroke-width=".6"');
-  t+=`<circle cx="11" cy="11.6" r="2.3" fill="${on?'#d8343f':'#b9b6ae'}" ${on?an('blink',1.6):''}/><text x="17" y="13.4" font-size="5.8" fill="#7d7a72" font-family="${F}" letter-spacing=".6">${on?'지금 듣는 곡':'재생 대기 중'}</text>`;
+  t+=`<text x="9" y="14.6" font-size="7" fill="#7d7a72" font-family="${F}" letter-spacing=".3">지금 흐르는 곡 :</text>`;
   if(lp){let ti=lp.title,ls=[ti];if(ti.length>9&&ti.includes(' ')){const sp=[...ti].map((c,i)=>c===' '?i:-1).filter(i=>i>=0).sort((x,y)=>Math.abs(x-ti.length/2)-Math.abs(y-ti.length/2))[0];ls=[ti.slice(0,sp),ti.slice(sp+1)]}
-    const mx=Math.max(...ls.map(x=>x.length)),fs=r1(Math.min(11.5,64/mx)*10)/10,y0=ls.length>1?26:29.5;
+    const mx=Math.max(...ls.map(x=>x.length)),fs=r1(Math.min(12.5,66/mx)*10)/10,y0=ls.length>1?27:32;
     ls.forEach((x,i)=>{t+=`<text x="9" y="${r1((y0+i*(fs+1.6))*10)/10}" font-size="${fs}" font-weight="700" fill="#1a1a1d" font-family="${F}">${x}</text>`});
-    t+=`<text x="9" y="${ls.length>1?40.2:39}" font-size="5.2" fill="#7d7a72" font-family="${F}" letter-spacing=".4">${lp.cn}${lp.era?' · '+lp.era:''}</text>`;
     const hs=[11,20,14,23,10];
     t+=hs.map((h,i)=>`<rect x="${81+i*4.6}" y="${37-h}" width="2.8" height="${h}" fill="#1a1a1d" ${on?an('eq',.9+i*.17,'transform-box:fill-box;transform-origin:50% 100%',i*.23):''}/>`).join('')}
-  else t+=`<text x="9" y="29" font-size="10" font-weight="700" fill="#b9b6ae" font-family="${F}">LP를 올려주세요</text><text x="9" y="39" font-size="5.2" fill="#b9b6ae" font-family="${F}" letter-spacing=".4">턴테이블에 LP를 올리면 곡 이름이 떠요</text>`;
+  else t+=`<text x="9" y="32" font-size="10" font-weight="700" fill="#b9b6ae" font-family="${F}">LP를 올려주세요</text>`;
   return t}});
 /* ================= 벽지·바닥 ================= */
 const WALLS=[
