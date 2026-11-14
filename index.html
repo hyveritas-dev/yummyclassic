@@ -1340,6 +1340,12 @@
     .yc-room-box { margin: 2rem auto 0; max-width: 1100px; border: 1px solid rgba(255,255,255,.12); border-radius: 1rem; overflow: hidden; background: #171012; }
     .yc-room-box iframe { display: block; width: 100%; height: 720px; border: 0; }
     @media (max-width: 820px) { .yc-room-box iframe { height: min(92vh, 880px); } }
+    /* Miniroom scroll buttons: the room takes every touch, so the page scrolls from these instead (2026-11-14) */
+    .yc-room-scroll { position: fixed; z-index: 47; right: 8px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; }
+    .yc-room-scroll[hidden] { display: none; }
+    .yc-room-scroll button { width: 48px; height: 48px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); background: rgba(42,8,16,.82); color: #fff; font-size: 1.15rem; line-height: 1; cursor: pointer; display: grid; place-items: center; box-shadow: 0 6px 18px rgba(0,0,0,.4); -webkit-tap-highlight-color: transparent; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+    .yc-room-scroll button:active { background: var(--wine, #7a1f2e); transform: scale(.94); }
+    .yc-room-scroll button:disabled { opacity: .3; }
     html[data-rt] #cmp-top { display: none !important; }
     html[data-rt="2"] .sns-dock { display: none !important; }
 </style>
@@ -1654,6 +1660,10 @@
                   <p class="mt-3 text-white/60">오늘 추천받은 곡이 LP로 꽂혀요. 턴테이블에 올리면 오른쪽에서 영상이 재생돼요.</p>
                 </div>
                 <div class="yc-room-box"><iframe id="yc-room-f" title="나의 미니룸" allow="autoplay; encrypted-media; fullscreen" loading="lazy"></iframe></div>
+                <div id="yc-room-scroll" class="yc-room-scroll" hidden>
+                  <button type="button" data-dir="-1" aria-label="위로 스크롤">▲</button>
+                  <button type="button" data-dir="1" aria-label="아래로 스크롤">▼</button>
+                </div>
               </div>
 
               <!-- Recommended composers -->
@@ -1872,7 +1882,7 @@
   <script>(function(){var b=document.getElementById('footer-cards');if(!b)return;b.addEventListener('click',function(){if(window.YC_CARDS)return window.YC_CARDS.open();var s=document.createElement('script');s.src='/assets/cards.js?v=ab6e576e';s.onload=function(){window.YC_CARDS&&window.YC_CARDS.open();};document.head.appendChild(s);});})();</script>
   <script>(function(){var a=document.getElementById('footer-mail');if(!a)return;var m=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+m;a.textContent=m;})();</script>
 
-  <script defer src="/assets/app.js?v=11090700b"></script>
+  <script defer src="/assets/app.js?v=11141200a"></script>
   <script>
     // 결과 화면의 바깥 링크 클릭(공연·전시 예매, 음반 등)과 섹션 도달을 기록
     (function () {

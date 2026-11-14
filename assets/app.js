@@ -5673,6 +5673,30 @@
       else if (ROOM.ready) roomPost({ yc: 'recs', recs: ROOM.recs });
     }
     function roomStop() { if (ROOM.ready) roomPost({ yc: 'stop' }); }
+    // Scroll buttons beside the miniroom: the room frame swallows touches, so the page is scrolled from here.
+    // Shown only while the room is on screen; a tap moves about 60% of a screen, holding keeps going.
+    (function roomScrollInit() {
+      const rail = document.getElementById('yc-room-scroll'), box = document.querySelector('.yc-room-box');
+      if (!rail || !box || !('IntersectionObserver' in window)) return;
+      new IntersectionObserver(es => { rail.hidden = !es[es.length - 1].isIntersecting; }, { threshold: 0.15 }).observe(box);
+      const up = rail.querySelector('[data-dir="-1"]'), down = rail.querySelector('[data-dir="1"]');
+      const edges = () => {
+        const se = document.scrollingElement || document.documentElement;
+        up.disabled = se.scrollTop <= 2; down.disabled = se.scrollTop + window.innerHeight >= se.scrollHeight - 2;
+      };
+      window.addEventListener('scroll', edges, { passive: true });
+      let timer = 0;
+      const step = dir => window.scrollBy({ top: dir * Math.round(window.innerHeight * 0.6), behavior: 'smooth' });
+      const stop = () => { clearInterval(timer); timer = 0; };
+      rail.addEventListener('pointerdown', e => {
+        const b = e.target.closest('button'); if (!b || b.disabled) return;
+        e.preventDefault(); const dir = +b.dataset.dir; step(dir); stop(); timer = setInterval(() => step(dir), 450);
+      });
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach(t => rail.addEventListener(t, stop));
+      window.addEventListener('blur', stop);
+      rail.addEventListener('keydown', e => { const b = e.target.closest('button'); if (b && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); step(+b.dataset.dir); } });
+      rail.addEventListener('contextmenu', e => e.preventDefault());
+    })();
     window.addEventListener('message', e => {
       if (e.origin !== location.origin) return;
       const f = roomFrame(), d = e.data;
