@@ -37,9 +37,10 @@ header{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding:10px
 .btn.pri{background:var(--amber);color:#2a1a0c;border-color:var(--amber)}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 main{display:flex;min-height:0}
-#stage{position:relative;flex:1;min-width:0;display:flex;align-items:center;justify-content:center;
+#stage{position:relative;overflow:hidden;flex:1;min-width:0;display:flex;align-items:center;justify-content:center;
   background:radial-gradient(ellipse at 50% 40%,#2c1d22 0%,#171012 70%)}
-#room{filter:contrast(1.12) saturate(1.22);width:100%;height:100%;max-height:100%;touch-action:none;user-select:none;-webkit-user-select:none;display:block}
+#roombg{position:absolute;inset:0;width:100%;height:100%;filter:blur(18px) brightness(.5) saturate(1.1);transform:scale(1.15);pointer-events:none}
+#room{position:relative;filter:contrast(1.12) saturate(1.22);width:100%;height:100%;max-height:100%;touch-action:none;user-select:none;-webkit-user-select:none;display:block}
 #room .it{cursor:grab}
 #side{width:372px;flex:none;display:flex;flex-direction:column;min-height:0;border-left:1px solid var(--line);background:var(--panel)}
 #ytw{display:none;flex:none;background:#0d0a0a;border-bottom:1px solid var(--line)}#ytw.on{display:block}
@@ -97,11 +98,11 @@ footer#dock{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:
 .foot{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
 @media (max-width:820px){
   body{overflow:auto}
-  #app{height:auto;min-height:100%}
+  #app{height:auto;min-height:0}
   main{flex-direction:column}
-  #stage{flex:none;aspect-ratio:700/560;width:100%}
+  #stage{flex:none;aspect-ratio:662/535;width:100%}
   #side{width:100%;border-left:0;border-top:1px solid var(--line)}
-  #ytw{order:2;border-bottom:0;border-top:1px solid var(--line)}
+  #ytw{order:0;border-bottom:1px solid var(--line);border-top:0}
   #panel{height:340px;flex:none}
   #grid{grid-template-columns:repeat(4,1fr)}
   #hint{display:none}
@@ -152,7 +153,8 @@ footer#dock{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:
   </header>
   <main>
     <section id="stage">
-      <svg id="room" viewBox="0 0 700 560" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-label="미니룸"></svg>
+      <svg id="roombg" viewBox="22 12 662 535" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+      <svg id="room" viewBox="22 12 662 535" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-label="미니룸"></svg>
       <div id="hint">서랍에서 아이템을 끌어다 놓거나 눌러서 추가하세요. 방 안의 아이템은 끌어서 옮기고, 선택하면 아래에서 돌리거나 뺄 수 있어요.</div>
       <div id="toast"></div>
     </section>
@@ -888,11 +890,14 @@ function selMark(){
   return handle+`<polygon points="${pts([P(it.x,it.y,z),P(it.x+w,it.y,z),P(it.x+w,it.y+dd,z),P(it.x,it.y+dd,z)])}" fill="${bad?'#e2655b44':'#e8b45a18'}" stroke="${col}" stroke-width="1.6" stroke-dasharray="4 3" pointer-events="none"/>`;
 }
 const GRAD={warm:['#ffd98a',.7,'#ff9a3c'],fire:['#ffa04a',.8,'#ff5a1a'],moon:['#cfe0ff',.32,'#8fb0ff']};
+let BGKEY='';
+function bgUpdate(){const k=[state.wall,state.floor,state.night,state.season].join('|');if(k===BGKEY)return;BGKEY=k;
+  const b=document.getElementById('roombg');if(b)b.innerHTML='<g transform="translate(353 280) scale(2.7) translate(-353 -280)">'+shell()+'</g>'}
 function render(){
   Q.season=state.season;Q.night=state.night;Q.preview=false;Q.gl=[];Q.cur=state.cur;Q.playing=state.playing;
   const svg=$('#room');let h='<defs>'+Object.entries(GRAD).map(([k,g])=>`<radialGradient id="g_${k}"><stop offset="0" stop-color="${g[0]}" stop-opacity="${g[1]}"/><stop offset=".45" stop-color="${g[2]}" stop-opacity="${g[1]*.35}"/><stop offset="1" stop-color="${g[2]}" stop-opacity="0"/></radialGradient>`).join('')
     +`<clipPath id="roomclip"><polygon points="${pts([P(0,N,WH),P(0,0,WH),P(N,0,WH),P(N,0,0),P(N,N,0),P(0,N,0)])}"/></clipPath></defs>`;
-  h+=shell();
+  h+=shell();bgUpdate();
   h+=state.items.filter(i=>i.wall).map(drawWall).join('');
   const fl=state.items.filter(i=>!i.wall);
   const rugs=fl.filter(i=>DEF[i.t].flat),rest=fl.filter(i=>!DEF[i.t].flat);
@@ -1203,6 +1208,7 @@ if(!load()){
 if(MIG){shelfBeside();save()}
 state.lps=LPS.map(l=>l.id);if(!state.cur||!lpOf(state.cur))state.cur=null;if(!state.cur&&LPS[0])state.cur=LPS[0].id;state.playing=false;
 syncHead();renderTabs();renderGrid();render();tellParent({ready:1});
+(function(){if(!EMB||!window.ResizeObserver)return;let last=0;const send=()=>{const h=document.getElementById('app').getBoundingClientRect().height|0;if(h&&Math.abs(h-last)>2){last=h;tellParent({h:h,m:matchMedia('(max-width:820px)').matches?1:0})}};new ResizeObserver(send).observe(document.getElementById('app'));send()})();
 setInterval(()=>{if(!DRAG&&!document.querySelector('.modal.on'))render()},20000);
 window.__room={state,render,DEF,applyPreset};
 })();
