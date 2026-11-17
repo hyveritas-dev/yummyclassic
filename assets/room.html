@@ -468,12 +468,12 @@ const growStage=()=>{let g=0;GROW_AT.forEach((n,i)=>{if(state.grow.d>=n)g=i});re
 const dayKey=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
 function growMsg(){const g=growStage(),k=dayKey(),done=state.grow.a===k,t=state.grow.k===k?state.grow.t:0,nx=GROW_AT[g+1];
   return GROW_N[g]+' · 음악을 들려주면 자라요 · '+(done?'오늘 물 주기 완료':'오늘 '+Math.min(60,t)+'/60초')+(nx?' · '+(nx-state.grow.d)+'일 더 오면 다음 단계':'')}
-D('sprout',{n:'자라는 화분',cat:'plant',w:.4,d:.4,h:52,small:1,draw(c){
-  const g=growStage();pot(c,.2,.2,.1,8,'#c4623c');const[x,y]=c.S(.2,.2,8),H=[7,15,24,32,36][g],n=[2,2,4,6,6][g];
+D('sprout',{n:'자라는 화분',cat:'plant',w:.6,d:.6,h:76,small:1,draw(c){
+  const g=growStage();pot(c,.3,.3,.16,13,'#c4623c');const[x,y]=c.S(.3,.3,13),H=[14,25,36,47,56][g],n=[2,2,4,6,6][g];
   let s=`<g ${sway(2)}><path d="M${r1(x)},${r1(y)} L${r1(x)},${r1(y-H)}" stroke="#4d8a4f" stroke-width="2" fill="none"/>`;
-  for(let i=0;i<n;i++){const side=i%2?1:-1,hh=H*(.4+Math.floor(i/2)*.22);s+=leaf(x,y-hh,4+g*2.2,3+g*.8,side*(48+Math.floor(i/2)*6),i%2?'#4f9a58':'#3f8a4c')}
-  if(g===3)s+=`<ellipse cx="${r1(x)}" cy="${r1(y-H-2)}" rx="2.4" ry="3.4" fill="#e98fa6"/>`;
-  if(g===4){for(let a=0;a<5;a++){const t=a*72*Math.PI/180;s+=`<circle cx="${r1(x+Math.cos(t)*3.4)}" cy="${r1(y-H-2+Math.sin(t)*3.4)}" r="2.6" fill="#f2a1b8"/>`}s+=`<circle cx="${r1(x)}" cy="${r1(y-H-2)}" r="2" fill="#f6d35a"/>`}
+  for(let i=0;i<n;i++){const side=i%2?1:-1,hh=H*(.4+Math.floor(i/2)*.22);s+=leaf(x,y-hh,5+g*2.8,4+g*1.1,side*(48+Math.floor(i/2)*6),i%2?'#4f9a58':'#3f8a4c')}
+  if(g===3)s+=`<ellipse cx="${r1(x)}" cy="${r1(y-H-3)}" rx="3.6" ry="5" fill="#e98fa6"/>`;
+  if(g===4){for(let a=0;a<5;a++){const t=a*72*Math.PI/180;s+=`<circle cx="${r1(x+Math.cos(t)*5)}" cy="${r1(y-H-3+Math.sin(t)*5)}" r="3.8" fill="#f2a1b8"/>`}s+=`<circle cx="${r1(x)}" cy="${r1(y-H-3)}" r="3" fill="#f6d35a"/>`}
   c.raw(s+'</g>')}});
 D('cactus',{n:'선인장',cat:'plant',w:.4,d:.4,h:36,small:1,draw(c){
   pot(c,.2,.2,.1,8,'#c4623c');c.cyl(.2,.2,.065,22,'#3f8a52',8);c.cyl(.07,.2,.04,9,'#3f8a52',16);c.cyl(.33,.2,.04,9,'#3f8a52',14);
@@ -1047,10 +1047,11 @@ function renderTabs(){
 }
 function renderGrid(){
   const g=$('#grid');
+  const spr=`<div class="card" data-t="sprout" title="${DEF.sprout.n}">${preview('sprout')}<b>${DEF.sprout.n}</b></div>`;
   if(state.tab==='deco'){
-    g.innerHTML='<div class="sect">벽지</div>'+WALLS.map(w=>`<button class="sw ${state.wall===w.id?'on':''}" data-w="${w.id}"><i style="background:${w.c}"></i>${w.n}</button>`).join('')
+    g.innerHTML=spr+'<div class="sect">벽지</div>'+WALLS.map(w=>`<button class="sw ${state.wall===w.id?'on':''}" data-w="${w.id}"><i style="background:${w.c}"></i>${w.n}</button>`).join('')
       +'<div class="sect">바닥</div>'+FLOORS.map(w=>`<button class="sw ${state.floor===w.id?'on':''}" data-f="${w.id}"><i style="background:${w.c}"></i>${w.n}</button>`).join('');return}
-  const ids=Object.keys(DEF).filter(k=>DEF[k].cat===state.tab||(state.tab==='audio'&&0));
+  const ids=['sprout'].concat(Object.keys(DEF).filter(k=>k!=='sprout'&&DEF[k].cat===state.tab));
   g.innerHTML=ids.map(k=>`<div class="card${DEF[k].fixed?' fixed':''}" data-t="${k}" title="${DEF[k].n}">${preview(k)}<b>${DEF[k].n}</b></div>`).join('');
 }
 $('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.tab=b.dataset.c;renderTabs();renderGrid()});
