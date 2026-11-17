@@ -45,6 +45,9 @@ main{display:flex;min-height:0}
 #zoom{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px;z-index:3}
 #zoom button{width:40px;height:40px;border-radius:999px;border:1px solid var(--line);background:rgba(23,16,18,.85);font-size:18px;line-height:1}
 #zoom button:disabled{opacity:.35}
+#stage:fullscreen,#stage:-webkit-full-screen{flex:none;width:100vw;height:100vh;aspect-ratio:auto}
+#stage.fs{position:fixed;inset:0;z-index:50;flex:none;width:100%;height:100%;aspect-ratio:auto}
+#stage:fullscreen #hint,#stage.fs #hint{display:block}
 #fab{display:none;position:absolute;left:8px;right:8px;bottom:8px;z-index:4;flex-wrap:wrap;gap:6px 8px;align-items:center;justify-content:center;padding:8px 10px;border-radius:14px;background:rgba(23,16,18,.92);border:1px solid var(--line)}
 @media (max-width:820px),(pointer:coarse){#fab.on{display:flex}}#fab .sel{font-size:13px;margin-right:4px}#fab .sel small{display:none}
 #fab .btn{min-height:40px;font-size:14px;padding-left:14px;padding-right:14px}
@@ -165,7 +168,7 @@ footer#dock{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:
       <svg id="roombg" viewBox="22 12 662 535" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
       <svg id="room" viewBox="22 12 662 535" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-label="미니룸"></svg>
       <div id="hint">서랍에서 아이템을 끌어다 놓거나 눌러서 추가하세요. 방 안의 아이템은 끌어서 옮기고, 선택하면 아래에서 돌리거나 뺄 수 있어요.</div>
-      <div id="zoom"><button id="zIn" aria-label="확대">＋</button><button id="zOut" aria-label="축소" disabled>－</button></div><div id="fab"></div><div id="toast"></div>
+      <div id="zoom"><button id="zFull" aria-label="전체화면" title="전체화면">⛶</button><button id="zIn" aria-label="확대">＋</button><button id="zOut" aria-label="축소" disabled>－</button></div><div id="fab"></div><div id="toast"></div>
     </section>
     <div id="side"><div id="ytw"><div class="yth"><span id="ytt"></span><button id="ytn">다른 영상</button><a id="yta" target="_blank" rel="noopener">유튜브에서 열기</a><button id="ytx" aria-label="닫기">✕</button></div><div id="ytbox"><div id="ytp"></div></div></div><aside id="panel"><p id="tip">가구 카드를 <b>한 번 터치</b>하면 방에 들어가요. 방 안의 가구는 <b>살짝 길게 누른 뒤</b> 끌어서 옮길 수 있어요. 빈 곳이나 가구를 스치듯 밀면 화면이 스크롤돼요.</p><nav id="tabs"></nav><div id="grid"></div></aside></div>
   </main>
@@ -965,6 +968,15 @@ let ZOOM=1,ZC=[353,280];
 function applyZoom(){const w=662/ZOOM,h=535/ZOOM,x=clamp(ZC[0]-w/2,22,22+662-w),y=clamp(ZC[1]-h/2,12,12+535-h);
   svg.setAttribute('viewBox',`${r1(x)} ${r1(y)} ${r1(w)} ${r1(h)}`);$('#zIn').disabled=ZOOM>=2.2;$('#zOut').disabled=ZOOM<=1}
 function selCenter(){const g=state.sel&&document.querySelector(`#room [data-id="${state.sel}"]`);if(!g)return null;try{const b=g.getBBox();return[b.x+b.width/2,b.y+b.height/2]}catch(e){return null}}
+(function(){const st=document.getElementById('stage'),bt=document.getElementById('zFull');
+  const isFs=()=>document.fullscreenElement===st||document.webkitFullscreenElement===st||st.classList.contains('fs');
+  const sync=()=>{bt.textContent=isFs()?'✕':'⛶';bt.setAttribute('aria-label',isFs()?'전체화면 닫기':'전체화면');bt.title=bt.getAttribute('aria-label')};
+  bt.addEventListener('click',()=>{
+    if(isFs()){st.classList.remove('fs');try{(document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document)}catch(e){}sync();return}
+    const rq=st.requestFullscreen||st.webkitRequestFullscreen;
+    if(rq){try{const r=rq.call(st);if(r&&r.catch)r.catch(()=>{st.classList.add('fs');sync()})}catch(e){st.classList.add('fs')}}else st.classList.add('fs');
+    sync()});
+  ['fullscreenchange','webkitfullscreenchange'].forEach(ev=>document.addEventListener(ev,sync));sync()})();
 $('#zIn').addEventListener('click',()=>{ZOOM=Math.min(2.2,+(ZOOM+.6).toFixed(1));const c=selCenter();if(c)ZC=c;applyZoom()});
 $('#zOut').addEventListener('click',()=>{ZOOM=Math.max(1,+(ZOOM-.6).toFixed(1));if(ZOOM===1)ZC=[353,280];else{const c=selCenter();if(c)ZC=c}applyZoom()});
 /* ================= 입력(드래그앤드롭) ================= */
