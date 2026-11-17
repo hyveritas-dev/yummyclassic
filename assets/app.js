@@ -5652,6 +5652,15 @@
     // ---------- Miniroom (tab 2, 2026-11) ----------
     // /assets/room.html runs in an iframe (own CSS/JS, no clashes). It gets the recommended pieces as LPs for its shelf and plays them
     // in its own right-hand YouTube window. Korean only for now; other languages keep the plain composer list.
+    // Restore link (?rm=CODE): puts the saved room back before the frame loads, then cleans the address bar
+    (function () {
+      try {
+        const q = new URLSearchParams(location.search), c = q.get('rm'); if (!c) return;
+        const j = JSON.parse(decodeURIComponent(escape(atob(c))));
+        if (j && typeof j.wall === 'string' && typeof j.floor === 'string' && Array.isArray(j.items) && j.items.length <= 400) { j.sv = 2; localStorage.setItem('nyamnyam-miniroom-v1', JSON.stringify(j)); }
+        q.delete('rm'); history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash);
+      } catch (e) {}
+    })();
     const YC_ROOM_ON = true;
     const ROOM = { ready: false, recs: null, loaded: false };
     function roomEl() { return document.getElementById('yc-room'); }
