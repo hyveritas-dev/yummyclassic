@@ -691,6 +691,7 @@ D('nowplaying',{n:'지금 듣는 곡 액자',cat:'frame',wall:1,ww:108,wh:46,dra
   else t+=`<text x="9" y="32" font-size="10" font-weight="700" fill="#b9b6ae" font-family="${F}">LP를 올려주세요</text>`;
   return t}});
 /* ================= 벽지·바닥 ================= */
+const gradBands=(st)=>{const h=c=>[1,3,5].map(i=>parseInt(c.slice(i,i+2),16));let o='';const n=38,bh=190/n;for(let i=0;i<n;i++){const t=i/(n-1)*(st.length-1),k=Math.min(st.length-2,Math.floor(t)),f=t-k,a=h(st[k]),b=h(st[k+1]);o+=R(0,i*bh,320,bh+.6,'rgb('+a.map((v,j)=>Math.round(v+(b[j]-v)*f)).join(',')+')')}return o};
 const WALLS=[
   {id:'cream',n:'크림 줄무늬',c:'#efe3cc',fn:()=>R(0,0,320,190,'#efe3cc')+range(0,320,20).map(u=>R(u+10,0,9,190,'#e6d6b8')).join('')},
   {id:'damask',n:'와인 다마스크',c:'#6e1f2e',fn:()=>{let s=R(0,0,320,190,'#6e1f2e')+range(0,320,20).map(u=>R(u+10,0,8,190,'#7a2736')).join('');range(20,320,40).forEach(u=>range(14,190,36).forEach(v=>{s+=poly([[u,v-9],[u+7,v],[u,v+9],[u-7,v]],'#8e3b4b')+`<circle cx="${u}" cy="${v}" r="1.6" fill="#b86a78"/>`}));return s}},
@@ -699,6 +700,16 @@ const WALLS=[
   {id:'star',n:'하늘 별무늬',c:'#cfe0ee',fn:()=>{const r=mul(21);let s=R(0,0,320,190,'#cfe0ee');for(let i=0;i<46;i++){const x=r()*320,y=r()*180;s+=`<path d="M${r1(x)},${r1(y-3)} l1,2 2,1 -2,1 -1,2 -1,-2 -2,-1 2,-1Z" fill="#fff"/>`}return s}},
   {id:'rose',n:'장미 꽃무늬',c:'#f3dcd8',fn:()=>{let s=R(0,0,320,190,'#f3dcd8');range(16,320,32).forEach((u,i)=>range(14,190,30).forEach(v=>{const x=u+((v/30|0)%2?16:0);s+=`<ellipse cx="${x-4}" cy="${v+3}" rx="3.4" ry="1.5" fill="#9bb894"/><ellipse cx="${x+4}" cy="${v+3}" rx="3.4" ry="1.5" fill="#9bb894"/><circle cx="${x}" cy="${v}" r="3.4" fill="#d97b8d"/><circle cx="${x}" cy="${v}" r="1.3" fill="#f7e1a0"/>`}));return s}},
   {id:'navy',n:'네이비 달밤',c:'#1c2748',fn:()=>{const r=mul(8);let s=R(0,0,320,190,'#1c2748');for(let i=0;i<60;i++)s+=`<circle cx="${r1(r()*320)}" cy="${r1(r()*180)}" r="${r1(.6+r()*1.1)}" fill="#f0e6b8"/>`;return s}},
+  {id:'monet',n:'모네 수련',c:'#9fc4c9',fn:()=>{const r=mul(31);let s=gradBands(['#9cc3cc','#b4c9e0','#a2c6b6','#a9bddc','#93bba6']);
+    for(let i=0;i<150;i++){const x=r()*320,y=r()*190,w=6+r()*20,c=['#cfe3ea','#7fa9bd','#c9bfe0','#8fc2a4','#e6eef0'][i%5];s+=`<rect x="${r1(x)}" y="${r1(y)}" width="${r1(w)}" height="${r1(1.4+r()*1.8)}" rx="1" fill="${c}" opacity=".5"/>`}
+    for(let i=0;i<26;i++){const x=r()*320,y=40+r()*150,rx=9+r()*10,ry=rx*.42;s+=`<ellipse cx="${r1(x)}" cy="${r1(y)}" rx="${r1(rx)}" ry="${r1(ry)}" fill="${i%2?'#5f9a6a':'#4f8a5e'}" opacity=".85"/><ellipse cx="${r1(x-rx*.2)}" cy="${r1(y-ry*.2)}" rx="${r1(rx*.6)}" ry="${r1(ry*.5)}" fill="#86b98a" opacity=".6"/>`}
+    for(let i=0;i<18;i++){const x=r()*320,y=45+r()*140,c=['#f2a6c0','#fbd0dc','#f7e6a0','#ee8fb0'][i%4];s+=`<circle cx="${r1(x)}" cy="${r1(y)}" r="${r1(2.6+r()*2.2)}" fill="${c}" opacity=".95"/><circle cx="${r1(x+1.4)}" cy="${r1(y-.8)}" r="${r1(1.6+r()*1.4)}" fill="#fff4f6" opacity=".7"/>`}
+    return s}},
+  {id:'renoir',n:'르누아르 정원',c:'#f1d6c2',fn:()=>{const r=mul(47);let s=gradBands(['#f7e7d4','#f1d3bd','#ecc7b4','#e8bfae']);
+    for(let i=0;i<260;i++){const x=r()*320,y=r()*190,c=['#a9c79a','#c3d6a8','#8fb58a','#e9b0a4','#f3c9a8','#d9e2b8'][i%6];s+=`<ellipse cx="${r1(x)}" cy="${r1(y)}" rx="${r1(5+r()*7)}" ry="${r1(2+r()*2.6)}" fill="${c}" opacity=".38" transform="rotate(${r1(r()*60-30)} ${r1(x)} ${r1(y)})"/>`}
+    for(let i=0;i<110;i++){const x=r()*320,y=r()*190,c=['#e57f8f','#f2a7a0','#f6c1a0','#d96b82','#f7e6b0','#b9a3d6'][i%6];s+=`<ellipse cx="${r1(x)}" cy="${r1(y)}" rx="${r1(1.8+r()*2.2)}" ry="${r1(1.3+r()*1.5)}" fill="${c}" opacity=".85" transform="rotate(${r1(r()*180)} ${r1(x)} ${r1(y)})"/>`}
+    for(let i=0;i<46;i++){const x=r()*320,y=r()*190;s+=`<circle cx="${r1(x)}" cy="${r1(y)}" r="${r1(1.5+r()*3)}" fill="#fff6dc" opacity=".4"/>`}
+    return s}},
   {id:'mint',n:'민트 물방울',c:'#cfe7da',fn:()=>{let s=R(0,0,320,190,'#cfe7da');range(10,320,22).forEach((u,i)=>range(8,190,22).forEach((v,j)=>s+=`<circle cx="${u+(j%2?11:0)}" cy="${v}" r="4.4" fill="#e8f5ee"/>`));return s}}
 ];
 const FLOORS=[
@@ -768,7 +779,7 @@ const PRESETS={
       mk('rug_keys',{x:3.5,y:3.6}),mk('sofa_blue',{x:4,y:5.6}),mk('monstera',{x:7,y:3})];
     const dk=mk('desk',{x:6,y:0});a.push(dk,mk('desklamp',{x:6.2,y:.3,z:40,parent:dk.id}),mk('books',{x:7,y:.3,z:40,parent:dk.id}));
     a.push(wallItem('window','R',130,32),wallItem('frame_mozart','L',140,40),wallItem('clock','R',262,40),wallItem('calendar','L',20,40));return a}},
-  romantic:{n:'낭만방',wall:'navy',floor:'darkwood',lps:['beethoven','beethoven_moon','chopin','chopin_rain','tchaikovsky','debussy'],mini:[3.6,3.6],list:()=>{
+  romantic:{n:'낭만방',wall:'monet',floor:'darkwood',lps:['beethoven','beethoven_moon','chopin','chopin_rain','tchaikovsky','debussy'],mini:[3.6,3.6],list:()=>{
     const a=[mk('lpshelf',{x:0,y:0}),mk('turntable',{x:2,y:0}),mk('fireplace',{x:5.3,y:0}),mk('rug_persian',{x:2.5,y:3}),mk('sofa_wine',{x:2.5,y:5.2}),
       mk('armchair',{x:1,y:4.6,f:1}),mk('floorlamp',{x:.2,y:4.5}),mk('monstera',{x:6.8,y:3})];
     const ns=mk('nightstand',{x:4.2,y:0});a.push(ns,mk('amp',{x:4.2,y:.2,z:30,parent:ns.id}));
@@ -1410,7 +1421,7 @@ const D={'나의 미니룸':'My Mini-room','냠냠클래식 미니룸':'Yummy Cl
 'CD장':'CD rack','LP장':'LP shelf','LP 러그':'LP rug','건반 줄무늬 러그':'Piano-key rug','계절 꽃병':'Seasonal vase','고무나무':'Rubber plant','곰인형':'Teddy bear','구름 빈백':'Cloud beanbag','그랜드 피아노':'Grand piano','나무 의자':'Wooden chair','낡은 가죽 라운지':'Worn leather lounge','달 무드등':'Moon lamp','달력':'Calendar','달밤 군청 러그':'Moonlit navy rug','달빛 청색 2인 소파':'Moonlight-blue loveseat',
 '메트로놈':'Metronome','몬스테라':'Monstera','바이올린 벽걸이':'Wall-hung violin','바이올린 스탠드':'Violin stand','벽난로':'Fireplace','벽시계':'Wall clock','보면대':'Music stand','빈티지 안락의자':'Vintage armchair','선인장':'Cactus','선풍기':'Fan','스피커':'Speaker','악보 액자':'Sheet-music frame',
 '에어컨':'Air conditioner','업라이트 피아노':'Upright piano','오르간 스툴':'Organ stool','올리브 나무':'Olive tree','와인 벨벳 체스터필드':'Wine velvet Chesterfield','와인 카펫':'Wine carpet','와인 페르시안 러그':'Wine Persian rug','원목 책상':'Wooden desk','원형 티테이블':'Round tea table','전기난로':'Electric heater','진공관 앰프':'Tube amp','찻잔 세트':'Tea set','창문':'Window','책더미':'Stack of books','책상등':'Desk lamp','책장':'Bookshelf','체크 러그':'Checked rug','첼로':'Cello','촛대':'Candlestick','크리스마스 트리':'Christmas tree','턴테이블':'Turntable','테이블야자':'Parlor palm','플로어 스탠드':'Floor lamp','하프':'Harp','협탁':'Side table',
-'네이비 달밤':'Navy moonlit night','다크 원목':'Dark wood','대리석':'Marble','라벤더':'Lavender','민트 물방울':'Mint droplets','블루 타일':'Blue tile','와인 다마스크':'Wine damask','우드 패널':'Wood panel','원목':'Natural wood','장미 꽃무늬':'Rose floral','체크 타일':'Checked tile','크림 줄무늬':'Cream stripes','테라코타':'Terracotta','하늘 별무늬':'Starry sky','헤링본':'Herringbone','벽돌':'Brick',
+'네이비 달밤':'Navy moonlit night','모네 수련':'Monet water lilies','르누아르 정원':'Renoir garden','다크 원목':'Dark wood','대리석':'Marble','라벤더':'Lavender','민트 물방울':'Mint droplets','블루 타일':'Blue tile','와인 다마스크':'Wine damask','우드 패널':'Wood panel','원목':'Natural wood','장미 꽃무늬':'Rose floral','체크 타일':'Checked tile','크림 줄무늬':'Cream stripes','테라코타':'Terracotta','하늘 별무늬':'Starry sky','헤링본':'Herringbone','벽돌':'Brick',
 'G선상의 아리아':'Air on the G String','꽃의 왈츠':'Waltz of the Flowers','녹턴 Op.9 No.2':'Nocturne Op. 9 No. 2','달빛':'Clair de Lune','빗방울 전주곡':'Raindrop Prelude','아라베스크 1번':'Arabesque No. 1','아이네 클라이네 나흐트무지크':'Eine kleine Nachtmusik','엘리제를 위하여':'Für Elise','월광 소나타 1악장':'Moonlight Sonata, 1st mvt.','캐논':'Canon','터키 행진곡':'Turkish March','평균율 1번 프렐류드':'Well-Tempered Clavier, Prelude No. 1','평균율':'Well-Tempered','프렐류드':'Prelude'};
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const R=[[/^(.+)을\(를\) 놓았어요$/,m=>'Placed '+t(m[1])],[/^(.+)을\(를\) 보관함에 넣었어요 · .+$/,m=>'Moved '+t(m[1])+' to storage · you can undo'],[/^(.+)은\(는\) 이미 방에 있어요\. 끌어서 옮겨보세요$/,m=>t(m[1])+' is already in the room. Drag it to move'],
