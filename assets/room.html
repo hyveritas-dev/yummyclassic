@@ -713,7 +713,7 @@ const wallDef=id=>WALLS.find(w=>w.id===id)||WALLS[0],floorDef=id=>FLOORS.find(w=
 const SKIN=['#f4cfa8','#e6b88c','#bf8a5e'],HAIR=['#2a1f1a','#6b4226','#c9a15a','#a33a46','#d9d5cc'],SHIRT=['#9a3248','#3f6b55','#2f4a6b','#e8b45a','#efe3cc','#5b3a7a'];
 let seq=1;const nid=()=>'i'+(seq++);
 const state={wall:'navy',floor:'darkwood',season:'autumn',night:false,items:[],mini:{x:3.5,y:3.5,hair:0,style:0,shirt:0,skin:0},lps:['beethoven'],grow:{d:0,t:0,k:'',a:'',init:0},cur:null,playing:false,sel:null,muted:false,tab:'seat'};
-{const d=new Date(),m=d.getMonth()+1,h=d.getHours();state.season=m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=11?'autumn':'winter';state.night=h>=19||h<6}
+{const d=new Date(),m=d.getMonth()+1,h=d.getHours();state.season=m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=11?'autumn':'winter';state.night=false}
 let MIG=0;const EMB=window.parent!==window,LIBKEY='nyamnyam-room-lib-v1',KEY='nyamnyam-miniroom-v1';
 function save(){try{localStorage.setItem(KEY,JSON.stringify({wall:state.wall,floor:state.floor,items:state.items.filter(i=>!i.tmp),mini:state.mini,lps:state.lps,cur:state.cur,grow:state.grow,seq,sv:2}))}catch(e){}}
 const UNDO=[];
