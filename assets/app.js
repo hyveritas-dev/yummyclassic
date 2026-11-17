@@ -5658,18 +5658,18 @@
     function roomFrame() { return document.getElementById('yc-room-f'); }
     function roomPost(m) { const f = roomFrame(); if (f && f.contentWindow) try { f.contentWindow.postMessage(m, location.origin); } catch (e) {} }
     function roomCompName(cid) {
-      const s = SHORT[cid]; if (s) return s[1];
-      for (const L of Object.values(COMPOSERS)) { const n = L.find(x => x[2] === cid); if (n) return n[1]; }
+      const ix = isLocal() ? 1 : 0, s = SHORT[cid]; if (s) return s[ix];
+      for (const L of Object.values(COMPOSERS)) { const n = L.find(x => x[2] === cid); if (n) return n[ix]; }
       return '';
     }
     function roomSync(recs) {
       const box = roomEl(); if (!box) return;
-      const on = YC_ROOM_ON && isLocal() && recs && recs.length;
+      const on = YC_ROOM_ON && recs && recs.length;
       box.hidden = !on; box.dataset.rtab = on ? '2' : '';
       if (!on) return;
-      ROOM.recs = recs.map(r => ({ cid: r.cid, en: r.en, ko: r.ko, yt: r.yt || '', who: r.who || '', cn: roomCompName(r.cid) }));
+      ROOM.recs = recs.map(r => ({ cid: r.cid, en: r.en, ko: isLocal() ? r.ko : r.en, yt: r.yt || '', who: r.who || '', cn: roomCompName(r.cid) }));
       const f = roomFrame();
-      if (f && !ROOM.loaded) { ROOM.loaded = true; f.src = '/assets/room.html?v=1117b&lang=' + encodeURIComponent(lang); }
+      if (f && !ROOM.loaded) { ROOM.loaded = true; f.src = '/assets/room.html?v=1117e&lang=' + encodeURIComponent(lang); }
       else if (ROOM.ready) roomPost({ yc: 'recs', recs: ROOM.recs });
     }
     function roomStop() { if (ROOM.ready) roomPost({ yc: 'stop' }); }
@@ -5718,13 +5718,13 @@
       rtToast: '‘{t}’ 탭이 열렸어요! 눌러서 확인해 보세요', rtNext: '다음 코스 · {t}', rtNextLocked: '조금만 더 내려오면 ‘{t}’가 열려요',
     });
     Object.assign(I18N.en, {
-      rtTab1: 'Today’s menu', rtTab2: 'Composers for you', rtTab3: 'Concerts & exhibitions',
-      rtLock2: 'Opens when you scroll down to “Does this result feel like you?”', rtLock3: 'Opens when you reach the end of “Composers for you”',
+      rtTab1: 'Today’s menu', rtTab2: 'My miniroom', rtTab3: 'Concerts & exhibitions',
+      rtLock2: 'Opens when you scroll down to “Does this result feel like you?”', rtLock3: 'Opens when you reach the end of “My miniroom”',
       rtToast: '“{t}” is now open — tap to take a look', rtNext: 'Next course · {t}', rtNextLocked: 'Scroll a little more to open “{t}”',
     });
     Object.assign(I18N.ja, {
-      rtTab1: '今日のメニュー', rtTab2: 'おすすめの作曲家', rtTab3: '今日の公演・展示',
-      rtLock2: '「この結果、私に合ってる?」まで進むと開きます', rtLock3: '「おすすめの作曲家」を最後まで見ると開きます',
+      rtTab1: '今日のメニュー', rtTab2: '私のミニルーム', rtTab3: '今日の公演・展示',
+      rtLock2: '「この結果、私に合ってる?」まで進むと開きます', rtLock3: '「私のミニルーム」を最後まで見ると開きます',
       rtToast: '「{t}」タブが開きました。タップして見てみましょう', rtNext: '次のコース · {t}', rtNextLocked: 'もう少し進むと「{t}」が開きます',
     });
     const RT_ON = (() => {
