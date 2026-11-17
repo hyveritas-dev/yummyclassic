@@ -5709,6 +5709,9 @@
     // ---------- Result tabs (2026-10-26, preview: ?tabs=1) ----------
     // The result opens in three courses. Tab 1 ends at the feedback box; reaching it unlocks tab 2 (my taste table);
     // reaching the end of tab 2 unlocks tab 3 (today's concerts & exhibitions). Locked tabs stay visible, greyed out.
+    Object.assign(I18N.ko, { roomTitle: '나의 미니룸', roomSub: '오늘 추천받은 곡이 LP로 꽂혀요. 턴테이블에 올리면 오른쪽에서 영상이 재생돼요.' });
+    Object.assign(I18N.en, { roomTitle: 'My miniroom', roomSub: 'Today’s recommended pieces stand on the shelf as LPs. Put one on the turntable and the video plays beside it.' });
+    Object.assign(I18N.ja, { roomTitle: '私のミニルーム', roomSub: '今日のおすすめ曲がLPとして並びます。ターンテーブルに乗せると、横で動画が再生されます。' });
     Object.assign(I18N.ko, {
       rtTab1: '오늘의 메뉴', rtTab2: '나의 미니룸', rtTab3: '오늘의 공연·전시',
       rtLock2: '‘이 결과, 나랑 맞나요?’까지 내려오면 열려요', rtLock3: '‘나의 미니룸’을 끝까지 보면 열려요',
