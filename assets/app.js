@@ -5669,7 +5669,7 @@
       if (!on) return;
       ROOM.recs = recs.map(r => ({ cid: r.cid, en: r.en, ko: r.ko, yt: r.yt || '', who: r.who || '', cn: roomCompName(r.cid) }));
       const f = roomFrame();
-      if (f && !ROOM.loaded) { ROOM.loaded = true; f.src = '/assets/room.html'; }
+      if (f && !ROOM.loaded) { ROOM.loaded = true; f.src = '/assets/room.html?v=1117a'; }
       else if (ROOM.ready) roomPost({ yc: 'recs', recs: ROOM.recs });
     }
     function roomStop() { if (ROOM.ready) roomPost({ yc: 'stop' }); }
@@ -5703,6 +5703,7 @@
       if (!f || e.source !== f.contentWindow || !d || d.yc !== 'room') return;
       if (d.ready) { ROOM.ready = true; if (ROOM.recs) roomPost({ yc: 'recs', recs: ROOM.recs }); }
       if (d.play) { stopPlayer(); track('room_play', {}); }
+      if (d.ev && ['open', 'edit', 'add', 'preset', 'lp', 'undo'].indexOf(d.ev) >= 0) { try { const q = d.p || {}; track('room_' + d.ev, { t: String(q.t || q.p || '').slice(0, 30), n: +q.n || 0, returning: q.returning ? 1 : 0 }); } catch (err) {} }
     });
 
     // ---------- Result tabs (2026-10-26, preview: ?tabs=1) ----------
