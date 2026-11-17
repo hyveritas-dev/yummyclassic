@@ -5479,7 +5479,7 @@
     Object.assign(I18N.ko, {
       dailyKick: '{d} · 오늘의 메뉴', dailyH: '‘{t}’\u2060의<br />오늘의 클래식 메뉴',
       dailySub: '오늘의 그림 한 점과 클래식 한 곡을 차렸어요. 그림을 보며 들어 보세요.',
-      dailyTaste: '오늘의 맛 · {m}', dailyShare: '친구에게 오늘의 곡 보내기', dailyRetest: '사진 선택으로 오늘의 클래식 메뉴 받기', dailyListen: '▶ 오늘의 곡 듣기',
+      dailyTaste: '오늘의 맛 · {m}', dailyShare: '친구에게 오늘의 곡 보내기', dailyRetest: '오늘의 클래식 메뉴 받기', dailyListen: '▶ 오늘의 곡 듣기',
       dailyLast: '내 클래식 플레이리스트 보기', dailyNote: '내일은 다른 그림과 곡이 차려져요 · {n}번째 메뉴',
       dailyFrKick: '{d} · 친구가 보낸 오늘의 곡', dailyFrH: '친구가 보낸<br />오늘의 클래식', dailyFrHT: '‘{t}’ 친구가 보낸<br />오늘의 클래식',
       dailyFrSub: '친구가 오늘 고른 그림과 곡이에요. 들어 보고, 나는 어떤 그림에 끌리는지 골라 보세요.', dailyFrTry: '나도 그림 골라 보기 →', dailyFrNote: '그림 몇 장만 고르면 20초 만에 나만의 클래식 10곡이 나와요',
@@ -5488,7 +5488,7 @@
     Object.assign(I18N.en, {
       dailyKick: '{d} · Today’s menu', dailyH: 'Today’s classical menu<br />for ‘{t}’',
       dailySub: 'One painting and one piece, set for you today. Listen while you look.',
-      dailyTaste: 'Today’s flavour · {m}', dailyShare: 'Send today’s piece to a friend', dailyRetest: 'Pick paintings, get my classical menu',
+      dailyTaste: 'Today’s flavour · {m}', dailyShare: 'Send today’s piece to a friend', dailyRetest: 'Get my classical menu',
       dailyListen: '▶ Listen to today’s piece',
       dailyLast: 'See my playlist', dailyNote: 'Tomorrow brings a new painting and piece · menu no. {n}',
       dailyFrKick: '{d} · Sent by a friend', dailyFrH: 'Today’s classical,<br />sent by a friend', dailyFrHT: 'Today’s classical, sent by<br />a ‘{t}’ friend',
@@ -5498,7 +5498,7 @@
     Object.assign(I18N.ja, {
       dailyKick: '{d} · 今日のメニュー', dailyH: '「{t}」\u2060の<br />今日のクラシック・メニュー',
       dailySub: '今日の絵一枚とクラシック一曲をご用意しました。絵を見ながら聴いてみてください。',
-      dailyTaste: '今日の味わい · {m}', dailyShare: '今日の曲を友だちに送る', dailyRetest: '絵を選んで今日のクラシック・メニューをもらう',
+      dailyTaste: '今日の味わい · {m}', dailyShare: '今日の曲を友だちに送る', dailyRetest: '今日のクラシック・メニューをもらう',
       dailyListen: '▶ 今日の曲を聴く',
       dailyLast: '私のプレイリストを見る', dailyNote: '明日は別の絵と曲が届きます · {n}回目のメニュー',
       dailyFrKick: '{d} · 友だちから届いた今日の曲', dailyFrH: '友だちから届いた<br />今日のクラシック', dailyFrHT: '「{t}」の友だちから届いた<br />今日のクラシック',
