@@ -324,7 +324,7 @@ function lpDisc(l,cls){
 
 /* ================= 아이템 정의 ================= */
 const DEF={};
-const CATS=[['seat','소파·의자'],['table','테이블·수납'],['audio','음향·조명'],['inst','악기'],['plant','식물'],['prop','소품'],['wall','벽 장식'],['frame','작곡가 액자'],['season','계절'],['rug','러그'],['deco','벽지·바닥']];
+const CATS=[['seat','소파·의자'],['table','테이블·수납'],['audio','음향·조명'],['inst','악기'],['plant','식물'],['prop','소품'],['wall','벽 장식'],['frame','작곡가 액자'],['season','계절'],['rug','러그'],['deco_baroque','바로크 벽지·바닥'],['deco_classic','고전 벽지·바닥'],['deco_romantic','낭만 벽지·바닥'],['deco','기본 벽지·바닥']];
 function D(id,o){DEF[id]=Object.assign({id},o)}
 
 /* ---- 그리기 컨텍스트 (로컬 좌표: 바닥 격자 단위, 높이 px) ---- */
@@ -700,16 +700,23 @@ const WALLS=[
   {id:'star',n:'하늘 별무늬',c:'#cfe0ee',fn:()=>{const r=mul(21);let s=R(0,0,320,190,'#cfe0ee');for(let i=0;i<46;i++){const x=r()*320,y=r()*180;s+=`<path d="M${r1(x)},${r1(y-3)} l1,2 2,1 -2,1 -1,2 -1,-2 -2,-1 2,-1Z" fill="#fff"/>`}return s}},
   {id:'rose',n:'장미 꽃무늬',c:'#f3dcd8',fn:()=>{let s=R(0,0,320,190,'#f3dcd8');range(16,320,32).forEach((u,i)=>range(14,190,30).forEach(v=>{const x=u+((v/30|0)%2?16:0);s+=`<ellipse cx="${x-4}" cy="${v+3}" rx="3.4" ry="1.5" fill="#9bb894"/><ellipse cx="${x+4}" cy="${v+3}" rx="3.4" ry="1.5" fill="#9bb894"/><circle cx="${x}" cy="${v}" r="3.4" fill="#d97b8d"/><circle cx="${x}" cy="${v}" r="1.3" fill="#f7e1a0"/>`}));return s}},
   {id:'navy',n:'네이비 달밤',c:'#1c2748',fn:()=>{const r=mul(8);let s=R(0,0,320,190,'#1c2748');for(let i=0;i<60;i++)s+=`<circle cx="${r1(r()*320)}" cy="${r1(r()*180)}" r="${r1(.6+r()*1.1)}" fill="#f0e6b8"/>`;return s}},
-  {id:'monet',n:'모네 수련',c:'#9fc4c9',fn:()=>{const r=mul(31);let s=gradBands(['#9cc3cc','#b4c9e0','#a2c6b6','#a9bddc','#93bba6']);
+  {id:'monet',era:'romantic',n:'모네 수련',c:'#9fc4c9',fn:()=>{const r=mul(31);let s=gradBands(['#9cc3cc','#b4c9e0','#a2c6b6','#a9bddc','#93bba6']);
     for(let i=0;i<150;i++){const x=r()*320,y=r()*190,w=6+r()*20,c=['#cfe3ea','#7fa9bd','#c9bfe0','#8fc2a4','#e6eef0'][i%5];s+=`<rect x="${r1(x)}" y="${r1(y)}" width="${r1(w)}" height="${r1(1.4+r()*1.8)}" rx="1" fill="${c}" opacity=".5"/>`}
     for(let i=0;i<26;i++){const x=r()*320,y=40+r()*150,rx=9+r()*10,ry=rx*.42;s+=`<ellipse cx="${r1(x)}" cy="${r1(y)}" rx="${r1(rx)}" ry="${r1(ry)}" fill="${i%2?'#5f9a6a':'#4f8a5e'}" opacity=".85"/><ellipse cx="${r1(x-rx*.2)}" cy="${r1(y-ry*.2)}" rx="${r1(rx*.6)}" ry="${r1(ry*.5)}" fill="#86b98a" opacity=".6"/>`}
     for(let i=0;i<18;i++){const x=r()*320,y=45+r()*140,c=['#f2a6c0','#fbd0dc','#f7e6a0','#ee8fb0'][i%4];s+=`<circle cx="${r1(x)}" cy="${r1(y)}" r="${r1(2.6+r()*2.2)}" fill="${c}" opacity=".95"/><circle cx="${r1(x+1.4)}" cy="${r1(y-.8)}" r="${r1(1.6+r()*1.4)}" fill="#fff4f6" opacity=".7"/>`}
     return s}},
-  {id:'renoir',n:'르누아르 정원',c:'#f1d6c2',fn:()=>{const r=mul(47);let s=gradBands(['#f7e7d4','#f1d3bd','#ecc7b4','#e8bfae']);
+  {id:'renoir',era:'romantic',n:'르누아르 정원',c:'#f1d6c2',fn:()=>{const r=mul(47);let s=gradBands(['#f7e7d4','#f1d3bd','#ecc7b4','#e8bfae']);
     for(let i=0;i<260;i++){const x=r()*320,y=r()*190,c=['#a9c79a','#c3d6a8','#8fb58a','#e9b0a4','#f3c9a8','#d9e2b8'][i%6];s+=`<ellipse cx="${r1(x)}" cy="${r1(y)}" rx="${r1(5+r()*7)}" ry="${r1(2+r()*2.6)}" fill="${c}" opacity=".38" transform="rotate(${r1(r()*60-30)} ${r1(x)} ${r1(y)})"/>`}
     for(let i=0;i<110;i++){const x=r()*320,y=r()*190,c=['#e57f8f','#f2a7a0','#f6c1a0','#d96b82','#f7e6b0','#b9a3d6'][i%6];s+=`<ellipse cx="${r1(x)}" cy="${r1(y)}" rx="${r1(1.8+r()*2.2)}" ry="${r1(1.3+r()*1.5)}" fill="${c}" opacity=".85" transform="rotate(${r1(r()*180)} ${r1(x)} ${r1(y)})"/>`}
     for(let i=0;i<46;i++){const x=r()*320,y=r()*190;s+=`<circle cx="${r1(x)}" cy="${r1(y)}" r="${r1(1.5+r()*3)}" fill="#fff6dc" opacity=".4"/>`}
     return s}},
+  {id:'bq_burg',era:'baroque',n:'버건디 금몰딩',c:'#5a1424',fn:()=>{let s=R(0,0,320,190,'#5a1424');range(6,320,64).forEach(u=>{s+=R(u,12,56,166,'#6e1a2e','stroke="#c9a24a" stroke-width="1.4"')+R(u+5,17,46,156,'none','stroke="#c9a24a" stroke-width=".5" opacity=".7"');const cx=u+28;s+=`<circle cx="${cx}" cy="95" r="9" fill="none" stroke="#c9a24a" stroke-width=".9"/><circle cx="${cx}" cy="95" r="3" fill="#c9a24a"/>`+[0,1,2,3,4,5,6,7].map(k=>{const a=k*Math.PI/4;return `<circle cx="${r1(cx+Math.cos(a)*9)}" cy="${r1(95+Math.sin(a)*9)}" r="1.1" fill="#c9a24a"/>`}).join('')});return s+R(0,0,320,6,'#c9a24a','opacity=".85"')+R(0,184,320,6,'#c9a24a','opacity=".85"')}},
+  {id:'bq_emerald',era:'baroque',n:'에메랄드 금박',c:'#0f3d33',fn:()=>{let s=R(0,0,320,190,'#0f3d33');for(let i=-8;i<18;i++){s+=`<path d="M${i*28},0 L${i*28+190},190" stroke="#c9a24a" stroke-width=".7" opacity=".55"/><path d="M${i*28+190},0 L${i*28},190" stroke="#c9a24a" stroke-width=".7" opacity=".55"/>`}range(0,330,28).forEach(u=>range(0,200,28).forEach(v=>{s+=`<circle cx="${u}" cy="${v}" r="1.8" fill="#e0bf6a"/>`;s+=poly([[u+14,v+14-4],[u+14+3,v+14],[u+14,v+14+4],[u+14-3,v+14]],'#c9a24a')}));return s}},
+  {id:'bq_ebony',era:'baroque',n:'흑단 금문양',c:'#1b1517',fn:()=>{let s=R(0,0,320,190,'#1b1517');range(0,340,40).forEach((u,i)=>range(0,200,40).forEach((v,j)=>{const x=u+(j%2?20:0),y=v;s+=`<circle cx="${x}" cy="${y}" r="10" fill="none" stroke="#c9a24a" stroke-width=".8"/><circle cx="${x}" cy="${y}" r="4" fill="none" stroke="#c9a24a" stroke-width=".7"/><circle cx="${x}" cy="${y}" r="1.4" fill="#e0bf6a"/><path d="M${x+10},${y} q10,-10 20,0 M${x},${y+10} q-10,10 0,20" stroke="#c9a24a" stroke-width=".7" fill="none" opacity=".8"/>`}));return s}},
+  {id:'cl_ivory',era:'classic',n:'아이보리 몰딩 패널',c:'#f1ead9',fn:()=>{let s=R(0,0,320,190,'#f1ead9');range(8,320,78).forEach(u=>{s+=R(u,22,66,146,'#f6f0e1','stroke="#d2c6a8" stroke-width="1.2"')+R(u+5,27,56,136,'none','stroke="#fffaf0" stroke-width="1"')+R(u+6,28,56,136,'none','stroke="#e0d5ba" stroke-width=".6"')});return s+R(0,8,320,5,'#e4d9bf')+R(0,9,320,1.2,'#fffaf0')+R(0,176,320,8,'#e4d9bf')}},
+  {id:'cl_wedgewood',era:'classic',n:'웨지우드 블루',c:'#a9c3d9',fn:()=>{let s=R(0,0,320,190,'#a9c3d9');range(0,330,40).forEach(u=>{s+=`<path d="M${u},22 Q${u+20},48 ${u+40},22" stroke="#fdfdfb" stroke-width="2.2" fill="none"/>`;[8,16,24,32].forEach(k=>{const yy=22+Math.sin(k/40*Math.PI)*17;s+=`<ellipse cx="${u+k}" cy="${r1(yy+2)}" rx="3" ry="1.5" fill="#fdfdfb" transform="rotate(${k*3-60} ${u+k} ${r1(yy+2)})"/>`});s+=`<circle cx="${u}" cy="22" r="2.4" fill="#fdfdfb"/>`});range(0,330,40).forEach(u=>{s+=R(u-1,70,2,100,'#c9dcec')+R(u-6,70,12,3,'#fdfdfb')+R(u-6,168,12,3,'#fdfdfb')});return s}},
+  {id:'cl_sage',era:'classic',n:'세이지 월계수',c:'#cfd8bf',fn:()=>{let s=R(0,0,320,190,'#cfd8bf')+range(0,320,20).map(u=>R(u+10,0,9,190,'#c5cfb3')).join('');[38,150].forEach(y=>{s+=R(0,y,320,1.4,'#7f9a6c');range(6,320,12).forEach(u=>{s+=`<ellipse cx="${u}" cy="${y-3}" rx="4.4" ry="1.7" fill="#7f9a6c" transform="rotate(-30 ${u} ${y-3})"/><ellipse cx="${u+5}" cy="${y+4}" rx="4.4" ry="1.7" fill="#8fab7a" transform="rotate(30 ${u+5} ${y+4})"/>`})});return s}},
+  {id:'rm_mist',era:'romantic',n:'안개 낀 달빛',c:'#5a5b8a',fn:()=>{const r=mul(59);let s=gradBands(['#262b52','#4d4f82','#8b86b0','#c3b9cd']);for(let i=0;i<40;i++)s+=`<circle cx="${r1(r()*320)}" cy="${r1(r()*90)}" r="${r1(.5+r()*.9)}" fill="#f6efd0" opacity=".8"/>`;[40,32,26,20].forEach((rr,i)=>{s+=`<circle cx="236" cy="48" r="${rr}" fill="#fff3cf" opacity="${[.1,.16,.28,1][i]}"/>`});for(let i=0;i<22;i++){const x=r()*320,y=90+r()*100;s+=`<ellipse cx="${r1(x)}" cy="${r1(y)}" rx="${r1(30+r()*40)}" ry="${r1(5+r()*7)}" fill="#f1ecf6" opacity=".16"/>`}return s}},
   {id:'mint',n:'민트 물방울',c:'#cfe7da',fn:()=>{let s=R(0,0,320,190,'#cfe7da');range(10,320,22).forEach((u,i)=>range(8,190,22).forEach((v,j)=>s+=`<circle cx="${u+(j%2?11:0)}" cy="${v}" r="4.4" fill="#e8f5ee"/>`));return s}}
 ];
 const FLOORS=[
@@ -720,6 +727,15 @@ const FLOORS=[
   {id:'herring',n:'헤링본',c:'#a8743f',fn:()=>{let s=R(0,0,8,8,'#a8743f');for(let i=0;i<16;i++)for(let j=0;j<16;j++){const x=i*.5,y=j*.5,e='stroke="#7b5330" stroke-width=".02"';if((i+j)%2)s+=R(x,y,.5,.25,'#b27d48',e)+R(x,y+.25,.5,.25,'#9c6a3a',e);else s+=R(x,y,.25,.5,'#b27d48',e)+R(x+.25,y,.25,.5,'#9c6a3a',e)}return s}},
   {id:'terra',n:'테라코타',c:'#b9603b',fn:()=>{let s='';for(let i=0;i<8;i++)for(let j=0;j<8;j++)s+=R(i,j,1,1,(i+j)%2?'#b9603b':'#ae5834','stroke="#8f4a2c" stroke-width=".04"');return s}},
   {id:'blue',n:'블루 타일',c:'#4b6ea0',fn:()=>{let s='';for(let i=0;i<8;i++)for(let j=0;j<8;j++)s+=R(i,j,1,1,(i+j)%2?'#4b6ea0':'#5d80b3','stroke="#dfe8f3" stroke-width=".04"');return s}},
+  {id:'bq_checker',era:'baroque',n:'흑백 대리석 금줄눈',c:'#ece7dc',fn:()=>{let s='';for(let i=0;i<8;i++)for(let j=0;j<8;j++)s+=R(i,j,1,1,(i+j)%2?'#ece7dc':'#232225','stroke="#c9a24a" stroke-width=".05"');return s}},
+  {id:'bq_parquet',era:'baroque',n:'마호가니 파케',c:'#6b3a24',fn:()=>{let s=R(0,0,8,8,'#5a2f1c');for(let i=0;i<4;i++)for(let j=0;j<4;j++){const x=i*2,y=j*2,h=(i+j)%2;for(let k=0;k<4;k++){s+=h?R(x,y+k*.5,2,.5,k%2?'#6f3d26':'#7a452c','stroke="#3e2012" stroke-width=".03"'):R(x+k*.5,y,.5,2,k%2?'#6f3d26':'#7a452c','stroke="#3e2012" stroke-width=".03"')}}return s}},
+  {id:'bq_inlay',era:'baroque',n:'금 상감 원목',c:'#4a2a1a',fn:()=>{let s=R(0,0,8,8,'#4a2a1a');range(0,8,.5).forEach(y=>s+=R(0,y,8,.03,'#2e1810'));for(let i=0;i<4;i++)for(let j=0;j<4;j++){const cx=i*2+1,cy=j*2+1;s+=poly([[cx,cy-.8],[cx+.8,cy],[cx,cy+.8],[cx-.8,cy]],'none','#c9a24a',.06)+poly([[cx,cy-.4],[cx+.4,cy],[cx,cy+.4],[cx-.4,cy]],'#c9a24a')}return s}},
+  {id:'cl_diamond',era:'classic',n:'아이보리 마름모',c:'#ece6d6',fn:()=>{let s=R(0,0,8,8,'#ece6d6');for(let i=0;i<4;i++)for(let j=0;j<4;j++){const x=i*2,y=j*2;s+=poly([[x+1,y],[x+2,y+1],[x+1,y+2],[x,y+1]],'#a3a39f')+`<circle cx="${x}" cy="${y}" r=".12" fill="#4a4a48"/>`}return s+R(0,0,8,8,'none','stroke="#cfc8b4" stroke-width=".04"')}},
+  {id:'cl_oak',era:'classic',n:'밝은 오크 마루',c:'#d3a96f',fn:()=>{const r=mul(12);let s=R(0,0,8,8,'#d3a96f');range(0,8,1).forEach((y,j)=>{s+=R(0,y,8,.04,'#a97c45')+R(0,y+.04,8,.05,'rgba(255,255,255,.18)');[(j*2.7)%8,(j*2.7+4.1)%8].forEach(x=>s+=R(x,y,.04,1,'#a97c45'));s+=R(r()*8,y+.4,r()*1.6+.4,.03,'#bd8f56')});return s}},
+  {id:'cl_stone',era:'classic',n:'베이지 석재',c:'#d8cfba',fn:()=>{const r=mul(17);let s=R(0,0,8,8,'#d8cfba');for(let i=0;i<4;i++)for(let j=0;j<4;j++){s+=R(i*2,j*2,2,2,(i+j)%2?'#ddd4bf':'#d2c8b1','stroke="#b3a88f" stroke-width=".05"');for(let k=0;k<7;k++)s+=`<circle cx="${r1(i*2+r()*2)}" cy="${r1(j*2+r()*2)}" r=".03" fill="#a89d85" opacity=".7"/>`}return s}},
+  {id:'rm_rose',era:'romantic',n:'장밋빛 원목',c:'#c9937f',fn:()=>{const r=mul(23);let s=R(0,0,8,8,'#c9937f');range(0,8,.5).forEach(y=>{s+=R(0,y,8,.035,'#9a6652');for(let k=0;k<2;k++)s+=R(r()*8,y,.035,.5,'#9a6652')});return s}},
+  {id:'rm_lilac',era:'romantic',n:'라일락 체크',c:'#d8c7e8',fn:()=>{let s='';for(let i=0;i<8;i++)for(let j=0;j<8;j++)s+=R(i,j,1,1,(i+j)%2?'#e6dbf0':'#cdb9e0','stroke="#fbf8fd" stroke-width=".04"');return s}},
+  {id:'rm_flag',era:'romantic',n:'이끼 판석',c:'#8d9a8a',fn:()=>{const r=mul(29);let s=R(0,0,8,8,'#4f5c4f');let y=0;while(y<8){const h=1+r()*.7;let x=0;while(x<8){const w=1+r()*1.3;s+=R(x+.04,y+.04,w-.08,h-.08,['#8d9a8a','#7e8c7e','#97a595'][Math.floor(r()*3)]);for(let k=0;k<3;k++)s+=`<circle cx="${r1(x+r()*w)}" cy="${r1(y+r()*h)}" r="${r1(.05+r()*.12)}" fill="#6f9a5a" opacity=".7"/>`;x+=w}y+=h}return s}},
   {id:'carpet',n:'와인 카펫',c:'#7d2536',fn:()=>{let s=R(0,0,8,8,'#7d2536')+R(.3,.3,7.4,7.4,'none','stroke="#c9a15a" stroke-width=".08"')+R(.6,.6,6.8,6.8,'none','stroke="#c9a15a" stroke-width=".03"');for(let i=1;i<8;i++)for(let j=1;j<8;j++)s+=`<path d="M${i-.5},${j-.62} l.12,.12 -.12,.12 -.12,-.12Z" fill="#8e3346"/>`;return s}}
 ];
 const wallDef=id=>WALLS.find(w=>w.id===id)||WALLS[0],floorDef=id=>FLOORS.find(w=>w.id===id)||FLOORS[0];
@@ -768,18 +784,18 @@ function shelfBeside(){
 
 /* ---- 처음 세팅 ---- */
 const PRESETS={
-  baroque:{n:'바로크방',wall:'damask',floor:'darkwood',lps:['bach','bach_air','pachelbel','mozart','chopin','debussy'],mini:[4.5,4],list:()=>{
+  baroque:{n:'바로크방',wall:'bq_burg',floor:'bq_parquet',lps:['bach','bach_air','pachelbel','mozart','chopin','debussy'],mini:[4.5,4],list:()=>{
     const a=[mk('lpshelf',{x:1,y:0}),mk('turntable',{x:3,y:0}),mk('rug_persian',{x:3,y:3.2}),mk('sofa_wine',{x:3,y:5.5}),
       mk('floorlamp',{x:.15,y:1.6}),mk('olive',{x:6.8,y:.5})];
     const tt=mk('teatable',{x:1.3,y:4.2});a.push(tt);
     a.push(mk('candelabra',{x:1.9,y:4.8,z:28,parent:tt.id}),mk('teacup',{x:1.5,y:4.5,z:28,parent:tt.id}));
     a.push(wallItem('window','R',180,40),wallItem('frame_bach','L',60,38),wallItem('clock','R',50,30),wallItem('moonlamp','L',220,50));return a}},
-  classic:{n:'고전방',wall:'cream',floor:'wood',lps:['mozart','mozart_night','bach','beethoven','chopin_rain','debussy_ara'],mini:[5,4.4],list:()=>{
+  classic:{n:'고전방',wall:'cl_ivory',floor:'cl_oak',lps:['mozart','mozart_night','bach','beethoven','chopin_rain','debussy_ara'],mini:[5,4.4],list:()=>{
     const a=[mk('lpshelf',{x:1.5,y:0}),mk('piano',{x:0,y:3,f:1}),mk('stool_organ',{x:1.3,y:3.8}),mk('turntable',{x:3.5,y:0}),
       mk('rug_keys',{x:3.5,y:3.6}),mk('sofa_blue',{x:4,y:5.6}),mk('monstera',{x:7,y:3})];
     const dk=mk('desk',{x:6,y:0});a.push(dk,mk('desklamp',{x:6.2,y:.3,z:40,parent:dk.id}),mk('books',{x:7,y:.3,z:40,parent:dk.id}));
     a.push(wallItem('window','R',130,32),wallItem('frame_mozart','L',140,40),wallItem('clock','R',262,40),wallItem('calendar','L',20,40));return a}},
-  romantic:{n:'낭만방',wall:'monet',floor:'darkwood',lps:['beethoven','beethoven_moon','chopin','chopin_rain','tchaikovsky','debussy'],mini:[3.6,3.6],list:()=>{
+  romantic:{n:'낭만방',wall:'monet',floor:'rm_rose',lps:['beethoven','beethoven_moon','chopin','chopin_rain','tchaikovsky','debussy'],mini:[3.6,3.6],list:()=>{
     const a=[mk('lpshelf',{x:0,y:0}),mk('turntable',{x:2,y:0}),mk('fireplace',{x:5.3,y:0}),mk('rug_persian',{x:2.5,y:3}),mk('sofa_wine',{x:2.5,y:5.2}),
       mk('armchair',{x:1,y:4.6,f:1}),mk('floorlamp',{x:.2,y:4.5}),mk('monstera',{x:6.8,y:3})];
     const ns=mk('nightstand',{x:4.2,y:0});a.push(ns,mk('amp',{x:4.2,y:.2,z:30,parent:ns.id}));
@@ -1072,9 +1088,10 @@ function renderTabs(){
 function renderGrid(){
   const g=$('#grid');
   const spr=`<div class="card" data-t="sprout" title="${DEF.sprout.n}">${preview('sprout')}<b>${DEF.sprout.n}</b></div>`;
-  if(state.tab==='deco'){
-    g.innerHTML=spr+'<div class="sect">벽지</div>'+WALLS.map(w=>`<button class="sw ${state.wall===w.id?'on':''}" data-w="${w.id}"><i style="background:${w.c}"></i>${w.n}</button>`).join('')
-      +'<div class="sect">바닥</div>'+FLOORS.map(w=>`<button class="sw ${state.floor===w.id?'on':''}" data-f="${w.id}"><i style="background:${w.c}"></i>${w.n}</button>`).join('');return}
+  if(state.tab.indexOf('deco')===0){
+    const era=state.tab.split('_')[1]||'base',eq=x=>(x.era||'base')===era;
+    g.innerHTML=spr+'<div class="sect">벽지</div>'+WALLS.filter(eq).map(w=>`<button class="sw ${state.wall===w.id?'on':''}" data-w="${w.id}"><i style="background:${w.c}"></i>${w.n}</button>`).join('')
+      +'<div class="sect">바닥</div>'+FLOORS.filter(eq).map(w=>`<button class="sw ${state.floor===w.id?'on':''}" data-f="${w.id}"><i style="background:${w.c}"></i>${w.n}</button>`).join('');return}
   const ids=['sprout'].concat(Object.keys(DEF).filter(k=>k!=='sprout'&&DEF[k].cat===state.tab));
   g.innerHTML=ids.map(k=>`<div class="card${DEF[k].fixed?' fixed':''}" data-t="${k}" title="${DEF[k].n}">${preview(k)}<b>${DEF[k].n}</b></div>`).join('');
 }
@@ -1350,7 +1367,7 @@ const LANG=(()=>{try{return new URLSearchParams(location.search).get('lang')||''
 if(LANG==='ja'){(()=>{
 const D={'나의 미니룸':'私のミニルーム','냠냠클래식 미니룸':'ニャムニャムクラシック ミニルーム','추천받은 곡이 LP로 꽂혀요':'おすすめ曲がLPとして並びます','처음 세팅':'初期セット','바로크방':'バロックの部屋','고전방':'古典派の部屋','낭만방':'ロマン派の部屋',
 '계절':'季節','봄':'春','여름':'夏','가을':'秋','겨울':'冬','시간':'時間','낮':'昼','밤':'夜','미니미 꾸미기':'ミニミーを着せ替え','↶ 되돌리기':'↶ 元に戻す','방 저장·불러오기':'ルームの保存・読み込み','다른 영상':'別の動画','유튜브에서 열기':'YouTubeで開く','유튜브에서 열기 ↗':'YouTubeで開く ↗',
-'소파·의자':'ソファ・椅子','테이블·수납':'テーブル・収納','음향·조명':'音響・照明','악기':'楽器','식물':'植物','소품':'小物','벽 장식':'壁の飾り','작곡가 액자':'作曲家の額縁','러그':'ラグ','벽지·바닥':'壁紙・床','벽지':'壁紙','바닥':'床',
+'소파·의자':'ソファ・椅子','테이블·수납':'テーブル・収納','음향·조명':'音響・照明','악기':'楽器','식물':'植物','소품':'小物','벽 장식':'壁の飾り','작곡가 액자':'作曲家の額縁','러그':'ラグ','벽지·바닥':'壁紙・床','바로크 벽지·바닥':'バロックの壁紙・床','고전 벽지·바닥':'古典の壁紙・床','낭만 벽지·바닥':'ロマン派の壁紙・床','기본 벽지·바닥':'基本の壁紙・床','버건디 금몰딩':'バーガンディの金モールディング','에메랄드 금박':'エメラルドの金箔','흑단 금문양':'黒檀の金模様','아이보리 몰딩 패널':'アイボリーのモールディングパネル','웨지우드 블루':'ウェッジウッドブルー','세이지 월계수':'セージの月桂樹','모네 수련':'モネの睡蓮','르누아르 정원':'ルノワールの庭','안개 낀 달빛':'霧の月明かり','흑백 대리석 금줄눈':'白黒大理石の金目地','마호가니 파케':'マホガニーのパーケット','금 상감 원목':'金象嵌の無垢材','아이보리 마름모':'アイボリーのダイヤ柄','밝은 오크 마루':'明るいオークの床','베이지 석재':'ベージュの石材','장밋빛 원목':'ローズ色の無垢材','라일락 체크':'ライラックのチェック','이끼 판석':'苔むした敷石','벽지':'壁紙','바닥':'床',
 'LP장 · LP 바꾸기':'LP棚 · LPを替える','추천받은 곡이 작곡가 얼굴 LP로 꽂혀요. 듣고 싶은 LP를 누르면 턴테이블에 올라가고 오른쪽에서 영상이 재생돼요. 새 추천을 받으면 LP가 더 쌓여요.':'おすすめ曲が作曲家の顔のLPとして並びます。聴きたいLPをタップするとターンテーブルに乗り、動画が再生されます。新しいおすすめでLPが増えます。',
 'LP 빼기':'LPを外す','닫기':'閉じる','LP 고르기':'LPを選ぶ','보관함으로':'収納へ','돌리기 (R)':'回す (R)','재생':'再生','정지':'停止','꾸미기':'着せ替え','턴테이블 위':'ターンテーブル上',
 '고정 아이템 · 옮기기만 가능해요':'固定アイテム · 移動のみ可能','끌어서 옮기면 소파나 의자에 앉아요':'ドラッグで動かすとソファや椅子に座ります','아이템을 눌러 선택하세요':'アイテムをタップして選択','턴테이블을 누르면 음악이 나와요':'ターンテーブルをタップすると音楽が流れます',
@@ -1400,7 +1417,7 @@ setTimeout(pass,0);
 if(LANG==='en'){(()=>{
 const D={'나의 미니룸':'My Mini-room','냠냠클래식 미니룸':'Yummy Classic Mini-room','추천받은 곡이 LP로 꽂혀요':'Your recommended pieces stand as LPs','처음 세팅':'Starter room','바로크방':'Baroque room','고전방':'Classical room','낭만방':'Romantic room',
 '계절':'Season','봄':'Spring','여름':'Summer','가을':'Autumn','겨울':'Winter','시간':'Time','낮':'Day','밤':'Night','미니미 꾸미기':'Style Minimi','↶ 되돌리기':'↶ Undo','방 저장·불러오기':'Save / load room','다른 영상':'Other video','유튜브에서 열기':'Open on YouTube','유튜브에서 열기 ↗':'Open on YouTube ↗',
-'소파·의자':'Sofas & chairs','테이블·수납':'Tables & storage','음향·조명':'Audio & lights','악기':'Instruments','식물':'Plants','소품':'Props','벽 장식':'Wall decor','작곡가 액자':'Composer frames','러그':'Rugs','벽지·바닥':'Wall & floor','벽지':'Wallpaper','바닥':'Floor',
+'소파·의자':'Sofas & chairs','테이블·수납':'Tables & storage','음향·조명':'Audio & lights','악기':'Instruments','식물':'Plants','소품':'Props','벽 장식':'Wall decor','작곡가 액자':'Composer frames','러그':'Rugs','벽지·바닥':'Wall & floor','바로크 벽지·바닥':'Baroque wall & floor','고전 벽지·바닥':'Classical wall & floor','낭만 벽지·바닥':'Romantic wall & floor','기본 벽지·바닥':'Basic wall & floor','버건디 금몰딩':'Burgundy gilt molding','에메랄드 금박':'Emerald gold leaf','흑단 금문양':'Ebony gold arabesque','아이보리 몰딩 패널':'Ivory molded panels','웨지우드 블루':'Wedgwood blue','세이지 월계수':'Sage laurel','안개 낀 달빛':'Misty moonlight','흑백 대리석 금줄눈':'Black & white marble, gold grout','마호가니 파케':'Mahogany parquet','금 상감 원목':'Gold-inlaid hardwood','아이보리 마름모':'Ivory diamonds','밝은 오크 마루':'Light oak planks','베이지 석재':'Beige stone','장밋빛 원목':'Rosewood','라일락 체크':'Lilac check','이끼 판석':'Mossy flagstone','벽지':'Wallpaper','바닥':'Floor',
 'LP장 · LP 바꾸기':'LP shelf · Change LP','추천받은 곡이 작곡가 얼굴 LP로 꽂혀요. 듣고 싶은 LP를 누르면 턴테이블에 올라가고 오른쪽에서 영상이 재생돼요. 새 추천을 받으면 LP가 더 쌓여요.':'Your recommended pieces stand as LPs with the composer’s face. Tap one to put it on the turntable and the video plays beside the room. New recommendations add more LPs.',
 'LP 빼기':'Remove LP','닫기':'Close','LP 고르기':'Choose LP','보관함으로':'To storage','돌리기 (R)':'Rotate (R)','재생':'Play','정지':'Stop','꾸미기':'Style','턴테이블 위':'On turntable',
 '고정 아이템 · 옮기기만 가능해요':'Fixed item · can only be moved','끌어서 옮기면 소파나 의자에 앉아요':'Drag it onto a sofa or chair to sit','아이템을 눌러 선택하세요':'Tap an item to select it','턴테이블을 누르면 음악이 나와요':'Tap the turntable to play music',
@@ -1421,7 +1438,7 @@ const D={'나의 미니룸':'My Mini-room','냠냠클래식 미니룸':'Yummy Cl
 'CD장':'CD rack','LP장':'LP shelf','LP 러그':'LP rug','건반 줄무늬 러그':'Piano-key rug','계절 꽃병':'Seasonal vase','고무나무':'Rubber plant','곰인형':'Teddy bear','구름 빈백':'Cloud beanbag','그랜드 피아노':'Grand piano','나무 의자':'Wooden chair','낡은 가죽 라운지':'Worn leather lounge','달 무드등':'Moon lamp','달력':'Calendar','달밤 군청 러그':'Moonlit navy rug','달빛 청색 2인 소파':'Moonlight-blue loveseat',
 '메트로놈':'Metronome','몬스테라':'Monstera','바이올린 벽걸이':'Wall-hung violin','바이올린 스탠드':'Violin stand','벽난로':'Fireplace','벽시계':'Wall clock','보면대':'Music stand','빈티지 안락의자':'Vintage armchair','선인장':'Cactus','선풍기':'Fan','스피커':'Speaker','악보 액자':'Sheet-music frame',
 '에어컨':'Air conditioner','업라이트 피아노':'Upright piano','오르간 스툴':'Organ stool','올리브 나무':'Olive tree','와인 벨벳 체스터필드':'Wine velvet Chesterfield','와인 카펫':'Wine carpet','와인 페르시안 러그':'Wine Persian rug','원목 책상':'Wooden desk','원형 티테이블':'Round tea table','전기난로':'Electric heater','진공관 앰프':'Tube amp','찻잔 세트':'Tea set','창문':'Window','책더미':'Stack of books','책상등':'Desk lamp','책장':'Bookshelf','체크 러그':'Checked rug','첼로':'Cello','촛대':'Candlestick','크리스마스 트리':'Christmas tree','턴테이블':'Turntable','테이블야자':'Parlor palm','플로어 스탠드':'Floor lamp','하프':'Harp','협탁':'Side table',
-'네이비 달밤':'Navy moonlit night','모네 수련':'Monet water lilies','르누아르 정원':'Renoir garden','다크 원목':'Dark wood','대리석':'Marble','라벤더':'Lavender','민트 물방울':'Mint droplets','블루 타일':'Blue tile','와인 다마스크':'Wine damask','우드 패널':'Wood panel','원목':'Natural wood','장미 꽃무늬':'Rose floral','체크 타일':'Checked tile','크림 줄무늬':'Cream stripes','테라코타':'Terracotta','하늘 별무늬':'Starry sky','헤링본':'Herringbone','벽돌':'Brick',
+'네이비 달밤':'Navy moonlit night','다크 원목':'Dark wood','대리석':'Marble','라벤더':'Lavender','민트 물방울':'Mint droplets','블루 타일':'Blue tile','와인 다마스크':'Wine damask','우드 패널':'Wood panel','원목':'Natural wood','장미 꽃무늬':'Rose floral','체크 타일':'Checked tile','크림 줄무늬':'Cream stripes','테라코타':'Terracotta','하늘 별무늬':'Starry sky','헤링본':'Herringbone','벽돌':'Brick',
 'G선상의 아리아':'Air on the G String','꽃의 왈츠':'Waltz of the Flowers','녹턴 Op.9 No.2':'Nocturne Op. 9 No. 2','달빛':'Clair de Lune','빗방울 전주곡':'Raindrop Prelude','아라베스크 1번':'Arabesque No. 1','아이네 클라이네 나흐트무지크':'Eine kleine Nachtmusik','엘리제를 위하여':'Für Elise','월광 소나타 1악장':'Moonlight Sonata, 1st mvt.','캐논':'Canon','터키 행진곡':'Turkish March','평균율 1번 프렐류드':'Well-Tempered Clavier, Prelude No. 1','평균율':'Well-Tempered','프렐류드':'Prelude'};
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const R=[[/^(.+)을\(를\) 놓았어요$/,m=>'Placed '+t(m[1])],[/^(.+)을\(를\) 보관함에 넣었어요 · .+$/,m=>'Moved '+t(m[1])+' to storage · you can undo'],[/^(.+)은\(는\) 이미 방에 있어요\. 끌어서 옮겨보세요$/,m=>t(m[1])+' is already in the room. Drag it to move'],
