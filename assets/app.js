@@ -5669,7 +5669,7 @@
       if (!on) return;
       ROOM.recs = recs.map(r => ({ cid: r.cid, en: r.en, ko: isLocal() ? r.ko : r.en, yt: r.yt || '', who: r.who || '', cn: roomCompName(r.cid) }));
       const f = roomFrame();
-      if (f && !ROOM.loaded) { ROOM.loaded = true; f.src = '/assets/room.html?v=1117e&lang=' + encodeURIComponent(lang); }
+      if (f && !ROOM.loaded) { ROOM.loaded = true; f.src = '/assets/room.html?v=1117f&lang=' + encodeURIComponent(lang); }
       else if (ROOM.ready) roomPost({ yc: 'recs', recs: ROOM.recs });
     }
     function roomStop() { if (ROOM.ready) roomPost({ yc: 'stop' }); }
@@ -5710,7 +5710,7 @@
     // The result opens in three courses. Tab 1 ends at the feedback box; reaching it unlocks tab 2 (my taste table);
     // reaching the end of tab 2 unlocks tab 3 (today's concerts & exhibitions). Locked tabs stay visible, greyed out.
     Object.assign(I18N.ko, { roomTitle: '나의 미니룸', roomSub: '오늘 추천받은 곡이 LP로 꽂혀요. 턴테이블에 올리면 오른쪽에서 영상이 재생돼요.' });
-    Object.assign(I18N.en, { roomTitle: 'My miniroom', roomSub: 'Today’s recommended pieces stand on the shelf as LPs. Put one on the turntable and the video plays beside it.' });
+    Object.assign(I18N.en, { roomTitle: 'My Mini-room', roomSub: 'Today’s recommended pieces stand on the shelf as LPs. Put one on the turntable and the video plays beside it.' });
     Object.assign(I18N.ja, { roomTitle: '私のミニルーム', roomSub: '今日のおすすめ曲がLPとして並びます。ターンテーブルに乗せると、横で動画が再生されます。' });
     Object.assign(I18N.ko, {
       rtTab1: '오늘의 메뉴', rtTab2: '나의 미니룸', rtTab3: '오늘의 공연·전시',
@@ -5718,8 +5718,8 @@
       rtToast: '‘{t}’ 탭이 열렸어요! 눌러서 확인해 보세요', rtNext: '다음 코스 · {t}', rtNextLocked: '조금만 더 내려오면 ‘{t}’가 열려요',
     });
     Object.assign(I18N.en, {
-      rtTab1: 'Today’s menu', rtTab2: 'My miniroom', rtTab3: 'Concerts & exhibitions',
-      rtLock2: 'Opens when you scroll down to “Does this result feel like you?”', rtLock3: 'Opens when you reach the end of “My miniroom”',
+      rtTab1: 'Today’s menu', rtTab2: 'My Mini-room', rtTab3: 'Concerts & exhibitions',
+      rtLock2: 'Opens when you scroll down to “Does this result feel like you?”', rtLock3: 'Opens when you reach the end of “My Mini-room”',
       rtToast: '“{t}” is now open — tap to take a look', rtNext: 'Next course · {t}', rtNextLocked: 'Scroll a little more to open “{t}”',
     });
     Object.assign(I18N.ja, {
