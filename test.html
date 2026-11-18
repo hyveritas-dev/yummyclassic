@@ -3242,7 +3242,7 @@
     const INTL_ENDPOINT = '/api/intl-concerts';
     // [code, en, ko, ja]
     const INTL_COUNTRIES = [['US', 'USA', '미국', 'アメリカ'], ['GB', 'UK', '영국', 'イギリス'], ['DE', 'Germany', '독일', 'ドイツ'],
-      ['FR', 'France', '프랑스', 'フランス'], ['CA', 'Canada', '캐나다', 'カナダ'], ['AU', 'Australia', '호주', 'オーストラリア']];
+      ['CA', 'Canada', '캐나다', 'カナダ'], ['AU', 'Australia', '호주', 'オーストラリア']];
     let intlCountry = (() => { try { const c = localStorage.getItem('yc-intl-country'); return INTL_COUNTRIES.some(x => x[0] === c) ? c : 'US'; } catch (e) { return 'US'; } })();
     let intlAll = false;
     // 'pop' = 인기순 (default), 'date' = 가까운 날짜순; remembered on this device

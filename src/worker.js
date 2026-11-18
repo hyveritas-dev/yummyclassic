@@ -18,7 +18,7 @@ import { DurableObject } from 'cloudflare:workers';
 //   Each country's list is cached for 6 hours, so visitor traffic does not raise API usage.
 
 const TM_ENDPOINT = 'https://app.ticketmaster.com/discovery/v2/events.json';
-const COUNTRIES = ['US', 'GB', 'DE', 'FR', 'CA', 'AU'];
+const COUNTRIES = ['US', 'GB', 'DE', 'CA', 'AU'];
 const TTL = 6 * 60 * 60; // seconds
 const CACHE_VERSION = 'v3';
 
