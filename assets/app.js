@@ -4075,14 +4075,16 @@
       zoomPv.hidden = false;
       const place = () => {
         if (zoomFor !== tile) return;
+        // 2026-11-19: preview ~3x larger, centered on screen (capped by the viewport and the painting's aspect)
         const r = tile.getBoundingClientRect(), vw = innerWidth, vh = innerHeight, gap = 16;
-        const w = Math.min(640, Math.max(260, Math.max(r.left, vw - r.right) - gap * 2), vw - 24);
+        const base = Math.min(640, Math.max(260, Math.max(r.left, vw - r.right) - gap * 2));
+        const ar = (im.naturalWidth && im.naturalHeight) ? im.naturalWidth / im.naturalHeight : 1;
+        const capH = 70, maxImgH = vh * 0.9 - capH - 16;
+        const w = Math.max(260, Math.min(base * 3, vw - 48, maxImgH * ar + 16));
         zoomPv.style.width = w + 'px';
         const h = zoomPv.offsetHeight;
-        let x = (vw - r.right >= r.left) ? r.right + gap : r.left - gap - w;
-        if (x < 12 || x + w > vw - 12) x = Math.max(12, (vw - w) / 2);
-        let y = r.top + r.height / 2 - h / 2;
-        y = Math.max(76, Math.min(y, vh - h - 12));
+        const x = Math.max(12, (vw - w) / 2);
+        const y = Math.max(12, (vh - h) / 2);
         zoomPv.style.left = x + 'px'; zoomPv.style.top = y + 'px';
         requestAnimationFrame(() => zoomPv.classList.add('on'));
       };
