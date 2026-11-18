@@ -5678,7 +5678,7 @@
       if (!on) return;
       ROOM.recs = recs.map(r => ({ cid: r.cid, en: r.en, ko: isLocal() ? r.ko : r.en, yt: r.yt || '', who: r.who || '', cn: roomCompName(r.cid) }));
       const f = roomFrame();
-      if (f && !ROOM.loaded) { ROOM.loaded = true; f.src = '/assets/room.html?v=1117f&lang=' + encodeURIComponent(lang); }
+      if (f && !ROOM.loaded) { ROOM.loaded = true; f.src = '/assets/room.html?v=1118a&lang=' + encodeURIComponent(lang); }
       else if (ROOM.ready) roomPost({ yc: 'recs', recs: ROOM.recs });
     }
     function roomStop() { if (ROOM.ready) roomPost({ yc: 'stop' }); }

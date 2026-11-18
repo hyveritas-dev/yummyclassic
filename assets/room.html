@@ -20,7 +20,8 @@
 html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:var(--body)}
 body{overflow:hidden}
 button{font-family:inherit;color:inherit;cursor:pointer}
-#app{height:100%;display:grid;grid-template-rows:auto 1fr auto}
+#app{height:100%;display:grid;grid-template-rows:auto 1fr auto;grid-template-columns:minmax(0,1fr)}
+main,#side,#ytw,#panel,header,footer#dock{min-width:0}
 header{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--bg2)}
 .brand{display:flex;align-items:baseline;gap:10px;margin-right:auto}
 .brand h1{font-family:var(--display);font-size:20px;margin:0;letter-spacing:.02em}
@@ -42,6 +43,11 @@ main{display:flex;min-height:0}
 #roombg{position:absolute;inset:0;width:100%;height:100%;filter:blur(18px) brightness(.5) saturate(1.1);transform:scale(1.15);pointer-events:none}
 #room{position:relative;filter:contrast(1.12) saturate(1.22);width:100%;height:100%;max-height:100%;touch-action:pan-y;user-select:none;-webkit-user-select:none;display:block}
 #room .it{cursor:grab;touch-action:pan-y;-webkit-touch-callout:none}
+#playBtn{position:absolute;left:10px;top:10px;z-index:3;min-height:46px;padding:0 18px;border-radius:999px;border:2px solid var(--amber);background:var(--amber);color:#2a1a0c;font-size:16px;font-weight:700;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.45)}
+#playBtn.on{background:rgba(23,16,18,.88);color:var(--amber)}
+#playBtn.wait{background:rgba(23,16,18,.88);color:var(--ink);border-color:var(--line)}
+#hint{top:66px!important}
+#ythint{display:none;margin:0;padding:8px 10px;font-size:13.5px;line-height:1.45;color:#2a1a0c;background:var(--amber)}#ythint.on{display:block}
 #zoom{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px;z-index:3}
 #zoom button{width:40px;height:40px;border-radius:999px;border:1px solid var(--line);background:rgba(23,16,18,.85);font-size:18px;line-height:1}
 #zoom button:disabled{opacity:.35}
@@ -107,6 +113,7 @@ footer#dock{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:
 .chip.on{background:var(--amber);color:#2a1a0c;border-color:var(--amber)}
 .foot{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
 @media (max-width:820px){
+  html,body{overflow-x:hidden}
   body{overflow:auto}
   #app{height:auto;min-height:0}
   main{flex-direction:column}
@@ -124,6 +131,8 @@ footer#dock{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:
   footer#dock{display:none}
   .brand h1{font-size:16px}
   .grp>label{display:none}
+  header .grp{flex-wrap:wrap;max-width:100%}
+  .seg button{padding-left:10px;padding-right:10px}
   .btn,.seg button{white-space:nowrap}
 }
 @media (max-width:820px),(pointer:coarse){
@@ -169,9 +178,9 @@ footer#dock{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:
       <svg id="roombg" viewBox="22 12 662 535" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
       <svg id="room" viewBox="22 12 662 535" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-label="미니룸"></svg>
       <div id="hint">서랍에서 아이템을 끌어다 놓거나 눌러서 추가하세요. 방 안의 아이템은 끌어서 옮기고, 선택하면 아래에서 돌리거나 뺄 수 있어요.</div>
-      <div id="zoom"><button id="zFull" aria-label="전체화면" title="전체화면">전체화면</button><button id="zIn" aria-label="확대">＋</button><button id="zOut" aria-label="축소" disabled>－</button></div><div id="fab"></div><div id="toast"></div>
+      <button id="playBtn" type="button">▶ 음악 듣기</button><div id="zoom"><button id="zFull" aria-label="전체화면" title="전체화면">전체화면</button><button id="zIn" aria-label="확대">＋</button><button id="zOut" aria-label="축소" disabled>－</button></div><div id="fab"></div><div id="toast"></div>
     </section>
-    <div id="side"><div id="ytw"><div class="yth"><span id="ytt"></span><button id="ytn">다른 영상</button><a id="yta" target="_blank" rel="noopener">유튜브에서 열기</a><button id="ytx" aria-label="닫기">✕</button></div><div id="ytbox"><div id="ytp"></div></div></div><aside id="panel"><p id="tip">가구 카드를 <b>한 번 터치</b>하면 방에 들어가요. 방 안의 가구는 <b>살짝 길게 누른 뒤</b> 끌어서 옮길 수 있어요. 빈 곳이나 가구를 스치듯 밀면 화면이 스크롤돼요.</p><nav id="tabs"></nav><div id="grid"></div></aside></div>
+    <div id="side"><div id="ytw"><div class="yth"><span id="ytt"></span><button id="ytn">다른 영상</button><a id="yta" target="_blank" rel="noopener">유튜브에서 열기</a><button id="ytx" aria-label="닫기">✕</button></div><p id="ythint">소리가 안 나오나요? 위의 ‘▶ 여기를 눌러 재생’이나 아래 영상 가운데 ▶ 버튼을 눌러 주세요.</p><div id="ytbox"><div id="ytp"></div></div></div><aside id="panel"><p id="tip">가구 카드를 <b>한 번 터치</b>하면 방에 들어가요. 방 안의 가구는 <b>살짝 길게 누른 뒤</b> 끌어서 옮길 수 있어요. 빈 곳이나 가구를 스치듯 밀면 화면이 스크롤돼요.</p><nav id="tabs"></nav><div id="grid"></div></aside></div>
   </main>
   <footer id="dock"></footer>
 </div>
@@ -862,6 +871,7 @@ function placeWallAt(it,sx,sy){
 }
 function autoWall(t,silent){
   const d=DEF[t];
+  if(!d)return null; /* 액자가 없는 작곡가(슈베르트 등)는 건너뜀 */
   const vs=t==='nowplaying'?[14,22,32]:[30,60,90];
   for(const side of (t==='nowplaying'?['L','R']:['R','L']))for(const v of vs)for(let u=0;u<=320-d.ww;u+=10){
     const it={t,wall:1,side,u,v};if(wallOK(it)){const n=wallItem(t,side,u,v);state.items.push(n);return n}}
@@ -929,8 +939,8 @@ function minimiSVG(){
   const has=k=>state.items.some(i=>!i.wall&&!i.tmp&&DEF[i.t][k]);
   const cold=state.season==='winter'&&!has('heater'),hot=state.season==='summer'&&!has('cool');
   const cozy=state.season==='winter'&&!cold,cool=state.season==='summer'&&!hot;
-  let msg=cold?'추워요… 난로 없나요?':hot?'더워요… 에어컨!':cozy?'따뜻해요~':cool?'시원해요~':(state.playing?'♪ ♬':'');
-  const mot=cold?an('shiver',.18):(state.playing?an('bob',.7):'');
+  let msg=cold?'추워요… 난로 없나요?':hot?'더워요… 에어컨!':cozy?'따뜻해요~':cool?'시원해요~':(audible()?'♪ ♬':'');
+  const mot=cold?an('shiver',.18):(audible()?an('bob',.7):'');
   const bob=sit?6:0;
   let s=`<g data-id="minimi" class="it"><ellipse cx="${bx}" cy="${by}" rx="9" ry="4" fill="rgba(0,0,0,.25)"/><g ${mot}><g transform="translate(${bx},${by})">`;
   if(m.style===1)s+=`<rect x="-11" y="-${46-bob}" width="22" height="22" rx="8" fill="${hr}"/>`;
@@ -965,7 +975,7 @@ let BGKEY='';
 function bgUpdate(){const k=[state.wall,state.floor,state.night,state.season].join('|');if(k===BGKEY)return;BGKEY=k;
   const b=document.getElementById('roombg');if(b)b.innerHTML='<g transform="translate(353 280) scale(2.7) translate(-353 -280)">'+shell()+'</g>'}
 function render(){
-  Q.season=state.season;Q.night=state.night;Q.preview=false;Q.gl=[];Q.cur=state.cur;Q.playing=state.playing;
+  Q.season=state.season;Q.night=state.night;Q.preview=false;Q.gl=[];Q.cur=state.cur;Q.playing=audible();
   const svg=$('#room');let h='<defs>'+Object.entries(GRAD).map(([k,g])=>`<radialGradient id="g_${k}"><stop offset="0" stop-color="${g[0]}" stop-opacity="${g[1]}"/><stop offset=".45" stop-color="${g[2]}" stop-opacity="${g[1]*.35}"/><stop offset="1" stop-color="${g[2]}" stop-opacity="0"/></radialGradient>`).join('')
     +`<clipPath id="roomclip"><polygon points="${pts([P(0,N,WH),P(0,0,WH),P(N,0,WH),P(N,0,0),P(N,N,0),P(0,N,0)])}"/></clipPath></defs>`;
   h+=shell();bgUpdate();
@@ -979,8 +989,11 @@ function render(){
     +Q.gl.map(g=>`<circle cx="${r1(g[0])}" cy="${r1(g[1])}" r="${g[2]}" fill="url(#g_${g[3]})" style="mix-blend-mode:screen"/>`).join('')+'</g>'}
   h+=selMark();
   svg.innerHTML=h;
-  renderDock();
+  renderDock();renderPlay();
 }
+function renderPlay(){const b=$('#playBtn');if(!b)return;const on=audible(),w=state.playing&&!on;
+  b.textContent=!state.cur?'▶ LP 고르기':on?'■ 멈추기':w?($('#ythint').classList.contains('on')?'▶ 여기를 눌러 재생':'불러오는 중…'):'▶ 음악 듣기';
+  b.classList.toggle('on',on);b.classList.toggle('wait',w)}
 /* ================= 서랍 미리보기 ================= */
 const prevCache={};
 function preview(t){
@@ -1079,7 +1092,7 @@ function paintTap(){document.querySelectorAll('#grid .card').forEach(c=>c.classL
 function tapItem(id){
   if(id==='minimi'){const l=['안녕하세요!','방이 마음에 들어요','음악 틀어주세요~','여기 앉아도 돼요?'];toast('미니미: '+l[Math.floor(Math.random()*l.length)]);return}
   const it=state.items.find(i=>i.id===id);if(!it)return;
-  if(it.t==='turntable'){if(state.cur)togglePlay();else openLP();return}
+  if(it.t==='turntable'){if(state.cur)playAct();else openLP();return}
   if(it.t==='lpshelf'){openLP();return}
 }
 /* ================= 서랍 UI ================= */
@@ -1116,6 +1129,8 @@ function syncHead(){
   document.querySelectorAll('#presets button').forEach(b=>b.classList.remove('on'));
 }
 $('#ytn').addEventListener('click',()=>{YTS.i++;ytLoad()});
+function playAct(){if(state.playing&&!audible()&&YTS.lp){ytLoad();render();return}togglePlay()}
+$('#playBtn').addEventListener('click',()=>{ev('play_btn');playAct()});
 $('#ytx').addEventListener('click',()=>{state.playing=false;stopAudio();save();render()});
 /* ---- 하단 독 ---- */
 function renderDock(){
@@ -1124,12 +1139,12 @@ function renderDock(){
   if(state.sel==='minimi'){s=`<div class="sel">미니미<small>끌어서 옮기면 소파나 의자에 앉아요</small></div><button class="btn" id="dMini">꾸미기</button>`;f=s}
   else if(it){const df=DEF[it.t];
     const b=(!df.wall?`<button class="btn" id="dRot">돌리기 (R)</button>`:'')
-     +(it.t==='turntable'?`<button class="btn" id="dPlay">${state.playing?'정지':'재생'}</button>`:'')
+     +(it.t==='turntable'?`<button class="btn" id="dPlay">${audible()?'정지':'재생'}</button>`:'')
      +((it.t==='turntable'||it.t==='lpshelf')?`<button class="btn pri" id="dLP">LP 고르기</button>`:'')
      +`<button class="btn" id="dDel" ${df.fixed?'disabled title="턴테이블과 LP장은 뺄 수 없어요"':''}>보관함으로</button>`;
     s=`<div class="sel">${df.n}${df.fixed?'<small>고정 아이템 · 옮기기만 가능해요</small>':''}${it.t==='sprout'?'<small>'+growMsg()+'</small>':''}</div>`+b;f=`<div class="sel">${df.n}</div>`+b;
   }else s=`<div class="sel">아이템을 눌러 선택하세요<small>턴테이블을 누르면 음악이 나와요</small></div>`;
-  s+=`<div id="now">${lp?`${state.playing?'재생 중':'멈춤'} · ${lp.cn} ${lp.title}`:'턴테이블이 비어 있어요'}</div>`;
+  s+=`<div id="now">${lp?`${audible()?'재생 중':state.playing?'불러오는 중':'멈춤'} · ${lp.cn} ${lp.title}`:'턴테이블이 비어 있어요'}</div>`;
   d.innerHTML=s;if(fb){fb.innerHTML=f.replace(/ id="/g,' data-x="');fb.classList.toggle('on',!!f)}
 }
 function dockClick(e){
@@ -1137,7 +1152,7 @@ function dockClick(e){
   const bid=b.id||b.dataset.x,it=state.items.find(i=>i.id===state.sel);
   if(bid==='dMini'){openMini();return}
   if(bid==='dLP'){openLP();return}
-  if(bid==='dPlay'){togglePlay();return}
+  if(bid==='dPlay'){playAct();return}
   if(!it)return;
   if(bid==='dDel'){if(DEF[it.t].fixed)return;pushU(snapS());edited();state.items=state.items.filter(i=>i!==it&&i.parent!==it.id);state.sel=null;save();render();toast(DEF[it.t].n+'을(를) 보관함에 넣었어요 · ↶ 되돌리기 가능')}
   if(bid==='dRot'){pushU(snapS());rotate(it)}
@@ -1195,10 +1210,13 @@ function startNoise(){
   for(let i=0;i<len;i++)d[i]=(Math.random()<.0005?(Math.random()*2-1)*.9:0)+(Math.random()*2-1)*.004;
   const s=c.createBufferSource();s.buffer=b;s.loop=true;const g=c.createGain();g.gain.value=.5;s.connect(g);g.connect(AU.master);s.start();AU.noise=s;
 }
-const YTS={lp:null,i:0};
-function ytStop(){const w=$('#ytw');if(w)w.classList.remove('on');const b=$('#ytbox');if(b)b.innerHTML=''}
+const YTS={lp:null,i:0,live:false,wait:0};
+function hasYT(lp){return !!(lp&&lp.yt&&lp.yt.length)}
+function audible(){if(!state.playing)return false;const lp=state.cur?lpOf(state.cur):null;return !hasYT(lp)||YTS.live}
+function ytWait(){clearTimeout(YTS.wait);$('#ythint').classList.remove('on');YTS.wait=setTimeout(()=>{if(state.playing&&!YTS.live&&YTS.lp){$('#ythint').classList.add('on');try{$('#ytw').scrollIntoView({behavior:'smooth',block:'center'})}catch(e){}render()}},4000)}
+function ytStop(){YTS.live=false;clearTimeout(YTS.wait);const hn=$('#ythint');if(hn)hn.classList.remove('on');const w=$('#ytw');if(w)w.classList.remove('on');const b=$('#ytbox');if(b)b.innerHTML=''}
 const EMBED=true; /* false: 소리 없이 액자 표시만 */ /* 홈페이지(자체 도메인)에서는 true로 바꾸면 영상이 안에서 재생돼요. 이 미리보기 화면은 유튜브 삽입이 막혀 있어요 */
-function ytLoad(){const lp=YTS.lp,n=lp.yt.length;
+function ytLoad(){const lp=YTS.lp,n=lp.yt.length;YTS.live=false;ytWait();
   if(!n){$('#yta').removeAttribute('href');$('#ytn').style.display='none';$('#ytbox').innerHTML='<div class="yterr">이 곡은 영상이 아직 없어요</div>';return}
   const id=lp.yt[YTS.i%n],url='https://www.youtube.com/watch?v='+id;
   $('#yta').href=url;$('#ytn').style.display=n>1?'':'none';$('#ytn').textContent='다른 영상 '+(YTS.i%n+1)+'/'+n;
@@ -1207,7 +1225,10 @@ function ytLoad(){const lp=YTS.lp,n=lp.yt.length;
 window.addEventListener('message',e=>{
   if(e.origin!=='https://www.youtube.com'||!YTS.lp)return;
   let d;try{d=typeof e.data==='string'?JSON.parse(e.data):e.data}catch(_){return}
-  if(d&&(d.event==='onStateChange'&&d.info===0||d.event==='infoDelivery'&&d.info&&d.info.playerState===0)){if(Date.now()-(YTS.endAt||0)>4000){YTS.endAt=Date.now();nextLP()}return}
+  const ps=d&&(d.event==='onStateChange'?d.info:d.event==='infoDelivery'&&d.info&&typeof d.info.playerState==='number'?d.info.playerState:null);
+  if(ps===1&&!YTS.live){YTS.live=true;clearTimeout(YTS.wait);$('#ythint').classList.remove('on');if(!state.playing){state.playing=true;save()}render()}
+  else if(ps===2&&YTS.live){YTS.live=false;state.playing=false;save();render()}
+  if(ps===0){if(Date.now()-(YTS.endAt||0)>4000){YTS.endAt=Date.now();nextLP()}return}
   if(!d||d.event!=='onError')return;
   const lp=YTS.lp,n=lp.yt.length;YTS.fails=(YTS.fails||0)+1;ev('yt_error');
   if(n>1&&YTS.fails<n){YTS.i++;toast('이 영상은 재생이 막혀 있어 다음 영상으로 넘어갔어요');ytLoad();return}
@@ -1251,7 +1272,7 @@ function nextLP(){const n=LPS.length;if(!n||!state.playing)return;if(n<2){ytLoad
   const i=Math.max(0,LPS.findIndex(l=>l.id===state.cur)),nx=LPS[(i+1)%n];AUTO=1;try{chooseLP(nx.id)}finally{AUTO=0}ev('auto_next');toast('다음 곡이 이어져요 · '+nx.cn)}
 function chooseLP(id){ev('lp');hangNow();
   const lp=lpOf(id);state.cur=id;state.playing=true;startAudio(lp);
-  if(!state.items.some(i=>i.t==='frame_'+lp.comp)){const n=autoWall('frame_'+lp.comp,true);if(n)toast(lp.cn+' 액자가 벽에 걸렸어요')}
+  if(DEF['frame_'+lp.comp]&&!state.items.some(i=>i.t==='frame_'+lp.comp)){const n=autoWall('frame_'+lp.comp,true);toast(n?lp.cn+' 액자가 벽에 걸렸어요':lp.cn+' LP를 턴테이블에 올렸어요')}
   else toast(lp.cn+' LP를 턴테이블에 올렸어요');
   save();render();closeModals();
 }
@@ -1372,6 +1393,7 @@ const D={'나의 미니룸':'私のミニルーム','냠냠클래식 미니룸':
 'LP장 · LP 바꾸기':'LP棚 · LPを替える','추천받은 곡이 작곡가 얼굴 LP로 꽂혀요. 듣고 싶은 LP를 누르면 턴테이블에 올라가고 오른쪽에서 영상이 재생돼요. 새 추천을 받으면 LP가 더 쌓여요.':'おすすめ曲が作曲家の顔のLPとして並びます。聴きたいLPをタップするとターンテーブルに乗り、動画が再生されます。新しいおすすめでLPが増えます。',
 'LP 빼기':'LPを外す','닫기':'閉じる','LP 고르기':'LPを選ぶ','보관함으로':'収納へ','돌리기 (R)':'回す (R)','재생':'再生','정지':'停止','꾸미기':'着せ替え','턴테이블 위':'ターンテーブル上',
 '고정 아이템 · 옮기기만 가능해요':'固定アイテム · 移動のみ可能','끌어서 옮기면 소파나 의자에 앉아요':'ドラッグで動かすとソファや椅子に座ります','아이템을 눌러 선택하세요':'アイテムをタップして選択','턴테이블을 누르면 음악이 나와요':'ターンテーブルをタップすると音楽が流れます',
+'▶ 음악 듣기':'▶ 音楽を聴く','■ 멈추기':'■ 止める','▶ LP 고르기':'▶ LPを選ぶ','불러오는 중…':'読み込み中…','불러오는 중':'読み込み中','▶ 여기를 눌러 재생':'▶ ここを押して再生','소리가 안 나오나요? 위의 ‘▶ 여기를 눌러 재생’이나 아래 영상 가운데 ▶ 버튼을 눌러 주세요.':'音が出ませんか？上の「▶ ここを押して再生」か、下の動画の真ん中の ▶ を押してください。',
 '턴테이블이 비어 있어요':'ターンテーブルは空です','재생 중':'再生中','멈춤':'停止中','이 곡은 영상이 아직 없어요':'この曲の動画はまだありません','이 영상은 사이트 안에서 재생할 수 없어요':'この動画はサイト内では再生できません',
 '머리 모양':'髪型','머리색':'髪色','옷 색':'服の色','피부색':'肌の色','단발':'ボブ','긴 머리':'ロング','올림 머리':'アップ','미니미 꾸미기 ':'ミニミーを着せ替え',
 '방 안에서 끌어서 움직일 수 있어요. 계절에 따라 춥거나 더우면 말을 걸어요.':'部屋の中でドラッグして動かせます。季節によって寒いと暑いと話しかけます。',
@@ -1422,6 +1444,7 @@ const D={'나의 미니룸':'My Mini-room','냠냠클래식 미니룸':'Yummy Cl
 'LP장 · LP 바꾸기':'LP shelf · Change LP','추천받은 곡이 작곡가 얼굴 LP로 꽂혀요. 듣고 싶은 LP를 누르면 턴테이블에 올라가고 오른쪽에서 영상이 재생돼요. 새 추천을 받으면 LP가 더 쌓여요.':'Your recommended pieces stand as LPs with the composer’s face. Tap one to put it on the turntable and the video plays beside the room. New recommendations add more LPs.',
 'LP 빼기':'Remove LP','닫기':'Close','LP 고르기':'Choose LP','보관함으로':'To storage','돌리기 (R)':'Rotate (R)','재생':'Play','정지':'Stop','꾸미기':'Style','턴테이블 위':'On turntable',
 '고정 아이템 · 옮기기만 가능해요':'Fixed item · can only be moved','끌어서 옮기면 소파나 의자에 앉아요':'Drag it onto a sofa or chair to sit','아이템을 눌러 선택하세요':'Tap an item to select it','턴테이블을 누르면 음악이 나와요':'Tap the turntable to play music',
+'▶ 음악 듣기':'▶ Play music','■ 멈추기':'■ Stop','▶ LP 고르기':'▶ Choose an LP','불러오는 중…':'Loading…','불러오는 중':'Loading','▶ 여기를 눌러 재생':'▶ Tap here to play','소리가 안 나오나요? 위의 ‘▶ 여기를 눌러 재생’이나 아래 영상 가운데 ▶ 버튼을 눌러 주세요.':'No sound? Tap “▶ Tap here to play” above or the ▶ in the middle of the video.',
 '턴테이블이 비어 있어요':'The turntable is empty','재생 중':'Playing','멈춤':'Paused','이 곡은 영상이 아직 없어요':'No video for this piece yet','이 영상은 사이트 안에서 재생할 수 없어요':'This video can’t be played on the site',
 '머리 모양':'Hair style','머리색':'Hair color','옷 색':'Shirt','피부색':'Skin','단발':'Bob','긴 머리':'Long','올림 머리':'Updo',
 '방 안에서 끌어서 움직일 수 있어요. 계절에 따라 춥거나 더우면 말을 걸어요.':'Drag Minimi around the room. It will talk to you when it’s too hot or cold.',
