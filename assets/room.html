@@ -482,7 +482,7 @@ D('olive',{n:'올리브 나무',cat:'plant',w:.8,d:.8,h:112,draw(c){
 const GROW_AT=[0,1,2,4,7],GROW_N=['싹이 났어요','어린잎이 나요','쑥쑥 자라요','꽃봉오리가 맺혔어요','꽃이 활짝 폈어요'];
 const growStage=()=>{let g=0;GROW_AT.forEach((n,i)=>{if(state.grow.d>=n)g=i});return g};
 const dayKey=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
-function growMsg(){const g=growStage(),k=dayKey(),done=state.grow.a===k,t=state.grow.k===k?state.grow.t:0,nx=GROW_AT[g+1];
+function growMsg(){const g=growStage(),k=dayKey(),done=state.grow.a===k,t=todayT(),nx=GROW_AT[g+1];
   return GROW_N[g]+' · 음악을 들려주면 자라요 · '+(done?'오늘 물 주기 완료':'오늘 '+Math.min(60,t)+'/60초')+(nx?' · '+(nx-state.grow.d)+'일 더 오면 다음 단계':'')}
 D('sprout',{n:'자라는 화분',cat:'plant',w:.6,d:.6,h:76,small:1,draw(c){
   const g=growStage();pot(c,.3,.3,.16,13,'#c4623c');const[x,y]=c.S(.3,.3,13),H=[14,25,36,47,56][g],n=[2,2,4,6,6][g];
@@ -756,7 +756,7 @@ const wallDef=id=>WALLS.find(w=>w.id===id)||WALLS[0],floorDef=id=>FLOORS.find(w=
 /* ================= 상태 ================= */
 const SKIN=['#f4cfa8','#e6b88c','#bf8a5e'],HAIR=['#2a1f1a','#6b4226','#c9a15a','#a33a46','#d9d5cc'],SHIRT=['#9a3248','#3f6b55','#2f4a6b','#e8b45a','#efe3cc','#5b3a7a'];
 let seq=1;const nid=()=>'i'+(seq++);
-const state={wall:'navy',floor:'darkwood',season:'autumn',night:false,items:[],mini:{x:3.5,y:3.5,hair:0,style:0,shirt:0,skin:0},lps:['beethoven'],grow:{d:0,t:0,k:'',a:'',init:0},cur:null,playing:false,sel:null,muted:false,tab:'seat'};
+const state={wall:'navy',floor:'darkwood',season:'autumn',night:false,items:[],mini:{x:3.5,y:3.5,hair:0,style:0,shirt:0,skin:0},lps:['beethoven'],grow:{d:0,t:0,k:'',a:'',init:0,x:[]},cur:null,playing:false,sel:null,muted:false,tab:'seat'};
 {const d=new Date(),m=d.getMonth()+1,h=d.getHours();state.season=m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=11?'autumn':'winter';state.night=false}
 let MIG=0;const EMB=window.parent!==window,LIBKEY='nyamnyam-room-lib-v1',KEY='nyamnyam-miniroom-v1';
 function save(){try{localStorage.setItem(KEY,JSON.stringify({wall:state.wall,floor:state.floor,items:state.items.filter(i=>!i.tmp),mini:state.mini,lps:state.lps,cur:state.cur,grow:state.grow,seq,sv:2}))}catch(e){}}
@@ -773,7 +773,7 @@ function ev(n,p){try{if(EMB)parent.postMessage({yc:'room',ev:n,p:p||{}},location
 let EDITED=0;function edited(){if(!EDITED){EDITED=1;ev('edit',{n:state.items.length});try{if(!localStorage.getItem('yc-room-nudge'))setTimeout(()=>{localStorage.setItem('yc-room-nudge','1');toast('방이 마음에 드시면 위쪽 "방 저장·불러오기"에서 내 방 링크를 챙겨 두세요')},5000)}catch(e){}}}
 function load(){try{const j=JSON.parse(localStorage.getItem(KEY)||'null');if(!j||!Array.isArray(j.items))return false;
   state.wall=j.wall;state.floor=j.floor;state.items=j.items.filter(i=>DEF[i.t]);state.mini=Object.assign(state.mini,j.mini);state.cur=j.cur||null;setGrow(j.grow);seq=j.seq||seq+100;ensureFixed();if((j.sv|0)<2)MIG=1;return true}catch(e){return false}}
-function setGrow(g){if(g&&typeof g==='object')state.grow={d:g.d|0,t:g.t|0,k:String(g.k||''),a:String(g.a||''),init:g.init|0}}
+function setGrow(g){if(g&&typeof g==='object')state.grow={d:g.d|0,t:g.t|0,k:String(g.k||''),a:String(g.a||''),init:g.init|0,x:Array.isArray(g.x)?g.x.filter(v=>typeof v==='string').slice(-30):(g.a?[String(g.a)]:[])}}
 const ext=it=>{const d=DEF[it.t];return (it.f&1)?[d.d,d.w]:[d.w,d.d]};
 function mk(t,o){return Object.assign({id:nid(),t,x:0,y:0,f:0,z:0,parent:null},o)}
 function ensureFixed(){
@@ -781,8 +781,18 @@ function ensureFixed(){
   if(!state.items.some(i=>i.t==='lpshelf')){const s=mk('lpshelf',{x:1,y:0});state.items.push(s);shelfBeside()}
 }
 function ensureSprout(){if(state.grow.init)return;state.grow.init=1;if(!state.items.some(i=>i.t==='sprout')){const it=autoFloor('sprout');if(it)toast('자라는 화분이 생겼어요 · 음악을 들려주면 쑥쑥 자라요')}}
-setInterval(()=>{if(!state.playing||document.hidden)return;const g=state.grow,k=dayKey();if(g.k!==k){g.k=k;g.t=0}g.t+=5;
-  if(g.t>=60&&g.a!==k){g.a=k;g.d++;save();render();toast('오늘도 물을 흠뻑 줬어요 · 화분이 '+(GROW_AT.includes(g.d)?'한 단계 자랐어요':'조금 더 컸어요'))}else if(g.t%30===0)save()},5000);
+/* 목록 카드에서 들은 시간(assets/lp.js → yc-listen-v1)도 같이 쳐 줘요. 지난 날은 카드에서만 60초 넘게 들은 날도 하루로 셉니다. */
+const extListen=()=>{try{const m=JSON.parse(localStorage.getItem('yc-listen-v1')||'{}');return m&&typeof m==='object'?m:{}}catch(e){return{}}};
+const todayT=()=>{const g=state.grow,k=dayKey();return (g.k===k?g.t:0)+((extListen()[k])|0)};
+function water(day,msg){const g=state.grow;if(g.a===day||g.x.includes(day))return false;g.x.push(day);g.x=g.x.slice(-30);if(day===dayKey())g.a=day;g.d++;save();render();
+  if(msg)toast((msg===2?'목록에서 들은 음악으로 ':'')+'물을 흠뻑 줬어요 · 화분이 '+(GROW_AT.includes(g.d)?'한 단계 자랐어요':'조금 더 컸어요'));return true}
+function growCheck(){const k=dayKey(),m=extListen();let n=0;
+  Object.keys(m).forEach(d=>{if(d!==k&&(m[d]|0)>=60&&water(d,0))n++});
+  if(todayT()>=60&&water(k,state.playing?1:2))return;
+  if(n)toast('목록에서 들은 음악으로 화분이 '+n+'번 물을 마셨어요')}
+setInterval(()=>{const g=state.grow,k=dayKey();if(g.k!==k){g.k=k;g.t=0}
+  if(state.playing&&!document.hidden){g.t+=5;if(g.t%30===0)save()}
+  if(!document.hidden)growCheck()},5000);
 function wallItem(t,side,u,v){return {id:nid(),t,wall:1,side,u,v}}
 /* LP장을 턴테이블 바로 옆 빈자리로 (이미 붙어 있으면 그대로) */
 function shelfBeside(){
@@ -1368,7 +1378,9 @@ function hangFrames(){let n=0;state.lps.forEach(id=>{const l=lpOf(id);if(!l||n>=
 /* ---- 추천곡 → LP 서재 (이 기기에 쌓여요) ---- */
 const hsl=(h,s,l)=>{s/=100;l/=100;const k=n=>(n+h/30)%12,a=s*Math.min(l,1-l),f=n=>l-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1)));return rg([f(0)*255,f(8)*255,f(4)*255])};
 function hashS(t){let h=7;for(const c of t)h=(h*31+c.charCodeAt(0))>>>0;return h}
-function loadLib(){try{const a=JSON.parse(localStorage.getItem(LIBKEY)||'[]');return Array.isArray(a)?a:[]}catch(e){return[]}}
+function loadLib(){try{const a=JSON.parse(localStorage.getItem(LIBKEY)||'[]');if(!Array.isArray(a))return[];
+  /* 다른 페이지(목록 카드)에서 들은 곡은 색 없이 꽂혀 와요: 여기서 칠해 줘요 */
+  return a.filter(l=>l&&l.id).map(l=>{if(!l.color){const k=COMP[l.comp];l.color=k?LPS_COLOR[l.comp]||hsl(hashS(l.comp)%360,38,56):hsl(hashS(l.comp||'x')%360,38,56);if(!l.cn&&k)l.cn=k.n}if(!Array.isArray(l.yt))l.yt=l.yt?[l.yt]:[];return l})}catch(e){return[]}}
 function setRecs(recs){
   if(!Array.isArray(recs))return;
   const fresh=recs.filter(r=>r&&r.en).map(r=>{const id='r'+hashS(r.en).toString(36),k=COMP[r.cid];
@@ -1391,6 +1403,8 @@ window.addEventListener('message',e=>{const d=e.data;if(e.source!==parent||e.ori
   if(d.yc==='recs')setRecs(d.recs);
   else if(d.yc==='stop'&&state.playing){state.playing=false;stopAudio();save();render()}
 });
+/* 바깥 페이지의 목록 카드에서 곡을 들으면 LP장이 바로 새로 고쳐져요 */
+window.addEventListener('storage',e=>{if(e.key===LIBKEY&&EMB){const lib=loadLib();if(lib.length)applyLib(lib)}});
 function tellParent(m){try{if(EMB)parent.postMessage(Object.assign({yc:'room'},m),location.origin)}catch(e){}}
 
 /* ================= 일본어 (ja 페이지) ================= */

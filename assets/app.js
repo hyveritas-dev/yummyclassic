@@ -1478,6 +1478,7 @@
         setBtn(activeLi, false);
       }
       activePlayer = null; activeLi = null;
+      if (window.ycLP) ycLP.track(null);
     }
     function playNext(li) {
       let n = li.nextElementSibling;
@@ -1503,6 +1504,13 @@
       if (activeLi === li) { stopPlayer(); return; }
       stopPlayer(); roomStop();
       track('play_music', { piece: (r.en || '').slice(0, 90), composer: r.cid || '', area: (li.closest('[id]') || {}).id || '' });
+      // 어디서 들어도 미니룸 LP장에 꽂히게 (assets/lp.js) — 처음 꽂힐 때만 짧게 알려 줌
+      try {
+        if (window.ycLP && r.yt && ycLP.add({ cid: r.cid, en: r.en, title: isLocal() ? (r.ko || r.en) : r.en, cn: roomCompName(r.cid), who: r.who || '', yt: r.yt }) && lang === 'ko') {
+          ycLP.toast('내 방 LP장에 꽂아 뒀어요');
+          track('lp_add', { area: 'list' });
+        }
+      } catch (e) { /* ignore */ }
       if (!CAN_EMBED) {
         window.open('https://www.youtube.com/watch?v=' + r.yt, '_blank', 'noopener');
         if (!li.querySelector('.pl-note')) {
@@ -1554,6 +1562,7 @@
             },
           },
         });
+        if (window.ycLP) ycLP.track(activePlayer);   // 들은 시간 → 미니룸 화분
       };
       // API already loaded: create the player right inside the tap so the browser counts it as user-initiated
       if (window.YT && window.YT.Player) build();
@@ -5680,7 +5689,7 @@
       if (!on) return;
       ROOM.recs = recs.map(r => ({ cid: r.cid, en: r.en, ko: isLocal() ? r.ko : r.en, yt: r.yt || '', who: r.who || '', cn: roomCompName(r.cid) }));
       const f = roomFrame();
-      if (f && !ROOM.loaded) { ROOM.loaded = true; f.src = '/assets/room.html?v=1119b&lang=' + encodeURIComponent(lang); }
+      if (f && !ROOM.loaded) { ROOM.loaded = true; f.src = '/assets/room.html?v=1120a&lang=' + encodeURIComponent(lang); }
       else if (ROOM.ready) roomPost({ yc: 'recs', recs: ROOM.recs });
     }
     function roomStop() { if (ROOM.ready) roomPost({ yc: 'stop' }); }

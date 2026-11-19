@@ -75,6 +75,10 @@ const REC = new Map();
 CAT.forEach(x => { if (x.yt && !REC.has(norm(x.en))) REC.set(norm(x.en), { yt: x.yt, who: x.who }); });
 Object.values(POOLS).forEach(list => list.forEach(([, en, , yt, who]) => { if (yt && !REC.has(norm(en))) REC.set(norm(en), { yt, who }); }));
 
+// app.js에 영상이 없는 대표곡 녹음 (작곡가|영문 제목 → 유튜브 id). 사람이 확인해 채운 표: scripts/seo-recordings.json
+const EXTRA = JSON.parse(fs.readFileSync(path.join(__dirname, 'seo-recordings.json'), 'utf8'));
+const recOf = (cid, en) => REC.get(norm(en)) || EXTRA[cid + '|' + en] || null;
+
 // 작곡가 → 그 작곡가가 추천되는 취향 유형
 const typesOfComposer = {};
 Object.entries(POOLS).forEach(([type, list]) => list.forEach(([cid]) => {
@@ -131,6 +135,13 @@ ol.works li.playing{border-color:var(--wine);box-shadow:0 2px 12px rgba(122,15,4
 .pl-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .pl-tool{font:inherit;font-size:.8rem;font-weight:600;color:var(--wine);background:var(--vanilla);border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;cursor:pointer}
 .pl-auto{font-size:.78rem;color:var(--muted);margin:2px 0 0}
+.nowbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--ink);color:var(--paper);padding:10px 12px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,.18);transform:translateY(110%);transition:transform .25s}
+.nowbar.on{transform:none}
+.nowbar .nb-in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:8px}
+.nowbar .nb-t{flex:1;min-width:0;font-size:.95rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none;border:0;color:inherit;text-align:left;padding:6px 0;cursor:pointer;font-family:inherit}
+.nowbar .nb-t small{display:block;font-size:.75rem;font-weight:400;opacity:.75}
+.nowbar button.nb-b{flex:none;font:inherit;font-size:.9rem;font-weight:700;color:var(--ink);background:var(--paper);border:0;border-radius:999px;padding:10px 14px;cursor:pointer}
+body.nb-pad{padding-bottom:84px}
 .typeimg{width:100%;max-width:520px;border-radius:14px;display:block;margin:10px 0 4px;border:1px solid var(--line)}
 footer.site{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 40px;font-size:.8rem;color:var(--muted)}
 footer.site a{color:var(--muted)}
@@ -158,14 +169,25 @@ const PLAYER = `  <script>
     }
     window.addEventListener('pointerdown', function () { loadYT(); }, { once: true });
     function btn(li) { return li.querySelector('.pl-btn'); }
+    // 화면 아래 고정 막대: 듣는 곡 카드가 화면 밖으로 나가면 나타나요 (곡 이름 · 다음 곡 · 멈추기)
+    var bar = document.createElement('div'); bar.className = 'nowbar'; bar.setAttribute('aria-live', 'polite');
+    bar.innerHTML = '<div class="nb-in"><button type="button" class="nb-t"><small>지금 듣는 곡 · 누르면 그 곡으로</small><span></span></button><button type="button" class="nb-b nb-next">다음 곡</button><button type="button" class="nb-b nb-stop">멈추기</button></div>';
+    document.body.appendChild(bar);
+    var seen = true, io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) { seen = es[es.length - 1].isIntersecting; showBar(); }, { threshold: 0.25 }) : null;
+    function showBar() { var on = !!li0 && !seen; bar.classList.toggle('on', on); document.body.classList.toggle('nb-pad', !!li0); }
+    bar.querySelector('.nb-t').addEventListener('click', function () { if (li0) li0.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+    bar.querySelector('.nb-next').addEventListener('click', function () { if (li0) { var n = nextOf(li0); if (n) open(n, false); } });
+    bar.querySelector('.nb-stop').addEventListener('click', function () { stop(); });
     function stop() {
+      if (window.ycLP) ycLP.track(null);
+      if (io && li0) io.unobserve(li0);
       if (player) { try { player.destroy(); } catch (e) {} }
       if (li0) {
         ['.pl-player', '.pl-tools', '.pl-auto'].forEach(function (c) { var x = li0.querySelector(c); if (x) x.remove(); });
         li0.classList.remove('playing');
         var b = btn(li0); if (b) { b.textContent = '▶ 이 창에서 듣기'; b.classList.remove('on'); }
       }
-      player = null; li0 = null;
+      player = null; li0 = null; seen = true; showBar();
     }
     function nextOf(li) {
       var n = li.nextElementSibling;
@@ -194,6 +216,17 @@ const PLAYER = `  <script>
       li0 = li;
       li.classList.add('playing');
       var b = btn(li); if (b) { b.textContent = '■ 멈추기'; b.classList.add('on'); }
+      bar.querySelector('.nb-t span').textContent = (li.querySelector('.w-ko') || li).textContent;
+      bar.querySelector('.nb-next').hidden = !nextOf(li);
+      if (io) io.observe(li); else seen = false;
+      showBar();
+      // 들은 곡은 내 방(미니룸) LP장에 꽂아 둬요 (assets/lp.js)
+      try {
+        if (window.ycLP && ycLP.add({ cid: li.dataset.cid, en: li.dataset.en, title: li.dataset.ko, cn: li.dataset.cn, yt: li.dataset.yt, who: ((li.querySelector('.w-by') || {}).textContent || '').replace(/^연주/, '').trim() })) {
+          ycLP.toast('내 방 LP장에 꽂아 뒀어요');
+          try { gtag('event', 'lp_add', { area: 'seo' }); } catch (e) {}
+        }
+      } catch (e) {}
       var box = document.createElement('div'); box.className = 'pl-player';
       var holder = document.createElement('div'); box.appendChild(holder);
       var tools = document.createElement('div'); tools.className = 'pl-tools';
@@ -225,6 +258,7 @@ const PLAYER = `  <script>
             }
           }
         });
+        if (window.ycLP) ycLP.track(player);   // 들은 시간 → 미니룸 화분
       }
       // API가 이미 있으면 탭 안에서 바로 만들어 자동재생이 막히지 않게
       if (window.YT && window.YT.Player) build(); else loadYT().then(build);
@@ -292,6 +326,7 @@ ${body}
     <p>초상화·그림: Wikimedia Commons (퍼블릭 도메인) · 음원: YouTube</p>
     <p>© ${new Date().getFullYear()} 냠냠클래식 · 그림 한 장으로 고르는 오늘의 클래식</p>
   </div></footer>
+  <script src="/assets/lp.js?v=1120"></script>
 ${PLAYER}
 </body>
 </html>
@@ -320,13 +355,13 @@ const SHARE = `    <button type="button" class="cta share" id="share-site">친�
       })();
     </script>`;
 
-function workItem(en, ko, who, composerKo) {
-  const r = REC.get(norm(en));
+function workItem(en, ko, who, composerKo, cid) {
+  const r = recOf(cid, en);
   const by = who || (r && r.who);
   const link = r
     ? `<a class="w-link pl-btn" href="${ytWatch(r.yt)}" target="_blank" rel="noopener">▶ 이 창에서 듣기</a>`
     : `<a class="w-link" href="${ytSearch(composerKo + ' ' + ko)}" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a>`;
-  return `      <li${r ? ` data-yt="${esc(r.yt)}" data-name="${esc(composerKo + ' · ' + ko)}"` : ''}><div class="w-ko">${esc(ko)}</div><div class="w-en">${esc(en)}</div>${by ? `<div class="w-by">연주 ${esc(by)}</div>` : ''}${link}</li>`;
+  return `      <li${r ? ` data-yt="${esc(r.yt)}" data-name="${esc(composerKo + ' · ' + ko)}" data-cid="${esc(cid)}" data-en="${esc(en)}" data-ko="${esc(ko)}" data-cn="${esc(composerKo)}"` : ''}><div class="w-ko">${esc(ko)}</div><div class="w-en">${esc(en)}</div>${by ? `<div class="w-by">연주 ${esc(by)}</div>` : ''}${link}</li>`;
 }
 
 const out = [];   // [url, html]
@@ -347,11 +382,11 @@ composerIds.forEach(id => {
       <div><span class="tag">${esc(era)}</span><p class="lead">${esc(ko)} · ${esc(en)}<br />처음 듣는 분도 편하게 시작할 수 있도록, ${esc(sk)}의 대표곡을 들을 만한 악장까지 짚어 골랐어요.</p></div></div>`,
     `    <h2>${esc(sk)} 대표곡 ${N}곡</h2>`,
     `    <ol class="works">`,
-    ...works.map(([wen, wko]) => workItem(wen, wko, null, sk)),
+    ...works.map(([wen, wko]) => workItem(wen, wko, null, sk, id)),
     `    </ol>`,
     more.length ? `    <h2>${esc(sk)}, 더 들어볼 만한 곡</h2>
     <ol class="works" start="${N + 1}" style="counter-reset:w ${N}">
-${more.map(([wen, wko]) => workItem(wen, wko, null, sk)).join('\n')}
+${more.map(([wen, wko]) => workItem(wen, wko, null, sk, id)).join('\n')}
     </ol>` : '',
     CTA,
     types.length ? `    <h2>${esc(sk)}의 음악이 추천되는 그림 취향</h2>
@@ -380,7 +415,7 @@ typeIds.forEach(t => {
     fs.existsSync(path.join(ROOT, `og/${t}-ko.png`)) ? `    <img class="typeimg" src="/og/${t}-ko.png" alt="그림 취향 유형 ‘${esc(T[1])}’ 카드" loading="eager" />` : '',
     `    <h2>‘${esc(T[1])}’에게 어울리는 클래식</h2>`,
     `    <ol class="works">`,
-    ...pool.map(([cid, en, ko, , who]) => workItem(en, `${shortKo(cid)} · ${ko}`, who, shortKo(cid))),
+    ...pool.map(([cid, en, ko, , who]) => workItem(en, `${shortKo(cid)} · ${ko}`, who, shortKo(cid), cid)),
     `    </ol>`,
     CTA,
     composers.length ? `    <h2>이 취향에 자주 추천되는 작곡가</h2>

@@ -67,6 +67,13 @@ ol.works li.playing{border-color:var(--wine);box-shadow:0 2px 12px rgba(122,15,4
 .pl-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .pl-tool{font:inherit;font-size:.8rem;font-weight:600;color:var(--wine);background:var(--vanilla);border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;cursor:pointer}
 .pl-auto{font-size:.78rem;color:var(--muted);margin:2px 0 0}
+.nowbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--ink);color:var(--paper);padding:10px 12px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,.18);transform:translateY(110%);transition:transform .25s}
+.nowbar.on{transform:none}
+.nowbar .nb-in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:8px}
+.nowbar .nb-t{flex:1;min-width:0;font-size:.95rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none;border:0;color:inherit;text-align:left;padding:6px 0;cursor:pointer;font-family:inherit}
+.nowbar .nb-t small{display:block;font-size:.75rem;font-weight:400;opacity:.75}
+.nowbar button.nb-b{flex:none;font:inherit;font-size:.9rem;font-weight:700;color:var(--ink);background:var(--paper);border:0;border-radius:999px;padding:10px 14px;cursor:pointer}
+body.nb-pad{padding-bottom:84px}
 .typeimg{width:100%;max-width:520px;border-radius:14px;display:block;margin:10px 0 4px;border:1px solid var(--line)}
 footer.site{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 40px;font-size:.8rem;color:var(--muted)}
 footer.site a{color:var(--muted)}</style>
@@ -90,11 +97,11 @@ footer.site a{color:var(--muted)}</style>
     <img class="typeimg" src="/og/mercy-ko.png" alt="그림 취향 유형 ‘따뜻한 위로를 건네는 사람’ 카드" loading="eager" />
     <h2>‘따뜻한 위로를 건네는 사람’에게 어울리는 클래식</h2>
     <ol class="works">
-      <li data-yt="xt2FtlK2gZM" data-name="바흐 · 바흐 · 마태 수난곡 BWV 244 — “불쌍히 여기소서, 나의 하느님”"><div class="w-ko">바흐 · 마태 수난곡 BWV 244 — “불쌍히 여기소서, 나의 하느님”</div><div class="w-en">St Matthew Passion, BWV 244 — “Erbarme dich, mein Gott”</div><div class="w-by">연주 Janet Baker, mezzo-soprano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=xt2FtlK2gZM" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="6awzmkHTtrs" data-name="헨델 · 헨델 · 리날도 — “울게 하소서”"><div class="w-ko">헨델 · 리날도 — “울게 하소서”</div><div class="w-en">Rinaldo — “Lascia ch’io pianga”</div><div class="w-by">연주 Cecilia Bartoli, mezzo-soprano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=6awzmkHTtrs" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="GWtoeYznx8E" data-name="바흐 · 바흐 · 칸타타 BWV 147 — “예수, 인간 소망의 기쁨”"><div class="w-ko">바흐 · 칸타타 BWV 147 — “예수, 인간 소망의 기쁨”</div><div class="w-en">Cantata BWV 147 — “Jesu, Joy of Man’s Desiring”</div><div class="w-by">연주 Netherlands Bach Society</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=GWtoeYznx8E" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="zf1X7ppZiIQ" data-name="바흐 · 바흐 · 두 대의 바이올린을 위한 협주곡 D단조 BWV 1043 — 2악장 라르고 마 논 트로포"><div class="w-ko">바흐 · 두 대의 바이올린을 위한 협주곡 D단조 BWV 1043 — 2악장 라르고 마 논 트로포</div><div class="w-en">Concerto for Two Violins in D minor, BWV 1043 — II. Largo ma non troppo</div><div class="w-by">연주 Menuhin &amp; Oistrakh, violins</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=zf1X7ppZiIQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="X8Yxr6ED0EU" data-name="헨델 · 헨델 · 메시아 — “나는 내 구원자가 살아 계심을 아네”"><div class="w-ko">헨델 · 메시아 — “나는 내 구원자가 살아 계심을 아네”</div><div class="w-en">Messiah — “I know that my Redeemer liveth”</div><div class="w-by">연주 Lucy Crowe, soprano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=X8Yxr6ED0EU" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="xt2FtlK2gZM" data-name="바흐 · 바흐 · 마태 수난곡 BWV 244 — “불쌍히 여기소서, 나의 하느님”" data-cid="bach" data-en="St Matthew Passion, BWV 244 — “Erbarme dich, mein Gott”" data-ko="바흐 · 마태 수난곡 BWV 244 — “불쌍히 여기소서, 나의 하느님”" data-cn="바흐"><div class="w-ko">바흐 · 마태 수난곡 BWV 244 — “불쌍히 여기소서, 나의 하느님”</div><div class="w-en">St Matthew Passion, BWV 244 — “Erbarme dich, mein Gott”</div><div class="w-by">연주 Janet Baker, mezzo-soprano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=xt2FtlK2gZM" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="6awzmkHTtrs" data-name="헨델 · 헨델 · 리날도 — “울게 하소서”" data-cid="handel" data-en="Rinaldo — “Lascia ch’io pianga”" data-ko="헨델 · 리날도 — “울게 하소서”" data-cn="헨델"><div class="w-ko">헨델 · 리날도 — “울게 하소서”</div><div class="w-en">Rinaldo — “Lascia ch’io pianga”</div><div class="w-by">연주 Cecilia Bartoli, mezzo-soprano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=6awzmkHTtrs" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="GWtoeYznx8E" data-name="바흐 · 바흐 · 칸타타 BWV 147 — “예수, 인간 소망의 기쁨”" data-cid="bach" data-en="Cantata BWV 147 — “Jesu, Joy of Man’s Desiring”" data-ko="바흐 · 칸타타 BWV 147 — “예수, 인간 소망의 기쁨”" data-cn="바흐"><div class="w-ko">바흐 · 칸타타 BWV 147 — “예수, 인간 소망의 기쁨”</div><div class="w-en">Cantata BWV 147 — “Jesu, Joy of Man’s Desiring”</div><div class="w-by">연주 Netherlands Bach Society</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=GWtoeYznx8E" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="zf1X7ppZiIQ" data-name="바흐 · 바흐 · 두 대의 바이올린을 위한 협주곡 D단조 BWV 1043 — 2악장 라르고 마 논 트로포" data-cid="bach" data-en="Concerto for Two Violins in D minor, BWV 1043 — II. Largo ma non troppo" data-ko="바흐 · 두 대의 바이올린을 위한 협주곡 D단조 BWV 1043 — 2악장 라르고 마 논 트로포" data-cn="바흐"><div class="w-ko">바흐 · 두 대의 바이올린을 위한 협주곡 D단조 BWV 1043 — 2악장 라르고 마 논 트로포</div><div class="w-en">Concerto for Two Violins in D minor, BWV 1043 — II. Largo ma non troppo</div><div class="w-by">연주 Menuhin &amp; Oistrakh, violins</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=zf1X7ppZiIQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="X8Yxr6ED0EU" data-name="헨델 · 헨델 · 메시아 — “나는 내 구원자가 살아 계심을 아네”" data-cid="handel" data-en="Messiah — “I know that my Redeemer liveth”" data-ko="헨델 · 메시아 — “나는 내 구원자가 살아 계심을 아네”" data-cn="헨델"><div class="w-ko">헨델 · 메시아 — “나는 내 구원자가 살아 계심을 아네”</div><div class="w-en">Messiah — “I know that my Redeemer liveth”</div><div class="w-by">연주 Lucy Crowe, soprano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=X8Yxr6ED0EU" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
     </ol>
     <a class="cta" href="/?lang=ko">그림 몇 장만 고르면, 오늘 나에게 맞는 클래식을 추천해 드려요
       <small>약 20초 · 회원가입 없음 · 정답 없음</small></a>
@@ -108,6 +115,7 @@ footer.site a{color:var(--muted)}</style>
     <p>초상화·그림: Wikimedia Commons (퍼블릭 도메인) · 음원: YouTube</p>
     <p>© 2026 냠냠클래식 · 그림 한 장으로 고르는 오늘의 클래식</p>
   </div></footer>
+  <script src="/assets/lp.js?v=1120"></script>
   <script>
   (function () {
     var items = document.querySelectorAll('ol.works li[data-yt]');
@@ -129,14 +137,25 @@ footer.site a{color:var(--muted)}</style>
     }
     window.addEventListener('pointerdown', function () { loadYT(); }, { once: true });
     function btn(li) { return li.querySelector('.pl-btn'); }
+    // 화면 아래 고정 막대: 듣는 곡 카드가 화면 밖으로 나가면 나타나요 (곡 이름 · 다음 곡 · 멈추기)
+    var bar = document.createElement('div'); bar.className = 'nowbar'; bar.setAttribute('aria-live', 'polite');
+    bar.innerHTML = '<div class="nb-in"><button type="button" class="nb-t"><small>지금 듣는 곡 · 누르면 그 곡으로</small><span></span></button><button type="button" class="nb-b nb-next">다음 곡</button><button type="button" class="nb-b nb-stop">멈추기</button></div>';
+    document.body.appendChild(bar);
+    var seen = true, io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) { seen = es[es.length - 1].isIntersecting; showBar(); }, { threshold: 0.25 }) : null;
+    function showBar() { var on = !!li0 && !seen; bar.classList.toggle('on', on); document.body.classList.toggle('nb-pad', !!li0); }
+    bar.querySelector('.nb-t').addEventListener('click', function () { if (li0) li0.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+    bar.querySelector('.nb-next').addEventListener('click', function () { if (li0) { var n = nextOf(li0); if (n) open(n, false); } });
+    bar.querySelector('.nb-stop').addEventListener('click', function () { stop(); });
     function stop() {
+      if (window.ycLP) ycLP.track(null);
+      if (io && li0) io.unobserve(li0);
       if (player) { try { player.destroy(); } catch (e) {} }
       if (li0) {
         ['.pl-player', '.pl-tools', '.pl-auto'].forEach(function (c) { var x = li0.querySelector(c); if (x) x.remove(); });
         li0.classList.remove('playing');
         var b = btn(li0); if (b) { b.textContent = '▶ 이 창에서 듣기'; b.classList.remove('on'); }
       }
-      player = null; li0 = null;
+      player = null; li0 = null; seen = true; showBar();
     }
     function nextOf(li) {
       var n = li.nextElementSibling;
@@ -165,6 +184,17 @@ footer.site a{color:var(--muted)}</style>
       li0 = li;
       li.classList.add('playing');
       var b = btn(li); if (b) { b.textContent = '■ 멈추기'; b.classList.add('on'); }
+      bar.querySelector('.nb-t span').textContent = (li.querySelector('.w-ko') || li).textContent;
+      bar.querySelector('.nb-next').hidden = !nextOf(li);
+      if (io) io.observe(li); else seen = false;
+      showBar();
+      // 들은 곡은 내 방(미니룸) LP장에 꽂아 둬요 (assets/lp.js)
+      try {
+        if (window.ycLP && ycLP.add({ cid: li.dataset.cid, en: li.dataset.en, title: li.dataset.ko, cn: li.dataset.cn, yt: li.dataset.yt, who: ((li.querySelector('.w-by') || {}).textContent || '').replace(/^연주/, '').trim() })) {
+          ycLP.toast('내 방 LP장에 꽂아 뒀어요');
+          try { gtag('event', 'lp_add', { area: 'seo' }); } catch (e) {}
+        }
+      } catch (e) {}
       var box = document.createElement('div'); box.className = 'pl-player';
       var holder = document.createElement('div'); box.appendChild(holder);
       var tools = document.createElement('div'); tools.className = 'pl-tools';
@@ -196,6 +226,7 @@ footer.site a{color:var(--muted)}</style>
             }
           }
         });
+        if (window.ycLP) ycLP.track(player);   // 들은 시간 → 미니룸 화분
       }
       // API가 이미 있으면 탭 안에서 바로 만들어 자동재생이 막히지 않게
       if (window.YT && window.YT.Player) build(); else loadYT().then(build);

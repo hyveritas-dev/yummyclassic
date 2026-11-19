@@ -67,6 +67,13 @@ ol.works li.playing{border-color:var(--wine);box-shadow:0 2px 12px rgba(122,15,4
 .pl-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .pl-tool{font:inherit;font-size:.8rem;font-weight:600;color:var(--wine);background:var(--vanilla);border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;cursor:pointer}
 .pl-auto{font-size:.78rem;color:var(--muted);margin:2px 0 0}
+.nowbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--ink);color:var(--paper);padding:10px 12px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,.18);transform:translateY(110%);transition:transform .25s}
+.nowbar.on{transform:none}
+.nowbar .nb-in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:8px}
+.nowbar .nb-t{flex:1;min-width:0;font-size:.95rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none;border:0;color:inherit;text-align:left;padding:6px 0;cursor:pointer;font-family:inherit}
+.nowbar .nb-t small{display:block;font-size:.75rem;font-weight:400;opacity:.75}
+.nowbar button.nb-b{flex:none;font:inherit;font-size:.9rem;font-weight:700;color:var(--ink);background:var(--paper);border:0;border-radius:999px;padding:10px 14px;cursor:pointer}
+body.nb-pad{padding-bottom:84px}
 .typeimg{width:100%;max-width:520px;border-radius:14px;display:block;margin:10px 0 4px;border:1px solid var(--line)}
 footer.site{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 40px;font-size:.8rem;color:var(--muted)}
 footer.site a{color:var(--muted)}</style>
@@ -91,16 +98,16 @@ footer.site a{color:var(--muted)}</style>
       <div><span class="tag">바로크 · 고전주의</span><p class="lead">무치오 클레멘티 · Muzio Clementi<br />처음 듣는 분도 편하게 시작할 수 있도록, 클레멘티의 대표곡을 들을 만한 악장까지 짚어 골랐어요.</p></div></div>
     <h2>클레멘티 대표곡 10곡</h2>
     <ol class="works">
-      <li><div class="w-ko">소나티나 C장조 Op. 36 No. 1</div><div class="w-en">Sonatina in C major, Op. 36 No. 1</div><a class="w-link" href="https://www.youtube.com/results?search_query=%ED%81%B4%EB%A0%88%EB%A9%98%ED%8B%B0%20%EC%86%8C%EB%82%98%ED%8B%B0%EB%82%98%20C%EC%9E%A5%EC%A1%B0%20Op.%2036%20No.%201" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">소나티나 G장조 Op. 36 No. 2</div><div class="w-en">Sonatina in G major, Op. 36 No. 2</div><a class="w-link" href="https://www.youtube.com/results?search_query=%ED%81%B4%EB%A0%88%EB%A9%98%ED%8B%B0%20%EC%86%8C%EB%82%98%ED%8B%B0%EB%82%98%20G%EC%9E%A5%EC%A1%B0%20Op.%2036%20No.%202" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">소나티나 C장조 Op. 36 No. 3</div><div class="w-en">Sonatina in C major, Op. 36 No. 3</div><a class="w-link" href="https://www.youtube.com/results?search_query=%ED%81%B4%EB%A0%88%EB%A9%98%ED%8B%B0%20%EC%86%8C%EB%82%98%ED%8B%B0%EB%82%98%20C%EC%9E%A5%EC%A1%B0%20Op.%2036%20No.%203" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">소나티나 F장조 Op. 36 No. 4</div><div class="w-en">Sonatina in F major, Op. 36 No. 4</div><a class="w-link" href="https://www.youtube.com/results?search_query=%ED%81%B4%EB%A0%88%EB%A9%98%ED%8B%B0%20%EC%86%8C%EB%82%98%ED%8B%B0%EB%82%98%20F%EC%9E%A5%EC%A1%B0%20Op.%2036%20No.%204" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">소나티나 G장조 Op. 36 No. 5</div><div class="w-en">Sonatina in G major, Op. 36 No. 5</div><a class="w-link" href="https://www.youtube.com/results?search_query=%ED%81%B4%EB%A0%88%EB%A9%98%ED%8B%B0%20%EC%86%8C%EB%82%98%ED%8B%B0%EB%82%98%20G%EC%9E%A5%EC%A1%B0%20Op.%2036%20No.%205" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">소나티나 D장조 Op. 36 No. 6</div><div class="w-en">Sonatina in D major, Op. 36 No. 6</div><a class="w-link" href="https://www.youtube.com/results?search_query=%ED%81%B4%EB%A0%88%EB%A9%98%ED%8B%B0%20%EC%86%8C%EB%82%98%ED%8B%B0%EB%82%98%20D%EC%9E%A5%EC%A1%B0%20Op.%2036%20No.%206" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">피아노 소나타 G단조 Op. 50 No. 3 “버림받은 디도”</div><div class="w-en">Piano Sonata in G minor, Op. 50 No. 3 “Didone abbandonata”</div><a class="w-link" href="https://www.youtube.com/results?search_query=%ED%81%B4%EB%A0%88%EB%A9%98%ED%8B%B0%20%ED%94%BC%EC%95%84%EB%85%B8%20%EC%86%8C%EB%82%98%ED%83%80%20G%EB%8B%A8%EC%A1%B0%20Op.%2050%20No.%203%20%E2%80%9C%EB%B2%84%EB%A6%BC%EB%B0%9B%EC%9D%80%20%EB%94%94%EB%8F%84%E2%80%9D" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">피아노 소나타 올림F단조 Op. 25 No. 5</div><div class="w-en">Piano Sonata in F-sharp minor, Op. 25 No. 5</div><a class="w-link" href="https://www.youtube.com/results?search_query=%ED%81%B4%EB%A0%88%EB%A9%98%ED%8B%B0%20%ED%94%BC%EC%95%84%EB%85%B8%20%EC%86%8C%EB%82%98%ED%83%80%20%EC%98%AC%EB%A6%BCF%EB%8B%A8%EC%A1%B0%20Op.%2025%20No.%205" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">피아노 소나타 B단조 Op. 40 No. 2</div><div class="w-en">Piano Sonata in B minor, Op. 40 No. 2</div><a class="w-link" href="https://www.youtube.com/results?search_query=%ED%81%B4%EB%A0%88%EB%A9%98%ED%8B%B0%20%ED%94%BC%EC%95%84%EB%85%B8%20%EC%86%8C%EB%82%98%ED%83%80%20B%EB%8B%A8%EC%A1%B0%20Op.%2040%20No.%202" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">교향곡 1번 C장조 WoO 32</div><div class="w-en">Symphony No. 1 in C major, WoO 32</div><a class="w-link" href="https://www.youtube.com/results?search_query=%ED%81%B4%EB%A0%88%EB%A9%98%ED%8B%B0%20%EA%B5%90%ED%96%A5%EA%B3%A1%201%EB%B2%88%20C%EC%9E%A5%EC%A1%B0%20WoO%2032" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
+      <li data-yt="0_Ksi2qmW0A" data-name="클레멘티 · 소나티나 C장조 Op. 36 No. 1" data-cid="clementi" data-en="Sonatina in C major, Op. 36 No. 1" data-ko="소나티나 C장조 Op. 36 No. 1" data-cn="클레멘티"><div class="w-ko">소나티나 C장조 Op. 36 No. 1</div><div class="w-en">Sonatina in C major, Op. 36 No. 1</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=0_Ksi2qmW0A" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="S2Sejv2_uLU" data-name="클레멘티 · 소나티나 G장조 Op. 36 No. 2" data-cid="clementi" data-en="Sonatina in G major, Op. 36 No. 2" data-ko="소나티나 G장조 Op. 36 No. 2" data-cn="클레멘티"><div class="w-ko">소나티나 G장조 Op. 36 No. 2</div><div class="w-en">Sonatina in G major, Op. 36 No. 2</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=S2Sejv2_uLU" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="oR-15_4BmaQ" data-name="클레멘티 · 소나티나 C장조 Op. 36 No. 3" data-cid="clementi" data-en="Sonatina in C major, Op. 36 No. 3" data-ko="소나티나 C장조 Op. 36 No. 3" data-cn="클레멘티"><div class="w-ko">소나티나 C장조 Op. 36 No. 3</div><div class="w-en">Sonatina in C major, Op. 36 No. 3</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=oR-15_4BmaQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="naAzi1D2L9M" data-name="클레멘티 · 소나티나 F장조 Op. 36 No. 4" data-cid="clementi" data-en="Sonatina in F major, Op. 36 No. 4" data-ko="소나티나 F장조 Op. 36 No. 4" data-cn="클레멘티"><div class="w-ko">소나티나 F장조 Op. 36 No. 4</div><div class="w-en">Sonatina in F major, Op. 36 No. 4</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=naAzi1D2L9M" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="vgnh_ToNZFw" data-name="클레멘티 · 소나티나 G장조 Op. 36 No. 5" data-cid="clementi" data-en="Sonatina in G major, Op. 36 No. 5" data-ko="소나티나 G장조 Op. 36 No. 5" data-cn="클레멘티"><div class="w-ko">소나티나 G장조 Op. 36 No. 5</div><div class="w-en">Sonatina in G major, Op. 36 No. 5</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=vgnh_ToNZFw" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="SrcFwrw3co4" data-name="클레멘티 · 소나티나 D장조 Op. 36 No. 6" data-cid="clementi" data-en="Sonatina in D major, Op. 36 No. 6" data-ko="소나티나 D장조 Op. 36 No. 6" data-cn="클레멘티"><div class="w-ko">소나티나 D장조 Op. 36 No. 6</div><div class="w-en">Sonatina in D major, Op. 36 No. 6</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=SrcFwrw3co4" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="LweA3aoeUow" data-name="클레멘티 · 피아노 소나타 G단조 Op. 50 No. 3 “버림받은 디도”" data-cid="clementi" data-en="Piano Sonata in G minor, Op. 50 No. 3 “Didone abbandonata”" data-ko="피아노 소나타 G단조 Op. 50 No. 3 “버림받은 디도”" data-cn="클레멘티"><div class="w-ko">피아노 소나타 G단조 Op. 50 No. 3 “버림받은 디도”</div><div class="w-en">Piano Sonata in G minor, Op. 50 No. 3 “Didone abbandonata”</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=LweA3aoeUow" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="c4mYK5V5dx4" data-name="클레멘티 · 피아노 소나타 올림F단조 Op. 25 No. 5" data-cid="clementi" data-en="Piano Sonata in F-sharp minor, Op. 25 No. 5" data-ko="피아노 소나타 올림F단조 Op. 25 No. 5" data-cn="클레멘티"><div class="w-ko">피아노 소나타 올림F단조 Op. 25 No. 5</div><div class="w-en">Piano Sonata in F-sharp minor, Op. 25 No. 5</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=c4mYK5V5dx4" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="a2ZQrAXw0PQ" data-name="클레멘티 · 피아노 소나타 B단조 Op. 40 No. 2" data-cid="clementi" data-en="Piano Sonata in B minor, Op. 40 No. 2" data-ko="피아노 소나타 B단조 Op. 40 No. 2" data-cn="클레멘티"><div class="w-ko">피아노 소나타 B단조 Op. 40 No. 2</div><div class="w-en">Piano Sonata in B minor, Op. 40 No. 2</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=a2ZQrAXw0PQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="zs-IxORZ5Bc" data-name="클레멘티 · 교향곡 1번 C장조 WoO 32" data-cid="clementi" data-en="Symphony No. 1 in C major, WoO 32" data-ko="교향곡 1번 C장조 WoO 32" data-cn="클레멘티"><div class="w-ko">교향곡 1번 C장조 WoO 32</div><div class="w-en">Symphony No. 1 in C major, WoO 32</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=zs-IxORZ5Bc" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
     </ol>
     <a class="cta" href="/?lang=ko">그림 몇 장만 고르면, 오늘 나에게 맞는 클래식을 추천해 드려요
       <small>약 20초 · 회원가입 없음 · 정답 없음</small></a>
@@ -112,6 +119,7 @@ footer.site a{color:var(--muted)}</style>
     <p>초상화·그림: Wikimedia Commons (퍼블릭 도메인) · 음원: YouTube</p>
     <p>© 2026 냠냠클래식 · 그림 한 장으로 고르는 오늘의 클래식</p>
   </div></footer>
+  <script src="/assets/lp.js?v=1120"></script>
   <script>
   (function () {
     var items = document.querySelectorAll('ol.works li[data-yt]');
@@ -133,14 +141,25 @@ footer.site a{color:var(--muted)}</style>
     }
     window.addEventListener('pointerdown', function () { loadYT(); }, { once: true });
     function btn(li) { return li.querySelector('.pl-btn'); }
+    // 화면 아래 고정 막대: 듣는 곡 카드가 화면 밖으로 나가면 나타나요 (곡 이름 · 다음 곡 · 멈추기)
+    var bar = document.createElement('div'); bar.className = 'nowbar'; bar.setAttribute('aria-live', 'polite');
+    bar.innerHTML = '<div class="nb-in"><button type="button" class="nb-t"><small>지금 듣는 곡 · 누르면 그 곡으로</small><span></span></button><button type="button" class="nb-b nb-next">다음 곡</button><button type="button" class="nb-b nb-stop">멈추기</button></div>';
+    document.body.appendChild(bar);
+    var seen = true, io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) { seen = es[es.length - 1].isIntersecting; showBar(); }, { threshold: 0.25 }) : null;
+    function showBar() { var on = !!li0 && !seen; bar.classList.toggle('on', on); document.body.classList.toggle('nb-pad', !!li0); }
+    bar.querySelector('.nb-t').addEventListener('click', function () { if (li0) li0.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+    bar.querySelector('.nb-next').addEventListener('click', function () { if (li0) { var n = nextOf(li0); if (n) open(n, false); } });
+    bar.querySelector('.nb-stop').addEventListener('click', function () { stop(); });
     function stop() {
+      if (window.ycLP) ycLP.track(null);
+      if (io && li0) io.unobserve(li0);
       if (player) { try { player.destroy(); } catch (e) {} }
       if (li0) {
         ['.pl-player', '.pl-tools', '.pl-auto'].forEach(function (c) { var x = li0.querySelector(c); if (x) x.remove(); });
         li0.classList.remove('playing');
         var b = btn(li0); if (b) { b.textContent = '▶ 이 창에서 듣기'; b.classList.remove('on'); }
       }
-      player = null; li0 = null;
+      player = null; li0 = null; seen = true; showBar();
     }
     function nextOf(li) {
       var n = li.nextElementSibling;
@@ -169,6 +188,17 @@ footer.site a{color:var(--muted)}</style>
       li0 = li;
       li.classList.add('playing');
       var b = btn(li); if (b) { b.textContent = '■ 멈추기'; b.classList.add('on'); }
+      bar.querySelector('.nb-t span').textContent = (li.querySelector('.w-ko') || li).textContent;
+      bar.querySelector('.nb-next').hidden = !nextOf(li);
+      if (io) io.observe(li); else seen = false;
+      showBar();
+      // 들은 곡은 내 방(미니룸) LP장에 꽂아 둬요 (assets/lp.js)
+      try {
+        if (window.ycLP && ycLP.add({ cid: li.dataset.cid, en: li.dataset.en, title: li.dataset.ko, cn: li.dataset.cn, yt: li.dataset.yt, who: ((li.querySelector('.w-by') || {}).textContent || '').replace(/^연주/, '').trim() })) {
+          ycLP.toast('내 방 LP장에 꽂아 뒀어요');
+          try { gtag('event', 'lp_add', { area: 'seo' }); } catch (e) {}
+        }
+      } catch (e) {}
       var box = document.createElement('div'); box.className = 'pl-player';
       var holder = document.createElement('div'); box.appendChild(holder);
       var tools = document.createElement('div'); tools.className = 'pl-tools';
@@ -200,6 +230,7 @@ footer.site a{color:var(--muted)}</style>
             }
           }
         });
+        if (window.ycLP) ycLP.track(player);   // 들은 시간 → 미니룸 화분
       }
       // API가 이미 있으면 탭 안에서 바로 만들어 자동재생이 막히지 않게
       if (window.YT && window.YT.Player) build(); else loadYT().then(build);

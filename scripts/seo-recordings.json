@@ -1,0 +1,578 @@
+{
+ "bach|Brandenburg Concerto No. 3 in G major, BWV 1048": {
+  "yt": "GEhc0cqXsYA",
+  "who": "Shunske Sato · Netherlands Bach Society"
+ },
+ "bach|Brandenburg Concerto No. 5 in D major, BWV 1050": {
+  "yt": "xw-H_BpcOPk",
+  "who": "Berliner Philharmoniker"
+ },
+ "bach|Cello Suite No. 1 in G major, BWV 1007": {
+  "yt": "1prweT95Mo0",
+  "who": "Yo-Yo Ma, cello"
+ },
+ "bach|Goldberg Variations, BWV 988": {
+  "yt": "rCuALWK6ZNg",
+  "who": "Glenn Gould, piano"
+ },
+ "bach|Mass in B minor, BWV 232": {
+  "yt": "Ug6Wj8rO-iw",
+  "who": "Netherlands Bach Society"
+ },
+ "bach|Orchestral Suite No. 3 — Air, BWV 1068": {
+  "yt": "MPia1ap_Wb8",
+  "who": "Karajan · Berliner Philharmoniker"
+ },
+ "bach|St Matthew Passion, BWV 244": {
+  "yt": "xt2FtlK2gZM",
+  "who": "Janet Baker, mezzo-soprano"
+ },
+ "bach|The Well-Tempered Clavier, Book I — Prelude in C major, BWV 846": {
+  "yt": "gVah1cr3pU0",
+  "who": "Lang Lang, piano"
+ },
+ "bach|Violin Partita No. 2 in D minor — Chaconne, BWV 1004": {
+  "yt": "aBQkRzZYN8I",
+  "who": "Itzhak Perlman, violin"
+ },
+ "beethoven|Piano Concerto No. 5 “Emperor”, Op. 73 — I. Allegro": {
+  "yt": "yTLOQGF-c1E",
+  "ref": "Beethoven: Piano Concerto No. 5 \"Emperor\" Op. 73 - Daniele & Maurizio Pollini - Sinfónica de Galicia"
+ },
+ "beethoven|Symphony No. 5, Op. 67 — II. Andante con moto": {
+  "yt": "h7ynaalIHJo",
+  "ref": "LPO"
+ },
+ "beethoven|Violin Concerto in D major, Op. 61 — I. Allegro ma non troppo": {
+  "yt": "gIdqiis3Mts",
+  "ref": "Maxim Vengerov plays Beethoven Violin Concerto in D major op. 61 and Meditation by J. Massenet"
+ },
+ "bizet|Carmen — Toreador Song": {
+  "yt": "e5qmSEvDEGs",
+  "ref": "Bizet: Carmen-Toreador song - Laurent Naouri"
+ },
+ "bizet|Carmen — “Habanera”": {
+  "yt": "K2snTkaD64U",
+  "ref": "Carmen: \"L'amour est un oiseau rebelle\" (Elina Garanca)"
+ },
+ "bizet|L’Arlésienne Suite No. 2 — Farandole": {
+  "yt": "3cgNtNt8I0Y",
+  "ref": "Bizet - L'Arlésienne, Suite No. 2, Farandole (New York Philharmonic) | Pyongyang Concert (7/9)"
+ },
+ "bizet|Symphony in C — II. Adagio": {
+  "yt": "P4ABDPsfO7c",
+  "ref": "Bizet: Symphony in C - 'Adagio' - Robert Bloom, oboe; Stokowski conducts"
+ },
+ "bizet|The Pearl Fishers — “Au fond du temple saint”": {
+  "yt": "hJ303yfd5VU",
+  "ref": "Andrea Bocelli and Bryn Terfel: Au Fond Du Temple Saint - from Bizet's Les pêcheurs de perles (HD)"
+ },
+ "brahms|Clarinet Quintet in B minor, Op. 115 — I. Allegro": {
+  "yt": "NijYtozUHaw",
+  "ref": "Johannes Brahms - Clarinet Quintet in B minor, Op. 115"
+ },
+ "brahms|Hungarian Dance No. 5": {
+  "yt": "6Z0gYhRkRfM",
+  "who": "Abbado · Berliner Philharmoniker"
+ },
+ "brahms|Intermezzo in E-flat major, Op. 117 No. 1": {
+  "yt": "hDGvVhM7SBY",
+  "ref": "Boris Berman: Brahms, Intermezzo Op.117 No. 1"
+ },
+ "brahms|Piano Concerto No. 2, Op. 83 — III. Andante": {
+  "yt": "yTd4FioK_RM",
+  "who": "Krystian Zimerman, piano"
+ },
+ "brahms|Symphony No. 1, Op. 68 — IV. Adagio – Allegro non troppo, ma con brio": {
+  "yt": "lfocxOguhcs",
+  "who": "Berliner Philharmoniker"
+ },
+ "brahms|Symphony No. 4, Op. 98 — I. Allegro non troppo": {
+  "yt": "0sO3XrpxXao",
+  "ref": "J. Brahms | Symphony No. 4, Op. 98"
+ },
+ "chopin|Ballade No. 2 in F major, Op. 38": {
+  "yt": "NZfNAVQ6H4o",
+  "ref": "Chopin Ballade No.2 in F major, Op. 38 / Krystian Zimerman (with Score)"
+ },
+ "chopin|Ballade No. 3 in A-flat major, Op. 47": {
+  "yt": "yXZEvbW47mQ",
+  "ref": "Chopin: Ballade Op.47 No.3 in A-flat Major (Glemser)"
+ },
+ "chopin|Nocturne in D-flat major, Op. 27 No. 2": {
+  "yt": "SFMgSwcgaRE",
+  "ref": "Eric Lu – Nocturne in D flat major Op. 27 No. 2 (first stage)"
+ },
+ "chopin|Nocturne in F minor, Op. 55 No. 1": {
+  "yt": "E3qHO9aOQYM",
+  "ref": "Chopin  Nocturne in F Minor, Op 55, No 1  Virna Kljaković, piano"
+ },
+ "chopin|Polonaise in A-flat major, Op. 53 “Heroic”": {
+  "yt": "VEl9zn8JPW8",
+  "who": "Arthur Rubinstein, piano"
+ },
+ "clementi|Piano Sonata in B minor, Op. 40 No. 2": {
+  "yt": "a2ZQrAXw0PQ",
+  "ref": "Clementi - Sonata op.40 no.2"
+ },
+ "clementi|Piano Sonata in F-sharp minor, Op. 25 No. 5": {
+  "yt": "c4mYK5V5dx4",
+  "ref": "Clementi - Sonata op.25 no.5"
+ },
+ "clementi|Piano Sonata in G minor, Op. 50 No. 3 “Didone abbandonata”": {
+  "yt": "LweA3aoeUow",
+  "ref": "Clementi | Piano Sonata op.50 no.3 'Didone abbandonata' | Igor Cognolato (live)"
+ },
+ "clementi|Sonatina in C major, Op. 36 No. 1": {
+  "yt": "0_Ksi2qmW0A",
+  "ref": "Clementi: Sonatina in C major, op. 36 no. 1 (complete) | Cory Hall, pianist-composer"
+ },
+ "clementi|Sonatina in C major, Op. 36 No. 3": {
+  "yt": "oR-15_4BmaQ",
+  "ref": "Clementi: Sonatina in C major, op. 36 no. 3 (complete) | Cory Hall, pianist-composer"
+ },
+ "clementi|Sonatina in D major, Op. 36 No. 6": {
+  "yt": "SrcFwrw3co4",
+  "ref": "Clementi: Sonatina in D major, op. 36 no. 6 (complete) | Cory Hall, pianist-composer"
+ },
+ "clementi|Sonatina in F major, Op. 36 No. 4": {
+  "yt": "naAzi1D2L9M",
+  "ref": "Clementi: Sonatina in F major, op. 36 no. 4 (complete) | Cory Hall, pianist-composer"
+ },
+ "clementi|Sonatina in G major, Op. 36 No. 2": {
+  "yt": "S2Sejv2_uLU",
+  "ref": "Clementi: Sonatina in G major, op. 36 no. 2 (complete) | Cory Hall, pianist-composer"
+ },
+ "clementi|Sonatina in G major, Op. 36 No. 5": {
+  "yt": "vgnh_ToNZFw",
+  "ref": "Clementi: Sonatina in G major, op. 36 no. 5 (complete) | Cory Hall, pianist-composer"
+ },
+ "clementi|Symphony No. 1 in C major, WoO 32": {
+  "yt": "zs-IxORZ5Bc",
+  "ref": "Muzio Clementi - Symphony No.1 in C-major, WoO 32"
+ },
+ "gluck|Alceste — Overture": {
+  "yt": "IM0emsLGb5k",
+  "ref": "Christoph Gluck - Alceste Overture (Svetlanov-USSR Symphony Orchestra)"
+ },
+ "gluck|Alceste — “Divinités du Styx”": {
+  "yt": "tlDxFXR8rxk",
+  "ref": "Jessye Norman - Alceste - Divinités du Styx"
+ },
+ "gluck|Don Juan (ballet) — Dance of the Furies": {
+  "yt": "AhxmU7xQ56g",
+  "ref": "Christoph Willibald Gluck : Don Juan ( Ballet ) - Dance of the Furies - Danza delle Furie"
+ },
+ "gluck|Iphigénie en Aulide — Overture": {
+  "yt": "c00RdRb6ozQ",
+  "ref": "Gluck Iphigenie en Aulide Ouverture"
+ },
+ "gluck|Iphigénie en Tauride — Overture": {
+  "yt": "Mp_OpHAtoMY",
+  "ref": "Christoph Willibald GLUCK - Opéra n°47 ''Iphigénie en Tauride'' - Ouverture [Wq 40] (1779)"
+ },
+ "gluck|Orfeo ed Euridice — Overture": {
+  "yt": "oXk8ilGn0c4",
+  "ref": "Gluck -〈Orfeo ed Euridice〉Overture (John Eliot Gardiner / English Baroque Soloists)"
+ },
+ "gluck|Paride ed Elena — “O del mio dolce ardor”": {
+  "yt": "kugKiD1-0AA",
+  "ref": "Sumi Jo : O Del Mio Dolce Ardor ( C.W.Gluck : Paride Ed Elena ) 19981206"
+ },
+ "handel|Concerto Grosso in G minor, Op. 6 No. 6": {
+  "yt": "htDf0bpFIys",
+  "ref": "Handel Concerto grosso Op 6 No 6 HWV 324 G minor Jordi Savall"
+ },
+ "handel|Messiah, HWV 56 — Hallelujah Chorus": {
+  "yt": "U69gSDCXw24",
+  "who": "VOCES8"
+ },
+ "handel|Minuet in G Minor, HWV 434 No. 4 (Arr. Kempff for Piano)": {
+  "yt": "e8rXqLyG-pM",
+  "ref": "Händel: Menuet in g, HWV 434 (arr. W. Kempff) - Arthur Jussen - Prinsengrachtconcert 2018"
+ },
+ "handel|Music for the Royal Fireworks, HWV 351": {
+  "yt": "s7yxQHLx1uE",
+  "who": "John Eliot Gardiner · English Baroque Soloists"
+ },
+ "handel|Water Music, HWV 348–350": {
+  "yt": "0OrbJBsWyng",
+  "ref": "G.F. Handel - Water Music HWV 348 - 350"
+ },
+ "haydn|Cello Concerto No. 1 in C major — I. Moderato": {
+  "yt": "bniAamEGHXs",
+  "ref": "Joseph Haydn: Cello Concerto No. 1 in C Major, 1. Moderato"
+ },
+ "haydn|Piano Sonata in D major, Hob. XVI:37 — III. Finale": {
+  "yt": "HcSzfMvC06g",
+  "ref": "Joseph Haydn: Piano Sonata No. 50 in D Major, Hob. XVI:37 - III. Finale. Presto ma non troppo (Live)"
+ },
+ "haydn|String Quartet “The Joke”, Op. 33 No. 2 — IV. Finale": {
+  "yt": "anddrR5c1DE",
+  "ref": "Haydn - String Quartet in E-flat, Op. 33, No. 2 “The Joke” Finale"
+ },
+ "haydn|Symphony No. 100 “Military” — II. Allegretto": {
+  "yt": "NeuLhSGv80g",
+  "ref": "Haydn : Symphony No. 100 in G major, \"Military\" II. Allegretto"
+ },
+ "haydn|Trumpet Concerto in E-flat major — III. Finale": {
+  "yt": "toV7E84OAxI",
+  "who": "Wynton Marsalis, trumpet"
+ },
+ "leoncavallo|Mattinata": {
+  "yt": "8mWUCO6yTQw",
+  "ref": "Luciano Pavarotti, New York Philharmonic, Leone Magiera - Leoncavallo: Mattinata (Live)"
+ },
+ "leoncavallo|Pagliacci — Prologue “Si può?”": {
+  "yt": "k4I4ze1II3I",
+  "ref": "Sherrill Milnes - Il Pagliacci Prologue (Si Puo)"
+ },
+ "leoncavallo|Pagliacci — “Vesti la giubba”": {
+  "yt": "G1XkhDU8Y9E",
+  "ref": "Leoncavallo: I Pagliacci: \"Vesti la giubba\" (Live)"
+ },
+ "liszt|Les préludes, S. 97": {
+  "yt": "Q95Xma4ms40",
+  "ref": "Liszt - Les Préludes, S. 97 (Gianandrea Noseda, Orchestre de Paris)"
+ },
+ "liszt|Piano Concerto No. 1 in E-flat major, S. 124": {
+  "yt": "xm_m4pBxxk8",
+  "ref": "Franz Liszt - Piano Concerto No. 1 in E-flat major, S.124 {René Duchâble}"
+ },
+ "liszt|Piano Sonata in B minor, S. 178": {
+  "yt": "VCHE-UPwBJA",
+  "ref": "Liszt - Piano Sonata in B minor, S. 178 (1854) [André Laplante]"
+ },
+ "liszt|Un sospiro (Trois études de concert, S. 144 No. 3)": {
+  "yt": "Qe5kTui3nqc",
+  "who": "Lang Lang, piano"
+ },
+ "mascagni|Cavalleria rusticana — Easter Hymn “Regina coeli”": {
+  "yt": "Pzbkqo5WriE",
+  "ref": "Easter Hymn: Regina Coeli from Cavalleria Rusticana, Mascagni. Libertas Choir and Orchestra"
+ },
+ "mascagni|Iris — Hymn to the Sun": {
+  "yt": "D6AvNLqjt78",
+  "ref": "“Inno del sole” from Iris | Mascagni | Lamont Opera Theatre"
+ },
+ "mascagni|L’amico Fritz — Intermezzo": {
+  "yt": "oHOBZ4TtAGE",
+  "ref": "Mascagni: L'amico Fritz Intermezzo Karajan 1978"
+ },
+ "massenet|Manon — “Adieu, notre petite table”": {
+  "yt": "KEcpVxDJtoM",
+  "ref": "Renee Fleming - Manon - Massenet - Adieu notre petite table"
+ },
+ "massenet|Werther — “Pourquoi me réveiller”": {
+  "yt": "dLgok04UyhY",
+  "ref": "Massenet: Werther: \"Pourquoi me réveiller?\" (Live)"
+ },
+ "massenet|Élégie": {
+  "yt": "p2HG-mnzr4A",
+  "ref": "Massenet : Élégie (L. Desandre, B. Philippe et J. Ducros)"
+ },
+ "mendelssohn|A Midsummer Night’s Dream — Overture, Op. 21": {
+  "yt": "wIcImOYivDA",
+  "ref": "Mendelssohn - A Midsummer Night's Dream Overture, Op. 21 (Kurt Masur, Gewandhausorchestra)"
+ },
+ "mendelssohn|Hear My Prayer — “O for the wings of a dove”": {
+  "yt": "GCIKdjVooQ0",
+  "ref": "Hear my prayer (O for the wings of a dove) - Mendelssohn"
+ },
+ "mendelssohn|Octet in E-flat major, Op. 20 — I. Allegro moderato ma con fuoco": {
+  "yt": "KrITNrgQHuE",
+  "ref": "Felix Mendelssohn - String Octet in E flat major, Op. 20"
+ },
+ "mendelssohn|Piano Trio No. 1 in D minor, Op. 49 — I. Molto allegro ed agitato": {
+  "yt": "2wYj6WycDR8",
+  "ref": "Piano Trio No.1 in D minor, Op.49 - F. Mendelssohn"
+ },
+ "mendelssohn|Songs Without Words, Op. 62 No. 6 “Spring Song”": {
+  "yt": "QPwNbEySjG4",
+  "ref": "Felix Mendelssohn - Song without words, Op. 62 No. 6 \"Spring Song\" [Complete] (Piano Solo)"
+ },
+ "mendelssohn|Symphony No. 3 “Scottish”, Op. 56 — II. Vivace non troppo": {
+  "yt": "rVuInyfF9tw",
+  "ref": "Mendelssohn Symphony No. 3 \"Scottish\" in A minor, Op. 56 -- II. Vivace non troppo"
+ },
+ "mendelssohn|Violin Concerto in E minor, Op. 64 — I. Allegro molto appassionato": {
+  "yt": "vzbC39utkTw",
+  "ref": "Mendelssohn Violin Concerto E Minor OP.64 - 1st mov. - Hilary Hahn - Sheet Music Play Along"
+ },
+ "mozart|Don Giovanni — “Là ci darem la mano”": {
+  "yt": "o5QOCUbSZvQ",
+  "ref": "Mozart: Don Giovanni, K. 527 / Act 1 - \"Là ci darem la mano\" (Live)"
+ },
+ "mozart|Sonata in C major for piano four hands, K. 521": {
+  "yt": "UV5PtlqumeA",
+  "ref": "Mozart: Sonata for 4 hands KV 521 - Lucas & Arthur Jussen (Live in Flagey)"
+ },
+ "mozart|String Quartet No. 14 in G major, K. 387 — I. Allegro vivace assai": {
+  "yt": "PsUsyD3Xryk",
+  "ref": "Mozart - String Quartet No. 14 in G Major, K. 387 - I. Allegro vivace assai"
+ },
+ "mozart|The Marriage of Figaro — Overture": {
+  "yt": "yh9OTvIiH_I",
+  "who": "Karajan · Wiener Philharmoniker"
+ },
+ "puccini|Gianni Schicchi — “O mio babbino caro”": {
+  "yt": "LDGzsRAXMdQ",
+  "ref": "Maria Callas – Puccini: Gianni Schicchi: “O mio babbino caro”"
+ },
+ "puccini|La bohème — “Che gelida manina”": {
+  "yt": "OkHGUaB1Bs8",
+  "ref": "La Boheme - Pavarotti- \"Che gelida manina\"  Fiamma Izzo d' Amico \"Si, mi chiamano Mimi\""
+ },
+ "puccini|La bohème — “Mi chiamano Mimì”": {
+  "yt": "m0nSKRbQ2_g",
+  "ref": "La Boheme - Si. Mi chiamano Mimi (Angela Gheorghiu)"
+ },
+ "puccini|La bohème — “Sì, mi chiamano Mimì”": {
+  "yt": "m0nSKRbQ2_g",
+  "ref": "La Boheme - Si. Mi chiamano Mimi (Angela Gheorghiu)"
+ },
+ "puccini|Madama Butterfly — “Un bel dì vedremo”": {
+  "yt": "c-r2vu4t9-g",
+  "ref": "Maria Callas - Un bel di vedremo"
+ },
+ "puccini|Turandot — “Nessun dorma”": {
+  "yt": "cWc7vYjgnTs",
+  "ref": "Luciano Pavarotti sings \"Nessun dorma\" from Turandot (The Three Tenors in Concert 1994)"
+ },
+ "purcell|Chacony in G minor, Z. 730": {
+  "yt": "IND7W-JlqAM",
+  "ref": "Purcell - Chacony in G Minor Z730"
+ },
+ "purcell|Come ye Sons of Art, Z. 323": {
+  "yt": "euKk6rMHVKg",
+  "ref": "Purcell - Come ye Sons of Art - Z.323 - Ode for Queen Mary's birthday"
+ },
+ "purcell|Dido and Aeneas — Overture": {
+  "yt": "38SuC3KHrT0",
+  "ref": "Purcell: Overture to Dido & Aeneas"
+ },
+ "purcell|Dido and Aeneas, Z. 626 — “When I am laid in earth”": {
+  "yt": "dl9Mbv5Ag-w",
+  "who": "Janet Baker, mezzo-soprano"
+ },
+ "purcell|Fantazia upon one note, Z. 745": {
+  "yt": "BAT5tkKga0Y",
+  "ref": "A Far Cry performs Henry Purcell's Fantasia upon one note, Z. 745"
+ },
+ "purcell|Music for the Funeral of Queen Mary, Z. 860": {
+  "yt": "hx-bnM5j9vI",
+  "ref": "Henry Purcell Music for the Funeral of Queen Mary Z 860 Jean Tubéry"
+ },
+ "purcell|The Fairy-Queen, Z. 629 — “The Plaint (O let me weep)”": {
+  "yt": "VxcBV7n52w8",
+  "ref": "Henry Purcell - The Fairy Queen Z 629 - The Plaint: \"O Let Me Weep\" - #44"
+ },
+ "rossini|La gazza ladra — Overture": {
+  "yt": "KYfaKAIf-SU",
+  "ref": "Rossini: Ouverture \"La Gazza Ladra\" / Videnoff - Mannheimer Philharmoniker"
+ },
+ "rossini|Petite messe solennelle": {
+  "yt": "QC0sMisW8jA",
+  "ref": "Kyrie Amsterdam Sinfonietta"
+ },
+ "rossini|Stabat Mater": {
+  "yt": "lx79MjEGteo",
+  "ref": "Rossini: Stabat Mater ∙ hr-Sinfonieorchester ∙ Solisten ∙ MDR Rundfunkchor ∙ Andrés Orozco-Estrada"
+ },
+ "rossini|The Barber of Seville — “Largo al factotum”": {
+  "yt": "-ipb9xbXSAY",
+  "ref": "Il Barbiere di Siviglia: \"Largo al factotum\" (Peter Mattei)"
+ },
+ "scarlatti|Keyboard Sonata in B minor, K. 27": {
+  "yt": "MTEp8ylIqVI",
+  "ref": "Domenico Scarlatti - Sonata in B minor K27 (Murray Perahia)"
+ },
+ "scarlatti|Keyboard Sonata in B minor, K. 87": {
+  "yt": "5g_TRcRKtMw",
+  "ref": "Scarlatti Sonata in B minor K.87 - P. Barton, piano"
+ },
+ "scarlatti|Keyboard Sonata in C major, K. 159 “The Hunt”": {
+  "yt": "M-qHaX927Z0",
+  "ref": "Scarlatti Sonata in C major K.159 - Paul Barton, piano"
+ },
+ "scarlatti|Keyboard Sonata in D major, K. 492": {
+  "yt": "5cZdwVWxFxQ",
+  "ref": "Domenico Scarlatti - Sonata in D major K492 (Sonia Rubinsky)"
+ },
+ "scarlatti|Keyboard Sonata in D minor, K. 1": {
+  "yt": "lYAsSceNGrE",
+  "ref": "Domenico Scarlatti - Sonata in D minor K1 (Ivo Pogorelich)"
+ },
+ "scarlatti|Keyboard Sonata in D minor, K. 213": {
+  "yt": "eBKi4mTOe6U",
+  "ref": "Dmitri Levkovich,  Scarlatti: Sonata in D minor, K. 213"
+ },
+ "scarlatti|Keyboard Sonata in D minor, K. 9 “Pastorale”": {
+  "yt": "jpmXwn_KkkE",
+  "ref": "Scarlatti Sonata in D minor \"Pastorale\" K.9 Paul Barton, FEURICH piano"
+ },
+ "scarlatti|Keyboard Sonata in E major, K. 380": {
+  "yt": "6JqC-TBzxr8",
+  "ref": "Scarlatti Sonata in E major K.380 - Paul Barton, piano"
+ },
+ "scarlatti|Keyboard Sonata in F minor, K. 466": {
+  "yt": "ZYtFPFyUafM",
+  "ref": "Fazıl Say plays Scarlatti: Sonata in F minor K. 466"
+ },
+ "schubert|Arpeggione Sonata in A minor, D. 821 — I. Allegro moderato": {
+  "yt": "8CW6S4gRahY",
+  "ref": "Schubert - Arpeggione Sonata D 821 / Presentation + New Mastering (Ct. rec.: Rostropovich / Britten)"
+ },
+ "schubert|Arpeggione Sonata in A minor, D. 821 — II. Adagio": {
+  "yt": "hFBAVF93ve8",
+  "ref": "Rostropovich/Britten 2/3"
+ },
+ "schubert|Fantasia in F minor, D. 940 (piano four hands)": {
+  "yt": "uzjYQuDPi9Q",
+  "ref": "Franz Schubert - Fantasia for piano, 4 hands in F minor, D. 940"
+ },
+ "schubert|Impromptu in C minor, Op. 90 No. 1, D. 899": {
+  "yt": "AHu2N-ZsA6s",
+  "ref": "Schubert  Impromptu Op 90 No 1 D 899 C minor Alfred Brendel"
+ },
+ "schubert|Impromptu in E-flat major, Op. 90 No. 2, D. 899": {
+  "yt": "9yaUxihBZXs",
+  "ref": "Schubert  Impromptu Op 90 No 2 D 899 E flat major Alfred Brendel"
+ },
+ "schubert|Impromptu in G-flat major, Op. 90 No. 3, D. 899": {
+  "yt": "Ybq6Ea79nZ4",
+  "who": "Evgeny Kissin, piano"
+ },
+ "schubert|Piano Sonata in A major, D. 664 — III. Allegro": {
+  "yt": "wmxSyfp2HzU",
+  "ref": "Schubert Sonata in A major D664 | Leon McCawley piano"
+ },
+ "schubert|Piano Sonata in A major, D. 959 — I. Allegro": {
+  "yt": "SjnTPcB59O4",
+  "ref": "Schubert Piano Sonata No 20 D 959 in A major Alfred Brendel"
+ },
+ "schubert|Piano Sonata in A major, D. 959 — IV. Rondo: Allegretto": {
+  "yt": "LaLnvYvE6P8",
+  "ref": "Schubert piano sonata D959 in A major IV, Rondo: Allegretto"
+ },
+ "schubert|Piano Trio No. 2, D. 929 — II. Andante con moto": {
+  "yt": "e52IMaE-3As",
+  "who": "Trio Wanderer"
+ },
+ "schubert|Ständchen (Serenade), D. 957 No. 4": {
+  "yt": "LFHHc2Wlpug",
+  "who": "Mischa Maisky, cello (편곡)"
+ },
+ "schubert|Symphony No. 9 “The Great”, D. 944 — IV. Allegro vivace": {
+  "yt": "zRKn7BiX0U4",
+  "ref": "Schubert / symphony No. 9 in C, D. 944 'Great', IV. Allegro vivace"
+ },
+ "schumann|Carnaval, Op. 9": {
+  "yt": "H_KszUWZ3Ac",
+  "ref": "Robert Schumann - Op.9, Carnaval (Hamelin)"
+ },
+ "schumann|Fantasiestücke, Op. 12 — “Des Abends”": {
+  "yt": "-WiTegtsai0",
+  "ref": "Schumann: Fantasiestücke op. 12 – Nr. 1 »Des Abends«  ∙ Emanuel Ax"
+ },
+ "schumann|Fantasiestücke, Op. 73 — No. 1 “Zart und mit Ausdruck” (cello and piano)": {
+  "yt": "Yf_gcKTZS_4",
+  "ref": "Robert Schumann: Fantasy Pieces Op.73, I Zart und mit Ausdruck"
+ },
+ "schumann|Kinderszenen, Op. 15 — No. 1 “Von fremden Ländern und Menschen”": {
+  "yt": "InA4womSarQ",
+  "ref": "Schumann: Kinderszenen Op.15 No.1 in G Major (Horowitz)"
+ },
+ "schumann|Kreisleriana, Op. 16": {
+  "yt": "WrZn9HyIwEU",
+  "ref": "Schumann: Kreisleriana, Op.16 (Slåttebrekk, Endres)"
+ },
+ "schumann|Papillons, Op. 2": {
+  "yt": "fGeKTOXhr74",
+  "ref": "Vladimir Ashkenazy: R. Schumann - Papillons Op. 2"
+ },
+ "schumann|Symphonic Etudes, Op. 13": {
+  "yt": "G1FFWgzk4vI",
+  "ref": "Robert Schumann - Symphonic Etudes, Op. 13"
+ },
+ "tchaikovsky|Serenade for Strings in C major, Op. 48 — II. Waltz": {
+  "yt": "0qQcLcjEXss",
+  "who": "Berliner Philharmoniker"
+ },
+ "tchaikovsky|The Sleeping Beauty — Waltz": {
+  "yt": "2Sb8WCPjPDs",
+  "who": "확인 필요"
+ },
+ "tchaikovsky|Violin Concerto in D major, Op. 35 — II. Canzonetta": {
+  "yt": "6v3Kbo0jKE8",
+  "ref": "Tchaikovsky: Violin Concerto in D Major, Op.35: II. Canzonetta"
+ },
+ "verdi|Aida — Triumphal March": {
+  "yt": "AssDQbaIP_I",
+  "ref": "Verdi - Triumphal March (Marcia Trionfale) from Aida, Act II"
+ },
+ "verdi|La traviata — “Libiamo ne’ lieti calici” (Brindisi)": {
+  "yt": "afhAqMeeQJk",
+  "ref": "La Traviata: “Libiamo, ne’ lieti calici”"
+ },
+ "verdi|Nabucco — “Va, pensiero” (Chorus of the Hebrew Slaves)": {
+  "yt": "aiSSz0snWzA",
+  "ref": "Giuseppe Verdi, Và pensiero (Nabucco)"
+ },
+ "verdi|Requiem — Dies irae": {
+  "yt": "X6cogix3cwQ",
+  "ref": "Verdi’s Requiem: “Dies irae”"
+ },
+ "verdi|Rigoletto — “La donna è mobile”": {
+  "yt": "2Wk5xDCta38",
+  "ref": "Pavarotti official audio"
+ },
+ "vivaldi|Concerto for Four Violins in B minor, RV 580": {
+  "yt": "QSs6HKwhbAA",
+  "ref": "Vivaldi   Concerto for 4 violins in B minor, RV 580   Il Giardino Armonico"
+ },
+ "vivaldi|Concerto for Two Violins in A minor, RV 522": {
+  "yt": "7E-RTI-H2oI",
+  "ref": "Vivaldi - Concerto for Two Violins in A Minor RV522"
+ },
+ "vivaldi|Flute Concerto in D major “Il gardellino”, RV 428": {
+  "yt": "2SP43FHMduE",
+  "ref": "Vivaldi - Concerto for Flute in D Major, Il Gardellino, RV 428 - Maurice Steger"
+ },
+ "vivaldi|Gloria in D major, RV 589": {
+  "yt": "_0zWIJc4U_8",
+  "who": "Tafelmusik Baroque Orchestra"
+ },
+ "vivaldi|Mandolin Concerto in C major, RV 425": {
+  "yt": "ikHCVWv1uvg",
+  "ref": "Vivaldi Mandolin Concerto in C RV 425"
+ },
+ "vivaldi|The Four Seasons — Spring, RV 269": {
+  "yt": "tbwVJVNvMh4",
+  "who": "Gidon Kremer, violin"
+ },
+ "vivaldi|The Four Seasons — Summer, RV 315": {
+  "yt": "124NoPUBDvA",
+  "who": "Anne-Sophie Mutter, violin"
+ },
+ "vivaldi|The Four Seasons — Winter, RV 297": {
+  "yt": "rBq4ov5Y_84",
+  "who": "Itzhak Perlman, violin"
+ },
+ "wagner|Der fliegende Holländer — Overture": {
+  "yt": "Ezqen5-UxlQ",
+  "ref": "Wagner: Der fliegende Holländer – Ouvertüre ∙ hr-Sinfonieorchester ∙ Marek Janowski"
+ },
+ "wagner|Die Meistersinger von Nürnberg — Prelude (Act I)": {
+  "yt": "fDIkzHjHRhI",
+  "ref": "Wagner: Die Meistersinger von Nürnberg – Vorspiel ∙ hr-Sinfonieorchester ∙ Alain Altinoglu"
+ },
+ "wagner|Lohengrin — Bridal Chorus (Act III)": {
+  "yt": "J2lX86w-pT4",
+  "ref": "Christian Thielemann – Wagner: Lohengrin: Prelude Act 3 / \"Treulich geführt\" (Bridal Chorus)"
+ },
+ "wagner|Parsifal — Prelude (Act I)": {
+  "yt": "HH8U-P1X7dc",
+  "ref": "Richard Wagner:  Parsifal, prelude to act 1"
+ }
+}

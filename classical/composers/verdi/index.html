@@ -67,6 +67,13 @@ ol.works li.playing{border-color:var(--wine);box-shadow:0 2px 12px rgba(122,15,4
 .pl-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .pl-tool{font:inherit;font-size:.8rem;font-weight:600;color:var(--wine);background:var(--vanilla);border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;cursor:pointer}
 .pl-auto{font-size:.78rem;color:var(--muted);margin:2px 0 0}
+.nowbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--ink);color:var(--paper);padding:10px 12px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,.18);transform:translateY(110%);transition:transform .25s}
+.nowbar.on{transform:none}
+.nowbar .nb-in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:8px}
+.nowbar .nb-t{flex:1;min-width:0;font-size:.95rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none;border:0;color:inherit;text-align:left;padding:6px 0;cursor:pointer;font-family:inherit}
+.nowbar .nb-t small{display:block;font-size:.75rem;font-weight:400;opacity:.75}
+.nowbar button.nb-b{flex:none;font:inherit;font-size:.9rem;font-weight:700;color:var(--ink);background:var(--paper);border:0;border-radius:999px;padding:10px 14px;cursor:pointer}
+body.nb-pad{padding-bottom:84px}
 .typeimg{width:100%;max-width:520px;border-radius:14px;display:block;margin:10px 0 4px;border:1px solid var(--line)}
 footer.site{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 40px;font-size:.8rem;color:var(--muted)}
 footer.site a{color:var(--muted)}</style>
@@ -91,13 +98,13 @@ footer.site a{color:var(--muted)}</style>
       <div><span class="tag">낭만주의</span><p class="lead">주세페 베르디 · Giuseppe Verdi<br />처음 듣는 분도 편하게 시작할 수 있도록, 베르디의 대표곡을 들을 만한 악장까지 짚어 골랐어요.</p></div></div>
     <h2>베르디 대표곡 7곡</h2>
     <ol class="works">
-      <li data-yt="V2eNaxrKABY" data-name="베르디 · 라 트라비아타 — 1막 전주곡"><div class="w-ko">라 트라비아타 — 1막 전주곡</div><div class="w-en">La traviata — Prelude to Act I</div><div class="w-by">연주 Carlos Kleiber · Bayerisches Staatsorchester</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=V2eNaxrKABY" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="bmCXWtqDqIA" data-name="베르디 · 운명의 힘 — 서곡"><div class="w-ko">운명의 힘 — 서곡</div><div class="w-en">La forza del destino — Overture</div><div class="w-by">연주 Riccardo Muti · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=bmCXWtqDqIA" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li><div class="w-ko">라 트라비아타 — “축배의 노래”</div><div class="w-en">La traviata — “Libiamo ne’ lieti calici” (Brindisi)</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%B2%A0%EB%A5%B4%EB%94%94%20%EB%9D%BC%20%ED%8A%B8%EB%9D%BC%EB%B9%84%EC%95%84%ED%83%80%20%E2%80%94%20%E2%80%9C%EC%B6%95%EB%B0%B0%EC%9D%98%20%EB%85%B8%EB%9E%98%E2%80%9D" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">리골레토 — “여자의 마음”</div><div class="w-en">Rigoletto — “La donna è mobile”</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%B2%A0%EB%A5%B4%EB%94%94%20%EB%A6%AC%EA%B3%A8%EB%A0%88%ED%86%A0%20%E2%80%94%20%E2%80%9C%EC%97%AC%EC%9E%90%EC%9D%98%20%EB%A7%88%EC%9D%8C%E2%80%9D" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">나부코 — “가라, 생각이여” (히브리 노예들의 합창)</div><div class="w-en">Nabucco — “Va, pensiero” (Chorus of the Hebrew Slaves)</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%B2%A0%EB%A5%B4%EB%94%94%20%EB%82%98%EB%B6%80%EC%BD%94%20%E2%80%94%20%E2%80%9C%EA%B0%80%EB%9D%BC%2C%20%EC%83%9D%EA%B0%81%EC%9D%B4%EC%97%AC%E2%80%9D%20(%ED%9E%88%EB%B8%8C%EB%A6%AC%20%EB%85%B8%EC%98%88%EB%93%A4%EC%9D%98%20%ED%95%A9%EC%B0%BD)" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">아이다 — 개선 행진곡</div><div class="w-en">Aida — Triumphal March</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%B2%A0%EB%A5%B4%EB%94%94%20%EC%95%84%EC%9D%B4%EB%8B%A4%20%E2%80%94%20%EA%B0%9C%EC%84%A0%20%ED%96%89%EC%A7%84%EA%B3%A1" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">레퀴엠 — 진노의 날</div><div class="w-en">Requiem — Dies irae</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EB%B2%A0%EB%A5%B4%EB%94%94%20%EB%A0%88%ED%80%B4%EC%97%A0%20%E2%80%94%20%EC%A7%84%EB%85%B8%EC%9D%98%20%EB%82%A0" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
+      <li data-yt="V2eNaxrKABY" data-name="베르디 · 라 트라비아타 — 1막 전주곡" data-cid="verdi" data-en="La traviata — Prelude to Act I" data-ko="라 트라비아타 — 1막 전주곡" data-cn="베르디"><div class="w-ko">라 트라비아타 — 1막 전주곡</div><div class="w-en">La traviata — Prelude to Act I</div><div class="w-by">연주 Carlos Kleiber · Bayerisches Staatsorchester</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=V2eNaxrKABY" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="bmCXWtqDqIA" data-name="베르디 · 운명의 힘 — 서곡" data-cid="verdi" data-en="La forza del destino — Overture" data-ko="운명의 힘 — 서곡" data-cn="베르디"><div class="w-ko">운명의 힘 — 서곡</div><div class="w-en">La forza del destino — Overture</div><div class="w-by">연주 Riccardo Muti · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=bmCXWtqDqIA" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="afhAqMeeQJk" data-name="베르디 · 라 트라비아타 — “축배의 노래”" data-cid="verdi" data-en="La traviata — “Libiamo ne’ lieti calici” (Brindisi)" data-ko="라 트라비아타 — “축배의 노래”" data-cn="베르디"><div class="w-ko">라 트라비아타 — “축배의 노래”</div><div class="w-en">La traviata — “Libiamo ne’ lieti calici” (Brindisi)</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=afhAqMeeQJk" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="2Wk5xDCta38" data-name="베르디 · 리골레토 — “여자의 마음”" data-cid="verdi" data-en="Rigoletto — “La donna è mobile”" data-ko="리골레토 — “여자의 마음”" data-cn="베르디"><div class="w-ko">리골레토 — “여자의 마음”</div><div class="w-en">Rigoletto — “La donna è mobile”</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=2Wk5xDCta38" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="aiSSz0snWzA" data-name="베르디 · 나부코 — “가라, 생각이여” (히브리 노예들의 합창)" data-cid="verdi" data-en="Nabucco — “Va, pensiero” (Chorus of the Hebrew Slaves)" data-ko="나부코 — “가라, 생각이여” (히브리 노예들의 합창)" data-cn="베르디"><div class="w-ko">나부코 — “가라, 생각이여” (히브리 노예들의 합창)</div><div class="w-en">Nabucco — “Va, pensiero” (Chorus of the Hebrew Slaves)</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=aiSSz0snWzA" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="AssDQbaIP_I" data-name="베르디 · 아이다 — 개선 행진곡" data-cid="verdi" data-en="Aida — Triumphal March" data-ko="아이다 — 개선 행진곡" data-cn="베르디"><div class="w-ko">아이다 — 개선 행진곡</div><div class="w-en">Aida — Triumphal March</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=AssDQbaIP_I" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="X6cogix3cwQ" data-name="베르디 · 레퀴엠 — 진노의 날" data-cid="verdi" data-en="Requiem — Dies irae" data-ko="레퀴엠 — 진노의 날" data-cn="베르디"><div class="w-ko">레퀴엠 — 진노의 날</div><div class="w-en">Requiem — Dies irae</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=X6cogix3cwQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
     </ol>
     <a class="cta" href="/?lang=ko">그림 몇 장만 고르면, 오늘 나에게 맞는 클래식을 추천해 드려요
       <small>약 20초 · 회원가입 없음 · 정답 없음</small></a>
@@ -109,6 +116,7 @@ footer.site a{color:var(--muted)}</style>
     <p>초상화·그림: Wikimedia Commons (퍼블릭 도메인) · 음원: YouTube</p>
     <p>© 2026 냠냠클래식 · 그림 한 장으로 고르는 오늘의 클래식</p>
   </div></footer>
+  <script src="/assets/lp.js?v=1120"></script>
   <script>
   (function () {
     var items = document.querySelectorAll('ol.works li[data-yt]');
@@ -130,14 +138,25 @@ footer.site a{color:var(--muted)}</style>
     }
     window.addEventListener('pointerdown', function () { loadYT(); }, { once: true });
     function btn(li) { return li.querySelector('.pl-btn'); }
+    // 화면 아래 고정 막대: 듣는 곡 카드가 화면 밖으로 나가면 나타나요 (곡 이름 · 다음 곡 · 멈추기)
+    var bar = document.createElement('div'); bar.className = 'nowbar'; bar.setAttribute('aria-live', 'polite');
+    bar.innerHTML = '<div class="nb-in"><button type="button" class="nb-t"><small>지금 듣는 곡 · 누르면 그 곡으로</small><span></span></button><button type="button" class="nb-b nb-next">다음 곡</button><button type="button" class="nb-b nb-stop">멈추기</button></div>';
+    document.body.appendChild(bar);
+    var seen = true, io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) { seen = es[es.length - 1].isIntersecting; showBar(); }, { threshold: 0.25 }) : null;
+    function showBar() { var on = !!li0 && !seen; bar.classList.toggle('on', on); document.body.classList.toggle('nb-pad', !!li0); }
+    bar.querySelector('.nb-t').addEventListener('click', function () { if (li0) li0.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+    bar.querySelector('.nb-next').addEventListener('click', function () { if (li0) { var n = nextOf(li0); if (n) open(n, false); } });
+    bar.querySelector('.nb-stop').addEventListener('click', function () { stop(); });
     function stop() {
+      if (window.ycLP) ycLP.track(null);
+      if (io && li0) io.unobserve(li0);
       if (player) { try { player.destroy(); } catch (e) {} }
       if (li0) {
         ['.pl-player', '.pl-tools', '.pl-auto'].forEach(function (c) { var x = li0.querySelector(c); if (x) x.remove(); });
         li0.classList.remove('playing');
         var b = btn(li0); if (b) { b.textContent = '▶ 이 창에서 듣기'; b.classList.remove('on'); }
       }
-      player = null; li0 = null;
+      player = null; li0 = null; seen = true; showBar();
     }
     function nextOf(li) {
       var n = li.nextElementSibling;
@@ -166,6 +185,17 @@ footer.site a{color:var(--muted)}</style>
       li0 = li;
       li.classList.add('playing');
       var b = btn(li); if (b) { b.textContent = '■ 멈추기'; b.classList.add('on'); }
+      bar.querySelector('.nb-t span').textContent = (li.querySelector('.w-ko') || li).textContent;
+      bar.querySelector('.nb-next').hidden = !nextOf(li);
+      if (io) io.observe(li); else seen = false;
+      showBar();
+      // 들은 곡은 내 방(미니룸) LP장에 꽂아 둬요 (assets/lp.js)
+      try {
+        if (window.ycLP && ycLP.add({ cid: li.dataset.cid, en: li.dataset.en, title: li.dataset.ko, cn: li.dataset.cn, yt: li.dataset.yt, who: ((li.querySelector('.w-by') || {}).textContent || '').replace(/^연주/, '').trim() })) {
+          ycLP.toast('내 방 LP장에 꽂아 뒀어요');
+          try { gtag('event', 'lp_add', { area: 'seo' }); } catch (e) {}
+        }
+      } catch (e) {}
       var box = document.createElement('div'); box.className = 'pl-player';
       var holder = document.createElement('div'); box.appendChild(holder);
       var tools = document.createElement('div'); tools.className = 'pl-tools';
@@ -197,6 +227,7 @@ footer.site a{color:var(--muted)}</style>
             }
           }
         });
+        if (window.ycLP) ycLP.track(player);   // 들은 시간 → 미니룸 화분
       }
       // API가 이미 있으면 탭 안에서 바로 만들어 자동재생이 막히지 않게
       if (window.YT && window.YT.Player) build(); else loadYT().then(build);

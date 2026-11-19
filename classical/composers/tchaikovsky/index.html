@@ -67,6 +67,13 @@ ol.works li.playing{border-color:var(--wine);box-shadow:0 2px 12px rgba(122,15,4
 .pl-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .pl-tool{font:inherit;font-size:.8rem;font-weight:600;color:var(--wine);background:var(--vanilla);border:1px solid var(--line);border-radius:999px;padding:4px 12px;text-decoration:none;cursor:pointer}
 .pl-auto{font-size:.78rem;color:var(--muted);margin:2px 0 0}
+.nowbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--ink);color:var(--paper);padding:10px 12px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,.18);transform:translateY(110%);transition:transform .25s}
+.nowbar.on{transform:none}
+.nowbar .nb-in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:8px}
+.nowbar .nb-t{flex:1;min-width:0;font-size:.95rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none;border:0;color:inherit;text-align:left;padding:6px 0;cursor:pointer;font-family:inherit}
+.nowbar .nb-t small{display:block;font-size:.75rem;font-weight:400;opacity:.75}
+.nowbar button.nb-b{flex:none;font:inherit;font-size:.9rem;font-weight:700;color:var(--ink);background:var(--paper);border:0;border-radius:999px;padding:10px 14px;cursor:pointer}
+body.nb-pad{padding-bottom:84px}
 .typeimg{width:100%;max-width:520px;border-radius:14px;display:block;margin:10px 0 4px;border:1px solid var(--line)}
 footer.site{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 40px;font-size:.8rem;color:var(--muted)}
 footer.site a{color:var(--muted)}</style>
@@ -91,30 +98,30 @@ footer.site a{color:var(--muted)}</style>
       <div><span class="tag">낭만주의</span><p class="lead">표트르 일리치 차이콥스키 · Pyotr Ilyich Tchaikovsky<br />처음 듣는 분도 편하게 시작할 수 있도록, 차이콥스키의 대표곡을 들을 만한 악장까지 짚어 골랐어요.</p></div></div>
     <h2>차이콥스키 대표곡 10곡</h2>
     <ol class="works">
-      <li data-yt="LiGjvEq0QHA" data-name="차이콥스키 · 백조의 호수 — 정경 (2막)"><div class="w-ko">백조의 호수 — 정경 (2막)</div><div class="w-en">Swan Lake — Scene (Act II)</div><div class="w-by">연주 André Previn · London Symphony Orchestra</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=LiGjvEq0QHA" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="esK8GgfbRDQ" data-name="차이콥스키 · 피아노 협주곡 1번 내림나단조 Op. 23 — 1악장"><div class="w-ko">피아노 협주곡 1번 내림나단조 Op. 23 — 1악장</div><div class="w-en">Piano Concerto No. 1 in B-flat minor, Op. 23 — I. Allegro non troppo e molto maestoso</div><div class="w-by">연주 Martha Argerich · Abbado · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=esK8GgfbRDQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="RqIquIcFWHY" data-name="차이콥스키 · 교향곡 5번 Op. 64 — 2악장 안단테 칸타빌레"><div class="w-ko">교향곡 5번 Op. 64 — 2악장 안단테 칸타빌레</div><div class="w-en">Symphony No. 5, Op. 64 — II. Andante cantabile</div><div class="w-by">연주 Valery Gergiev</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=RqIquIcFWHY" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="KBWa-XGIsxs" data-name="차이콥스키 · 호두까기 인형 — 꽃의 왈츠"><div class="w-ko">호두까기 인형 — 꽃의 왈츠</div><div class="w-en">The Nutcracker — Waltz of the Flowers</div><div class="w-by">연주 Daniel Barenboim · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=KBWa-XGIsxs" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="pdke6TVb2Ns" data-name="차이콥스키 · 로미오와 줄리엣 환상 서곡"><div class="w-ko">로미오와 줄리엣 환상 서곡</div><div class="w-en">Romeo and Juliet, Fantasy-Overture</div><div class="w-by">연주 Karajan · Wiener Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=pdke6TVb2Ns" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="luLnN2vvUYY" data-name="차이콥스키 · 1812년 서곡 Op. 49"><div class="w-ko">1812년 서곡 Op. 49</div><div class="w-en">1812 Overture, Op. 49</div><div class="w-by">연주 Erich Kunzel · Cincinnati Pops (with cannons)</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=luLnN2vvUYY" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li><div class="w-ko">바이올린 협주곡 D장조 Op. 35 — 2악장 칸초네타</div><div class="w-en">Violin Concerto in D major, Op. 35 — II. Canzonetta</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%B0%A8%EC%9D%B4%EC%BD%A5%EC%8A%A4%ED%82%A4%20%EB%B0%94%EC%9D%B4%EC%98%AC%EB%A6%B0%20%ED%98%91%EC%A3%BC%EA%B3%A1%20D%EC%9E%A5%EC%A1%B0%20Op.%2035%20%E2%80%94%202%EC%95%85%EC%9E%A5%20%EC%B9%B8%EC%B4%88%EB%84%A4%ED%83%80" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li data-yt="OXf-t0RtDEE" data-name="차이콥스키 · 교향곡 6번 “비창” Op. 74 — 4악장 아다지오 라멘토소"><div class="w-ko">교향곡 6번 “비창” Op. 74 — 4악장 아다지오 라멘토소</div><div class="w-en">Symphony No. 6 “Pathétique”, Op. 74 — IV. Adagio lamentoso</div><div class="w-by">연주 Karajan · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=OXf-t0RtDEE" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li><div class="w-ko">잠자는 숲속의 미녀 — 왈츠</div><div class="w-en">The Sleeping Beauty — Waltz</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%B0%A8%EC%9D%B4%EC%BD%A5%EC%8A%A4%ED%82%A4%20%EC%9E%A0%EC%9E%90%EB%8A%94%20%EC%88%B2%EC%86%8D%EC%9D%98%20%EB%AF%B8%EB%85%80%20%E2%80%94%20%EC%99%88%EC%B8%A0" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
-      <li><div class="w-ko">현악 세레나데 C장조 Op. 48 — 2악장 왈츠</div><div class="w-en">Serenade for Strings in C major, Op. 48 — II. Waltz</div><a class="w-link" href="https://www.youtube.com/results?search_query=%EC%B0%A8%EC%9D%B4%EC%BD%A5%EC%8A%A4%ED%82%A4%20%ED%98%84%EC%95%85%20%EC%84%B8%EB%A0%88%EB%82%98%EB%8D%B0%20C%EC%9E%A5%EC%A1%B0%20Op.%2048%20%E2%80%94%202%EC%95%85%EC%9E%A5%20%EC%99%88%EC%B8%A0" target="_blank" rel="noopener">▶ 유튜브에서 찾기</a></li>
+      <li data-yt="LiGjvEq0QHA" data-name="차이콥스키 · 백조의 호수 — 정경 (2막)" data-cid="tchaikovsky" data-en="Swan Lake — Scene (Act II)" data-ko="백조의 호수 — 정경 (2막)" data-cn="차이콥스키"><div class="w-ko">백조의 호수 — 정경 (2막)</div><div class="w-en">Swan Lake — Scene (Act II)</div><div class="w-by">연주 André Previn · London Symphony Orchestra</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=LiGjvEq0QHA" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="esK8GgfbRDQ" data-name="차이콥스키 · 피아노 협주곡 1번 내림나단조 Op. 23 — 1악장" data-cid="tchaikovsky" data-en="Piano Concerto No. 1 in B-flat minor, Op. 23 — I. Allegro non troppo e molto maestoso" data-ko="피아노 협주곡 1번 내림나단조 Op. 23 — 1악장" data-cn="차이콥스키"><div class="w-ko">피아노 협주곡 1번 내림나단조 Op. 23 — 1악장</div><div class="w-en">Piano Concerto No. 1 in B-flat minor, Op. 23 — I. Allegro non troppo e molto maestoso</div><div class="w-by">연주 Martha Argerich · Abbado · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=esK8GgfbRDQ" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="RqIquIcFWHY" data-name="차이콥스키 · 교향곡 5번 Op. 64 — 2악장 안단테 칸타빌레" data-cid="tchaikovsky" data-en="Symphony No. 5, Op. 64 — II. Andante cantabile" data-ko="교향곡 5번 Op. 64 — 2악장 안단테 칸타빌레" data-cn="차이콥스키"><div class="w-ko">교향곡 5번 Op. 64 — 2악장 안단테 칸타빌레</div><div class="w-en">Symphony No. 5, Op. 64 — II. Andante cantabile</div><div class="w-by">연주 Valery Gergiev</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=RqIquIcFWHY" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="KBWa-XGIsxs" data-name="차이콥스키 · 호두까기 인형 — 꽃의 왈츠" data-cid="tchaikovsky" data-en="The Nutcracker — Waltz of the Flowers" data-ko="호두까기 인형 — 꽃의 왈츠" data-cn="차이콥스키"><div class="w-ko">호두까기 인형 — 꽃의 왈츠</div><div class="w-en">The Nutcracker — Waltz of the Flowers</div><div class="w-by">연주 Daniel Barenboim · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=KBWa-XGIsxs" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="pdke6TVb2Ns" data-name="차이콥스키 · 로미오와 줄리엣 환상 서곡" data-cid="tchaikovsky" data-en="Romeo and Juliet, Fantasy-Overture" data-ko="로미오와 줄리엣 환상 서곡" data-cn="차이콥스키"><div class="w-ko">로미오와 줄리엣 환상 서곡</div><div class="w-en">Romeo and Juliet, Fantasy-Overture</div><div class="w-by">연주 Karajan · Wiener Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=pdke6TVb2Ns" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="luLnN2vvUYY" data-name="차이콥스키 · 1812년 서곡 Op. 49" data-cid="tchaikovsky" data-en="1812 Overture, Op. 49" data-ko="1812년 서곡 Op. 49" data-cn="차이콥스키"><div class="w-ko">1812년 서곡 Op. 49</div><div class="w-en">1812 Overture, Op. 49</div><div class="w-by">연주 Erich Kunzel · Cincinnati Pops (with cannons)</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=luLnN2vvUYY" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="6v3Kbo0jKE8" data-name="차이콥스키 · 바이올린 협주곡 D장조 Op. 35 — 2악장 칸초네타" data-cid="tchaikovsky" data-en="Violin Concerto in D major, Op. 35 — II. Canzonetta" data-ko="바이올린 협주곡 D장조 Op. 35 — 2악장 칸초네타" data-cn="차이콥스키"><div class="w-ko">바이올린 협주곡 D장조 Op. 35 — 2악장 칸초네타</div><div class="w-en">Violin Concerto in D major, Op. 35 — II. Canzonetta</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=6v3Kbo0jKE8" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="OXf-t0RtDEE" data-name="차이콥스키 · 교향곡 6번 “비창” Op. 74 — 4악장 아다지오 라멘토소" data-cid="tchaikovsky" data-en="Symphony No. 6 “Pathétique”, Op. 74 — IV. Adagio lamentoso" data-ko="교향곡 6번 “비창” Op. 74 — 4악장 아다지오 라멘토소" data-cn="차이콥스키"><div class="w-ko">교향곡 6번 “비창” Op. 74 — 4악장 아다지오 라멘토소</div><div class="w-en">Symphony No. 6 “Pathétique”, Op. 74 — IV. Adagio lamentoso</div><div class="w-by">연주 Karajan · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=OXf-t0RtDEE" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="2Sb8WCPjPDs" data-name="차이콥스키 · 잠자는 숲속의 미녀 — 왈츠" data-cid="tchaikovsky" data-en="The Sleeping Beauty — Waltz" data-ko="잠자는 숲속의 미녀 — 왈츠" data-cn="차이콥스키"><div class="w-ko">잠자는 숲속의 미녀 — 왈츠</div><div class="w-en">The Sleeping Beauty — Waltz</div><div class="w-by">연주 확인 필요</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=2Sb8WCPjPDs" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="0qQcLcjEXss" data-name="차이콥스키 · 현악 세레나데 C장조 Op. 48 — 2악장 왈츠" data-cid="tchaikovsky" data-en="Serenade for Strings in C major, Op. 48 — II. Waltz" data-ko="현악 세레나데 C장조 Op. 48 — 2악장 왈츠" data-cn="차이콥스키"><div class="w-ko">현악 세레나데 C장조 Op. 48 — 2악장 왈츠</div><div class="w-en">Serenade for Strings in C major, Op. 48 — II. Waltz</div><div class="w-by">연주 Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=0qQcLcjEXss" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
     </ol>
     <h2>차이콥스키, 더 들어볼 만한 곡</h2>
     <ol class="works" start="11" style="counter-reset:w 10">
-      <li data-yt="IROC2WIKNdU" data-name="차이콥스키 · 프란체스카 다 리미니 Op. 32"><div class="w-ko">프란체스카 다 리미니 Op. 32</div><div class="w-en">Francesca da Rimini, Op. 32</div><div class="w-by">연주 Bernstein · New York Philharmonic</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=IROC2WIKNdU" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="ksjcewGry04" data-name="차이콥스키 · 교향곡 5번 Op. 64 — 4악장"><div class="w-ko">교향곡 5번 Op. 64 — 4악장</div><div class="w-en">Symphony No. 5 in E minor, Op. 64 — IV. Finale: Andante maestoso – Allegro vivace</div><div class="w-by">연주 Kirill Petrenko · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=ksjcewGry04" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="2Q_DzWUvcL8" data-name="차이콥스키 · 바이올린 협주곡 D장조 Op. 35 — 1악장"><div class="w-ko">바이올린 협주곡 D장조 Op. 35 — 1악장</div><div class="w-en">Violin Concerto in D major, Op. 35 — I. Allegro moderato</div><div class="w-by">연주 Hilary Hahn · Orozco-Estrada · hr-Sinfonieorchester</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=2Q_DzWUvcL8" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="0qQcLcjEXss" data-name="차이콥스키 · 현을 위한 세레나데 C장조 Op. 48 — 2악장 왈츠"><div class="w-ko">현을 위한 세레나데 C장조 Op. 48 — 2악장 왈츠</div><div class="w-en">Serenade for Strings in C major, Op. 48 — II. Valse</div><div class="w-by">연주 Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=0qQcLcjEXss" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="pDisuAu2UvM" data-name="차이콥스키 · 사계 Op. 37a — 6월 “뱃노래”"><div class="w-ko">사계 Op. 37a — 6월 “뱃노래”</div><div class="w-en">The Seasons, Op. 37a — June: Barcarolle</div><div class="w-by">연주 Bruce Liu, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=pDisuAu2UvM" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="lDQuWlz37iw" data-name="차이콥스키 · 현악 사중주 1번 D장조 Op. 11 — 2악장 안단테 칸타빌레"><div class="w-ko">현악 사중주 1번 D장조 Op. 11 — 2악장 안단테 칸타빌레</div><div class="w-en">String Quartet No. 1 in D major, Op. 11 — II. Andante cantabile</div><div class="w-by">연주 Kontras Quartet</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=lDQuWlz37iw" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="Y7G5ithbFys" data-name="차이콥스키 · 교향곡 4번 F단조 Op. 36 — 1악장"><div class="w-ko">교향곡 4번 F단조 Op. 36 — 1악장</div><div class="w-en">Symphony No. 4 in F minor, Op. 36 — I. Andante sostenuto – Moderato con anima</div><div class="w-by">연주 Carlos Miguel Prieto · hr-Sinfonieorchester</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=Y7G5ithbFys" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="XYgT89paO1Q" data-name="차이콥스키 · 예브게니 오네긴 — 렌스키의 아리아 “어디로 가버렸나”"><div class="w-ko">예브게니 오네긴 — 렌스키의 아리아 “어디로 가버렸나”</div><div class="w-en">Eugene Onegin — Lensky’s Aria “Kuda, kuda”</div><div class="w-by">연주 The Royal Opera</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=XYgT89paO1Q" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="FnQgBOvgg6I" data-name="차이콥스키 · 사계 Op. 37a — 10월 “가을의 노래”"><div class="w-ko">사계 Op. 37a — 10월 “가을의 노래”</div><div class="w-en">The Seasons, Op. 37a — October: Autumn Song</div><div class="w-by">연주 Bruce Liu, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=FnQgBOvgg6I" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="2lSwwXNmdkY" data-name="차이콥스키 · 현악 세레나데 C장조 Op. 48 — 1악장 소나티네 형식의 소품"><div class="w-ko">현악 세레나데 C장조 Op. 48 — 1악장 소나티네 형식의 소품</div><div class="w-en">Serenade for Strings in C major, Op. 48 — I. Pezzo in forma di sonatina</div><div class="w-by">연주 Karajan · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=2lSwwXNmdkY" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
-      <li data-yt="p_ctDXcO7c8" data-name="차이콥스키 · 6개의 로망스 Op. 6 — 6번 “그리움을 아는 이만이”"><div class="w-ko">6개의 로망스 Op. 6 — 6번 “그리움을 아는 이만이”</div><div class="w-en">6 Romances, Op. 6 — No. 6 “None but the Lonely Heart”</div><div class="w-by">연주 Dmitri Hvorostovsky, baritone</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=p_ctDXcO7c8" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="IROC2WIKNdU" data-name="차이콥스키 · 프란체스카 다 리미니 Op. 32" data-cid="tchaikovsky" data-en="Francesca da Rimini, Op. 32" data-ko="프란체스카 다 리미니 Op. 32" data-cn="차이콥스키"><div class="w-ko">프란체스카 다 리미니 Op. 32</div><div class="w-en">Francesca da Rimini, Op. 32</div><div class="w-by">연주 Bernstein · New York Philharmonic</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=IROC2WIKNdU" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="ksjcewGry04" data-name="차이콥스키 · 교향곡 5번 Op. 64 — 4악장" data-cid="tchaikovsky" data-en="Symphony No. 5 in E minor, Op. 64 — IV. Finale: Andante maestoso – Allegro vivace" data-ko="교향곡 5번 Op. 64 — 4악장" data-cn="차이콥스키"><div class="w-ko">교향곡 5번 Op. 64 — 4악장</div><div class="w-en">Symphony No. 5 in E minor, Op. 64 — IV. Finale: Andante maestoso – Allegro vivace</div><div class="w-by">연주 Kirill Petrenko · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=ksjcewGry04" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="2Q_DzWUvcL8" data-name="차이콥스키 · 바이올린 협주곡 D장조 Op. 35 — 1악장" data-cid="tchaikovsky" data-en="Violin Concerto in D major, Op. 35 — I. Allegro moderato" data-ko="바이올린 협주곡 D장조 Op. 35 — 1악장" data-cn="차이콥스키"><div class="w-ko">바이올린 협주곡 D장조 Op. 35 — 1악장</div><div class="w-en">Violin Concerto in D major, Op. 35 — I. Allegro moderato</div><div class="w-by">연주 Hilary Hahn · Orozco-Estrada · hr-Sinfonieorchester</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=2Q_DzWUvcL8" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="0qQcLcjEXss" data-name="차이콥스키 · 현을 위한 세레나데 C장조 Op. 48 — 2악장 왈츠" data-cid="tchaikovsky" data-en="Serenade for Strings in C major, Op. 48 — II. Valse" data-ko="현을 위한 세레나데 C장조 Op. 48 — 2악장 왈츠" data-cn="차이콥스키"><div class="w-ko">현을 위한 세레나데 C장조 Op. 48 — 2악장 왈츠</div><div class="w-en">Serenade for Strings in C major, Op. 48 — II. Valse</div><div class="w-by">연주 Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=0qQcLcjEXss" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="pDisuAu2UvM" data-name="차이콥스키 · 사계 Op. 37a — 6월 “뱃노래”" data-cid="tchaikovsky" data-en="The Seasons, Op. 37a — June: Barcarolle" data-ko="사계 Op. 37a — 6월 “뱃노래”" data-cn="차이콥스키"><div class="w-ko">사계 Op. 37a — 6월 “뱃노래”</div><div class="w-en">The Seasons, Op. 37a — June: Barcarolle</div><div class="w-by">연주 Bruce Liu, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=pDisuAu2UvM" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="lDQuWlz37iw" data-name="차이콥스키 · 현악 사중주 1번 D장조 Op. 11 — 2악장 안단테 칸타빌레" data-cid="tchaikovsky" data-en="String Quartet No. 1 in D major, Op. 11 — II. Andante cantabile" data-ko="현악 사중주 1번 D장조 Op. 11 — 2악장 안단테 칸타빌레" data-cn="차이콥스키"><div class="w-ko">현악 사중주 1번 D장조 Op. 11 — 2악장 안단테 칸타빌레</div><div class="w-en">String Quartet No. 1 in D major, Op. 11 — II. Andante cantabile</div><div class="w-by">연주 Kontras Quartet</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=lDQuWlz37iw" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="Y7G5ithbFys" data-name="차이콥스키 · 교향곡 4번 F단조 Op. 36 — 1악장" data-cid="tchaikovsky" data-en="Symphony No. 4 in F minor, Op. 36 — I. Andante sostenuto – Moderato con anima" data-ko="교향곡 4번 F단조 Op. 36 — 1악장" data-cn="차이콥스키"><div class="w-ko">교향곡 4번 F단조 Op. 36 — 1악장</div><div class="w-en">Symphony No. 4 in F minor, Op. 36 — I. Andante sostenuto – Moderato con anima</div><div class="w-by">연주 Carlos Miguel Prieto · hr-Sinfonieorchester</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=Y7G5ithbFys" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="XYgT89paO1Q" data-name="차이콥스키 · 예브게니 오네긴 — 렌스키의 아리아 “어디로 가버렸나”" data-cid="tchaikovsky" data-en="Eugene Onegin — Lensky’s Aria “Kuda, kuda”" data-ko="예브게니 오네긴 — 렌스키의 아리아 “어디로 가버렸나”" data-cn="차이콥스키"><div class="w-ko">예브게니 오네긴 — 렌스키의 아리아 “어디로 가버렸나”</div><div class="w-en">Eugene Onegin — Lensky’s Aria “Kuda, kuda”</div><div class="w-by">연주 The Royal Opera</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=XYgT89paO1Q" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="FnQgBOvgg6I" data-name="차이콥스키 · 사계 Op. 37a — 10월 “가을의 노래”" data-cid="tchaikovsky" data-en="The Seasons, Op. 37a — October: Autumn Song" data-ko="사계 Op. 37a — 10월 “가을의 노래”" data-cn="차이콥스키"><div class="w-ko">사계 Op. 37a — 10월 “가을의 노래”</div><div class="w-en">The Seasons, Op. 37a — October: Autumn Song</div><div class="w-by">연주 Bruce Liu, piano</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=FnQgBOvgg6I" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="2lSwwXNmdkY" data-name="차이콥스키 · 현악 세레나데 C장조 Op. 48 — 1악장 소나티네 형식의 소품" data-cid="tchaikovsky" data-en="Serenade for Strings in C major, Op. 48 — I. Pezzo in forma di sonatina" data-ko="현악 세레나데 C장조 Op. 48 — 1악장 소나티네 형식의 소품" data-cn="차이콥스키"><div class="w-ko">현악 세레나데 C장조 Op. 48 — 1악장 소나티네 형식의 소품</div><div class="w-en">Serenade for Strings in C major, Op. 48 — I. Pezzo in forma di sonatina</div><div class="w-by">연주 Karajan · Berliner Philharmoniker</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=2lSwwXNmdkY" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
+      <li data-yt="p_ctDXcO7c8" data-name="차이콥스키 · 6개의 로망스 Op. 6 — 6번 “그리움을 아는 이만이”" data-cid="tchaikovsky" data-en="6 Romances, Op. 6 — No. 6 “None but the Lonely Heart”" data-ko="6개의 로망스 Op. 6 — 6번 “그리움을 아는 이만이”" data-cn="차이콥스키"><div class="w-ko">6개의 로망스 Op. 6 — 6번 “그리움을 아는 이만이”</div><div class="w-en">6 Romances, Op. 6 — No. 6 “None but the Lonely Heart”</div><div class="w-by">연주 Dmitri Hvorostovsky, baritone</div><a class="w-link pl-btn" href="https://www.youtube.com/watch?v=p_ctDXcO7c8" target="_blank" rel="noopener">▶ 이 창에서 듣기</a></li>
     </ol>
     <a class="cta" href="/?lang=ko">그림 몇 장만 고르면, 오늘 나에게 맞는 클래식을 추천해 드려요
       <small>약 20초 · 회원가입 없음 · 정답 없음</small></a>
@@ -128,6 +135,7 @@ footer.site a{color:var(--muted)}</style>
     <p>초상화·그림: Wikimedia Commons (퍼블릭 도메인) · 음원: YouTube</p>
     <p>© 2026 냠냠클래식 · 그림 한 장으로 고르는 오늘의 클래식</p>
   </div></footer>
+  <script src="/assets/lp.js?v=1120"></script>
   <script>
   (function () {
     var items = document.querySelectorAll('ol.works li[data-yt]');
@@ -149,14 +157,25 @@ footer.site a{color:var(--muted)}</style>
     }
     window.addEventListener('pointerdown', function () { loadYT(); }, { once: true });
     function btn(li) { return li.querySelector('.pl-btn'); }
+    // 화면 아래 고정 막대: 듣는 곡 카드가 화면 밖으로 나가면 나타나요 (곡 이름 · 다음 곡 · 멈추기)
+    var bar = document.createElement('div'); bar.className = 'nowbar'; bar.setAttribute('aria-live', 'polite');
+    bar.innerHTML = '<div class="nb-in"><button type="button" class="nb-t"><small>지금 듣는 곡 · 누르면 그 곡으로</small><span></span></button><button type="button" class="nb-b nb-next">다음 곡</button><button type="button" class="nb-b nb-stop">멈추기</button></div>';
+    document.body.appendChild(bar);
+    var seen = true, io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) { seen = es[es.length - 1].isIntersecting; showBar(); }, { threshold: 0.25 }) : null;
+    function showBar() { var on = !!li0 && !seen; bar.classList.toggle('on', on); document.body.classList.toggle('nb-pad', !!li0); }
+    bar.querySelector('.nb-t').addEventListener('click', function () { if (li0) li0.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+    bar.querySelector('.nb-next').addEventListener('click', function () { if (li0) { var n = nextOf(li0); if (n) open(n, false); } });
+    bar.querySelector('.nb-stop').addEventListener('click', function () { stop(); });
     function stop() {
+      if (window.ycLP) ycLP.track(null);
+      if (io && li0) io.unobserve(li0);
       if (player) { try { player.destroy(); } catch (e) {} }
       if (li0) {
         ['.pl-player', '.pl-tools', '.pl-auto'].forEach(function (c) { var x = li0.querySelector(c); if (x) x.remove(); });
         li0.classList.remove('playing');
         var b = btn(li0); if (b) { b.textContent = '▶ 이 창에서 듣기'; b.classList.remove('on'); }
       }
-      player = null; li0 = null;
+      player = null; li0 = null; seen = true; showBar();
     }
     function nextOf(li) {
       var n = li.nextElementSibling;
@@ -185,6 +204,17 @@ footer.site a{color:var(--muted)}</style>
       li0 = li;
       li.classList.add('playing');
       var b = btn(li); if (b) { b.textContent = '■ 멈추기'; b.classList.add('on'); }
+      bar.querySelector('.nb-t span').textContent = (li.querySelector('.w-ko') || li).textContent;
+      bar.querySelector('.nb-next').hidden = !nextOf(li);
+      if (io) io.observe(li); else seen = false;
+      showBar();
+      // 들은 곡은 내 방(미니룸) LP장에 꽂아 둬요 (assets/lp.js)
+      try {
+        if (window.ycLP && ycLP.add({ cid: li.dataset.cid, en: li.dataset.en, title: li.dataset.ko, cn: li.dataset.cn, yt: li.dataset.yt, who: ((li.querySelector('.w-by') || {}).textContent || '').replace(/^연주/, '').trim() })) {
+          ycLP.toast('내 방 LP장에 꽂아 뒀어요');
+          try { gtag('event', 'lp_add', { area: 'seo' }); } catch (e) {}
+        }
+      } catch (e) {}
       var box = document.createElement('div'); box.className = 'pl-player';
       var holder = document.createElement('div'); box.appendChild(holder);
       var tools = document.createElement('div'); tools.className = 'pl-tools';
@@ -216,6 +246,7 @@ footer.site a{color:var(--muted)}</style>
             }
           }
         });
+        if (window.ycLP) ycLP.track(player);   // 들은 시간 → 미니룸 화분
       }
       // API가 이미 있으면 탭 안에서 바로 만들어 자동재생이 막히지 않게
       if (window.YT && window.YT.Player) build(); else loadYT().then(build);
