@@ -5680,7 +5680,7 @@
       if (!on) return;
       ROOM.recs = recs.map(r => ({ cid: r.cid, en: r.en, ko: isLocal() ? r.ko : r.en, yt: r.yt || '', who: r.who || '', cn: roomCompName(r.cid) }));
       const f = roomFrame();
-      if (f && !ROOM.loaded) { ROOM.loaded = true; f.src = '/assets/room.html?v=1118a&lang=' + encodeURIComponent(lang); }
+      if (f && !ROOM.loaded) { ROOM.loaded = true; f.src = '/assets/room.html?v=1119b&lang=' + encodeURIComponent(lang); }
       else if (ROOM.ready) roomPost({ yc: 'recs', recs: ROOM.recs });
     }
     function roomStop() { if (ROOM.ready) roomPost({ yc: 'stop' }); }
@@ -5714,6 +5714,7 @@
       if (!f || e.source !== f.contentWindow || !d || d.yc !== 'room') return;
       if (d.ready) { ROOM.ready = true; if (ROOM.recs) roomPost({ yc: 'recs', recs: ROOM.recs }); }
       if (d.play) { stopPlayer(); track('room_play', {}); }
+      if ('fs' in d) { document.documentElement.classList.toggle('yc-room-fs', !!d.fs); if (d.fs) track('room_fullscreen', {}); }
       if (d.ev && ['open', 'edit', 'add', 'preset', 'lp', 'undo'].indexOf(d.ev) >= 0) { try { const q = d.p || {}; track('room_' + d.ev, { t: String(q.t || q.p || '').slice(0, 30), n: +q.n || 0, returning: q.returning ? 1 : 0 }); } catch (err) {} }
     });
 
